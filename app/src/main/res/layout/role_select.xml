@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RoleSelect">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="480dp"
+        android:layout_height="927dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/defaultbg_placeholder" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="375dp"
+        android:layout_height="731dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="155dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="340dp"
+        android:layout_height="276dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginBottom="418dp"
+        android:alpha="0.6"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="340dp"
+        android:layout_height="354dp"
+        android:layout_marginTop="340dp"
+        android:layout_marginBottom="37dp"
+        android:alpha="0.6"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+        app:layout_constraintEnd_toEndOf="@+id/imageView11"
+        app:layout_constraintStart_toStartOf="@+id/imageView11"
+        app:layout_constraintTop_toTopOf="@+id/imageView11"
+        app:srcCompat="@drawable/taskmaster_logo_with_shadow" />
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="234dp"
+        android:layout_height="172dp"
+        android:alpha="50"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView12"
+        app:layout_constraintEnd_toEndOf="@+id/imageView12"
+        app:layout_constraintStart_toStartOf="@+id/imageView12"
+        app:layout_constraintTop_toTopOf="@+id/imageView12"
+        app:srcCompat="@drawable/taskmaster_logo" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="364dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginBottom="229dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Welcome to TaskMaster! \n Which one are you?"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintStart_toStartOf="@+id/imageView16"
+        app:layout_constraintTop_toTopOf="@+id/imageView16" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="252dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="157dp"
+        android:layout_marginBottom="142dp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="TaskMaster"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintStart_toStartOf="@+id/imageView16"
+        app:layout_constraintTop_toTopOf="@+id/imageView16"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="252dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="236dp"
+        android:layout_marginBottom="63dp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Adventurer"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintStart_toStartOf="@+id/imageView16"
+        app:layout_constraintTop_toTopOf="@+id/imageView16"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
