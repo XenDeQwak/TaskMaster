@@ -2,8 +2,6 @@ package com.taskmaster.appui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -20,14 +18,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 public class LogIn extends AppCompatActivity {
 
-    // var
     Animation pop_out_Anim, fade_in_Anim;
     ImageView container1, container2, container3, bg, logo, logo_shadow, line;
     TextView forgotPasswordTextView, signUpTextView, logInTextView;
     Button confirmButton;
     EditText emailbox, passwordbox;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,6 @@ public class LogIn extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.log_in);
 
-        // hide status bar and nav bar
         hideSystemBars();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -44,11 +44,9 @@ public class LogIn extends AppCompatActivity {
             return insets;
         });
 
-        // anim
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        // hooks
         emailbox = findViewById(R.id.editTextTextEmailAddress);
         passwordbox = findViewById(R.id.editTextTextEmailAddress2);
         forgotPasswordTextView = findViewById(R.id.textView3);
@@ -63,7 +61,6 @@ public class LogIn extends AppCompatActivity {
         line = findViewById(R.id.imageView15);
         logInTextView = findViewById(R.id.textView);
 
-        // set anim
         bg.setAnimation(fade_in_Anim);
         logo.setAnimation(pop_out_Anim);
         logo_shadow.setAnimation(pop_out_Anim);
@@ -78,73 +75,59 @@ public class LogIn extends AppCompatActivity {
         line.setAnimation(pop_out_Anim);
         logInTextView.setAnimation(pop_out_Anim);
 
-        // replace init text
-        setupEditText(emailbox, "Username/E-mail");
-        setupEditText(passwordbox, "Password");
+        db = FirebaseFirestore.getInstance();
 
-        // test for forgot password
-        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(LogIn.this, "Forgot Password? clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // test for button
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LogIn.this, QuestManagement.class);
-                startActivity(intent);
-            }
-        });
-
-        // test for sign up
-        signUpTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LogIn.this, SignUp.class);
-                startActivity(intent);
-            }
-        });
+        confirmButton.setOnClickListener(v -> authenticateUser());
+        forgotPasswordTextView.setOnClickListener(v -> Toast.makeText(LogIn.this, "Forgot Password? clicked", Toast.LENGTH_SHORT).show());
+        signUpTextView.setOnClickListener(v -> startActivity(new Intent(LogIn.this, SignUp.class)));
     }
 
-    private void setupEditText(EditText editText, final String initialText) {
-        editText.setText(initialText);
+    private void authenticateUser() {
+        String username = emailbox.getText().toString().trim();
+        String password = passwordbox.getText().toString().trim();
 
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus && editText.getText().toString().equals(initialText)) {
-                    editText.setText("");
-                }
-            }
-        });
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not needed for this implementation
-            }
+        db.collection("users")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.getString("password").equals(password)) {
+                                Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LogIn.this, QuestManagement.class));
+                                return;
+                            }
+                        }
+                    }
+                    checkUsername(username, password);
+                });
+    }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Not needed for this implementation
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (editText.getText().toString().equals(initialText)) {
-                    editText.setText("");
-                }
-            }
-        });
+    private void checkUsername(String username, String password) {
+        db.collection("users")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.getString("password").equals(password)) {
+                                Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LogIn.this, QuestManagement.class));
+                                return;
+                            }
+                        }
+                    }
+                    Toast.makeText(LogIn.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void hideSystemBars() {
-        // hide status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // Hide the nav bar
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE

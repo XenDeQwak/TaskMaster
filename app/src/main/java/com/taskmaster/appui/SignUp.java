@@ -2,8 +2,6 @@ package com.taskmaster.appui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -20,14 +18,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class SignUp extends AppCompatActivity {
 
-    // var
     Animation pop_out_Anim, fade_in_Anim;
     ImageView container1, container2, container3, bg, logo, logo_shadow;
     TextView logInTextView;
     Button confirmButton;
     EditText emailbox, passwordbox, usernamebox, firstnamebox, lastnamebox;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,6 @@ public class SignUp extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.sign_up);
 
-        // hide status bar and nav bar
         hideSystemBars();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -44,14 +47,12 @@ public class SignUp extends AppCompatActivity {
             return insets;
         });
 
-        // anim
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        // hooks
-        emailbox = findViewById(R.id.editTextTextEmailAddress);
-        passwordbox = findViewById(R.id.editTextTextEmailAddress2);
-        usernamebox = findViewById(R.id.editTextTextEmailAddress3);
+        emailbox = findViewById(R.id.editTextTextEmailAddress2);
+        passwordbox = findViewById(R.id.editTextTextEmailAddress3);
+        usernamebox = findViewById(R.id.editTextTextEmailAddress);
         firstnamebox = findViewById(R.id.editTextTextEmailAddress4);
         lastnamebox = findViewById(R.id.editTextTextEmailAddress5);
         confirmButton = findViewById(R.id.button);
@@ -63,7 +64,6 @@ public class SignUp extends AppCompatActivity {
         bg = findViewById(R.id.imageView6);
         logInTextView = findViewById(R.id.textView);
 
-        // set anim
         bg.setAnimation(fade_in_Anim);
         logo.setAnimation(pop_out_Anim);
         logo_shadow.setAnimation(pop_out_Anim);
@@ -78,60 +78,71 @@ public class SignUp extends AppCompatActivity {
         container3.setAnimation(pop_out_Anim);
         logInTextView.setAnimation(pop_out_Anim);
 
-        // replace init text
-        setupEditText(emailbox, "E-mail Address");
-        setupEditText(passwordbox, "Password");
-        setupEditText(usernamebox, "Username");
-        setupEditText(firstnamebox, "First Name");
-        setupEditText(lastnamebox, "Last Name");
+        db = FirebaseFirestore.getInstance();
 
+        confirmButton.setOnClickListener(v -> checkIfUserExists());
     }
 
-    private void setupEditText(EditText editText, final String initialText) {
-        editText.setText(initialText);
+    private void checkIfUserExists() {
+        String email = emailbox.getText().toString().trim();
+        String username = usernamebox.getText().toString().trim();
 
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus && editText.getText().toString().equals(initialText)) {
-                    editText.setText("");
-                }
-            }
-        });
+        if (email.isEmpty() || username.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not needed for this implementation
-            }
+        db.collection("users").whereEqualTo("email", email).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        Toast.makeText(SignUp.this, "Email already exists", Toast.LENGTH_SHORT).show();
+                    } else {
+                        checkUsernameExists(username);
+                    }
+                });
+    }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Not needed for this implementation
-            }
+    private void checkUsernameExists(String username) {
+        db.collection("users").whereEqualTo("username", username).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        Toast.makeText(SignUp.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                    } else {
+                        registerUser();
+                    }
+                });
+    }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (editText.getText().toString().equals(initialText)) {
-                    editText.setText("");
-                }
-            }
-        });
+    private void registerUser() {
+        String email = emailbox.getText().toString().trim();
+        String password = passwordbox.getText().toString().trim();
+        String username = usernamebox.getText().toString().trim();
+        String firstname = firstnamebox.getText().toString().trim();
+        String lastname = lastnamebox.getText().toString().trim();
 
-        // test for sign up
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SignUp.this, LogIn.class);
-                startActivity(intent);
-            }
-        });
+        if (email.isEmpty() || password.isEmpty() || username.isEmpty() || firstname.isEmpty() || lastname.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("email", email);
+        user.put("password", password);
+        user.put("username", username);
+        user.put("firstname", firstname);
+        user.put("lastname", lastname);
+
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SignUp.this, LogIn.class));
+                })
+                .addOnFailureListener(e -> Toast.makeText(SignUp.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void hideSystemBars() {
-        // hide status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // Hide the nav bar
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
