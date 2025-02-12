@@ -83,11 +83,11 @@
     <ImageView
         android:id="@+id/imageView20"
         android:layout_width="361dp"
-        android:layout_height="330dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="755dp"
+        android:layout_marginTop="14dp"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="7dp"
-        android:layout_marginBottom="452dp"
+        android:layout_marginBottom="24dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
@@ -99,8 +99,8 @@
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="355dp"
-            android:layout_height="595dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="645dp"
+            android:layout_marginTop="105dp"
             android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView7"
             app:layout_constraintEnd_toEndOf="@+id/imageView7"
@@ -174,66 +174,13 @@
                         android:text="INT 10"
                         android:textAlignment="center"
                         android:textSize="20sp" />
-                </FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/group2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="108dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:id="@+id/child_frame1"
-                        android:layout_width="316dp"
-                        android:layout_height="84dp"
-                        android:layout_marginStart="27dp"
-                        android:layout_marginTop="9dp"
-                        android:layout_marginEnd="18dp"
-                        android:layout_marginBottom="137dp"
-                        android:visibility="visible"
-                        app:srcCompat="@drawable/rectangle_rounded" />
-
-                    <ImageView
-                        android:id="@+id/child_frame_avatar1"
-                        android:layout_width="108dp"
-                        android:layout_height="107dp"
-                        android:layout_marginStart="11dp"
-                        android:visibility="visible"
-                        app:srcCompat="@drawable/circle_with_shadow" />
-
-                    <TextView
-                        android:id="@+id/stat_view_str1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="125dp"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="STR 8"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/floor_view1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="258dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="Floor: Y"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/stat_view_int1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
-                        android:layout_marginStart="125dp"
-                        android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="INT 10"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                    <ImageButton
+                        android:id="@+id/open_child_page"
+                        android:layout_width="333dp"
+                        android:layout_height="104dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@null"/>
                 </FrameLayout>
             </GridLayout>
         </ScrollView>
@@ -256,7 +203,7 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="67dp"
         android:layout_marginBottom="725dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Adventurers"

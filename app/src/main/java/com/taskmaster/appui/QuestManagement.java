@@ -85,11 +85,13 @@ public class QuestManagement extends AppCompatActivity {
         });
 
         imagebutton2.setOnClickListener(new View.OnClickListener() {
-            int questCount = 0;
+
+            //quest count
+            int groupCount = 1;
 
             @Override
             public void onClick(View v) {
-                if (questCount >= 12) { // limit quests
+                if (groupCount >= 12) { // limit quests, u can remove this
                     Toast.makeText(QuestManagement.this, "Max quests reached!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -118,10 +120,10 @@ public class QuestManagement extends AppCompatActivity {
                 // create a new ConstraintLayout
                 newQuest = new ConstraintLayout(context);
                 ConstraintLayout.LayoutParams questParams = new ConstraintLayout.LayoutParams(questWidth, questHeight);
-                if (questCount % 2 == 0) {
-                    questParams.setMarginEnd(4);
-                } else {
+                if (groupCount % 2 == 0) {
                     questParams.setMarginStart(4);
+                } else {
+                    questParams.setMarginEnd(4);
                 }
                 newQuest.setLayoutParams(questParams);
 
@@ -162,7 +164,7 @@ public class QuestManagement extends AppCompatActivity {
                         ConstraintLayout.LayoutParams.WRAP_CONTENT,
                         ConstraintLayout.LayoutParams.WRAP_CONTENT
                 ));
-                questNameText.setText("Quest Name " + (questCount + 1));
+                questNameText.setText("Quest Name " + groupCount);
                 questNameText.setTextSize(20);
                 questNameText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
                 questNameText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -179,7 +181,7 @@ public class QuestManagement extends AppCompatActivity {
                 openQuestButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(QuestManagement.this, "Edit Quest " + (questCount), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QuestManagement.this, "Edit Quest " + (groupCount - 1), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -221,9 +223,9 @@ public class QuestManagement extends AppCompatActivity {
                 gridLayout.addView(newGroup);
 
                 // test message
-                Toast.makeText(QuestManagement.this, "New Quest Added: Quest " + (questCount + 1), Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuestManagement.this, "New Quest Added: Quest " + groupCount, Toast.LENGTH_SHORT).show();
 
-                questCount++;
+                groupCount++;
             }
         });
 
