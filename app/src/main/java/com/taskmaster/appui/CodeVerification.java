@@ -1,13 +1,13 @@
 package com.taskmaster.appui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.text.TextWatcher;
+import android.text.Editable;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +15,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 public class CodeVerification extends AppCompatActivity {
 
     Button confirmButton;
     EditText codebox;
-
+    FirebaseFirestore taskmasterDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,9 @@ public class CodeVerification extends AppCompatActivity {
             return insets;
         });
 
+        // initialize Firestore
+        taskmasterDatabase = FirebaseFirestore.getInstance();
+
         // hooks
         confirmButton = findViewById(R.id.button3);
         codebox = findViewById(R.id.editTextTextEmailAddress6);
@@ -46,10 +52,34 @@ public class CodeVerification extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CodeVerification.this, QuestManagement.class);
-                startActivity(intent);
+                verifyCode();
             }
         });
+    }
+
+    private void verifyCode() {
+        String code = codebox.getText().toString().trim();
+
+        if (code.isEmpty()) {
+            Toast.makeText(this, "Please enter the code", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        taskmasterDatabase.collection("users")
+                .whereEqualTo("code", code)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.getString("code").equals(code)) {
+                                Toast.makeText(CodeVerification.this, "Code is valid!", Toast.LENGTH_SHORT).show();
+                                return;
+                        }
+                    }
+                    }
+                    Toast.makeText(CodeVerification.this, "Invalid code", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(CodeVerification.this, "Error verifying code: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void setupEditText(EditText editText, final String initialText) {

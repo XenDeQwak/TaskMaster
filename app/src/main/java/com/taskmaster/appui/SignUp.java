@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.UUID;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -125,12 +126,16 @@ public class SignUp extends AppCompatActivity {
             return;
         }
 
+        // generates room code
+        String generatedCode = UUID.randomUUID().toString().substring(0, 7);
+
         Map<String, Object> user = new HashMap<>();
         user.put("email", email);
         user.put("password", password);
         user.put("username", username);
         user.put("firstname", firstname);
         user.put("lastname", lastname);
+        user.put("code", generatedCode);
 
         db.collection("users")
                 .add(user)
