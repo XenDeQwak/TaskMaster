@@ -1,39 +1,32 @@
 package com.taskmaster.appui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.constraintlayout.widget.Group;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class ManageChild extends AppCompatActivity {
-    ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openChildPage;
-    ImageView childFrame, childAvatar;
-    TextView statStr, statInt, floorView;
-    Group dropDownGroup;
+    ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openChildPage, copyButton, exitButton;
+    TextView codeText;
+    Group dropDownGroup, popUpGroup;
     GridLayout gridLayout;
-    FrameLayout newGroup;
-    int questWidth, questHeight, imageWidth, imageHeight, nameFrameWidth, nameFrameHeight, topMarginImage, bottomMarginImage, topMarginNameFrame, bottomMarginNameFrame;
-
-    Context context = this;
+    String tavernCode;
+    View rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +51,23 @@ public class ManageChild extends AppCompatActivity {
         imagebutton5 = findViewById(R.id.imageButton6);
         openChildPage = findViewById(R.id.open_child_page);
         dropDownGroup = findViewById(R.id.dropdownGroup);
+        popUpGroup = findViewById(R.id.pop_up_tavern_code);
+        copyButton = findViewById(R.id.copy_button);
+        exitButton = findViewById(R.id.exit_button);
+        codeText = findViewById(R.id.code_text);
         gridLayout = findViewById(R.id.gridLayout);
+        rootLayout = findViewById(R.id.main);
+
+        // exclude elems within dropdown
+        View[] dropDownElements = {
+                findViewById(R.id.imageView24),
+                findViewById(R.id.imageView25),
+                findViewById(R.id.imageView26),
+                findViewById(R.id.imageView27),
+                findViewById(R.id.textView7),
+                findViewById(R.id.textView8),
+                findViewById(R.id.textView9)
+        };
 
         // hide dropdown group
         dropDownGroup.setVisibility(View.GONE);
@@ -75,152 +84,145 @@ public class ManageChild extends AppCompatActivity {
             }
         });
 
-        imagebutton2.setOnClickListener(new View.OnClickListener() {
+        // exclude elems within popup
+        View[] popupElements = {
+                findViewById(R.id.pop_up_frame),
+                findViewById(R.id.copy_frame),
+                findViewById(R.id.exit_frame),
+                findViewById(R.id.copy_text),
+                findViewById(R.id.exit_text),
+                findViewById(R.id.notice_text),
+                findViewById(R.id.notice_shadow_overlay),
+                copyButton,
+                exitButton,
+                codeText
+        };
 
-            // quest count
-            int groupCount = 1;
+        // hide popup group
+        popUpGroup.setVisibility(View.GONE);
+
+        // view popup group
+        imagebutton2.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Context context = v.getContext();
-
-                // convert px to dp
-                float density = context.getResources().getDisplayMetrics().density;
-                int dpToPx = (int) (108 * density);
-
-                // create a new FrameLayout
-                newGroup = new FrameLayout(context);
-                FrameLayout.LayoutParams groupParams = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        dpToPx
-                );
-                groupParams.setMargins(0, 0, 0, (int) (5 * density));
-                newGroup.setLayoutParams(groupParams);
-                newGroup.setId(View.generateViewId());
-
-                // create child frame
-                childFrame = new ImageView(context);
-                FrameLayout.LayoutParams childFrameParams = new FrameLayout.LayoutParams(
-                        (int) (316 * density), (int) (84 * density)
-                );
-                childFrameParams.setMargins((int) (27 * density), (int) (9 * density), (int) (18 * density), (int) (137 * density));
-                childFrame.setLayoutParams(childFrameParams);
-                childFrame.setImageResource(R.drawable.rectangle_rounded);
-
-                // create child frame avatar
-                childAvatar = new ImageView(context);
-                FrameLayout.LayoutParams avatarParams = new FrameLayout.LayoutParams(
-                        (int) (108 * density), (int) (107 * density)
-                );
-                avatarParams.setMargins((int) (11 * density), 0, 0, 0);
-                childAvatar.setLayoutParams(avatarParams);
-                childAvatar.setImageResource(R.drawable.circle_with_shadow);
-
-                // create stat view STR text
-                statStr = new TextView(context);
-                FrameLayout.LayoutParams strParams = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-                strParams.setMargins((int) (125 * density), (int) (20 * density), 0, 0);
-                statStr.setLayoutParams(strParams);
-                statStr.setText("STR 8");
-                statStr.setTextSize(20);
-                statStr.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
-
-                // create floor view text
-                floorView = new TextView(context);
-                FrameLayout.LayoutParams floorParams = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-                floorParams.setMargins((int) (258 * density), (int) (30 * density), 0, 0);
-                floorView.setLayoutParams(floorParams);
-                floorView.setText("Floor: Y");
-                floorView.setTextSize(20);
-                floorView.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
-
-                // create stat view INT text
-                statInt = new TextView(context);
-                FrameLayout.LayoutParams intParams = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-                intParams.setMargins((int) (125 * density), (int) (50 * density), 0, 0);
-                statInt.setLayoutParams(intParams);
-                statInt.setText("INT 10");
-                statInt.setTextSize(20);
-                statInt.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
-
-                // create open child page button
-                openChildPage = new ImageButton(context);
-                FrameLayout.LayoutParams buttonParams = new FrameLayout.LayoutParams(
-                        (int) (333 * density), (int) (104 * density)
-                );
-                buttonParams.setMargins((int) (10 * density), 0, 0, 0);
-                openChildPage.setLayoutParams(buttonParams);
-                openChildPage.setBackground(null);
-
-                openChildPage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(ManageChild.this, "Open Child Page " + groupCount, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                // add views to the FrameLayout
-                newGroup.addView(childFrame);
-                newGroup.addView(childAvatar);
-                newGroup.addView(statStr);
-                newGroup.addView(floorView);
-                newGroup.addView(statInt);
-                newGroup.addView(openChildPage);
-
-                // add to GridLayout
-                gridLayout = findViewById(R.id.gridLayout1);
-                gridLayout.addView(newGroup);
-
-                // test message
-                Toast.makeText(context, "Group " + groupCount + " added!", Toast.LENGTH_SHORT).show();
-
-                groupCount++;
+                if (popUpGroup.getVisibility() == View.VISIBLE) {
+                    popUpGroup.setVisibility(View.GONE);
+                } else {
+                    popUpGroup.setVisibility(View.VISIBLE);
+                }
             }
         });
+
+        // add tavern code
+        tavernCode = "123456";
+        codeText.setText("Tavern Code: " + tavernCode);
 
         openChildPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ManageChild.this, "Open Child Page ", Toast.LENGTH_SHORT).show();
+                if (popUpGroup.getVisibility() == View.GONE) {
+                    Toast.makeText(ManageChild.this, "Open Child Page ", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         imagebutton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ManageChild.this, "ur here", Toast.LENGTH_SHORT).show();
+                if (popUpGroup.getVisibility() == View.GONE) {
+                    Toast.makeText(ManageChild.this, "ur here", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         imagebutton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ManageChild.this, "Move", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ManageChild.this, QuestManagement.class);
-                startActivity(intent);
+                if (popUpGroup.getVisibility() == View.GONE) {
+                    Toast.makeText(ManageChild.this, "Move", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ManageChild.this, QuestManagement.class);
+                    startActivity(intent);
+                }
             }
         });
 
         imagebutton5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ManageChild.this, "Log Out", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ManageChild.this, Splash.class);
-                startActivity(intent);
+                if (popUpGroup.getVisibility() == View.GONE) {
+                    Toast.makeText(ManageChild.this, "Log Out", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ManageChild.this, Splash.class);
+                    startActivity(intent);
+                }
             }
         });
+
+        // exit dropdown & popup group
+        rootLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    boolean isInsideDropdown = false;
+
+                    for (View element : dropDownElements) {
+                        if (isViewTouched(element, event)) {
+                            isInsideDropdown = true;
+                            break;
+                        }
+                    }
+
+                    for (View element : popupElements) {
+                        if (isViewTouched(element, event)) {
+                            isInsideDropdown = true;
+                            break;
+                        }
+                    }
+
+                    if (!isInsideDropdown) {
+                        dropDownGroup.setVisibility(View.GONE);
+                        popUpGroup.setVisibility(View.GONE);
+                    }
+                }
+                return false;
+            }
+        });
+
+        copyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String codeToCopy = tavernCode;
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Copied Tavern Code", codeToCopy);
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(ManageChild.this, "Copied Tavern Code", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popUpGroup.setVisibility(View.GONE);
+                Toast.makeText(ManageChild.this, "Exit", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // exclude elems within dropdown and popup
+    private boolean isViewTouched(View view, MotionEvent event) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+
+        return event.getRawX() >= x && event.getRawX() <= x + view.getWidth()
+                && event.getRawY() >= y && event.getRawY() <= y + view.getHeight();
     }
 
     private void hideSystemBars() {
         // hide status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // Hide the nav bar
+        // hide nav bar
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE

@@ -2,17 +2,17 @@ package com.taskmaster.appui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +29,9 @@ import androidx.core.view.WindowInsetsCompat;
 public class QuestManagement extends AppCompatActivity {
 
     ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openQuestButton;
-
     ImageView questFrame, questNameFrame, questImage;
-
     TextView questNameText;
-
+    ScrollView scrollView;
     Group dropDownGroup;
     GridLayout gridLayout;
     LinearLayout newGroup;
@@ -42,10 +40,11 @@ public class QuestManagement extends AppCompatActivity {
 
     //quest count
     int groupCount = 0;
+    int questId = 1;
 
     int questWidth, questHeight, imageWidth, imageHeight, nameFrameWidth, nameFrameHeight, topMarginImage, bottomMarginImage, topMarginNameFrame, bottomMarginNameFrame;
-
     Context context = this;
+    View rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +69,23 @@ public class QuestManagement extends AppCompatActivity {
         imagebutton5 = findViewById(R.id.imageButton6);
         dropDownGroup = findViewById(R.id.dropdownGroup);
         gridLayout = findViewById(R.id.gridLayout);
+        rootLayout = findViewById(R.id.main);
+        scrollView = findViewById(R.id.scrollView1);
+
+
+        // exclude elems within dropdown
+        View[] dropDownElements = {
+                findViewById(R.id.imageView24),
+                findViewById(R.id.imageView25),
+                findViewById(R.id.imageView26),
+                findViewById(R.id.imageView27),
+                findViewById(R.id.textView7),
+                findViewById(R.id.textView8),
+                findViewById(R.id.textView9)
+        };
+
+        // remove scrollview visibility initially, keep this cause dropdown exit doesn't function as intended
+        scrollView.setVisibility(View.GONE);
 
         // hide dropdown group
         dropDownGroup.setVisibility(View.GONE);
@@ -87,7 +103,6 @@ public class QuestManagement extends AppCompatActivity {
         });
 
         imagebutton2.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if (groupCount >= 4) { // limit quests
@@ -163,7 +178,7 @@ public class QuestManagement extends AppCompatActivity {
                         ConstraintLayout.LayoutParams.WRAP_CONTENT,
                         ConstraintLayout.LayoutParams.WRAP_CONTENT
                 ));
-                questNameText.setText("Quest Name " + (groupCount + 1));
+                questNameText.setText("Quest Name " + questId);
                 questNameText.setTextSize(20);
                 questNameText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
                 questNameText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -177,10 +192,13 @@ public class QuestManagement extends AppCompatActivity {
                 ));
                 openQuestButton.setBackground(null);
 
+                int currentQuestId = questId; // Save unique ID to avoid issues with references
                 openQuestButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(QuestManagement.this, "Edit Quest " + (groupCount + 1), Toast.LENGTH_SHORT).show();
+                        if (dropDownGroup.getVisibility() == View.GONE) {
+                            Toast.makeText(QuestManagement.this, "Edit Quest " + currentQuestId, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
@@ -222,9 +240,11 @@ public class QuestManagement extends AppCompatActivity {
                 gridLayout.addView(newGroup);
 
                 // test message
-                Toast.makeText(QuestManagement.this, "New Quest Added: Quest " + (groupCount + 1), Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuestManagement.this, "New Quest Added: Quest " + questId, Toast.LENGTH_SHORT).show();
 
                 groupCount++;
+                questId++;
+                updateScrollViewVisibility();
             }
         });
 
@@ -252,6 +272,47 @@ public class QuestManagement extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // exit dropdown
+        rootLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (dropDownGroup.getVisibility() == View.VISIBLE && event.getAction() == MotionEvent.ACTION_DOWN) {
+                    boolean isInsideDropdown = false;
+                    for (View element : dropDownElements) {
+                        if (isViewTouched(element, event)) {
+                            isInsideDropdown = true;
+                            break;
+                        }
+                    }
+                    if (!isInsideDropdown) {
+                        dropDownGroup.setVisibility(View.GONE);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    // exclude elems within dropdown
+    private boolean isViewTouched(View view, MotionEvent event) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+
+        return event.getRawX() >= x && event.getRawX() <= x + view.getWidth()
+                && event.getRawY() >= y && event.getRawY() <= y + view.getHeight();
+    }
+
+    // to update scroll view visibility
+    private void updateScrollViewVisibility() {
+        if (groupCount >= 1) {
+            scrollView.setVisibility(View.VISIBLE);
+        } else {
+            scrollView.setVisibility(View.GONE);
+        }
     }
 
     private void hideSystemBars() {
