@@ -127,6 +127,7 @@ public class SignUp extends AppCompatActivity {
         }
 
         // generates room code
+
         String generatedCode = UUID.randomUUID().toString().substring(0, 7);
 
         Map<String, Object> user = new HashMap<>();

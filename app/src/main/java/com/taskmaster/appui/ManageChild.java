@@ -4,7 +4,9 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +22,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 public class ManageChild extends AppCompatActivity {
     ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openChildPage, copyButton, exitButton;
     TextView codeText;
@@ -27,6 +32,7 @@ public class ManageChild extends AppCompatActivity {
     GridLayout gridLayout;
     String tavernCode;
     View rootLayout;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +120,28 @@ public class ManageChild extends AppCompatActivity {
             }
         });
 
+        db = FirebaseFirestore.getInstance();
+
         // add tavern code
-        tavernCode = "123456";
-        codeText.setText("Tavern Code: " + tavernCode);
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String username = prefs.getString("username", "");
+
+        if (username != null) {
+            db.collection("users")
+                    .whereEqualTo("username", username) // Query based on username
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                tavernCode = document.getString("code");
+                                codeText.setText("Tavern Code: " + tavernCode);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ManageChild.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
 
         openChildPage.setOnClickListener(new View.OnClickListener() {
             @Override

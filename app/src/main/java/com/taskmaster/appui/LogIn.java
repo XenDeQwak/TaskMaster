@@ -1,6 +1,7 @@
 package com.taskmaster.appui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -92,6 +93,8 @@ public class LogIn extends AppCompatActivity {
             return;
         }
 
+
+
         db.collection("users")
                 .whereEqualTo("username", username)
                 .get()
@@ -99,6 +102,9 @@ public class LogIn extends AppCompatActivity {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if (document.getString("password").equals(password)) {
+                                SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
+                                editor.putString("username", username);
+                                editor.apply();
                                 Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LogIn.this, QuestManagement.class));
                                 return;
