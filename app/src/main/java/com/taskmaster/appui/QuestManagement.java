@@ -2,6 +2,7 @@ package com.taskmaster.appui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -272,6 +273,15 @@ public class QuestManagement extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String role = prefs.getString("role", "parent");
+
+        ImageButton createQuestButton = findViewById(R.id.imageButton3);
+
+        if ("child".equals(role)) {
+            createQuestButton.setVisibility(View.GONE);
+        }
 
         // exit dropdown
         rootLayout.setOnTouchListener(new View.OnTouchListener() {

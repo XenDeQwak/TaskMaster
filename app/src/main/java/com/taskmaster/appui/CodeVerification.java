@@ -1,6 +1,8 @@
 package com.taskmaster.appui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,14 +18,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CodeVerification extends AppCompatActivity {
 
     Button confirmButton;
     EditText codebox;
+    EditText usernameBox;
     FirebaseFirestore taskmasterDatabase;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +53,7 @@ public class CodeVerification extends AppCompatActivity {
         // hooks
         confirmButton = findViewById(R.id.button3);
         codebox = findViewById(R.id.editTextTextEmailAddress6);
-
-        // replace init text
-        setupEditText(codebox, "Code");
+        usernameBox = findViewById(R.id.userBox);
 
         // test for button
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -60,59 +66,46 @@ public class CodeVerification extends AppCompatActivity {
 
     private void verifyCode() {
         String code = codebox.getText().toString().trim();
+        String username = usernameBox.getText().toString().trim();
 
-        if (code.isEmpty()) {
-            Toast.makeText(this, "Please enter the code", Toast.LENGTH_SHORT).show();
+        if (code.isEmpty() || username.isEmpty()) {
+            Toast.makeText(this, "Please enter the code and username", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        taskmasterDatabase.collection("users")
-                .whereEqualTo("code", code)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.getString("code").equals(code)) {
-                                Toast.makeText(CodeVerification.this, "Code is valid!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(CodeVerification.this, QuestManagement.class));
-                            }
-                        }
+        taskmasterDatabase.collection("users").whereEqualTo("username", username).get()
+                .addOnSuccessListener(userQuery -> {
+                    if (!userQuery.isEmpty()) {
+                        Toast.makeText(CodeVerification.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                    } else {
+                        taskmasterDatabase.collection("users").whereEqualTo("code", code).limit(1).get()
+                                .addOnSuccessListener(querySnapshot -> {
+                                    if (!querySnapshot.isEmpty()) {
+                                        DocumentSnapshot parentDoc = querySnapshot.getDocuments().get(0);
+                                        String parentID = parentDoc.getId();
+                                        String childID = taskmasterDatabase.collection("users").document().getId();
+
+                                        Map<String, Object> childData = new HashMap<>();
+                                        childData.put("parentID", parentID);
+                                        childData.put("role", "child");
+                                        childData.put("username", username);
+
+                                        taskmasterDatabase.collection("users").document(childID).set(childData)
+                                                .addOnSuccessListener(aVoid -> {
+                                                    taskmasterDatabase.collection("users").document(parentID)
+                                                            .update("children", FieldValue.arrayUnion(childID));
+
+                                                    Toast.makeText(CodeVerification.this, "Child account linked!", Toast.LENGTH_SHORT).show();
+                                                });
+                                        startActivity(new Intent(CodeVerification.this, ChildLogin.class));
+                                    } else {
+                                        Toast.makeText(CodeVerification.this, "Invalid Code", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(CodeVerification.this, "Error verifying code: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     }
-                    Toast.makeText(CodeVerification.this, "Invalid code", Toast.LENGTH_SHORT).show();
                 })
-                .addOnFailureListener(e -> Toast.makeText(CodeVerification.this, "Error verifying code: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-    }
-
-    private void setupEditText(EditText editText, final String initialText) {
-        editText.setText(initialText);
-
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus && editText.getText().toString().equals(initialText)) {
-                    editText.setText("");
-                }
-            }
-        });
-
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not needed for this implementation
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Not needed for this implementation
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (editText.getText().toString().equals(initialText)) {
-                    editText.setText("");
-                }
-            }
-        });
+                .addOnFailureListener(e -> Toast.makeText(CodeVerification.this, "Error checking username: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void hideSystemBars() {
