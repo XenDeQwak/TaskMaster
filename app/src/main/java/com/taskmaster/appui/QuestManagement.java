@@ -70,8 +70,6 @@ public class QuestManagement extends AppCompatActivity {
     private Map<Integer, String> questRewardStat = new HashMap<>();
     private Map<Integer, String> questRewardOptional = new HashMap<>();
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +129,9 @@ public class QuestManagement extends AppCompatActivity {
 
         // hide popupRewardsGroup
         popupRewardsGroup.setVisibility(View.GONE);
+
+        // hide editQuestGroup
+        editQuestGroup.setVisibility(View.GONE);
 
         // remove scrollview visibility initially, keep this cause dropdown exit doesn't function as intended
         scrollView.setVisibility(View.GONE);
