@@ -74,6 +74,9 @@ public class QuestManagement extends AppCompatActivity {
     private Map<Integer, String> questTimes = new HashMap<>();
     private Map<Integer, String> questRewardStat = new HashMap<>();
     private Map<Integer, String> questRewardOptional = new HashMap<>();
+    private Map<Integer, String> code = new HashMap<>();
+    private String username;
+    private String parentCode;
 
     @SuppressLint("CutPasteId")
 
@@ -88,11 +91,11 @@ public class QuestManagement extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        SharedPreferences prefs = getSharedPreferences("User Prefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String roomCode = prefs.getString("roomCode", "defaultRoomCode");
         String role = prefs.getString("role", "parent");
 
-        fetchQuests(roomCode);
+        fetchQuests();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -173,6 +176,11 @@ public class QuestManagement extends AppCompatActivity {
                     Toast.makeText(QuestManagement.this, "Max quests reached!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if (code == null) {
+                    fetchParentRoomCode();
+                }
+
 
                 // convert px to dp
                 questWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 172, getResources().getDisplayMetrics());
@@ -342,12 +350,20 @@ public class QuestManagement extends AppCompatActivity {
                 // add to GridLayout
                 gridLayout.addView(newGroup);
 
+                questTextViews.put(questId, currentQuestNameText);
+                questDescriptions.put(questId, "");
+                questRatings.put(questId, 0);
+                questTimes.put(questId, "23:59:00");
+                questRewardStat.put(questId, "None");
+                questRewardOptional.put(questId, "");
+
                 // test message
                 Toast.makeText(QuestManagement.this, "New Quest Added: Quest " + questId, Toast.LENGTH_SHORT).show();
 
                 groupCount++;
                 questId++;
                 updateScrollViewVisibility();
+                sendQuestToFirebase(questId - 1);
             }
         });
 
@@ -375,12 +391,6 @@ public class QuestManagement extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        ImageButton createQuestButton = findViewById(R.id.imageButton3);
-
-        if ("child".equals(role)) {
-            createQuestButton.setVisibility(View.GONE);
-        }
 
         // exit dropdown
         rootLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -621,19 +631,110 @@ public class QuestManagement extends AppCompatActivity {
         }
     }
 
-    private void fetchQuests(String roomCode) {
+    private void sendQuestToFirebase(int questId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Create a HashMap to store quest details
+        Map<String, Object> questData = new HashMap<>();
+        questData.put("name", questTextViews.get(questId).getText().toString());
+        questData.put("description", questDescriptions.get(questId));
+        questData.put("difficulty", questRatings.get(questId)); // Assuming difficulty is stored as an Integer
+        questData.put("time", questTimes.get(questId));
+        questData.put("rewardStat", questRewardStat.get(questId));
+        questData.put("rewardOptional", questRewardOptional.get(questId));
+        questData.put("roomCode", code);
+
+        // Send data to Firestore under the "quests" collection
         db.collection("quests")
-                .whereEqualTo("roomCode", roomCode) // Filter by roomCode
+                .add(questData)
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(this, "Quest added successfully!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to add quest: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void fetchQuests() {
+        SharedPreferences userPrefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String role = userPrefs.getString("role", "parent");
+
+        if (role.equals("parent")) {
+            String roomCode = userPrefs.getString("roomCode", "defaultRoomCode");
+            queryQuests(roomCode);
+        } else if (role.equals("child")) {
+            // Child: fetch parent's room code from Firestore using TaskMasterPrefs
+            SharedPreferences taskMasterPrefs = getSharedPreferences("TaskMasterPrefs", MODE_PRIVATE);
+            String parentUsername = taskMasterPrefs.getString("username", "");
+            if (parentUsername.isEmpty()) {
+                Toast.makeText(this, "Failed to get parent username", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            FirebaseFirestore.getInstance().collection("users").document(parentUsername)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String parentCode = documentSnapshot.getString("code");
+                            if (parentCode != null && !parentCode.isEmpty()) {
+                                queryQuests(parentCode);
+                            } else {
+                                Toast.makeText(this, "No Room Code Found.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(this, "Parent document does not exist.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Failed to fetch room code: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(this, "Invalid user role.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void queryQuests(String roomCode) {
+        db.collection("quests")
+                .whereEqualTo("roomCode", roomCode)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Quest quest = document.toObject(Quest.class); // Convert document to Quest object
-                            displayQuest(quest); // Call method to display the quest
+                            Quest quest = document.toObject(Quest.class);
+                            displayQuest(quest);
                         }
                     } else {
                         Toast.makeText(this, "Error fetching quests: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                });
+    }
+
+    private void fetchParentRoomCode() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        SharedPreferences prefs = getSharedPreferences("TaskMasterPrefs", MODE_PRIVATE);
+        String parentUsername = prefs.getString("username", "");
+
+        if (parentUsername.isEmpty()) {
+            Toast.makeText(this, "Failed to get parent username", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        db.collection("users").document(parentUsername).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Retrieve the "code" field as a string
+                        String code = documentSnapshot.getString("code");
+                        if (code != null && !code.isEmpty()) {
+                            parentCode = code;
+                            Toast.makeText(this, "Room Code: " + parentCode, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "No Room Code Found.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Document does not exist.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to fetch room code: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
