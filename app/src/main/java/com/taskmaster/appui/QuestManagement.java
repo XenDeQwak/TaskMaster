@@ -275,7 +275,7 @@ public class QuestManagement extends AppCompatActivity {
                 ));
                 questFrame.setAlpha(0.5f);
                 questFrame.setImageResource(R.drawable.rectangle_rounded);
-
+                //
                 // create quest name frame
                 questNameFrame = new ImageView(context);
                 questNameFrame.setId(View.generateViewId());
