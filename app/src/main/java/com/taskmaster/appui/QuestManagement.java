@@ -43,19 +43,21 @@ import java.util.Map;
 
 public class QuestManagement extends AppCompatActivity {
 
+    private long lastClickTime = 0;
+    private static final long DOUBLE_CLICK_TIME_DELTA = 300; //milliseconds
     FirebaseFirestore db;
     ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton;
-    AppCompatButton setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton;
-    ImageView questFrame, questNameFrame, questImage, editQuestImage, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame;
+    AppCompatButton setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton;
+    ImageView questFrame, questNameFrame, questImage, editQuestImage, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame, viewQuestFrame, viewQuestImage, viewDifficultyBG, childBarFrame, childBarAvatar;
     TextView questNameText, rewardsStr, rewardsInt;
-    EditText editQuestTime, editQuestName, editQuestDesc;
+    EditText editQuestTime, editQuestName, editQuestDesc, viewQuestName, viewQuestTime, viewQuestDesc;
     ScrollView scrollView;
-    Group dropDownGroup, editQuestGroup, popupRewardsGroup;
+    Group dropDownGroup, editQuestGroup, popupRewardsGroup, viewQuestGroup, childBarGroup;
     GridLayout gridLayout;
     LinearLayout newGroup;
     ConstraintLayout newQuest;
     ConstraintSet constraintSet;
-    RatingBar setDifficultyRating;
+    RatingBar setDifficultyRating, viewDifficultyRating;
 
     //quest count
     int groupCount = 0;
@@ -74,6 +76,12 @@ public class QuestManagement extends AppCompatActivity {
     private Map<Integer, String> questTimes = new HashMap<>();
     private Map<Integer, String> questRewardStat = new HashMap<>();
     private Map<Integer, String> questRewardOptional = new HashMap<>();
+    private Map<Integer, TextView> viewQuestTextViews = new HashMap<>();
+    private Map<Integer, String> viewQuestDescriptions = new HashMap<>();
+    private Map<Integer, Integer> viewQuestRatings = new HashMap<>();
+    private Map<Integer, String> viewQuestTimes = new HashMap<>();
+    private Map<Integer, String> viewQuestRewardStat = new HashMap<>();
+    private Map<Integer, String> viewQuestRewardOptional = new HashMap<>();
 
     @SuppressLint("CutPasteId")
 
@@ -88,7 +96,7 @@ public class QuestManagement extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        SharedPreferences prefs = getSharedPreferences("User Prefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String roomCode = prefs.getString("roomCode", "defaultRoomCode");
         String role = prefs.getString("role", "parent");
 
@@ -110,6 +118,7 @@ public class QuestManagement extends AppCompatActivity {
         gridLayout = findViewById(R.id.gridLayout);
         rootLayout = findViewById(R.id.main);
         scrollView = findViewById(R.id.scrollView1);
+
         editQuestTime = findViewById(R.id.editQuestTime);
         editQuestName = findViewById(R.id.editQuestName);
         setRewardsButton = findViewById(R.id.setRewardsButton);
@@ -131,6 +140,25 @@ public class QuestManagement extends AppCompatActivity {
         rewardsStr = findViewById(R.id.rewardsStr);
         rewardsDropdownButton = findViewById(R.id.rewardsDropdownButton);
 
+        viewQuestGroup = findViewById(R.id.viewQuestGroup);
+        viewQuestFrame = findViewById(R.id.viewQuestFrame);
+        viewQuestImage = findViewById(R.id.viewQuestImage);
+        viewQuestName = findViewById(R.id.viewQuestName);
+        viewQuestTime = findViewById(R.id.viewQuestTime);
+        viewQuestDesc = findViewById(R.id.viewQuestDesc);
+        viewDifficultyBG = findViewById(R.id.viewDifficultyBG);
+        viewDifficultyRating = findViewById(R.id.viewDifficultyRating);
+        cancelQuestViewButton = findViewById(R.id.cancelQuestViewButton);
+        finishQuestViewButton = findViewById(R.id.finishQuestViewButton);
+        viewRewardsButton = findViewById(R.id.viewRewardsButton);
+
+        childBarGroup = findViewById(R.id.childBarGroup);
+        childBarFrame = findViewById(R.id.childBarFrame);
+        childBarName = findViewById(R.id.childBarName);
+        childBarFloorCount = findViewById(R.id.childBarFloorCount);
+        childBarStatsButton = findViewById(R.id.childBarStatsButton);
+        childBarAvatar = findViewById(R.id.childBarAvatar);
+
         // exclude elems within dropdown
         View[] dropDownElements = {
                 findViewById(R.id.imageView24),
@@ -142,11 +170,28 @@ public class QuestManagement extends AppCompatActivity {
                 findViewById(R.id.textView9)
         };
 
+        // hide from child
+        if ("child".equals(role)) {
+            imagebutton2.setVisibility(View.GONE);
+
+            // hide whole quest edit
+            //insert code
+
+            // show child bar group
+            childBarGroup.setVisibility(View.VISIBLE);
+        }
+
         // hide popupRewardsGroup
         popupRewardsGroup.setVisibility(View.GONE);
 
         // hide editQuestGroup
         editQuestGroup.setVisibility(View.GONE);
+
+        // hide childBarGroup
+        childBarGroup.setVisibility(View.VISIBLE);
+
+        // hide viewQuestGroup
+        viewQuestGroup.setVisibility(View.GONE);
 
         // remove scrollview visibility initially, keep this cause dropdown exit doesn't function as intended
         scrollView.setVisibility(View.GONE);
@@ -273,6 +318,14 @@ public class QuestManagement extends AppCompatActivity {
                 // store quest reward optional
                 questRewardOptional.put(questId, "");
 
+                // store the viewQuests
+                viewQuestTextViews.put(questId, currentQuestNameText);
+                viewQuestDescriptions.put(questId, "None");
+                viewQuestRatings.put(questId, 0);
+                viewQuestTimes.put(questId, "23:59:00");
+                viewQuestRewardStat.put(questId, "None");
+                viewQuestRewardOptional.put(questId, "");
+
                 // create open quest button
                 openQuestButton = new ImageButton(context);
                 openQuestButton.setId(View.generateViewId());
@@ -289,8 +342,6 @@ public class QuestManagement extends AppCompatActivity {
                     public void onClick(View v) {
                         // Handle button click for the correct questId
                         if (dropDownGroup.getVisibility() == View.GONE) {
-                            Toast.makeText(QuestManagement.this, "Edit Quest " + currentQuestId, Toast.LENGTH_SHORT).show();
-
                             int clickedQuestId = (int) v.getTag();
 
                             // Keep track of the clicked quest layout (this will be passed to populateQuestEditor)
@@ -299,8 +350,21 @@ public class QuestManagement extends AppCompatActivity {
                             // Populate the editor fields
                             populateQuestEditor(clickedQuestId);
 
-                            // Show the edit panel
-                            editQuestGroup.setVisibility(View.VISIBLE);
+                            long clickTime = System.currentTimeMillis();
+                            if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
+                                // Double click
+                                Toast.makeText(QuestManagement.this, "View Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
+                                // Show the view panel
+                                viewQuestGroup.setVisibility(View.VISIBLE);
+                            } else {
+                                // Single click
+                                if ("parent".equals(role)) {
+                                    Toast.makeText(QuestManagement.this, "Edit Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
+                                    // Show the edit panel
+                                    editQuestGroup.setVisibility(View.VISIBLE);
+                                }
+                            }
+                            lastClickTime = clickTime;
                         }
                     }
                 });
@@ -376,11 +440,39 @@ public class QuestManagement extends AppCompatActivity {
             }
         });
 
-        ImageButton createQuestButton = findViewById(R.id.imageButton3);
 
-        if ("child".equals(role)) {
-            createQuestButton.setVisibility(View.GONE);
-        }
+
+        // cancel quest view
+        cancelQuestViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewQuestGroup.setVisibility(View.GONE);
+                Toast.makeText(QuestManagement.this, "exit", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // quest finish
+        finishQuestViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(QuestManagement.this, "finish", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // view reward
+        viewRewardsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(QuestManagement.this, "rewards", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        childBarStatsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(QuestManagement.this, "stats", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // exit dropdown
         rootLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -472,6 +564,12 @@ public class QuestManagement extends AppCompatActivity {
                 questRewardStat.put(lastClickedQuestId, "intelligence");
                 Log.d("QuestReward", "Quest " + lastClickedQuestId + ": set to intelligence");
                 Toast.makeText(QuestManagement.this, "set to int", Toast.LENGTH_SHORT).show();
+                rewardsDropdownButton.setText("Intelligence");
+                rewardsDropdownFrame.setVisibility(View.GONE);
+                rewardsInt.setVisibility(View.GONE);
+                rewardsStr.setVisibility(View.GONE);
+                rewardsIntButton.setVisibility(View.GONE);
+                rewardsStrButton.setVisibility(View.GONE);
             }
         });
 
@@ -481,6 +579,12 @@ public class QuestManagement extends AppCompatActivity {
                 questRewardStat.put(lastClickedQuestId, "strength");
                 Log.d("QuestReward", "Quest " + lastClickedQuestId + ": set to strength");
                 Toast.makeText(QuestManagement.this, "set to str", Toast.LENGTH_SHORT).show();
+                rewardsDropdownButton.setText("Strength");
+                rewardsDropdownFrame.setVisibility(View.GONE);
+                rewardsInt.setVisibility(View.GONE);
+                rewardsStr.setVisibility(View.GONE);
+                rewardsIntButton.setVisibility(View.GONE);
+                rewardsStrButton.setVisibility(View.GONE);
             }
         });
 
@@ -519,6 +623,7 @@ public class QuestManagement extends AppCompatActivity {
                     int intRating = (int) rating; // Cast to int
                     Toast.makeText(QuestManagement.this, "New rating: " + rating, Toast.LENGTH_SHORT).show();
                     questRatings.put(lastClickedQuestId, intRating);
+                    viewQuestRatings.put(lastClickedQuestId, intRating);
                 }
             }
         });
@@ -583,26 +688,38 @@ public class QuestManagement extends AppCompatActivity {
             EditText editQuestDesc = findViewById(R.id.editQuestDesc); // Ensure this is the correct ID
             RatingBar setDifficultyRating = findViewById(R.id.setDifficultyRating);
             EditText editQuestRewardsOptional = findViewById(R.id.rewardsOptionalText); // Correct ID
+            AppCompatButton rewardsDropdownButton = findViewById(R.id.rewardsDropdownButton);
+
+            EditText viewQuestName = findViewById(R.id.viewQuestName);
+            EditText viewQuestDesc = findViewById(R.id.viewQuestDesc);
+            EditText viewQuestTime = findViewById(R.id.viewQuestTime);
+
+            RatingBar viewDifficultyRating = findViewById(R.id.viewDifficultyRating);
 
 
             // Set the editor fields with the quest's details
             if (questText != null) {
                 editQuestName.setText(questText.getText().toString());
+                viewQuestName.setText(questText.getText().toString());
             }
             if (editQuestDesc != null) {
                 // Get the correct description from the map
                 String currentQuestDesc = questDescriptions.get(questId);
                 editQuestDesc.setText(currentQuestDesc);
+                viewQuestDesc.setText(currentQuestDesc);
             }
             if (setDifficultyRating != null) {
                 // Get the correct rating from the map
                 int currentQuestRating = questRatings.get(questId);
                 setDifficultyRating.setRating(currentQuestRating);
+                int currentViewQuestRating = viewQuestRatings.get(questId);
+                viewDifficultyRating.setRating(currentViewQuestRating);
             }
             if (editQuestTime != null) {
                 // Get the correct time from the map
                 String currentQuestTime = questTimes.get(questId);
                 editQuestTime.setText(currentQuestTime);
+                viewQuestTime.setText(currentQuestTime);
             }
             if (editQuestRewardsOptional != null) {
                 // Get the correct reward optional from the map
@@ -612,10 +729,13 @@ public class QuestManagement extends AppCompatActivity {
 
             String currentQuestReward = questRewardStat.get(questId);
             if(currentQuestReward.equals("intelligence")) {
+                rewardsDropdownButton.setText("Intelligence");
                 Log.d("QuestReward", "Quest " + questId + ": Intelligence");
             } else if (currentQuestReward.equals("strength")) {
+                rewardsDropdownButton.setText("Strength");
                 Log.d("QuestReward", "Quest " + questId + ": Strength");
             } else {
+                rewardsDropdownButton.setText("Stat Increase");
                 Log.d("QuestReward", "Quest " + questId + ": None");
             }
         }
