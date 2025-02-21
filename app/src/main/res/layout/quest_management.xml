@@ -166,15 +166,15 @@
         android:id="@+id/editQuestGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="editQuestFrame,editQuestImage,editQuestName,editQuestTime,editQuestDesc,setRewardsButton,setDifficultyBG,setDifficultyRating,childAvatar,assignQuest,cancelQuestEditButton,saveQuestEditButton" />
 
     <ImageView
         android:id="@+id/editQuestFrame"
         android:layout_width="361dp"
         android:layout_height="755dp"
-        android:layout_marginTop="14dp"
         android:layout_marginStart="7dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="24dp"
         android:alpha="0.5"
@@ -397,6 +397,309 @@
         android:stateListAnimator="@null" />
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/childBarGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="childBarFrame, childBarAvatar, childBarName, childBarFloorCount, childBarStatsButton" />
+
+    <ImageView
+        android:id="@+id/childBarFrame"
+        android:layout_width="361dp"
+        android:layout_height="194dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="674dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="35dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/childBarAvatar"
+        android:layout_width="152dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="192dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/childBarFrame"
+        app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
+        app:layout_constraintStart_toStartOf="@+id/childBarFrame"
+        app:layout_constraintTop_toTopOf="@+id/childBarFrame"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/childBarName"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="115dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="192dp"
+        android:background="@drawable/button_shadowed"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Name"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/childBarFrame"
+        app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
+        app:layout_constraintStart_toStartOf="@+id/childBarFrame"
+        app:layout_constraintTop_toTopOf="@+id/childBarFrame"
+        android:stateListAnimator="@null" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/childBarFloorCount"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginBottom="69dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="192dp"
+        android:background="@drawable/button_shadowed"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Floor: X"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/childBarFrame"
+        app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
+        app:layout_constraintStart_toStartOf="@+id/childBarFrame"
+        app:layout_constraintTop_toTopOf="@+id/childBarFrame"
+        android:stateListAnimator="@null" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/childBarStatsButton"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="115dp"
+        android:layout_marginBottom="23dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="192dp"
+        android:background="@drawable/button_shadowed"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="More Stats"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/childBarFrame"
+        app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
+        app:layout_constraintStart_toStartOf="@+id/childBarFrame"
+        app:layout_constraintTop_toTopOf="@+id/childBarFrame"
+        android:stateListAnimator="@null" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/viewQuestGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="viewQuestFrame,viewQuestImage,viewQuestName,viewQuestTime,viewQuestDesc,viewRewardsButton,viewQuestFrame,cancelQuestViewButton,finishQuestViewButton,viewDifficultyBG,viewDifficultyRating" />
+
+    <ImageView
+        android:id="@+id/viewQuestFrame"
+        android:layout_width="361dp"
+        android:layout_height="571dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="200dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/imageView19"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/viewQuestImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="320dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
+        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
+        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
+        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <EditText
+        android:id="@+id/viewQuestName"
+        android:layout_width="173dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="261dp"
+        android:layout_marginBottom="271dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="161dp"
+        android:background="@drawable/textbox_rounded"
+        android:ems="10"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:inputType="textCapWords"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
+        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
+        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
+        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame" />
+
+    <EditText
+        android:id="@+id/viewQuestTime"
+        android:layout_width="115dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="261dp"
+        android:layout_marginBottom="271dp"
+        android:layout_marginStart="219dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/textbox_rounded"
+        android:ems="10"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:hint="24:00:00"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
+        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
+        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
+        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame" />
+
+    <EditText
+        android:id="@+id/viewQuestDesc"
+        android:layout_width="320dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="326dp"
+        android:layout_marginBottom="149dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/textbox_rounded"
+        android:ems="10"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
+        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
+        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
+        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/viewRewardsButton"
+        android:layout_width="115dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="464dp"
+        android:layout_marginBottom="93dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="220dp"
+        android:background="@drawable/button_shadowed"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Rewards"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
+        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
+        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
+        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame"
+        android:stateListAnimator="@null" />
+
+    <ImageView
+        android:id="@+id/viewDifficultyBG"
+        android:layout_width="173dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="464dp"
+        android:layout_marginBottom="93dp"
+        android:layout_marginStart="163dp"
+        android:layout_marginEnd="19dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
+        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
+        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
+        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame"
+        app:srcCompat="@drawable/stroked_rectangle" />
+
+    <RatingBar
+        android:id="@+id/viewDifficultyRating"
+        style="@style/CustomRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1"
+        android:layout_marginBottom="5dp"
+        android:isIndicator="true"
+        app:layout_constraintBottom_toBottomOf="@+id/viewDifficultyBG"
+        app:layout_constraintEnd_toEndOf="@+id/viewDifficultyBG"
+        app:layout_constraintStart_toStartOf="@+id/viewDifficultyBG"
+        app:layout_constraintTop_toTopOf="@+id/viewDifficultyBG" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cancelQuestViewButton"
+        android:layout_width="115dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="498dp"
+        android:layout_marginBottom="18dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="208dp"
+        android:background="@drawable/button_shadowed"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Cancel"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
+        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
+        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
+        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame"
+        android:stateListAnimator="@null" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/finishQuestViewButton"
+        android:layout_width="115dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="498dp"
+        android:layout_marginBottom="18dp"
+        android:layout_marginStart="208dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/button_shadowed"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Finish"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
+        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
+        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
+        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame"
+        android:stateListAnimator="@null" />
+
+    <androidx.constraintlayout.widget.Group
         android:id="@+id/dropdownGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -544,7 +847,7 @@
         android:id="@+id/popupRewardsGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="popupRewardsFrameShadow,popupRewardsFrame,rewardsTextTitle,rewardsOptionalText,rewardsDropdownButton,rewardsCancelButton,rewardsConfirmButton,rewardsDropdownFrame,rewardsStr,rewardsInt,rewardsStrButton,rewardsIntButton" />
 
     <ImageView
@@ -752,5 +1055,218 @@
         app:layout_constraintStart_toStartOf="@+id/rewardsInt"
         app:layout_constraintTop_toTopOf="@+id/rewardsInt"
         app:srcCompat="@null" />
+
+<!--    <androidx.constraintlayout.widget.Group-->
+<!--        android:id="@+id/popupViewRewardsGroup"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        app:constraint_referenced_ids="popupRewardsFrameShadow,popupRewardsFrame,rewardsTextTitle,rewardsOptionalText,rewardsDropdownButton,rewardsCancelButton,rewardsConfirmButton,rewardsDropdownFrame,rewardsStr,rewardsInt,rewardsStrButton,rewardsIntButton" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/popupViewRewardsFrameShadow"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:alpha="0.5"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/shadow_overlay" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/popupViewRewardsFrame"-->
+<!--        android:layout_width="296dp"-->
+<!--        android:layout_height="435dp"-->
+<!--        android:layout_marginTop="162dp"-->
+<!--        android:layout_marginStart="58dp"-->
+<!--        android:layout_marginEnd="58dp"-->
+<!--        android:layout_marginBottom="320dp"-->
+<!--        android:alpha="1"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        android:visibility="visible"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/rectangle_rounded" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/viewRewardsTextTitle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:layout_marginBottom="383dp"-->
+<!--        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--        android:text="Set Rewards"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="32sp"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/popupRewardsFrame" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/viewRewardsOptionalText"-->
+<!--        android:layout_width="205dp"-->
+<!--        android:layout_height="99dp"-->
+<!--        android:layout_marginTop="230dp"-->
+<!--        android:layout_marginBottom="96dp"-->
+<!--        android:background="@drawable/textbox_rounded"-->
+<!--        android:ems="10"-->
+<!--        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--        android:hint="Optional\nRewards"-->
+<!--        android:inputType="textMultiLine"-->
+<!--        android:padding="10dp"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#3F3F3F"-->
+<!--        android:textSize="20sp"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/popupRewardsFrame" />-->
+
+<!--    <androidx.appcompat.widget.AppCompatButton-->
+<!--        android:id="@+id/viewRewardsDropdownButton"-->
+<!--        android:layout_width="179dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginBottom="250dp"-->
+<!--        android:background="@drawable/button_shadowed"-->
+<!--        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--        android:text="Stat Increase"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#3F3F3F"-->
+<!--        android:textSize="20sp"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:elevation="5dp"-->
+<!--        android:translationZ="5dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/popupRewardsFrame" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/viewRewardsDropdownFrame"-->
+<!--        android:layout_width="179dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:layout_marginBottom="160dp"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/popupRewardsFrame"-->
+<!--        app:srcCompat="@drawable/stroked_rectangle" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/viewRewardsStr"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:layout_marginBottom="183dp"-->
+<!--        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--        android:text="Strenght"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="20sp"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/popupRewardsFrame" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/viewRewardsInt"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="82dp"-->
+<!--        android:layout_marginBottom="183dp"-->
+<!--        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--        android:text="Intelligence"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="20sp"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/popupRewardsFrame" />-->
+
+<!--    <androidx.appcompat.widget.AppCompatButton-->
+<!--        android:id="@+id/viewRewardsCancelButton"-->
+<!--        android:layout_width="109dp"-->
+<!--        android:layout_height="53dp"-->
+<!--        android:layout_marginStart="12dp"-->
+<!--        android:layout_marginTop="366dp"-->
+<!--        android:layout_marginEnd="175dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:background="@drawable/button_shadowed"-->
+<!--        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--        android:text="Cancel"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#3F3F3F"-->
+<!--        android:textSize="20sp"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/popupRewardsFrame" />-->
+
+<!--    <androidx.appcompat.widget.AppCompatButton-->
+<!--        android:id="@+id/viewRewardsConfirmButton"-->
+<!--        android:layout_width="109dp"-->
+<!--        android:layout_height="53dp"-->
+<!--        android:layout_marginStart="175dp"-->
+<!--        android:layout_marginTop="366dp"-->
+<!--        android:layout_marginEnd="12dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:background="@drawable/button_shadowed"-->
+<!--        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--        android:text="Confirm"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#3F3F3F"-->
+<!--        android:textSize="20sp"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/popupRewardsFrame"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/popupRewardsFrame" />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/viewRewardsStrButton"-->
+<!--        android:layout_width="160dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:background="@null"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/rewardsStr"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/rewardsStr"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/rewardsStr"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/rewardsStr"-->
+<!--        app:srcCompat="@null" />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/viewRewardsIntButton"-->
+<!--        android:layout_width="160dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:background="@null"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/rewardsInt"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/rewardsInt"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/rewardsInt"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/rewardsInt"-->
+<!--        app:srcCompat="@null" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
