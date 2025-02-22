@@ -1,31 +1,51 @@
 package com.taskmaster.appui;
 //might be redacted - padua
 public class Quest {
+    private String description;
+    private int difficulty;
     private String name;
-    private String difficulty;
-    private String reward;
-    private String roomCode; // Add this field
+    private String rewardOptional;
+    private String rewardStat;
+    private String roomCode;
+    private String time;
 
-    // Default constructor required for Firestore
     public Quest() {}
 
-    public Quest(String name, String difficulty, String reward, String roomCode) {
-        this.name = name;
+    public Quest(String description, int difficulty, String name, String rewardOptional, String rewardStat, String roomCode, String time) {
+        this.description = description;
         this.difficulty = difficulty;
-        this.reward = reward;
+        this.name = name;
+        this.rewardOptional = rewardOptional;
+        this.rewardStat = rewardStat;
         this.roomCode = roomCode;
+        this.time = time;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
     }
 
     public String getName() {
         return name;
     }
-    public String getDifficulty() {
-        return difficulty;
+
+    public String getRewardOptional() {
+        return rewardOptional;
     }
-    public String getReward() {
-        return reward;
+
+    public String getRewardStat() {
+        return rewardStat;
     }
+
     public String getRoomCode() {
         return roomCode;
+    }
+
+    public String getTime() {
+        return time;
     }
 }

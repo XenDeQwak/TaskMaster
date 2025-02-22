@@ -2,6 +2,7 @@ package com.taskmaster.appui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -11,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.UUID;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,11 +19,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class SignUp extends AppCompatActivity {
 
@@ -33,6 +35,7 @@ public class SignUp extends AppCompatActivity {
     Button confirmButton;
     EditText emailbox, passwordbox, usernamebox, firstnamebox, lastnamebox;
     FirebaseFirestore db;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.sign_up);
 
         hideSystemBars();
+        auth = FirebaseAuth.getInstance();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -82,6 +86,15 @@ public class SignUp extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         confirmButton.setOnClickListener(v -> checkIfUserExists());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            startActivity(new Intent(SignUp.this, LogIn.class));
+        }
     }
 
     private void checkIfUserExists() {
@@ -126,25 +139,41 @@ public class SignUp extends AppCompatActivity {
             return;
         }
 
-        // generates room code
+        //email and pass sync
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = auth.getCurrentUser();
+                if (user != null) {
+                    String uid = user.getUid();
 
-        String generatedCode = UUID.randomUUID().toString().substring(0, 7);
+                    //room code generator
+                    String generatedCode = UUID.randomUUID().toString().substring(0, 7);
 
-        Map<String, Object> user = new HashMap<>();
-        user.put("email", email);
-        user.put("password", password);
-        user.put("username", username);
-        user.put("firstname", firstname);
-        user.put("lastname", lastname);
-        user.put("code", generatedCode);
+                    // hashmap userData
+                    Map<String, Object> userData = new HashMap<>();
+                    userData.put("uid", uid);
+                    userData.put("email", email);
+                    userData.put("password", password);
+                    userData.put("username", username);
+                    userData.put("firstname", firstname);
+                    userData.put("lastname", lastname);
+                    userData.put("code", generatedCode);
 
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignUp.this, LogIn.class));
-                })
-                .addOnFailureListener(e -> Toast.makeText(SignUp.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
+                    db.collection("users").document(uid).set(userData)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(SignUp.this, LogIn.class));
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(SignUp.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } else {
+                // exception handler
+                Toast.makeText(SignUp.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void hideSystemBars() {

@@ -41,6 +41,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.android.gms:play-services-identity-credentials:16.0.0-alpha05")
+    implementation("com.google.firebase:firebase-auth-ktx:23.2.0")
     implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

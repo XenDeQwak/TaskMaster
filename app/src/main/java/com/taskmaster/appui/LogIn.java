@@ -20,6 +20,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -31,6 +33,7 @@ public class LogIn extends AppCompatActivity {
     Button confirmButton;
     EditText emailbox, passwordbox;
     FirebaseFirestore db;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,7 @@ public class LogIn extends AppCompatActivity {
         logInTextView.setAnimation(pop_out_Anim);
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         confirmButton.setOnClickListener(v -> authenticateUser());
         forgotPasswordTextView.setOnClickListener(v -> Toast.makeText(LogIn.this, "Forgot Password? clicked", Toast.LENGTH_SHORT).show());
@@ -93,8 +97,6 @@ public class LogIn extends AppCompatActivity {
             return;
         }
 
-
-
         db.collection("users")
                 .whereEqualTo("username", username)
                 .get()
@@ -104,7 +106,15 @@ public class LogIn extends AppCompatActivity {
                             if (document.getString("password").equals(password)) {
                                 SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
                                 editor.putString("username", username);
+                                editor.putString("role", "parent");
                                 editor.apply();
+
+                                FirebaseUser user = auth.getCurrentUser();
+                                if (user != null) {
+                                    String uid = user.getUid();
+                                    editor.putString("uid", uid);
+                                    editor.apply();
+                                }
                                 Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LogIn.this, QuestManagement.class));
                                 return;

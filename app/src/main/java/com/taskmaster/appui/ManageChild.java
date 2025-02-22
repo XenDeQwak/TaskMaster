@@ -122,7 +122,6 @@ public class ManageChild extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // add tavern code
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = prefs.getString("username", "");
 
