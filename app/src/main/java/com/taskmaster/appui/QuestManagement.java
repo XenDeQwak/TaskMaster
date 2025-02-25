@@ -122,16 +122,40 @@ public class QuestManagement extends AppCompatActivity {
             userId = curUser.getUid();
         }
 
+        Log.d("TAG", "user id: " + userId);
+
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        role = prefs.getString("role", "parent");
+        role = prefs.getString("role", "");
 
         db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                for(QueryDocumentSnapshot document : task.getResult()) {
-                    parentCode = document.getString("code");
-                    username = document.getString("username");
 
-                    fetchQuests(parentCode);
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    username = document.getString("username");
+                    parentCode = document.getString("code");
+                    if ("child".equals(role)) {
+                        childFetchQuest(parentCode);
+                    } else {
+                        if (document.exists()) {
+                            fetchQuests(parentCode);
+
+                            DocumentReference docRef = db.collection("quest").document(username + "Quest" + questId);
+                            docRef.get().addOnCompleteListener(tasks -> {
+                                if (tasks.isSuccessful()) {
+                                    DocumentSnapshot documents = tasks.getResult();
+                                    if (documents.exists()) {
+                                        Boolean parentVerif = documents.getBoolean("forVerif");
+                                        if (Boolean.TRUE.equals(parentVerif)) {
+                                            Log.d("RECEIVED", "Child verification received");
+                                        }
+                                    } else {
+                                        Log.d("TAG", "DOCUMENT NOT EXIST");
+                                    }
+                                }
+                            });
+                        }
+
+                    }
                 }
             }
         });
@@ -249,25 +273,32 @@ public class QuestManagement extends AppCompatActivity {
                     Toast.makeText(QuestManagement.this, "Max quests reached!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for(QueryDocumentSnapshot document : task.getResult()) {
-                            parentCode = document.getString("code");
-                            username = document.getString("username");
+                db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(
+                        new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for(QueryDocumentSnapshot document : task.getResult()) {
+                                    parentCode = document.getString("code");
+                                    username = document.getString("username");
 
-                            questInfo = db.collection("quest");
-                            questData.put("name", "");
-                            questData.put("description", "");
-                            questData.put("difficulty", 0);
-                            questData.put("time", "");
-                            questData.put("rewardStat", "");
-                            questData.put("rewardOptional", "");
-                            questData.put("roomCode", parentCode);
-                            questData.put("questId", questId);
-                            questInfo.document(username + "Quest" + questId).set(questData);
-                            createQuest("", "", 0, "", "", "");
+                                    questInfo = db.collection("quest");
+                                    questData.put("name", "");
+                                    questData.put("description", "");
+                                    questData.put("difficulty", 0);
+                                    questData.put("time", "");
+                                    questData.put("rewardStat", "");
+                                    questData.put("forVerif", false);
+                                    questData.put("isQuestDone", true);
+                                    questData.put("rewardOptional", "");
+                                    questData.put("roomCode", parentCode);
+                                    questData.put("questId", questId);
+                                    questInfo.document(username + "Quest" + questId).set(questData);
+                                    createQuest("", "", 0, "", "", "");
+                                }
+                            }
                         }
-                    }
+
                 });
 
             }
@@ -294,6 +325,7 @@ public class QuestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(QuestManagement.this, "Log Out", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(QuestManagement.this, Splash.class);
+                questData.clear();
                 startActivity(intent);
             }
         });
@@ -316,7 +348,10 @@ public class QuestManagement extends AppCompatActivity {
         finishQuestViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(QuestManagement.this, "finish", Toast.LENGTH_SHORT).show();
+                if("child".equals(role)) {
+                    DocumentReference docRef =  db.collection("quest").document(username + "Quest" + (questId - 1));
+                    docRef.update("forVerif", true);
+                }
             }
         });
 
@@ -545,6 +580,28 @@ public class QuestManagement extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void fetchQuests(String parentCode) {
+        db.collection("quest").whereEqualTo("roomCode", parentCode).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            questName = document.getString("name");
+                            questDescription = document.getString("description");
+                            difficulty = document.getLong("difficulty").intValue();
+                            time = document.getString("time");
+                            rewardStat = document.getString("rewardStat");
+                            rewardOptional = document.getString("rewardOptional");
+                            Log.d("TAG", questName + questDescription + difficulty + time + rewardStat + rewardOptional);
+                            // make quests depending on database
+                            createQuest(questName, questDescription, difficulty, time, rewardStat, rewardOptional);
+                        }
+                    } else {
+                        Log.d("ERROR", "NOTHING HAPPENED");
+                        return;
+                    }
+                });
     }
 
     private void createQuest(String questName, String questDescription, int questDiff, String questTime, String rewardStat, String rewardOptional) {
@@ -818,7 +875,7 @@ public class QuestManagement extends AppCompatActivity {
         }
     }
 
-    private void fetchQuests(String parentCode) {
+    private void childFetchQuest(String parentCode) {
         db.collection("quest").whereEqualTo("roomCode", parentCode).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -829,7 +886,6 @@ public class QuestManagement extends AppCompatActivity {
                             time = document.getString("time");
                             rewardStat = document.getString("rewardStat");
                             rewardOptional = document.getString("rewardOptional");
-                            Log.d("TAG", questName + questDescription + difficulty + time + rewardStat + rewardOptional);
                             // make quests depending on database
                             createQuest(questName, questDescription, difficulty, time, rewardStat, rewardOptional);
                         }
