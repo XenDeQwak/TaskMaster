@@ -51,6 +51,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class QuestManagement extends AppCompatActivity {
 
@@ -73,6 +74,7 @@ public class QuestManagement extends AppCompatActivity {
     ConstraintSet constraintSet;
     RatingBar setDifficultyRating, viewDifficultyRating;
     String role;
+    int selectedHour, selectedMin;
     String questName, questDescription, time, rewardStat, rewardOptional;
     int difficulty;
     DocumentReference questRef;
@@ -81,6 +83,7 @@ public class QuestManagement extends AppCompatActivity {
     int groupCount = 0;
     int questId = 1;
     int defaultHour, defaultMinute;
+    String formattedTime;
 
     int questWidth, questHeight, imageWidth, imageHeight, nameFrameWidth, nameFrameHeight, topMarginImage, bottomMarginImage, topMarginNameFrame, bottomMarginNameFrame;
     Context context = this;
@@ -260,6 +263,7 @@ public class QuestManagement extends AppCompatActivity {
                             questData.put("description", "");
                             questData.put("difficulty", 0);
                             questData.put("time", "");
+                            questData.put("remainTime", 1000000000);
                             questData.put("rewardStat", "");
                             questData.put("rewardOptional", "");
                             questData.put("roomCode", parentCode);
@@ -364,8 +368,12 @@ public class QuestManagement extends AppCompatActivity {
             TimePickerDialog timePickerDialog = new TimePickerDialog(
                     context,
                     (view, hourOfDay, minute1) -> {
+
+                        selectedHour = hourOfDay;
+                        selectedMin = minute1;
+
                         int displayHour = Math.min(hourOfDay, 24);
-                        String selectedTime = String.format("%02d:%02d:00", displayHour, minute1);
+                        String selectedTime = String.format("%02d:%02d:00", selectedHour, selectedMin);
                         editQuestTime.setText(selectedTime);
                         questTimes.put(lastClickedQuestId, selectedTime);
                     },
@@ -530,6 +538,27 @@ public class QuestManagement extends AppCompatActivity {
                     if (editQuestTime != null) {
                         questTimes.put(lastClickedQuestId, editQuestTime.getText().toString());
                         questRef.update("time", editQuestTime.getText().toString());
+                        selectedHour *= (3.6 * 1000000);
+                        selectedMin *= 60000;
+                        new CountDownTimer(selectedHour, selectedMin) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
+                                long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
+                                long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(minutes);
+
+                                formattedTime = String.format("%02d:%02d:00", hours, minutes, seconds);
+
+                                viewQuestTime.setText(formattedTime);
+
+                            }
+
+
+                            @Override
+                            public void onFinish() {
+                                Toast.makeText(QuestManagement.this, "Quest " + lastClickedQuestId + " timed out!", Toast.LENGTH_SHORT).show();
+                            }
+                        }.start();
                     }
 
                     // Update questRewardsOptional
@@ -651,7 +680,7 @@ public class QuestManagement extends AppCompatActivity {
         viewQuestTextViews.put(questId, currentQuestNameText);
         viewQuestDescriptions.put(questId, questDescription);
         viewQuestRatings.put(questId, questDiff);
-        viewQuestTimes.put(questId, questTime);
+        viewQuestTimes.put(questId, formattedTime);
         viewQuestRewardStat.put(questId, rewardStat);
         viewQuestRewardOptional.put(questId, rewardOptional);
 
@@ -796,7 +825,6 @@ public class QuestManagement extends AppCompatActivity {
                 // Get the correct time from the map
                 String currentQuestTime = questTimes.get(questId);
                 editQuestTime.setText(currentQuestTime);
-                viewQuestTime.setText(currentQuestTime);
             }
             if (editQuestRewardsOptional != null) {
                 // Get the correct reward optional from the map
