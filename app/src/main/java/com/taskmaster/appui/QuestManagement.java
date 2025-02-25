@@ -116,10 +116,15 @@ public class QuestManagement extends AppCompatActivity {
         //database init
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        FirebaseUser curUser = auth.getCurrentUser();
 
-        if (curUser != null) {
-            userId = curUser.getUid();
+        if (auth.getCurrentUser() != null) {
+            auth.getCurrentUser().reload().addOnSuccessListener(newTask -> {
+                if (auth.getCurrentUser() != null) {
+                    userId = auth.getCurrentUser().getUid();
+                }
+            });
+        } else {
+            Toast.makeText(context, "Failed to connect to database",Toast.LENGTH_SHORT).show();
         }
 
         Log.d("TAG", "user id: " + userId);
@@ -295,6 +300,7 @@ public class QuestManagement extends AppCompatActivity {
                                     questData.put("questId", questId);
                                     questInfo.document(username + "Quest" + questId).set(questData);
                                     createQuest("", "", 0, "", "", "");
+                                    editQuest();
                                 }
                             }
                         }
@@ -712,57 +718,13 @@ public class QuestManagement extends AppCompatActivity {
         viewQuestRewardStat.put(questId, rewardStat);
         viewQuestRewardOptional.put(questId, rewardOptional);
 
-        // create open quest button
-        openQuestButton = new ImageButton(context);
-        openQuestButton.setId(View.generateViewId());
-        openQuestButton.setLayoutParams(new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-        ));
-        openQuestButton.setBackground(null);
-
-        int currentQuestId = questId; // Save unique ID to avoid issues with references
-        openQuestButton.setTag(currentQuestId);
-        openQuestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle button click for the correct questId
-                if (dropDownGroup.getVisibility() == View.GONE) {
-                    Toast.makeText(QuestManagement.this, "Edit Quest " + currentQuestId, Toast.LENGTH_SHORT).show();
-
-                    int clickedQuestId = (int) v.getTag();
-
-                    // Keep track of the clicked quest layout (this will be passed to populateQuestEditor)
-                    lastClickedQuestId = clickedQuestId; // Store the clicked quest layout
-
-                    // Populate the editor fields
-                    populateQuestEditor(clickedQuestId);
-
-                    long clickTime = System.currentTimeMillis();
-                    if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
-                        // Double click
-                        Toast.makeText(QuestManagement.this, "View Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
-                        // Show the view panel
-                        viewQuestGroup.setVisibility(View.VISIBLE);
-                    } else {
-                        // Single click
-                        if ("parent".equals(role)) {
-                            Toast.makeText(QuestManagement.this, "Edit Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
-                            // Show the edit panel
-                            editQuestGroup.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    lastClickTime = clickTime;
-                }
-            }
-        });
 
         // add views to ConstraintLayout
         newQuest.addView(questFrame);
         newQuest.addView(questNameFrame);
         newQuest.addView(questImage);
         newQuest.addView(currentQuestNameText);
-        newQuest.addView(openQuestButton);
+
 
         // set constraints programmatically
         constraintSet = new ConstraintSet();
@@ -804,7 +766,6 @@ public class QuestManagement extends AppCompatActivity {
         // test message
         Toast.makeText(QuestManagement.this, "New Quest Added: Quest " + questId, Toast.LENGTH_SHORT).show();
 
-        Log.d("TAG", "Parent Code: " + parentCode);
         groupCount++;
         questId++;
         updateScrollViewVisibility();
@@ -873,6 +834,55 @@ public class QuestManagement extends AppCompatActivity {
                 Log.d("QuestReward", "Quest " + questId + ": None");
             }
         }
+    }
+
+    private void editQuest() {
+        // create open quest button
+        openQuestButton = new ImageButton(context);
+        openQuestButton.setId(View.generateViewId());
+        openQuestButton.setLayoutParams(new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        ));
+        openQuestButton.setBackground(null);
+
+        int currentQuestId = questId; // Save unique ID to avoid issues with references
+        openQuestButton.setTag(currentQuestId);
+        openQuestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle button click for the correct questId
+                if (dropDownGroup.getVisibility() == View.GONE) {
+                    Toast.makeText(QuestManagement.this, "Edit Quest " + currentQuestId, Toast.LENGTH_SHORT).show();
+
+                    int clickedQuestId = (int) v.getTag();
+
+                    // Keep track of the clicked quest layout (this will be passed to populateQuestEditor)
+                    lastClickedQuestId = clickedQuestId; // Store the clicked quest layout
+
+                    // Populate the editor fields
+                    populateQuestEditor(clickedQuestId);
+
+                    long clickTime = System.currentTimeMillis();
+                    if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
+                        // Double click
+                        Toast.makeText(QuestManagement.this, "View Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
+                        // Show the view panel
+                        viewQuestGroup.setVisibility(View.VISIBLE);
+                    } else {
+                        // Single click
+                        if ("parent".equals(role)) {
+                            Toast.makeText(QuestManagement.this, "Edit Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
+                            // Show the edit panel
+                            editQuestGroup.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    lastClickTime = clickTime;
+                }
+            }
+        });
+        newQuest.addView(openQuestButton);
+
     }
 
     private void childFetchQuest(String parentCode) {
