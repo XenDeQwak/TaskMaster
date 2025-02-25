@@ -89,7 +89,7 @@
         android:layout_marginTop="55dp"
         android:layout_marginBottom="229dp"
         android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Please Insert Code"
+        android:text="Log In"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView16"

@@ -63,7 +63,7 @@ public class QuestManagement extends AppCompatActivity {
     ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton;
     AppCompatButton setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton;
     ImageView questFrame, questNameFrame, questImage, editQuestImage, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame, viewQuestFrame, viewQuestImage, viewDifficultyBG, childBarFrame, childBarAvatar;
-    TextView questNameText, rewardsStr, rewardsInt;
+    TextView questNameText, rewardsStr, rewardsInt, textView8;
     EditText editQuestTime, editQuestName, editQuestDesc, viewQuestName, viewQuestTime, viewQuestDesc;
     ScrollView scrollView;
     Group dropDownGroup, editQuestGroup, popupRewardsGroup, viewQuestGroup, childBarGroup;
@@ -224,6 +224,8 @@ public class QuestManagement extends AppCompatActivity {
         childBarStatsButton = findViewById(R.id.childBarStatsButton);
         childBarAvatar = findViewById(R.id.childBarAvatar);
 
+        textView8 = findViewById(R.id.textView8);
+
         // exclude elems within dropdown
         View[] dropDownElements = {
                 findViewById(R.id.imageView24),
@@ -310,6 +312,13 @@ public class QuestManagement extends AppCompatActivity {
             }
         });
 
+        ImageButton createQuestButton = findViewById(R.id.imageButton3);
+
+        if ("child".equals(role)) {
+            createQuestButton.setVisibility(View.GONE);
+            textView8.setText("Weekly Boss");
+        }
+
         imagebutton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -320,9 +329,16 @@ public class QuestManagement extends AppCompatActivity {
         imagebutton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(QuestManagement.this, "Move", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(QuestManagement.this, ManageChild.class);
-                startActivity(intent);
+                // change dropdown specific for child
+                if ("child".equals(role)) {
+                    Toast.makeText(QuestManagement.this, "Move", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(QuestManagement.this, WeeklyBoss.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(QuestManagement.this, "Move", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(QuestManagement.this, ManageChild.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -336,11 +352,6 @@ public class QuestManagement extends AppCompatActivity {
             }
         });
 
-        ImageButton createQuestButton = findViewById(R.id.imageButton3);
-
-        if ("child".equals(role)) {
-            createQuestButton.setVisibility(View.GONE);
-        }
         // cancel quest view
         cancelQuestViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -373,6 +384,8 @@ public class QuestManagement extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(QuestManagement.this, "stats", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(QuestManagement.this, ProgressionPage.class);
+                startActivity(intent);
             }
         });
 

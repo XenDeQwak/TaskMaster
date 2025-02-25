@@ -43,6 +43,12 @@
         <activity
             android:name=".ChildLogin"
             android:exported="false" />
+        <activity
+            android:name=".ProgressionPage"
+            android:exported="false" />
+        <activity
+            android:name=".WeeklyBoss"
+            android:exported="false" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
