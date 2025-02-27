@@ -61,12 +61,12 @@ public class QuestManagement extends AppCompatActivity {
     CollectionReference questInfo;
     String userId;
     ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton;
-    AppCompatButton setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton;
+    AppCompatButton setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton;
     ImageView questFrame, questNameFrame, questImage, editQuestImage, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame, viewQuestFrame, viewQuestImage, viewDifficultyBG, childBarFrame, childBarAvatar;
-    TextView questNameText, rewardsStr, rewardsInt, textView8;
+    TextView questNameText, rewardsStr, rewardsInt, textView8, viewNotifTextMsg;
     EditText editQuestTime, editQuestName, editQuestDesc, viewQuestName, viewQuestTime, viewQuestDesc;
     ScrollView scrollView;
-    Group dropDownGroup, editQuestGroup, popupRewardsGroup, viewQuestGroup, childBarGroup;
+    Group dropDownGroup, editQuestGroup, popupRewardsGroup, viewQuestGroup, childBarGroup, viewQuestGroupButtonC, viewQuestGroupButtonP, popupViewRewardsGroup, popupViewNotif;
     GridLayout gridLayout;
     LinearLayout newGroup;
     ConstraintLayout newQuest;
@@ -213,9 +213,24 @@ public class QuestManagement extends AppCompatActivity {
         viewQuestDesc = findViewById(R.id.viewQuestDesc);
         viewDifficultyBG = findViewById(R.id.viewDifficultyBG);
         viewDifficultyRating = findViewById(R.id.viewDifficultyRating);
-        cancelQuestViewButton = findViewById(R.id.cancelQuestViewButton);
-        finishQuestViewButton = findViewById(R.id.finishQuestViewButton);
         viewRewardsButton = findViewById(R.id.viewRewardsButton);
+
+        viewQuestGroupButtonP = findViewById(R.id.viewQuestGroupButtonP);
+
+        cancelQuestViewButtonP = findViewById(R.id.cancelQuestViewButtonP);
+        approveQuestViewButtonP = findViewById(R.id.approveQuestViewButtonP);
+        rejectQuestViewButtonP = findViewById(R.id.rejectQuestViewButtonP);
+
+
+        viewQuestGroupButtonC = findViewById(R.id.viewQuestGroupButtonC);
+
+        cancelQuestViewButtonC = findViewById(R.id.cancelQuestViewButtonC);
+        finishQuestViewButtonC = findViewById(R.id.finishQuestViewButtonC);
+
+
+        popupViewNotif = findViewById(R.id.popupViewNotif);
+        viewNotifTextMsg = findViewById(R.id.viewNotifTextMsg);
+        viewNotifOkayButton = findViewById(R.id.viewNotifOkayButton);
 
         childBarGroup = findViewById(R.id.childBarGroup);
         childBarFrame = findViewById(R.id.childBarFrame);
@@ -352,23 +367,94 @@ public class QuestManagement extends AppCompatActivity {
             }
         });
 
-        // cancel quest view
-        cancelQuestViewButton.setOnClickListener(new View.OnClickListener() {
+        // cancel quest view child
+        cancelQuestViewButtonC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewQuestGroup.setVisibility(View.GONE);
+                viewQuestGroupButtonC.setVisibility(View.GONE);
                 Toast.makeText(QuestManagement.this, "exit", Toast.LENGTH_SHORT).show();
             }
         });
 
         // quest finish
-        finishQuestViewButton.setOnClickListener(new View.OnClickListener() {
+        finishQuestViewButtonC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // if quest status pending false
+                    viewQuestGroup.setVisibility(View.GONE);
+                    viewQuestGroupButtonC.setVisibility(View.GONE);
+                    Toast.makeText(QuestManagement.this, "finish", Toast.LENGTH_SHORT).show();
+                    // quest status pending true
+//                    DocumentReference docRef =  db.collection("quest").document(username + "Quest" + (questId - 1));
+//                    docRef.update("forVerif", true);
+                    // show pop up "This quest is pending"
+                    viewNotifTextMsg.setText("Quest status: Pending\\nPlease wait\\nfor confirmation!");
+                    popupViewNotif.setVisibility(View.VISIBLE);
+
+                // else
+                    // show pop up "This quest is pending"
+                    //viewNotifTextMsg.setText("Quest status: Pending\\nPlease wait\\nfor confirmation!");
+                    //popupViewNotif.setVisibility(View.VISIBLE);
+
                 if("child".equals(role)) {
                     DocumentReference docRef =  db.collection("quest").document(username + "Quest" + (questId - 1));
                     docRef.update("forVerif", true);
                 }
+            }
+        });
+
+        // exit quest view parent
+        cancelQuestViewButtonP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewQuestGroup.setVisibility(View.GONE);
+                viewQuestGroupButtonP.setVisibility(View.GONE);
+                Toast.makeText(QuestManagement.this, "exit", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // quest view reject parent
+        rejectQuestViewButtonP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // if quest status pending true
+                    viewQuestGroup.setVisibility(View.GONE);
+                    viewQuestGroupButtonP.setVisibility(View.GONE);
+                    Toast.makeText(QuestManagement.this, "reject", Toast.LENGTH_SHORT).show();
+                    // quest status pending false
+
+                // else
+                    // show pop up "This quest is in progress"
+                    //viewNotifTextMsg.setText("Quest status: In Progress\\nPlease wait\\nuntil finished!");
+                    //popupViewNotif.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // quest view approval parent
+        approveQuestViewButtonP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // if quest status pending
+                    viewQuestGroup.setVisibility(View.GONE);
+                    viewQuestGroupButtonP.setVisibility(View.GONE);
+                    Toast.makeText(QuestManagement.this, "approve", Toast.LENGTH_SHORT).show();
+                    // grant stat reward
+                    // increase quest finished count
+                    // del quest
+
+                // else
+                    // show pop up "This quest is in progress"
+                    //viewNotifTextMsg.setText("Quest status: In Progress\\nPlease wait\\nuntil finished!");
+                    //popupViewNotif.setVisibility(View.VISIBLE);
+            }
+        });
+
+        viewNotifOkayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupViewNotif.setVisibility(View.GONE);
+                Toast.makeText(QuestManagement.this, "exit", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -879,17 +965,24 @@ public class QuestManagement extends AppCompatActivity {
                     long clickTime = System.currentTimeMillis();
                     if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
                         // Double click
-                        Toast.makeText(QuestManagement.this, "View Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
-                        // Show the view panel
-                        viewQuestGroup.setVisibility(View.VISIBLE);
+                        if ("parent".equals(role)) {
+                            Toast.makeText(QuestManagement.this, "Parent View Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
+                            viewQuestGroup.setVisibility(View.VISIBLE); // for parent
+                            viewQuestGroupButtonP.setVisibility(View.VISIBLE); // for parent
+
+                        } else if ("child".equals(role)) {
+                            Toast.makeText(QuestManagement.this, "Child View Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
+                            viewQuestGroup.setVisibility(View.VISIBLE); // for child
+                            viewQuestGroupButtonC.setVisibility(View.VISIBLE); // for child
+                        }
                     } else {
                         // Single click
-                        if ("parent".equals(role)) {
-                            Toast.makeText(QuestManagement.this, "Edit Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
-                            // Show the edit panel
-                            editQuestGroup.setVisibility(View.VISIBLE);
+                            // move edit somewhere else
+                            if ("parent".equals(role)) {
+                                Toast.makeText(QuestManagement.this, "Edit Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
+                                editQuestGroup.setVisibility(View.VISIBLE);
+                            }
                         }
-                    }
                     lastClickTime = clickTime;
                 }
             }
