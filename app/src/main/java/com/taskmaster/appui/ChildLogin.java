@@ -71,13 +71,7 @@ public class ChildLogin extends AppCompatActivity {
         db.collection("users").whereEqualTo("username", username).limit(1).get()
                 .addOnSuccessListener(userQuery -> {
                     if (!userQuery.isEmpty()) {
-                        DocumentSnapshot userDoc = userQuery.getDocuments().get(0);
-                        String userID = userDoc.getId();
-                        String parentID = userDoc.getString("parentID");
-
                         editor.putString("role", "child");
-                        editor.putString("userID", userID);
-                        editor.putString("parentID", parentID);
                         editor.apply();
 
                         Toast.makeText(ChildLogin.this, "Login Successful!", Toast.LENGTH_SHORT).show();

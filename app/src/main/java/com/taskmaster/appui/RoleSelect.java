@@ -48,7 +48,7 @@ public class RoleSelect extends AppCompatActivity {
         childButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RoleSelect.this, CodeVerification.class);
+                Intent intent = new Intent(RoleSelect.this, ChildLogin.class);
                 startActivity(intent);
             }
         });
