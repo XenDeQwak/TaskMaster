@@ -18,25 +18,31 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProgressionPage extends AppCompatActivity {
-    ImageButton dropDownGroupButton, imagebutton3, imagebutton4, imagebutton5;
-    AppCompatButton childAvatarName, childAvatarPresetName, childAvatarPresetNextButton, childAvatarPresetPrevButton, statFloorNum, statQuestDoneNum;
+    ImageButton dropDownGroupButton, imagebutton3, imagebutton4, imagebutton5, chartButton;
+    AppCompatButton childAvatarName, childAvatarPresetName, childAvatarPresetNextButton, childAvatarPresetPrevButton, statFloorNum, statQuestDoneNum, popupLargerChartExitButton;
     ImageView statGraph, childAvatarImage;
-    Group dropDownGroup;
+    Group dropDownGroup, popupLargerChart;
     View rootLayout;
+    BarChart barChart, barChartLarge;
     private List<Integer> avatarImages;
     private List<String> avatarNames;
     private int currentImageIndex = 0;
@@ -73,6 +79,11 @@ public class ProgressionPage extends AppCompatActivity {
         statFloorNum = findViewById(R.id.statFloorNum);
         statQuestDoneNum = findViewById(R.id.statQuestDoneNum);
 
+        popupLargerChartExitButton = findViewById(R.id.popupLargerChartExitButton);
+        popupLargerChart = findViewById(R.id.popupLargerChart);
+
+        chartButton = findViewById(R.id.chartButton);
+
         // image list
         avatarImages = new ArrayList<>();
         avatarImages.add(R.drawable.rectangle_rounded);
@@ -94,59 +105,93 @@ public class ProgressionPage extends AppCompatActivity {
         statQuestDoneNum.setText("12");
 
 
-        RadarChart radarChart = findViewById(R.id.chart);
+        barChart = findViewById(R.id.chart);
+        barChartLarge = findViewById(R.id.chartLarge);
 
-        List<RadarEntry> entries1 = new ArrayList<>();
-        entries1.add(new RadarEntry(30f));
-        entries1.add(new RadarEntry(20f));
-        entries1.add(new RadarEntry(10f));
-        entries1.add(new RadarEntry(0f));
-        entries1.add(new RadarEntry(0f));
+// Create entries for the bars
+        List<BarEntry> entries1 = new ArrayList<>();
+        entries1.add(new BarEntry(0f, 3f)); // Strength
+        entries1.add(new BarEntry(1f, 2f)); // Intelligence
 
-        RadarDataSet dataSet1 = new RadarDataSet(entries1, "");
-        dataSet1.setColor(Color.BLUE);
-        dataSet1.setFillAlpha(180);
-        dataSet1.setLineWidth(1f);
-        dataSet1.setDrawHighlightCircleEnabled(true);
-        dataSet1.setDrawHighlightIndicators(false);
+        BarDataSet dataSet1 = new BarDataSet(entries1, "");
 
-        List<IRadarDataSet> dataSets = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.RED); // Strength
+        colors.add(Color.GREEN); // Intelligence
+
+        dataSet1.setColors(colors);
+
+        List<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet1);
 
-        RadarData data = new RadarData(dataSets);
+        BarData data = new BarData(dataSets);
         data.setValueTextSize(10f);
         data.setDrawValues(false);
 
-        radarChart.setData(data);
+        barChart.setData(data);
 
-        radarChart.getDescription().setEnabled(false);
+        barChart.getDescription().setEnabled(false);
 
-        radarChart.setRotationEnabled(false);
-
-        // Y-Axis (Numbers)
-        YAxis yAxis = radarChart.getYAxis();
-        yAxis.setDrawLabels(true); // Enable drawing the numbers
+        YAxis yAxis = barChart.getAxisLeft(); // Use getAxisLeft() for BarChart
+        yAxis.setDrawLabels(true);
         yAxis.setAxisMinimum(0f); // Set the minimum value to 0
+        barChart.getAxisRight().setEnabled(false); // Disable the right Y-axis
 
-// Legend (Dataset Name)
-        Legend legend = radarChart.getLegend();
+        Legend legend = barChart.getLegend();
         legend.setEnabled(false); // Disable the legend
 
-// X-Axis (Labels)
-        XAxis xAxis = radarChart.getXAxis();
-        xAxis.setDrawLabels(true); // Enable drawing the labels
-        xAxis.setLabelCount(3, true); // Set the number of labels to 3
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setDrawLabels(false); // Disable drawing the labels
+//xAxis.setCenterAxisLabels(true); // Remove this line
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // Set the position of the labels to the bottom
+        xAxis.setGranularity(1f); // Set the granularity to 1
+        xAxis.setXOffset(-25f); // Adjust the X offset to move labels to the left
+        xAxis.setAxisMinimum(-0.5f); // Adjust the minimum value of the X-axis
 
-// Create labels for the X-Axis
         List<String> labels = new ArrayList<>();
         labels.add("Strength");
         labels.add("Intelligence");
-        labels.add("Biking");
 
-// Set the labels to the X-Axis
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        barChart.setTouchEnabled(false);
 
-        radarChart.invalidate();
+        barChart.invalidate();
+
+// Copy the chart to the large chart
+// Create a new BarDataSet for the large chart
+        BarDataSet dataSetLarge = new BarDataSet(entries1, "");
+        dataSetLarge.setColors(colors);
+
+        List<IBarDataSet> dataSetsLarge = new ArrayList<>();
+        dataSetsLarge.add(dataSetLarge);
+
+        BarData dataLarge = new BarData(dataSetsLarge);
+        dataLarge.setValueTextSize(10f);
+        dataLarge.setDrawValues(true); // Enable values for the large chart
+
+        barChartLarge.setData(dataLarge);
+        barChartLarge.getDescription().setEnabled(false);
+
+        YAxis yAxisLarge = barChartLarge.getAxisLeft();
+        yAxisLarge.setDrawLabels(true); // Enable drawing the numbers
+        yAxisLarge.setAxisMinimum(0f);
+        barChartLarge.getAxisRight().setEnabled(false);
+
+        Legend legendLarge = barChartLarge.getLegend();
+        legendLarge.setEnabled(false);
+
+        XAxis xAxisLarge = barChartLarge.getXAxis();
+        xAxisLarge.setDrawLabels(true); // Enable drawing the labels
+//xAxisLarge.setCenterAxisLabels(true); // Remove this line
+        xAxisLarge.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxisLarge.setGranularity(1f); // Set the granularity to 1
+        xAxisLarge.setXOffset(-25f); // Adjust the X offset to move labels to the left
+        xAxisLarge.setAxisMinimum(-0.5f); // Adjust the minimum value of the X-axis
+        xAxisLarge.setValueFormatter(new IndexAxisValueFormatter(labels));
+        barChartLarge.setTouchEnabled(false);
+
+        barChartLarge.invalidate();
+
 
         // exclude elems within dropdown
         View[] dropDownElements = {
@@ -243,6 +288,20 @@ public class ProgressionPage extends AppCompatActivity {
                     currentImageIndex = avatarImages.size() - 1;
                 }
                 childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
+            }
+        });
+
+        popupLargerChartExitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupLargerChart.setVisibility(View.GONE);
+            }
+        });
+
+        chartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupLargerChart.setVisibility(View.VISIBLE);
             }
         });
     }

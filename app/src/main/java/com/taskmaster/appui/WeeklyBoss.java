@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,10 +23,13 @@ import java.util.List;
 
 public class WeeklyBoss extends AppCompatActivity {
     ImageButton dropDownGroupButton, imagebutton3, imagebutton4, imagebutton5;
-    AppCompatButton fightButton, childBarStatsButton;
+    AppCompatButton fightButton, childBarStatsButton, popupMonsterButton;
     ImageView statGraph, childAvatarImage;
-    Group dropDownGroup;
+    TextView popupMonsterMessageText, monsterHealthBarText;
+    Group dropDownGroup, popupMonsterMessage;
+    ProgressBar monsterHealthBar;
     View rootLayout;
+    private int currentProgress = 100;
     private List<Integer> avatarImages;
     private List<String> avatarNames;
     private int currentImageIndex = 0;
@@ -50,9 +55,15 @@ public class WeeklyBoss extends AppCompatActivity {
         imagebutton4 = findViewById(R.id.imageButton5);
         imagebutton5 = findViewById(R.id.imageButton6);
         dropDownGroup = findViewById(R.id.dropdownGroup);
+        childBarStatsButton = findViewById(R.id.childBarStatsButton);
         rootLayout = findViewById(R.id.main);
 
         fightButton = findViewById(R.id.fightButton);
+        popupMonsterButton = findViewById(R.id.popupMonsterButton);
+        popupMonsterMessage = findViewById(R.id.popupMonsterMessage);
+        popupMonsterMessageText = findViewById(R.id.popupMonsterMessageText);
+        monsterHealthBar = findViewById(R.id.monsterHealthBar);
+        monsterHealthBarText = findViewById(R.id.monsterHealthBarText);
 
         // exclude elems within dropdown
         View[] dropDownElements = {
@@ -64,6 +75,9 @@ public class WeeklyBoss extends AppCompatActivity {
                 findViewById(R.id.textView8),
                 findViewById(R.id.textView9)
         };
+
+        // hide popup
+        popupMonsterMessage.setVisibility(View.GONE);
 
         // hide dropdown group
         dropDownGroup.setVisibility(View.GONE);
@@ -127,14 +141,48 @@ public class WeeklyBoss extends AppCompatActivity {
             }
         });
 
+        updateProgressBar(currentProgress);
+
         fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(WeeklyBoss.this, "pressed", Toast.LENGTH_SHORT).show();
-                // change monsterHealthBarText
-                // change monsterHealthBar
+
+                currentProgress -= 10;
+                updateProgressBar(currentProgress);
+                // if meet stat req
+//                if (currentProgress <= 0) {
+//                    popupMonsterMessageText.setText("im defeated :(");
+//                    popupMonsterMessage.setVisibility(View.VISIBLE);
+//                    currentProgress = 0;
+//                    updateProgressBar(currentProgress);
+//                    // add floorcount, lock this till next week
+//                }
+
+                // if not meet stat req
+                if (currentProgress <= 10) {
+                    popupMonsterMessageText.setText("im :)");
+                    popupMonsterButton.setText("Exit");
+                    popupMonsterMessage.setVisibility(View.VISIBLE);
+                    currentProgress = 0;
+                    updateProgressBar(currentProgress);
+                    // keep floorcount, lock this till next week
+                }
             }
         });
+
+        popupMonsterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupMonsterMessage.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void updateProgressBar(int progress) {
+        int clampedProgress = Math.max(0, Math.min(progress, 100));
+        monsterHealthBar.setProgress(clampedProgress);
+        monsterHealthBarText.setText(clampedProgress + "/100");
     }
 
     // exclude elems within dropdown and popup
