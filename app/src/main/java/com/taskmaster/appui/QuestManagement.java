@@ -228,8 +228,8 @@ public class QuestManagement extends AppCompatActivity {
         viewQuestDesc = findViewById(R.id.viewQuestDesc);
         viewDifficultyBG = findViewById(R.id.viewDifficultyBG);
         viewDifficultyRating = findViewById(R.id.viewDifficultyRating);
-        cancelQuestViewButton = findViewById(R.id.cancelQuestViewButton);
-        finishQuestViewButton = findViewById(R.id.finishQuestViewButton);
+        //cancelQuestViewButton = findViewById(R.id.cancelQuestViewButton);
+        //finishQuestViewButton = findViewById(R.id.finishQuestViewButton);
         viewRewardsButton = findViewById(R.id.viewRewardsButton);
 
         childBarGroup = findViewById(R.id.childBarGroup);
