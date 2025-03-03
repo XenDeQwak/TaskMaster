@@ -3,6 +3,7 @@ package com.taskmaster.appui;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -32,6 +33,8 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +58,41 @@ public class ProgressionPage extends AppCompatActivity {
 
         // hide status bar and nav bar
         hideSystemBars();
+
+        avatarImages = new ArrayList<>();
+        avatarImages.add(R.drawable.placeholderavatar1_framed);
+        avatarImages.add(R.drawable.placeholderavatar2_framed);
+        avatarImages.add(R.drawable.rectangle_rounded);
+
+        avatarNames = new ArrayList<>();
+        avatarNames.add("Preset 1");
+        avatarNames.add("Preset 2");
+
+        loadAvatarPreset();
+
+
+        childAvatarPresetNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentImageIndex++;
+                if (currentImageIndex >= avatarImages.size()) {
+                    currentImageIndex = 0;
+                }
+                updateAvatarUIAndFirebase();
+            }
+        });
+
+        childAvatarPresetPrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentImageIndex--;
+                if (currentImageIndex < 0) {
+                    currentImageIndex = avatarImages.size() - 1;
+                }
+                updateAvatarUIAndFirebase();
+            }
+        });
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -305,6 +343,49 @@ public class ProgressionPage extends AppCompatActivity {
             }
         });
     }
+
+    private void loadAvatarPreset() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users").document(userId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String presetStr = documentSnapshot.getString("presetAvatar");
+                        if (presetStr != null) {
+                            try {
+                                currentImageIndex = Integer.parseInt(presetStr);
+                            } catch (NumberFormatException e) {
+                                currentImageIndex = 0;
+                            }
+                        }
+                        childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
+                        childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Avatar", "Error loading presetAvatar", e);
+                });
+    }
+
+    private void updateAvatarUIAndFirebase() {
+        childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
+        childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        db.collection("users").document(userId)
+                .update("presetAvatar", String.valueOf(currentImageIndex))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("Avatar", "presetAvatar updated successfully");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Avatar", "Failed to update presetAvatar", e);
+                });
+    }
+
+
 
     // exclude elems within dropdown and popup
     private boolean isViewTouched(View view, MotionEvent event) {
