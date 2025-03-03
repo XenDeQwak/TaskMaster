@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -26,6 +27,7 @@ import java.util.Map;
 public class ChildLogin extends AppCompatActivity {
 
     Button confirmButton;
+    TextView signUpTextView;
     EditText usernameBox;
     FirebaseFirestore db;
 
@@ -49,6 +51,7 @@ public class ChildLogin extends AppCompatActivity {
 
         confirmButton = findViewById(R.id.button3);
         usernameBox = findViewById(R.id.userBox);
+        signUpTextView = findViewById(R.id.textView4);
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +59,9 @@ public class ChildLogin extends AppCompatActivity {
                 verifyUser();
             }
         });
+
+        signUpTextView.setOnClickListener(v -> startActivity(new Intent(ChildLogin.this, CodeVerification.class)));
+
     }
 
     private void verifyUser() {

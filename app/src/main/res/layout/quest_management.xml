@@ -167,7 +167,7 @@
         android:id="@+id/editQuestGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="editQuestFrame,editQuestImage,editQuestName,editQuestTime,editQuestDesc,setRewardsButton,setDifficultyBG,setDifficultyRating,childAvatar,assignQuest,cancelQuestEditButton,saveQuestEditButton" />
 
     <ImageView
@@ -401,7 +401,7 @@
         android:id="@+id/childBarGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="childBarFrame, childBarAvatar, childBarName, childBarFloorCount, childBarStatsButton" />
 
     <ImageView
@@ -502,7 +502,7 @@
         android:id="@+id/viewQuestGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="viewQuestFrame,viewQuestImage,viewQuestName,viewQuestTime,viewQuestDesc,viewRewardsButton,viewQuestFrame,viewDifficultyBG,viewDifficultyRating" />
 
     <ImageView
@@ -943,10 +943,10 @@
 
     <ImageView
         android:id="@+id/popupRewardsFrame"
-        android:layout_width="47dp"
-        android:layout_height="7dp"
-        android:layout_marginStart="58dp"
+        android:layout_width="296dp"
+        android:layout_height="435dp"
         android:layout_marginTop="162dp"
+        android:layout_marginStart="58dp"
         android:layout_marginEnd="58dp"
         android:layout_marginBottom="320dp"
         android:alpha="1"
