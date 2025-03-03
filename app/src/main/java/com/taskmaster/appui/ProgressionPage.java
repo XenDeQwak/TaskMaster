@@ -150,7 +150,7 @@ public class ProgressionPage extends AppCompatActivity {
 
         List<String> labels = new ArrayList<>();
         labels.add("Strength");
-        labels.add("Intelligence");
+        labels.add("Intelligence`");
 
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
         barChart.setTouchEnabled(false);

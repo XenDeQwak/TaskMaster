@@ -65,6 +65,8 @@ public class WeeklyBoss extends AppCompatActivity {
         monsterHealthBar = findViewById(R.id.monsterHealthBar);
         monsterHealthBarText = findViewById(R.id.monsterHealthBarText);
 
+        TextView childBarFloorCount;
+
         // exclude elems within dropdown
         View[] dropDownElements = {
                 findViewById(R.id.imageView24),
@@ -140,36 +142,54 @@ public class WeeklyBoss extends AppCompatActivity {
                 return false;
             }
         });
+        childBarFloorCount = findViewById(R.id.childBarFloorCount);
 
         updateProgressBar(currentProgress);
+
+        // ... inside onCreate() after initializing views:
+        fightButton = findViewById(R.id.fightButton);
+
+        int childStrength = 3;
+        int childIntelligence = 2;
+        int bossStrengthReq = 4;
+        int bossIntelligenceReq = 3;
 
         fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(WeeklyBoss.this, "pressed", Toast.LENGTH_SHORT).show();
-
-                currentProgress -= 10;
-                updateProgressBar(currentProgress);
-                // if meet stat req
-//                if (currentProgress <= 0) {
-//                    popupMonsterMessageText.setText("im defeated :(");
-//                    popupMonsterMessage.setVisibility(View.VISIBLE);
-//                    currentProgress = 0;
-//                    updateProgressBar(currentProgress);
-//                    // add floorcount, lock this till next week
-//                }
-
-                // if not meet stat req
-                if (currentProgress <= 10) {
-                    popupMonsterMessageText.setText("im :)");
-                    popupMonsterButton.setText("Exit");
-                    popupMonsterMessage.setVisibility(View.VISIBLE);
-                    currentProgress = 0;
+                // Check if the child's stats are sufficient to damage the boss
+                if (childStrength >= bossStrengthReq && childIntelligence >= bossIntelligenceReq) {
+                    // Calculate damage as the sum of the child's stats
+                    int damage = childStrength + childIntelligence;
+                    currentProgress -= damage;
                     updateProgressBar(currentProgress);
-                    // keep floorcount, lock this till next week
+                    Toast.makeText(WeeklyBoss.this, "You inflicted " + damage + " damage!", Toast.LENGTH_SHORT).show();
+
+                    // Check if boss HP is zero or below
+                    if (currentProgress <= 0) {
+                        Toast.makeText(WeeklyBoss.this, "Boss defeated! Floor progressed!", Toast.LENGTH_SHORT).show();
+
+                        // Increase the floor count;
+                        try {
+                            int currentFloor = Integer.parseInt(childBarFloorCount.getText().toString());
+                            currentFloor++;
+                            childBarFloorCount.setText(String.valueOf(currentFloor));
+                        } catch (NumberFormatException e) {
+                            // Default to floor 1 if parsing fails
+                            childBarFloorCount.setText("1");
+                        }
+
+                        // Reset boss HP for the next week
+                        currentProgress = 100; //dont mind this
+                        updateProgressBar(currentProgress);
+                    }
+                } else {
+                    // Child's stats are insufficient; no damage is dealt
+                    Toast.makeText(WeeklyBoss.this, "Your stats are too low to damage the boss!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
         popupMonsterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,3 +229,33 @@ public class WeeklyBoss extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 }
+
+/*
+        fightButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(WeeklyBoss.this, "pressed", Toast.LENGTH_SHORT).show();
+
+        currentProgress -= 10;
+        updateProgressBar(currentProgress);
+        // if meet stat req
+//                if (currentProgress <= 0) {
+//                    popupMonsterMessageText.setText("im defeated :(");
+//                    popupMonsterMessage.setVisibility(View.VISIBLE);
+//                    currentProgress = 0;
+//                    updateProgressBar(currentProgress);
+//                    // add floorcount, lock this till next week
+//                }
+
+        // if not meet stat req
+        if (currentProgress <= 10) {
+            popupMonsterMessageText.setText("im :)");
+            popupMonsterButton.setText("Exit");
+            popupMonsterMessage.setVisibility(View.VISIBLE);
+            currentProgress = 0;
+            updateProgressBar(currentProgress);
+            // keep floorcount, lock this till next week
+        }
+    }
+});
+*/
