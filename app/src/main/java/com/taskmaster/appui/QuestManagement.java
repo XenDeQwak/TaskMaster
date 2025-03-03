@@ -62,7 +62,7 @@ public class QuestManagement extends AppCompatActivity {
     String userId;
     ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton;
     AppCompatButton setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton;
-    ImageView questFrame, questNameFrame, questImage, editQuestImage, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame, viewQuestFrame, viewQuestImage, viewDifficultyBG, childBarFrame, childBarAvatar;
+    ImageView questFrame, questNameFrame, questImage, questImageIcon, editQuestImage, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame, viewQuestFrame, viewQuestImage, viewDifficultyBG, childBarFrame, childBarAvatar;
     TextView questNameText, rewardsStr, rewardsInt, textView8, viewNotifTextMsg;
     EditText editQuestTime, editQuestName, editQuestDesc, viewQuestName, viewQuestTime, viewQuestDesc;
     ScrollView scrollView;
@@ -100,6 +100,7 @@ public class QuestManagement extends AppCompatActivity {
     private Map<Integer, Integer> viewQuestRatings = new HashMap<>();
     private Map<Integer, String> viewQuestTimes = new HashMap<>();
     private Map<Integer, String> viewQuestRewardStat = new HashMap<>();
+    private Map<Integer, String> questImageIconHash = new HashMap<>();
     private Map<Integer, String> viewQuestRewardOptional = new HashMap<>();
     private Map<String, Object> questData = new HashMap<>();
 
@@ -580,6 +581,7 @@ public class QuestManagement extends AppCompatActivity {
                 rewardsStr.setVisibility(View.GONE);
                 rewardsIntButton.setVisibility(View.GONE);
                 rewardsStrButton.setVisibility(View.GONE);
+                questImageIcon.setImageResource(R.drawable.int_icon);
             }
         });
 
@@ -595,6 +597,7 @@ public class QuestManagement extends AppCompatActivity {
                 rewardsStr.setVisibility(View.GONE);
                 rewardsIntButton.setVisibility(View.GONE);
                 rewardsStrButton.setVisibility(View.GONE);
+                questImageIcon.setImageResource(R.drawable.str_icon);
             }
         });
 
@@ -710,6 +713,7 @@ public class QuestManagement extends AppCompatActivity {
                             Log.d("TAG", questName + questDescription + difficulty + time + rewardStat + rewardOptional);
                             // make quests depending on database
                             createQuest(questName, questDescription, difficulty, time, rewardStat, rewardOptional);
+                            updateQuestIcon(rewardStat);
                         }
                     } else {
                         Log.d("ERROR", "NOTHING HAPPENED");
@@ -788,6 +792,16 @@ public class QuestManagement extends AppCompatActivity {
         questImage.setLayoutParams(imageParams);
         questImage.setAlpha(0.5f);
         questImage.setImageResource(R.drawable.rectangle_rounded);
+
+        // create quest image icon
+        questImageIcon = new ImageView(context);
+        questImageIcon.setId(View.generateViewId());
+        ConstraintLayout.LayoutParams imageIconParams = new ConstraintLayout.LayoutParams(imageWidth, imageHeight);
+        imageParams.topMargin = topMarginImage;
+        imageParams.bottomMargin = bottomMarginImage;
+        questImageIcon.setLayoutParams(imageIconParams);
+        questImageIcon.setImageResource(R.drawable.blank_icon);
+        questImageIcon.setAlpha(1f);
 
         // create quest name text
         TextView currentQuestNameText = new TextView(context);
@@ -884,6 +898,7 @@ public class QuestManagement extends AppCompatActivity {
         newQuest.addView(questFrame);
         newQuest.addView(questNameFrame);
         newQuest.addView(questImage);
+        newQuest.addView(questImageIcon);
         newQuest.addView(currentQuestNameText);
 
 
@@ -902,6 +917,12 @@ public class QuestManagement extends AppCompatActivity {
         constraintSet.connect(questImage.getId(), ConstraintSet.BOTTOM, questFrame.getId(), ConstraintSet.BOTTOM, bottomMarginImage);
         constraintSet.connect(questImage.getId(), ConstraintSet.START, questFrame.getId(), ConstraintSet.START, 0);
         constraintSet.connect(questImage.getId(), ConstraintSet.END, questFrame.getId(), ConstraintSet.END, 0);
+
+        // align questImageIcon inside questImage
+        constraintSet.connect(questImageIcon.getId(), ConstraintSet.TOP, questImage.getId(), ConstraintSet.TOP, 0);
+        constraintSet.connect(questImageIcon.getId(), ConstraintSet.BOTTOM, questImage.getId(), ConstraintSet.BOTTOM, 0);
+        constraintSet.connect(questImageIcon.getId(), ConstraintSet.START, questImage.getId(), ConstraintSet.START, 0);
+        constraintSet.connect(questImageIcon.getId(), ConstraintSet.END, questImage.getId(), ConstraintSet.END, 0);
 
         // align questNameText inside questNameFrame
         constraintSet.connect(currentQuestNameText.getId(), ConstraintSet.TOP, questNameFrame.getId(), ConstraintSet.TOP, 0);
@@ -952,7 +973,6 @@ public class QuestManagement extends AppCompatActivity {
 
             RatingBar viewDifficultyRating = findViewById(R.id.viewDifficultyRating);
 
-
             // Set the editor fields with the quest's details
             if (questText != null) {
                 editQuestName.setText(questText.getText().toString());
@@ -996,6 +1016,24 @@ public class QuestManagement extends AppCompatActivity {
             }
         }
     }
+
+    private void updateQuestIcon(String rewardStat) {
+            if (questImageIcon != null) {
+                if (rewardStat.equals("intelligence")) {
+                    questImageIcon.setImageResource(R.drawable.int_icon);
+                } else if (rewardStat.equals("strength")) {
+                    questImageIcon.setImageResource(R.drawable.str_icon);
+                } else {
+                    questImageIcon.setImageResource(R.drawable.blank_icon);
+                }
+
+                // add for verif icon logic
+//                if (forVerif) {
+//                    questImageIcon.setImageResource(R.drawable.progress_icon);
+//                }
+
+            }
+        }
 
     private void editQuest() {
 
