@@ -69,8 +69,11 @@ public class ProgressionPage extends AppCompatActivity {
 
 
         avatarNames = new ArrayList<>();
-        avatarNames.add("Preset 1");
-        avatarNames.add("Preset 2");
+        avatarNames.add("None");
+        avatarNames.add("Avatar 1");
+        avatarNames.add("Avatar 2");
+        avatarNames.add("Avatar 3");
+        avatarNames.add("Avatar 4");
 
         loadAvatarPreset();
 
@@ -131,12 +134,16 @@ public class ProgressionPage extends AppCompatActivity {
         avatarImages.add(R.drawable.rectangle_rounded);
         avatarImages.add(R.drawable.placeholderavatar1_framed);
         avatarImages.add(R.drawable.placeholderavatar2_framed);
+        avatarImages.add(R.drawable.placeholderavatar3_framed);
+        avatarImages.add(R.drawable.placeholderavatar4_framed);
 
         // name list
         avatarNames = new ArrayList<>();
+        avatarNames.add("None");
         avatarNames.add("Avatar 1");
         avatarNames.add("Avatar 2");
         avatarNames.add("Avatar 3");
+        avatarNames.add("Avatar 4");
 
         // Set the initial image
         childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
