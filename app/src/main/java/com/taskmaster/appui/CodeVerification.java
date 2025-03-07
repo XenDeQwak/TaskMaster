@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.text.TextWatcher;
-import android.text.Editable;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,7 +29,10 @@ public class CodeVerification extends AppCompatActivity {
     Button confirmButton;
     EditText codebox;
     EditText usernameBox;
-    FirebaseFirestore taskmasterDatabase;
+    FirebaseFirestore db;
+    CollectionReference childRef;
+    int id = 1;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class CodeVerification extends AppCompatActivity {
         });
 
         // initialize Firestore
-        taskmasterDatabase = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // hooks
         confirmButton = findViewById(R.id.button3);
@@ -73,30 +75,31 @@ public class CodeVerification extends AppCompatActivity {
             return;
         }
 
-        taskmasterDatabase.collection("users").whereEqualTo("username", username).get()
+        db.collection("users").whereEqualTo("username", username).get()
                 .addOnSuccessListener(userQuery -> {
                     if (!userQuery.isEmpty()) {
                         Toast.makeText(CodeVerification.this, "Username already exists", Toast.LENGTH_SHORT).show();
                     } else {
-                        taskmasterDatabase.collection("users").whereEqualTo("code", code).limit(1).get()
+                        db.collection("users").whereEqualTo("code", code).limit(1).get()
                                 .addOnSuccessListener(querySnapshot -> {
                                     if (!querySnapshot.isEmpty()) {
                                         DocumentSnapshot parentDoc = querySnapshot.getDocuments().get(0);
                                         String parentID = parentDoc.getId();
-                                        String childID = taskmasterDatabase.collection("users").document().getId();
-
+                                        String childID = db.collection("users").document().getId();
                                         Map<String, Object> childData = new HashMap<>();
+
+                                        childRef = db.collection("users");
                                         childData.put("parentID", parentID);
                                         childData.put("role", "child");
                                         childData.put("username", username);
-
-                                        taskmasterDatabase.collection("users").document(childID).set(childData)
+                                        childData.put("childStr", 0);
+                                        childData.put("childInt", 0);
+                                        childRef.document(childID).set(childData)
                                                 .addOnSuccessListener(aVoid -> {
-                                                    taskmasterDatabase.collection("users").document(parentID)
+                                                    db.collection("users").document(parentID)
                                                             .update("children", FieldValue.arrayUnion(childID));
-
                                                     Toast.makeText(CodeVerification.this, "Child account linked!", Toast.LENGTH_SHORT).show();
-                                                });
+                                                });;
                                         startActivity(new Intent(CodeVerification.this, ChildLogin.class));
                                     } else {
                                         Toast.makeText(CodeVerification.this, "Invalid Code", Toast.LENGTH_SHORT).show();

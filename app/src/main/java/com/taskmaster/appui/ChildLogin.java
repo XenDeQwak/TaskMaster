@@ -77,6 +77,7 @@ public class ChildLogin extends AppCompatActivity {
         db.collection("users").whereEqualTo("username", username).limit(1).get()
                 .addOnSuccessListener(userQuery -> {
                     if (!userQuery.isEmpty()) {
+                        editor.putString("username", username);
                         editor.putString("role", "child");
                         editor.apply();
 

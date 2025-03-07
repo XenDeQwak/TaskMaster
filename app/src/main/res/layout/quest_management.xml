@@ -1038,7 +1038,7 @@
         android:layout_marginBottom="183dp"
         android:elevation="1dp"
         android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Strenght"
+        android:text="Strength"
         android:textAlignment="center"
         android:textSize="20sp"
         android:translationZ="1dp"

@@ -115,13 +115,14 @@
                 android:layout_gravity="center"
                 android:columnCount="1"
                 android:rowCount="6">
-
+                <!--
                 <FrameLayout
-                    android:id="@+id/group1"
+                    android:id="@+id/childIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="108dp"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="5dp"
-                    android:layout_gravity="center">
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/child_frame"
@@ -147,9 +148,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="125dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="50dp"
                         android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="STR 8"
+                        android:text="STR 0"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/child_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="125dp"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/eb_garamond_semibold"
+                        android:text="Lorem"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/stat_view_int"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="195dp"
+                        android:layout_marginTop="50dp"
+                        android:fontFamily="@font/eb_garamond_semibold"
+                        android:text="INT 0"
                         android:textAlignment="center"
                         android:textSize="20sp" />
 
@@ -160,29 +183,14 @@
                         android:layout_marginStart="258dp"
                         android:layout_marginTop="30dp"
                         android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="Floor: Y"
+                        android:text="Floor: 0"
                         android:textAlignment="center"
                         android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/stat_view_int"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
-                        android:layout_marginStart="125dp"
-                        android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="INT 10"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
-
-                    <ImageButton
-                        android:id="@+id/open_child_page"
-                        android:layout_width="333dp"
-                        android:layout_height="104dp"
-                        android:layout_marginStart="10dp"
-                        android:background="@null"/>
                 </FrameLayout>
+                -->
             </GridLayout>
+
+
         </ScrollView>
 
     <TextView
@@ -449,7 +457,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="pop_up_frame,copy_frame,exit_frame,copy_text,exit_text,copy_button,exit_button,notice_text,notice_shadow_overlay,notice_text, code_text" />
+        app:constraint_referenced_ids="pop_up_frame,copy_frame,exit_frame,copy_text,exit_text,copy_button,exit_button,notice_text,notice_shadow_overlay,notice_text, code_text"
+        tools:visibility="gone" />
 
         <ImageView
             android:id="@+id/notice_shadow_overlay"
@@ -462,21 +471,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/shadow_overlay" />
 
-        <ImageView
-            android:id="@+id/pop_up_frame"
-            android:layout_width="296dp"
-            android:layout_height="223dp"
-            android:layout_marginTop="189dp"
-            android:layout_marginStart="58dp"
-            android:layout_marginEnd="58dp"
-            android:layout_marginBottom="500dp"
-            android:alpha="1"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/rectangle_rounded" />
+    <ImageView
+        android:id="@+id/pop_up_frame"
+        android:layout_width="296dp"
+        android:layout_height="223dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="189dp"
+        android:layout_marginEnd="58dp"
+        android:layout_marginBottom="500dp"
+        android:alpha="1"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rectangle_rounded" />
 
         <TextView
             android:id="@+id/notice_text"
