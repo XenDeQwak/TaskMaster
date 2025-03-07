@@ -94,6 +94,8 @@ public class CodeVerification extends AppCompatActivity {
                                         childData.put("username", username);
                                         childData.put("childStr", 0);
                                         childData.put("childInt", 0);
+                                        childData.put("questCount", 0);
+                                        childData.put("childAvatar", 0);
                                         childRef.document(childID).set(childData)
                                                 .addOnSuccessListener(aVoid -> {
                                                     db.collection("users").document(parentID)

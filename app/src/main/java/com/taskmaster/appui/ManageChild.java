@@ -35,15 +35,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManageChild extends AppCompatActivity {
     ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openChildPage, copyButton, exitButton;
     TextView codeText, childName;
     Context context = this;
-    int childCount = 0;
-    int id = 1;
-    FrameLayout childIcon;
     Group dropDownGroup, popUpGroup;
     GridLayout gridLayout, gridLayout1;
     String tavernCode;
@@ -98,6 +96,7 @@ public class ManageChild extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String parentID = prefs.getString("uid", "");
 
+        //child data init
         db.collection("users").document(parentID).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -111,12 +110,12 @@ public class ManageChild extends AppCompatActivity {
                                                 if (childTask.isSuccessful()) {
                                                     DocumentSnapshot childDocument = childTask.getResult();
                                                     if (childDocument.exists()) {
-                                                        // Get the child's data
                                                         String childName = childDocument.getString("username");
                                                         int childStr = childDocument.getLong("childStr").intValue();
                                                         int childInt = childDocument.getLong("childInt").intValue();
+                                                        int childAvatar = childDocument.getLong("childAvatar").intValue();
                                                         // Create the child frame
-                                                        createChildFrame(childName, childStr, childInt, 1);
+                                                        createChildFrame(childName, childStr, childInt, childAvatar, 1);
                                                     } else {
                                                         Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
                                                     }
@@ -290,7 +289,7 @@ public class ManageChild extends AppCompatActivity {
     }
 
 
-    private void createChildFrame(String childName, int strStat, int intStat, int floor) {
+    private void createChildFrame(String childName, int strStat, int intStat, int childAvatar, int floor) {
 
         int frameH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108, getResources().getDisplayMetrics());
         int marginBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
@@ -344,9 +343,17 @@ public class ManageChild extends AppCompatActivity {
         );
         childFrameAvatarParams.setMarginStart(childAvatarStart);
         childFrameAvatar.setLayoutParams(childFrameAvatarParams);
-        childFrameAvatar.setImageResource(R.drawable.circle_with_shadow);
 
-        // STR Text (TextView)
+        List<Integer>avatarImages = new ArrayList<>();
+        avatarImages.add(R.drawable.rectangle_rounded);
+        avatarImages.add(R.drawable.placeholderavatar1_framed);
+        avatarImages.add(R.drawable.placeholderavatar2_framed);
+        avatarImages.add(R.drawable.placeholderavatar3_framed);
+        avatarImages.add(R.drawable.placeholderavatar4_framed);
+
+        childFrameAvatar.setImageResource(avatarImages.get(childAvatar));
+
+        // STR Text
         TextView strText = new TextView(context);
         FrameLayout.LayoutParams strTextParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -360,7 +367,7 @@ public class ManageChild extends AppCompatActivity {
         strText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         strText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
-        // INT Text (TextView)
+        // INT Text
         TextView intText = new TextView(context);
         FrameLayout.LayoutParams intTextParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -374,7 +381,7 @@ public class ManageChild extends AppCompatActivity {
         intText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         intText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
-        // Name Text (TextView)
+        // Name Text
         TextView nameText = new TextView(context);
         FrameLayout.LayoutParams nameTextParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -388,7 +395,7 @@ public class ManageChild extends AppCompatActivity {
         nameText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
-        // Floor Text (TextView)
+        // Floor Text
         TextView floorText = new TextView(context);
         FrameLayout.LayoutParams floorTextParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,

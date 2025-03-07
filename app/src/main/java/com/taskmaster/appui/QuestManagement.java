@@ -47,6 +47,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +84,7 @@ public class QuestManagement extends AppCompatActivity {
     int groupCount = 0;
     int questId = 1;
     int defaultHour, defaultMinute;
+    int childAvatar;
 
     int questWidth, questHeight, imageWidth, imageHeight, nameFrameWidth, nameFrameHeight, topMarginImage, bottomMarginImage, topMarginNameFrame, bottomMarginNameFrame;
     Context context = this;
@@ -126,8 +128,60 @@ public class QuestManagement extends AppCompatActivity {
         userId = prefs.getString("uid", "");
         prefUsername = prefs.getString("username", "");
 
+        //child data init
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot parentDocument = task.getResult();
+                        if (parentDocument.exists()) {
+                            List<String> childIds = (List<String>) parentDocument.get("children");
+                            if (childIds != null) {
+                                for (String childId : childIds) {
+                                    db.collection("users").document(childId).get()
+                                            .addOnCompleteListener(childTask -> {
+                                                if (childTask.isSuccessful()) {
+                                                    DocumentSnapshot childDocument = childTask.getResult();
+                                                    if (childDocument.exists()) {
+                                                        childAvatar = childDocument.getLong("childAvatar").intValue();
+
+                                                        //moved child bar init here for async
+                                                        if ("child".equals(role)) {
+                                                            imagebutton2.setVisibility(View.GONE);
+                                                            childBarGroup.setVisibility(View.VISIBLE);
+                                                            childBarName.setText(prefUsername);
+
+                                                            List<Integer>avatarImages = new ArrayList<>();
+                                                            avatarImages.add(R.drawable.rectangle_rounded);
+                                                            avatarImages.add(R.drawable.placeholderavatar1_framed);
+                                                            avatarImages.add(R.drawable.placeholderavatar2_framed);
+                                                            avatarImages.add(R.drawable.placeholderavatar3_framed);
+                                                            avatarImages.add(R.drawable.placeholderavatar4_framed);
+
+                                                            childBarAvatar.setImageResource(avatarImages.get(childAvatar));
+                                                        } else if ("parent".equals(role)) {
+                                                            childBarGroup.setVisibility(View.GONE);
+                                                        }
+                                                    } else {
+                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
+                                                    }
+                                                } else {
+                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
+                                                }
+                                            });
+                                }
+                            } else {
+                                Log.d("DEBUG", "NO CHILDREN");
+                            }
+                        } else {
+                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
+                        }
+                    } else {
+                        Log.d("DEBUG", "Error getting parent document", task.getException());
+                    }
+                });
 
 
+        //parent data init
         db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 
@@ -248,14 +302,6 @@ public class QuestManagement extends AppCompatActivity {
                 findViewById(R.id.textView9)
         };
 
-        // hide from child
-        if ("child".equals(role)) {
-            imagebutton2.setVisibility(View.GONE);
-            childBarGroup.setVisibility(View.VISIBLE);
-            childBarName.setText(prefUsername);
-        } else if ("parent".equals(role)) {
-            childBarGroup.setVisibility(View.GONE);
-        }
 
         // hide popupRewardsGroup
         popupRewardsGroup.setVisibility(View.GONE);
@@ -462,6 +508,7 @@ public class QuestManagement extends AppCompatActivity {
                                                                                         } else {
                                                                                             childRef.update("childInt", childDocument.getLong("childInt").intValue() + questDifficulty);
                                                                                         }
+                                                                                        childRef.update("questCount", childDocument.getLong("questCount").intValue() + 1);
                                                                                     } else {
                                                                                         Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
                                                                                     }
@@ -488,10 +535,10 @@ public class QuestManagement extends AppCompatActivity {
                                                 .addOnFailureListener(fail -> {
                                                     Log.d("TAG", "Can't delete");
                                                 });
+                                    } else {
+                                        viewNotifTextMsg.setText("Quest status: In Progress\nPlease wait\nuntil finished!");
+                                        popupViewNotif.setVisibility(View.VISIBLE);
                                     }
-                                } else {
-                                    viewNotifTextMsg.setText("Quest status: In Progress\nPlease wait\nuntil finished!");
-                                    popupViewNotif.setVisibility(View.VISIBLE);
                                 }
                             }
                         });
@@ -831,8 +878,12 @@ public class QuestManagement extends AppCompatActivity {
         imageParams.topMargin = topMarginImage;
         imageParams.bottomMargin = bottomMarginImage;
         questImage.setLayoutParams(imageParams);
-        questImage.setAlpha(0.5f);
-        questImage.setImageResource(R.drawable.rectangle_rounded);
+        //questImage.setAlpha(0.5f);
+        if ("strength".equals(rewardStat))
+            questImage.setImageResource(R.drawable.str_icon);
+        else if ("intelligence".equals(rewardStat))
+            questImage.setImageResource(R.drawable.int_icon);
+
 
         // create quest image icon
         questImageIcon = new ImageView(context);
