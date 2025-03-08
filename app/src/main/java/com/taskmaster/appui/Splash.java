@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Splash extends AppCompatActivity {
 
-    private static int SPLASH_SCREEN = 5000;
+    private static int SPLASH_SCREEN = 3000;
 
     // var
     Animation pop_out_Anim, fade_in_Anim;

@@ -23,7 +23,7 @@
     <ImageView
         android:id="@+id/imageView7"
         android:layout_width="375dp"
-        android:layout_height="855dp"
+        android:layout_height="805dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +39,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="316dp"
-        android:layout_marginBottom="793dp"
+        android:layout_marginBottom="743dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
@@ -55,7 +55,7 @@
         android:layout_marginStart="316dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="793dp"
+        android:layout_marginBottom="743dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
@@ -71,7 +71,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="793dp"
+        android:layout_marginBottom="743dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
@@ -83,7 +83,7 @@
     <ImageView
         android:id="@+id/imageView20"
         android:layout_width="361dp"
-        android:layout_height="755dp"
+        android:layout_height="705dp"
         android:layout_marginTop="14dp"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="7dp"
@@ -99,9 +99,9 @@
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="355dp"
-            android:layout_height="645dp"
+            android:layout_height="595dp"
             android:layout_marginTop="105dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="55dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView7"
             app:layout_constraintEnd_toEndOf="@+id/imageView7"
             app:layout_constraintStart_toStartOf="@+id/imageView7"
@@ -152,6 +152,7 @@
                         android:fontFamily="@font/eb_garamond_semibold"
                         android:text="STR 0"
                         android:textAlignment="center"
+                        android:textColor="#3F3F3F"
                         android:textSize="20sp" />
 
                     <TextView
@@ -163,6 +164,7 @@
                         android:fontFamily="@font/eb_garamond_semibold"
                         android:text="Lorem"
                         android:textAlignment="center"
+                        android:textColor="#3F3F3F"
                         android:textSize="20sp" />
 
                     <TextView
@@ -174,6 +176,7 @@
                         android:fontFamily="@font/eb_garamond_semibold"
                         android:text="INT 0"
                         android:textAlignment="center"
+                        android:textColor="#3F3F3F"
                         android:textSize="20sp" />
 
                     <TextView
@@ -201,6 +204,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Manage"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView19"
         app:layout_constraintEnd_toEndOf="@+id/imageView19"
@@ -212,10 +216,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="67dp"
-        android:layout_marginBottom="725dp"
+        android:layout_marginBottom="675dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Adventurers"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
@@ -236,11 +241,12 @@
         android:id="@+id/imageView23"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView18"
         app:layout_constraintEnd_toEndOf="@+id/imageView18"
         app:layout_constraintStart_toStartOf="@+id/imageView18"
         app:layout_constraintTop_toTopOf="@+id/imageView18"
-        app:srcCompat="@drawable/add_quest" />
+        app:srcCompat="@drawable/add_adventurer" />
 
     <ImageButton
         android:id="@+id/imageButton2"
@@ -322,8 +328,8 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="190dp"
-            android:layout_marginBottom="494dp"
-            android:alpha="0.5"
+            android:layout_marginBottom="464dp"
+            android:alpha="0.8"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/imageView7"
             app:layout_constraintEnd_toEndOf="@+id/imageView7"
@@ -337,7 +343,7 @@
             android:layout_height="63dp"
             android:layout_marginTop="27dp"
             android:layout_marginBottom="205dp"
-            android:alpha="0.5"
+            android:alpha="0.8"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/imageView24"
             app:layout_constraintEnd_toEndOf="@+id/imageView24"
@@ -351,7 +357,7 @@
             android:layout_height="63dp"
             android:layout_marginTop="107dp"
             android:layout_marginBottom="125dp"
-            android:alpha="0.5"
+            android:alpha="0.8"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/imageView24"
             app:layout_constraintEnd_toEndOf="@+id/imageView24"
@@ -367,7 +373,7 @@
             android:layout_height="63dp"
             android:layout_marginTop="186dp"
             android:layout_marginBottom="46dp"
-            android:alpha="0.5"
+            android:alpha="0.8"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/imageView24"
             app:layout_constraintEnd_toEndOf="@+id/imageView24"
@@ -385,6 +391,7 @@
             android:fontFamily="@font/eb_garamond_semibold"
             android:text="Quest Board"
             android:textAlignment="center"
+            android:textColor="#3F3F3F"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView25"
             app:layout_constraintEnd_toEndOf="@+id/imageView25"
@@ -399,6 +406,7 @@
             android:fontFamily="@font/eb_garamond_semibold"
             android:text="Manage\nAdventurers"
             android:textAlignment="center"
+            android:textColor="#3F3F3F"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView26"
             app:layout_constraintEnd_toEndOf="@+id/imageView26"
@@ -413,6 +421,7 @@
             android:fontFamily="@font/eb_garamond_semibold"
             android:text="Log Out"
             android:textAlignment="center"
+            android:textColor="#3F3F3F"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView27"
             app:layout_constraintEnd_toEndOf="@+id/imageView27"
@@ -456,9 +465,8 @@
         android:id="@+id/pop_up_tavern_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="pop_up_frame,copy_frame,exit_frame,copy_text,exit_text,copy_button,exit_button,notice_text,notice_shadow_overlay,notice_text, code_text"
-        tools:visibility="gone" />
+        android:visibility="gone"
+        app:constraint_referenced_ids="pop_up_frame,copy_frame,exit_frame,copy_text,exit_text,copy_button,exit_button,notice_text,notice_shadow_overlay,notice_text, code_text" />
 
         <ImageView
             android:id="@+id/notice_shadow_overlay"
@@ -498,6 +506,7 @@
             android:fontFamily="@font/eb_garamond_semibold"
             android:text="Notice!"
             android:textAlignment="center"
+            android:textColor="#3F3F3F"
             android:textSize="32sp"
             app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
             app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
@@ -513,6 +522,7 @@
             android:fontFamily="@font/eb_garamond_semibold"
             android:text="Tavern Code:"
             android:textAlignment="center"
+            android:textColor="#3F3F3F"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
             app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
@@ -559,6 +569,7 @@
             android:fontFamily="@font/eb_garamond_semibold"
             android:text="Copy"
             android:textAlignment="center"
+            android:textColor="#3F3F3F"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/copy_frame"
             app:layout_constraintEnd_toEndOf="@+id/copy_frame"
@@ -573,6 +584,7 @@
             android:fontFamily="@font/eb_garamond_semibold"
             android:text="Exit"
             android:textAlignment="center"
+            android:textColor="#3F3F3F"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/exit_frame"
             app:layout_constraintEnd_toEndOf="@+id/exit_frame"
