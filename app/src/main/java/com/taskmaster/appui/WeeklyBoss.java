@@ -121,6 +121,15 @@ public class WeeklyBoss extends AppCompatActivity {
             }
         });
 
+        childBarStatsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(WeeklyBoss.this, "stats", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(WeeklyBoss.this, ProgressionPage.class);
+                startActivity(intent);
+            }
+        });
+
         // exit dropdown & popup group
         rootLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override

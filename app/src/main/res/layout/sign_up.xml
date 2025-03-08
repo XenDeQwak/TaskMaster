@@ -23,7 +23,7 @@
     <ImageView
         android:id="@+id/imageView7"
         android:layout_width="375dp"
-        android:layout_height="855dp"
+        android:layout_height="805dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -89,6 +89,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Sign Up"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

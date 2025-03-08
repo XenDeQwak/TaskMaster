@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
+    android:fitsSystemWindows="true"
     tools:context=".QuestManagement">
 
     <ImageView
@@ -24,7 +25,7 @@
     <ImageView
         android:id="@+id/imageView7"
         android:layout_width="375dp"
-        android:layout_height="855dp"
+        android:layout_height="805dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +41,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="316dp"
-        android:layout_marginBottom="793dp"
+        android:layout_marginBottom="743dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
@@ -56,7 +57,7 @@
         android:layout_marginStart="316dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="793dp"
+        android:layout_marginBottom="743dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
@@ -72,7 +73,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="793dp"
+        android:layout_marginBottom="743dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
@@ -80,6 +81,38 @@
         app:layout_constraintStart_toStartOf="@+id/imageView7"
         app:layout_constraintTop_toTopOf="@+id/imageView7"
         app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/basePageFrame"
+        android:layout_width="296dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="743dp"
+        android:alpha="0.5"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <TextView
+        android:id="@+id/basePageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:textColor="#3F3F3F"
+        android:text="Quest Board"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/basePageFrame"
+        app:layout_constraintEnd_toEndOf="@+id/basePageFrame"
+        app:layout_constraintStart_toStartOf="@+id/basePageFrame"
+        app:layout_constraintTop_toTopOf="@+id/basePageFrame" />
 
     <TextView
         android:id="@+id/textView5"
@@ -89,6 +122,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Quest Board"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView19"
         app:layout_constraintEnd_toEndOf="@+id/imageView19"
@@ -142,15 +176,15 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="355dp"
-        android:layout_height="755dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="725dp"
+        android:layout_marginTop="75dp"
         android:layout_marginBottom="5dp"
         android:fillViewport="true"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toBottomOf="@+id/imageView19">
+        app:layout_constraintTop_toTopOf="@+id/imageView7">
 
         <GridLayout
             android:id="@+id/gridLayout"
@@ -160,6 +194,166 @@
             android:columnCount="2"
             android:rowCount="6">
 
+<!--            <LinearLayout-->
+<!--                android:id="@+id/group"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="172dp"-->
+<!--                    android:layout_height="245dp"-->
+<!--                    android:layout_marginEnd="4dp">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/quest_frame"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:alpha="0.5"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/quest_name_frame"-->
+<!--                        android:layout_width="162dp"-->
+<!--                        android:layout_height="39dp"-->
+<!--                        android:layout_marginTop="191dp"-->
+<!--                        android:layout_marginBottom="7dp"-->
+<!--                        android:alpha="0.5"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/quest_frame"-->
+<!--                        app:layout_constraintEnd_toEndOf="@id/quest_frame"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/quest_frame"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/quest_frame"-->
+<!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/quest_image"-->
+<!--                        android:layout_width="161dp"-->
+<!--                        android:layout_height="187dp"-->
+<!--                        android:layout_marginTop="7dp"-->
+<!--                        android:layout_marginBottom="50dp"-->
+<!--                        android:alpha="0.5"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/quest_frame"-->
+<!--                        app:layout_constraintEnd_toEndOf="@id/quest_frame"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/quest_frame"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/quest_frame"-->
+<!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/quest_image1"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/quest_image"-->
+<!--                        app:layout_constraintEnd_toEndOf="@id/quest_image"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/quest_image"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/quest_image"-->
+<!--                        app:srcCompat="@drawable/icon_int_pending" />-->
+
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/quest_name_text"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginBottom="4dp"-->
+<!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--                        android:text="Quest Name"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textSize="20sp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/quest_name_frame"-->
+<!--                        app:layout_constraintEnd_toEndOf="@id/quest_name_frame"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/quest_name_frame"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/quest_name_frame" />-->
+
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/open_quest"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@null"/>-->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="172dp"-->
+<!--                    android:layout_height="285dp"-->
+<!--                    android:layout_marginEnd="4dp">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/quest_frame"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:alpha="0.5"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/quest_name_frame"-->
+<!--                        android:layout_width="162dp"-->
+<!--                        android:layout_height="39dp"-->
+<!--                        android:layout_marginTop="241dp"-->
+<!--                        android:layout_marginBottom="7dp"-->
+<!--                        android:alpha="0.5"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/quest_frame"-->
+<!--                        app:layout_constraintEnd_toEndOf="@id/quest_frame"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/quest_frame"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/quest_frame"-->
+<!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/quest_image"-->
+<!--                        android:layout_width="161dp"-->
+<!--                        android:layout_height="227dp"-->
+<!--                        android:layout_marginTop="7dp"-->
+<!--                        android:layout_marginBottom="50dp"-->
+<!--                        android:alpha="0.5"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/quest_frame"-->
+<!--                        app:layout_constraintEnd_toEndOf="@id/quest_frame"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/quest_frame"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/quest_frame"-->
+<!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/quest_image1"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/quest_image"-->
+<!--                        app:layout_constraintEnd_toEndOf="@id/quest_image"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/quest_image"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/quest_image"-->
+<!--                        app:srcCompat="@drawable/icon_str_pending" />-->
+
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/quest_name_text"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginBottom="4dp"-->
+<!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--                        android:text="Quest Name"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textSize="20sp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/quest_name_frame"-->
+<!--                        app:layout_constraintEnd_toEndOf="@id/quest_name_frame"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/quest_name_frame"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/quest_name_frame" />-->
+
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/open_quest"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@null"/>-->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--            </LinearLayout>-->
+
+
+
         </GridLayout>
     </ScrollView>
 
@@ -167,13 +361,13 @@
         android:id="@+id/editQuestGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="editQuestFrame,editQuestImage,editQuestName,editQuestTime,editQuestDesc,setRewardsButton,setDifficultyBG,setDifficultyRating,childAvatar,assignQuest,cancelQuestEditButton,saveQuestEditButton" />
 
     <ImageView
         android:id="@+id/editQuestFrame"
         android:layout_width="361dp"
-        android:layout_height="755dp"
+        android:layout_height="725dp"
         android:layout_marginStart="7dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="7dp"
@@ -193,7 +387,7 @@
         android:layout_marginStart="7dp"
         android:layout_marginTop="84dp"
         android:layout_marginEnd="7dp"
-        android:layout_marginBottom="584dp"
+        android:layout_marginBottom="554dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/editQuestFrame"
         app:layout_constraintEnd_toEndOf="@+id/editQuestFrame"
@@ -206,9 +400,9 @@
         android:layout_width="173dp"
         android:layout_height="39dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="268dp"
+        android:layout_marginTop="258dp"
         android:layout_marginEnd="161dp"
-        android:layout_marginBottom="466dp"
+        android:layout_marginBottom="456dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
@@ -228,9 +422,9 @@
         android:layout_width="115dp"
         android:layout_height="39dp"
         android:layout_marginStart="219dp"
-        android:layout_marginTop="268dp"
+        android:layout_marginTop="258dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="466dp"
+        android:layout_marginBottom="456dp"
         android:background="@drawable/textbox_rounded"
         android:clickable="true"
         android:ems="10"
@@ -339,9 +533,9 @@
         android:layout_width="115dp"
         android:layout_height="45dp"
         android:layout_marginStart="208dp"
-        android:layout_marginTop="560dp"
+        android:layout_marginTop="530dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="194dp"
+        android:layout_marginBottom="104dp"
         android:background="@drawable/button_shadowed"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
@@ -360,9 +554,9 @@
         android:layout_width="115dp"
         android:layout_height="45dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="685dp"
+        android:layout_marginTop="675dp"
         android:layout_marginEnd="208dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="34dp"
         android:background="@drawable/button_shadowed"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
@@ -381,9 +575,9 @@
         android:layout_width="115dp"
         android:layout_height="45dp"
         android:layout_marginStart="208dp"
-        android:layout_marginTop="685dp"
+        android:layout_marginTop="675dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="34dp"
         android:background="@drawable/button_shadowed"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
@@ -409,7 +603,7 @@
         android:layout_width="361dp"
         android:layout_height="194dp"
         android:layout_marginStart="7dp"
-        android:layout_marginTop="674dp"
+        android:layout_marginTop="624dp"
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="35dp"
         android:alpha="0.5"
@@ -782,6 +976,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:elevation="1dp"
+        android:translationZ="1dp"
         app:constraint_referenced_ids="imageView24,imageView25,imageView26,imageView27,textView7,textView8,textView9" />
 
     <ImageView
@@ -791,8 +987,8 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="190dp"
-        android:layout_marginBottom="494dp"
-        android:alpha="0.5"
+        android:layout_marginBottom="464dp"
+        android:alpha="0.8"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
@@ -806,7 +1002,7 @@
         android:layout_height="63dp"
         android:layout_marginTop="27dp"
         android:layout_marginBottom="205dp"
-        android:alpha="0.5"
+        android:alpha="0.8"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView24"
         app:layout_constraintEnd_toEndOf="@+id/imageView24"
@@ -820,7 +1016,7 @@
         android:layout_height="63dp"
         android:layout_marginTop="107dp"
         android:layout_marginBottom="125dp"
-        android:alpha="0.5"
+        android:alpha="0.8"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView24"
         app:layout_constraintEnd_toEndOf="@+id/imageView24"
@@ -836,7 +1032,7 @@
         android:layout_height="63dp"
         android:layout_marginTop="186dp"
         android:layout_marginBottom="46dp"
-        android:alpha="0.5"
+        android:alpha="0.8"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView24"
         app:layout_constraintEnd_toEndOf="@+id/imageView24"
@@ -854,6 +1050,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Quest Board"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView25"
         app:layout_constraintEnd_toEndOf="@+id/imageView25"
@@ -868,6 +1065,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Manage\nAdventurers"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView26"
         app:layout_constraintEnd_toEndOf="@+id/imageView26"
@@ -882,6 +1080,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Log Out"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView27"
         app:layout_constraintEnd_toEndOf="@+id/imageView27"
@@ -949,6 +1148,7 @@
         android:layout_marginStart="58dp"
         android:layout_marginEnd="58dp"
         android:layout_marginBottom="320dp"
+        android:clickable="true"
         android:alpha="1"
         android:elevation="1dp"
         android:translationZ="1dp"
@@ -969,6 +1169,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Set Rewards"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="32sp"
         android:translationZ="1dp"
         app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"
@@ -1040,6 +1241,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Strenght"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="20sp"
         android:translationZ="1dp"
         app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"
@@ -1057,6 +1259,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Intelligence"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="20sp"
         android:translationZ="1dp"
         app:layout_constraintBottom_toBottomOf="@+id/popupRewardsFrame"
@@ -1135,11 +1338,206 @@
         app:srcCompat="@null" />
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/popupAssignGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="popupAssignFrameShadow,popupAssignFrame,assignTextTitle,assignDropdownButton,assignCancelButton,assignConfirmButton,assignDropdownFrame,assignAdv1,assignAdv2,assignAdvButton1,assignAdvButton2" />
+
+    <ImageView
+        android:id="@+id/popupAssignFrameShadow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:elevation="1dp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/shadow_overlay" />
+
+    <ImageView
+        android:id="@+id/popupAssignFrame"
+        android:layout_width="296dp"
+        android:layout_height="435dp"
+        android:layout_marginTop="162dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginEnd="58dp"
+        android:layout_marginBottom="320dp"
+        android:alpha="1"
+        android:elevation="1dp"
+        android:translationZ="1dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <TextView
+        android:id="@+id/assignTextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="383dp"
+        android:elevation="1dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Assign Quest"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="32sp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/popupAssignFrame"
+        app:layout_constraintEnd_toEndOf="@+id/popupAssignFrame"
+        app:layout_constraintStart_toStartOf="@+id/popupAssignFrame"
+        app:layout_constraintTop_toTopOf="@+id/popupAssignFrame" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/assignDropdownButton"
+        android:layout_width="179dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="250dp"
+        android:background="@drawable/button_shadowed"
+        android:elevation="5dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Adventurers"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:translationZ="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/popupAssignFrame"
+        app:layout_constraintEnd_toEndOf="@+id/popupAssignFrame"
+        app:layout_constraintStart_toStartOf="@+id/popupAssignFrame"
+        app:layout_constraintTop_toTopOf="@+id/popupAssignFrame" />
+
+    <ImageView
+        android:id="@+id/assignDropdownFrame"
+        android:layout_width="179dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="160dp"
+        android:clickable="true"
+        android:elevation="1dp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/popupAssignFrame"
+        app:layout_constraintEnd_toEndOf="@+id/popupAssignFrame"
+        app:layout_constraintStart_toStartOf="@+id/popupAssignFrame"
+        app:layout_constraintTop_toTopOf="@+id/popupAssignFrame"
+        app:srcCompat="@drawable/stroked_rectangle" />
+
+    <TextView
+        android:id="@+id/assignAdv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="183dp"
+        android:elevation="1dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Adv 1"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/popupAssignFrame"
+        app:layout_constraintEnd_toEndOf="@+id/popupAssignFrame"
+        app:layout_constraintStart_toStartOf="@+id/popupAssignFrame"
+        app:layout_constraintTop_toTopOf="@+id/popupAssignFrame" />
+
+    <TextView
+        android:id="@+id/assignAdv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="82dp"
+        android:layout_marginBottom="183dp"
+        android:elevation="1dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Adv 2"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/popupAssignFrame"
+        app:layout_constraintEnd_toEndOf="@+id/popupAssignFrame"
+        app:layout_constraintStart_toStartOf="@+id/popupAssignFrame"
+        app:layout_constraintTop_toTopOf="@+id/popupAssignFrame" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/assignCancelButton"
+        android:layout_width="109dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="366dp"
+        android:layout_marginEnd="175dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_shadowed"
+        android:elevation="1dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Cancel"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/popupAssignFrame"
+        app:layout_constraintEnd_toEndOf="@+id/popupAssignFrame"
+        app:layout_constraintStart_toStartOf="@+id/popupAssignFrame"
+        app:layout_constraintTop_toTopOf="@+id/popupAssignFrame" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/assignConfirmButton"
+        android:layout_width="109dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="175dp"
+        android:layout_marginTop="366dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_shadowed"
+        android:elevation="1dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Confirm"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/popupAssignFrame"
+        app:layout_constraintEnd_toEndOf="@+id/popupAssignFrame"
+        app:layout_constraintStart_toStartOf="@+id/popupAssignFrame"
+        app:layout_constraintTop_toTopOf="@+id/popupAssignFrame" />
+
+    <ImageButton
+        android:id="@+id/assignAdvButton1"
+        android:layout_width="160dp"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:elevation="1dp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/assignAdv1"
+        app:layout_constraintEnd_toEndOf="@+id/assignAdv1"
+        app:layout_constraintStart_toStartOf="@+id/assignAdv1"
+        app:layout_constraintTop_toTopOf="@+id/assignAdv1"
+        app:srcCompat="@null" />
+
+    <ImageButton
+        android:id="@+id/assignAdvButton2"
+        android:layout_width="160dp"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:elevation="1dp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/assignAdv2"
+        app:layout_constraintEnd_toEndOf="@+id/assignAdv2"
+        app:layout_constraintStart_toStartOf="@+id/assignAdv2"
+        app:layout_constraintTop_toTopOf="@+id/assignAdv2"
+        app:srcCompat="@null" />
+
+    <androidx.constraintlayout.widget.Group
         android:id="@+id/popupViewRewardsGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="popupViewRewardsFrameShadow,popupViewRewardsFrame,viewRewardsTextTitle,viewRewardsOptionalText,viewRewardsDropdownButton,viewRewardsCancelButton,viewRewardsConfirmButton" />
+        app:constraint_referenced_ids="popupViewRewardsFrameShadow,popupViewRewardsFrame,viewRewardsTextTitle,viewRewardsOptionalText,viewRewardsDropdownButton,,viewRewardsExitButton" />
 
     <ImageView
         android:id="@+id/popupViewRewardsFrameShadow"
@@ -1237,39 +1635,15 @@
         app:layout_constraintTop_toTopOf="@+id/popupViewRewardsFrame" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/viewRewardsCancelButton"
+        android:id="@+id/viewRewardsExitButton"
         android:layout_width="109dp"
         android:layout_height="53dp"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="240dp"
-        android:layout_marginEnd="175dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/button_shadowed"
         android:elevation="1dp"
         android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Cancel"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#3F3F3F"
-        android:textSize="20sp"
-        android:translationZ="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/popupViewRewardsFrame"
-        app:layout_constraintEnd_toEndOf="@+id/popupViewRewardsFrame"
-        app:layout_constraintStart_toStartOf="@+id/popupViewRewardsFrame"
-        app:layout_constraintTop_toTopOf="@+id/popupViewRewardsFrame" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/viewRewardsConfirmButton"
-        android:layout_width="109dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/button_shadowed"
-        android:elevation="1dp"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Confirm"
+        android:text="Exit"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#3F3F3F"
@@ -1328,6 +1702,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Notice!"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="32sp"
         android:translationZ="1dp"
         app:layout_constraintBottom_toBottomOf="@+id/popupViewNotifFrame"
@@ -1344,6 +1719,7 @@
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Quest status: Pending\nPlease wait\nfor confirmation!"
         android:textAlignment="center"
+        android:textColor="#3F3F3F"
         android:textSize="24sp"
         android:translationZ="1dp"
         app:layout_constraintBottom_toTopOf="@+id/viewNotifOkayButton"
