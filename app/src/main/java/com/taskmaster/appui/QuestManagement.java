@@ -292,7 +292,7 @@ public class QuestManagement extends AppCompatActivity {
         childBarName = findViewById(R.id.childBarName);
         childBarFloorCount = findViewById(R.id.childBarFloorCount);
         childBarStatsButton = findViewById(R.id.childBarStatsButton);
-        childBarAvatar = findViewById(R.id.childBarAvatar);
+        childBarAvatar = findViewById(R.id.childBarAvatar);childBarAvatar = findViewById(R.id.childBarAvatar);
 
         textView8 = findViewById(R.id.textView8);
 

@@ -58,6 +58,7 @@ public class ProgressionPage extends AppCompatActivity {
     String username;
     int childAvatar;
     int currentImageIndex;
+    int childInt, childStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,10 @@ public class ProgressionPage extends AppCompatActivity {
                                                         questCount = childDocument.getLong("questCount").intValue();
                                                         childAvatar = childDocument.getLong("childAvatar").intValue();
 
+                                                        childInt = childDocument.getLong("childInt").intValue();
+                                                        childStr = childDocument.getLong("childStr").intValue();
+
+                                                        barGraph(childInt, childStr);
                                                         // Set the initial image
                                                         childAvatarImage.setImageResource(avatarImages.get(childAvatar));
                                                         currentImageIndex = childAvatar;
@@ -196,105 +201,12 @@ public class ProgressionPage extends AppCompatActivity {
         avatarNames.add("Avatar 3");
         avatarNames.add("Avatar 4");
 
-
-
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = prefs.getString("username", "");
 
-
-
         // change text based on child here
         childAvatarName.setText(username);
-        statFloorNum.setText("12");
         statQuestDoneNum.setText(Integer.toString(questCount));
-
-
-        barChart = findViewById(R.id.chart);
-        barChartLarge = findViewById(R.id.chartLarge);
-
-// Create entries for the bars
-        List<BarEntry> entries1 = new ArrayList<>();
-        entries1.add(new BarEntry(0f, 3f)); // Strength
-        entries1.add(new BarEntry(1f, 2f)); // Intelligence
-
-        BarDataSet dataSet1 = new BarDataSet(entries1, "");
-
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.RED); // Strength
-        colors.add(Color.GREEN); // Intelligence
-
-        dataSet1.setColors(colors);
-
-        List<IBarDataSet> dataSets = new ArrayList<>();
-        dataSets.add(dataSet1);
-
-        BarData data = new BarData(dataSets);
-        data.setValueTextSize(10f);
-        data.setDrawValues(false);
-
-        barChart.setData(data);
-
-        barChart.getDescription().setEnabled(false);
-
-        YAxis yAxis = barChart.getAxisLeft(); // Use getAxisLeft() for BarChart
-        yAxis.setDrawLabels(true);
-        yAxis.setAxisMinimum(0f); // Set the minimum value to 0
-        barChart.getAxisRight().setEnabled(false); // Disable the right Y-axis
-
-        Legend legend = barChart.getLegend();
-        legend.setEnabled(false); // Disable the legend
-
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setDrawLabels(false); // Disable drawing the labels
-//xAxis.setCenterAxisLabels(true); // Remove this line
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // Set the position of the labels to the bottom
-        xAxis.setGranularity(1f); // Set the granularity to 1
-        xAxis.setXOffset(-25f); // Adjust the X offset to move labels to the left
-        xAxis.setAxisMinimum(-0.5f); // Adjust the minimum value of the X-axis
-
-        List<String> labels = new ArrayList<>();
-        labels.add("Strength");
-        labels.add("Intelligence`");
-
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        barChart.setTouchEnabled(false);
-
-        barChart.invalidate();
-
-// Copy the chart to the large chart
-// Create a new BarDataSet for the large chart
-        BarDataSet dataSetLarge = new BarDataSet(entries1, "");
-        dataSetLarge.setColors(colors);
-
-        List<IBarDataSet> dataSetsLarge = new ArrayList<>();
-        dataSetsLarge.add(dataSetLarge);
-
-        BarData dataLarge = new BarData(dataSetsLarge);
-        dataLarge.setValueTextSize(10f);
-        dataLarge.setDrawValues(true); // Enable values for the large chart
-
-        barChartLarge.setData(dataLarge);
-        barChartLarge.getDescription().setEnabled(false);
-
-        YAxis yAxisLarge = barChartLarge.getAxisLeft();
-        yAxisLarge.setDrawLabels(true); // Enable drawing the numbers
-        yAxisLarge.setAxisMinimum(0f);
-        barChartLarge.getAxisRight().setEnabled(false);
-
-        Legend legendLarge = barChartLarge.getLegend();
-        legendLarge.setEnabled(false);
-
-        XAxis xAxisLarge = barChartLarge.getXAxis();
-        xAxisLarge.setDrawLabels(true); // Enable drawing the labels
-//xAxisLarge.setCenterAxisLabels(true); // Remove this line
-        xAxisLarge.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxisLarge.setGranularity(1f); // Set the granularity to 1
-        xAxisLarge.setXOffset(-25f); // Adjust the X offset to move labels to the left
-        xAxisLarge.setAxisMinimum(-0.5f); // Adjust the minimum value of the X-axis
-        xAxisLarge.setValueFormatter(new IndexAxisValueFormatter(labels));
-        barChartLarge.setTouchEnabled(false);
-
-        barChartLarge.invalidate();
 
 
         // exclude elems within dropdown
@@ -408,6 +320,95 @@ public class ProgressionPage extends AppCompatActivity {
                 popupLargerChart.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    private void barGraph(int childInt, int childStr) {
+        barChart = findViewById(R.id.chart);
+        barChartLarge = findViewById(R.id.chartLarge);
+
+// Create entries for the bars
+        List<BarEntry> entries1 = new ArrayList<>();
+        entries1.add(new BarEntry(0f, (float) childStr)); // Strength
+        entries1.add(new BarEntry(1f, (float) childInt)); // Intelligence
+
+        BarDataSet dataSet1 = new BarDataSet(entries1, "");
+
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.RED); // Strength
+        colors.add(Color.GREEN); // Intelligence
+
+        dataSet1.setColors(colors);
+
+        List<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSet1);
+
+        BarData data = new BarData(dataSets);
+        data.setValueTextSize(10f);
+        data.setDrawValues(false);
+
+        barChart.setData(data);
+
+        barChart.getDescription().setEnabled(false);
+
+        YAxis yAxis = barChart.getAxisLeft(); // Use getAxisLeft() for BarChart
+        yAxis.setDrawLabels(true);
+        yAxis.setAxisMinimum(0f); // Set the minimum value to 0
+        barChart.getAxisRight().setEnabled(false); // Disable the right Y-axis
+
+        Legend legend = barChart.getLegend();
+        legend.setEnabled(false); // Disable the legend
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setDrawLabels(false); // Disable drawing the labels
+//xAxis.setCenterAxisLabels(true); // Remove this line
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // Set the position of the labels to the bottom
+        xAxis.setGranularity(1f); // Set the granularity to 1
+        xAxis.setXOffset(-25f); // Adjust the X offset to move labels to the left
+        xAxis.setAxisMinimum(-0.5f); // Adjust the minimum value of the X-axis
+
+        List<String> labels = new ArrayList<>();
+        labels.add("Strength");
+        labels.add("Intelligence`");
+
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        barChart.setTouchEnabled(false);
+
+        barChart.invalidate();
+
+// Copy the chart to the large chart
+// Create a new BarDataSet for the large chart
+        BarDataSet dataSetLarge = new BarDataSet(entries1, "");
+        dataSetLarge.setColors(colors);
+
+        List<IBarDataSet> dataSetsLarge = new ArrayList<>();
+        dataSetsLarge.add(dataSetLarge);
+
+        BarData dataLarge = new BarData(dataSetsLarge);
+        dataLarge.setValueTextSize(10f);
+        dataLarge.setDrawValues(true); // Enable values for the large chart
+
+        barChartLarge.setData(dataLarge);
+        barChartLarge.getDescription().setEnabled(false);
+
+        YAxis yAxisLarge = barChartLarge.getAxisLeft();
+        yAxisLarge.setDrawLabels(true); // Enable drawing the numbers
+        yAxisLarge.setAxisMinimum(0f);
+        barChartLarge.getAxisRight().setEnabled(false);
+
+        Legend legendLarge = barChartLarge.getLegend();
+        legendLarge.setEnabled(false);
+
+        XAxis xAxisLarge = barChartLarge.getXAxis();
+        xAxisLarge.setDrawLabels(true); // Enable drawing the labels
+//xAxisLarge.setCenterAxisLabels(true); // Remove this line
+        xAxisLarge.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxisLarge.setGranularity(1f); // Set the granularity to 1
+        xAxisLarge.setXOffset(-25f); // Adjust the X offset to move labels to the left
+        xAxisLarge.setAxisMinimum(-0.5f); // Adjust the minimum value of the X-axis
+        xAxisLarge.setValueFormatter(new IndexAxisValueFormatter(labels));
+        barChartLarge.setTouchEnabled(false);
+
+        barChartLarge.invalidate();
     }
 
     private void loadAvatarPreset() {
