@@ -84,12 +84,13 @@ public class CodeVerification extends AppCompatActivity {
                                 .addOnSuccessListener(querySnapshot -> {
                                     if (!querySnapshot.isEmpty()) {
                                         DocumentSnapshot parentDoc = querySnapshot.getDocuments().get(0);
+                                        String parentName = parentDoc.getString("username");
                                         String parentID = parentDoc.getId();
                                         String childID = db.collection("users").document().getId();
                                         Map<String, Object> childData = new HashMap<>();
 
                                         childRef = db.collection("users");
-                                        childData.put("parentID", parentID);
+                                        childData.put("parentName", parentName);
                                         childData.put("role", "child");
                                         childData.put("username", username);
                                         childData.put("childStr", 0);

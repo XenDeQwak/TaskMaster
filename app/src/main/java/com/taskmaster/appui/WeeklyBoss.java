@@ -24,31 +24,39 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WeeklyBoss extends AppCompatActivity {
     ImageButton dropDownGroupButton, imagebutton3, imagebutton4, imagebutton5;
-    AppCompatButton fightButton, childBarStatsButton, popupMonsterButton, childBarFloorCount;
+    AppCompatButton fightButton, statReqStr, statReqInt, monsterName, childBarStatsButton, popupMonsterButton, childBarFloorCount;
     ImageView statGraph, childAvatarImage;
     TextView popupMonsterMessageText, monsterHealthBarText;
     Group dropDownGroup, popupMonsterMessage;
     ProgressBar monsterHealthBar;
     View rootLayout;
-    int bossReq;
+    int bossReq = 10;
     int childStr;
     int childInt;
+    String bossName;
     private int currentProgress = 100;
     private List<Integer> avatarImages;
     private List<String> avatarNames;
     private int currentImageIndex = 0;
     int childAvatar;
+    DocumentReference bossDoc;
     FirebaseFirestore db;
     TextView childBarName;
     Group childBarGroup;
     ImageView childBarAvatar;
+    String bossID;
     int floorCount;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +92,9 @@ public class WeeklyBoss extends AppCompatActivity {
         monsterHealthBar = findViewById(R.id.monsterHealthBar);
         monsterHealthBarText = findViewById(R.id.monsterHealthBarText);
         childBarFloorCount = findViewById(R.id.childBarFloorCount);
+        monsterName = findViewById(R.id.monsterName);
+        statReqStr = findViewById(R.id.statReqStr);
+        statReqInt = findViewById(R.id.statReqInt);
 
         // exclude elems within dropdown
         View[] dropDownElements = {
@@ -110,6 +121,8 @@ public class WeeklyBoss extends AppCompatActivity {
         String userId = prefs.getString("uid", "");
         String prefUsername = prefs.getString("username", "");
 
+        Map<String, Object> bossData = new HashMap<>();
+
         db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -123,6 +136,29 @@ public class WeeklyBoss extends AppCompatActivity {
                                                 if (childTask.isSuccessful()) {
                                                     DocumentSnapshot childDocument = childTask.getResult();
                                                     if (childDocument.exists()) {
+
+                                                        db.collection("boss").get()
+                                                                .addOnCompleteListener(tasks -> {
+                                                                    if (tasks.isSuccessful()) {
+                                                                        if (tasks.getResult().isEmpty()) {
+                                                                            bossData.put("bossReq", bossReq);
+                                                                            bossData.put("bossName", "Sancho");
+                                                                            bossData.put("bossAvatar", 0);
+                                                                            bossID = db.collection("boss").document().getId();
+                                                                            db.collection("boss").document(bossID).set(bossData);
+                                                                        } else {
+                                                                            QuerySnapshot bossDocs = tasks.getResult();
+                                                                            bossID = bossDocs.getDocuments().get(0).getId();
+                                                                            bossDoc = db.collection("boss").document(bossID);
+                                                                            bossName = bossDocs.getDocuments().get(0).getString("bossName");
+                                                                            monsterName.setText(bossName);
+                                                                            bossReq = bossDocs.getDocuments().get(0).getLong("bossReq").intValue();
+                                                                            statReqStr.setText("STR: " + bossReq);
+                                                                            statReqInt.setText("INT: " + bossReq);
+                                                                        }
+                                                                    }
+                                                                });
+
                                                         childStr = childDocument.getLong("childStr").intValue();
                                                         childInt = childDocument.getLong("childInt").intValue();
                                                         floorCount = childDocument.getLong("floor").intValue();
@@ -130,6 +166,7 @@ public class WeeklyBoss extends AppCompatActivity {
                                                         childBarGroup.setVisibility(View.VISIBLE);
                                                         childBarName.setText(prefUsername);
                                                         childBarFloorCount.setText("Floor " + floorCount);
+
 
                                                         List<Integer>avatarImages = new ArrayList<>();
                                                         avatarImages.add(R.drawable.rectangle_rounded);
@@ -142,7 +179,7 @@ public class WeeklyBoss extends AppCompatActivity {
                                                         Log.d("FLOOR", "FLOOR: " + floorCount);
                                                         DocumentReference docRef = db.collection("users").document(childId);
                                                         fightButton.setOnClickListener(e -> {
-                                                            bossFight(docRef);
+                                                            bossFight(docRef, bossID, bossDoc);
                                                         });
                                                     } else {
                                                         Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
@@ -237,7 +274,7 @@ public class WeeklyBoss extends AppCompatActivity {
 
         // ... inside onCreate() after initializing views:
         fightButton = findViewById(R.id.fightButton);
-        bossReq = 10;
+
 
 
         popupMonsterButton.setOnClickListener(new View.OnClickListener() {
@@ -248,24 +285,48 @@ public class WeeklyBoss extends AppCompatActivity {
         });
     }
 
-    private void bossFight(DocumentReference docRef) {
+    private void bossFight(DocumentReference docRef, String bossID, DocumentReference bossDoc) {
+        //boss data init
+        db.collection("boss").document(bossID).get()
+                .addOnCompleteListener(task -> {
+                   if (task.isSuccessful()) {
+                       DocumentSnapshot bossDocument = task.getResult();
+                       if (bossDocument.exists()) {
+                           bossReq = bossDocument.getLong("bossReq").intValue();
+
+                           if (childStr >= bossReq && childInt >= bossReq) {
+                               int totalDmg = 100;
+                               currentProgress -= totalDmg;
+                               updateProgressBar(currentProgress);
+                               double prevChildStats = ((childStr + childInt) / 2);
+                               bossReq = (int)Math.round(prevChildStats + Math.pow(10, 1.3) * Math.log10(prevChildStats));
+                               docRef.update("floor", floorCount + 1);
+                               bossDoc.update("bossReq", bossReq);
+
+                               popupMonsterMessageText.setText("im defeated :(");
+                               popupMonsterMessage.setVisibility(View.VISIBLE);
+
+                           } else if ((childStr < bossReq && childInt < bossReq) || (childStr == bossReq && childInt < bossReq) || (childStr < bossReq && childInt == bossReq) || (childStr > bossReq && childInt < bossReq) || (childStr < bossReq && childInt > bossReq)) {
+                               double strDmg = ((double) childStr / bossReq);
+                               double intDmg = ((double) childInt / bossReq);
+                               double totalDmg = (intDmg * strDmg * 100);
+                               currentProgress -= totalDmg;
+                               currentProgress = Math.round(currentProgress);
+                               updateProgressBar(currentProgress);
+
+                               popupMonsterMessageText.setText("im :)");
+                               popupMonsterButton.setText("Exit");
+                               popupMonsterButton.setOnClickListener(e -> {
+                                   Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
+                                   startActivity(intent);
+                               });
+                               popupMonsterMessage.setVisibility(View.VISIBLE);
+                           }
+                       }
+                   }
+                });
         // Check if the child's stats are sufficient to damage the boss
-        if (childStr >= bossReq && childInt >= bossReq) {
-            int totalDmg = 100;
-            currentProgress -= totalDmg;
-            updateProgressBar(currentProgress);
-            double prevChildStats = ((childStr + childInt) / 2);
-            bossReq = (int)Math.round(prevChildStats + Math.pow(10, 1.3) * Math.log10(prevChildStats));
-            Log.d("DEBUG", "Boss Req: " + bossReq);
-            docRef.update("floor", floorCount + 1);
-        } else if (childStr < bossReq && childInt < bossReq) {
-            double strDmg = ((double) childStr / bossReq);
-            double intDmg = ((double) childInt / bossReq);
-            double totalDmg = (intDmg * strDmg * 100);
-            currentProgress -= totalDmg;
-            currentProgress = Math.round(currentProgress);
-            updateProgressBar(currentProgress);
-        }
+
     }
 
     private void updateProgressBar(int progress) {
@@ -298,33 +359,3 @@ public class WeeklyBoss extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 }
-
-/*
-        fightButton.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Toast.makeText(WeeklyBoss.this, "pressed", Toast.LENGTH_SHORT).show();
-
-        currentProgress -= 10;
-        updateProgressBar(currentProgress);
-        // if meet stat req
-//                if (currentProgress <= 0) {
-//                    popupMonsterMessageText.setText("im defeated :(");
-//                    popupMonsterMessage.setVisibility(View.VISIBLE);
-//                    currentProgress = 0;
-//                    updateProgressBar(currentProgress);
-//                    // add floorcount, lock this till next week
-//                }
-
-        // if not meet stat req
-        if (currentProgress <= 10) {
-            popupMonsterMessageText.setText("im :)");
-            popupMonsterButton.setText("Exit");
-            popupMonsterMessage.setVisibility(View.VISIBLE);
-            currentProgress = 0;
-            updateProgressBar(currentProgress);
-            // keep floorcount, lock this till next week
-        }
-    }
-});
-*/
