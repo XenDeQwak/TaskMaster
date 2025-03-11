@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Pressed state -->
+    <item android:state_pressed="true">
+        <layer-list>
+            <item android:drawable="@drawable/button_shadowed_pressed" />
+        </layer-list>
+    </item>
+    <!-- Default state (not pressed) -->
+    <item>
+        <layer-list>
+            <item android:drawable="@drawable/button_shadowed" />
+        </layer-list>
+    </item>
+</selector>

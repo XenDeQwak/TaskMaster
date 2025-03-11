@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -32,7 +33,7 @@ public class SignUp extends AppCompatActivity {
     Animation pop_out_Anim, fade_in_Anim;
     ImageView container1, container2, container3, bg, logo, logo_shadow;
     TextView logInTextView;
-    Button confirmButton;
+    AppCompatButton confirmButton;
     EditText emailbox, passwordbox, usernamebox, firstnamebox, lastnamebox;
     FirebaseFirestore db;
     FirebaseAuth auth;

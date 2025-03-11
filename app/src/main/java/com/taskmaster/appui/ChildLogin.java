@@ -13,6 +13,7 @@ import android.content.Intent;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,7 +27,7 @@ import java.util.Map;
 
 public class ChildLogin extends AppCompatActivity {
 
-    Button confirmButton;
+    AppCompatButton confirmButton;
     TextView signUpTextView;
     EditText usernameBox;
     FirebaseFirestore db;
@@ -77,6 +78,7 @@ public class ChildLogin extends AppCompatActivity {
         db.collection("users").whereEqualTo("username", username).limit(1).get()
                 .addOnSuccessListener(userQuery -> {
                     if (!userQuery.isEmpty()) {
+                        editor.putString("username", username);
                         editor.putString("role", "child");
                         editor.apply();
 

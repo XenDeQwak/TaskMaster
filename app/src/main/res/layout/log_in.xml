@@ -171,16 +171,18 @@
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toTopOf="@+id/imageView10" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button"
         android:layout_width="252dp"
         android:layout_height="55dp"
         android:layout_marginTop="311dp"
         android:layout_marginBottom="112dp"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
         android:text="Confirm"
         android:textAlignment="center"
+        android:textAllCaps="false"
         android:textColor="#3F3F3F"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"

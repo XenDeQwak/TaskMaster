@@ -178,6 +178,16 @@ public class WeeklyBoss extends AppCompatActivity {
                     if (currentProgress <= 0) {
                         Toast.makeText(WeeklyBoss.this, "Boss defeated! Floor progressed!", Toast.LENGTH_SHORT).show();
 
+                        // show win message
+                        popupMonsterMessageText.setText("im defeated dialouge u win");
+                        popupMonsterButton.setText("Next Floor");
+                        popupMonsterMessage.setVisibility(View.VISIBLE);
+
+                        // show lose message
+//                        popupMonsterMessageText.setText("i won u lost");
+//                        popupMonsterButton.setText("Exit");
+//                        popupMonsterMessage.setVisibility(View.VISIBLE);
+
                         // Increase the floor count;
                         try {
                             int currentFloor = Integer.parseInt(childBarFloorCount.getText().toString());

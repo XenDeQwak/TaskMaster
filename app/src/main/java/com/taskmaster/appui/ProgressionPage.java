@@ -1,6 +1,7 @@
 package com.taskmaster.appui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +35,10 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +52,12 @@ public class ProgressionPage extends AppCompatActivity {
     BarChart barChart, barChartLarge;
     private List<Integer> avatarImages;
     private List<String> avatarNames;
-    private int currentImageIndex = 0;
+    int questCount;
+    FirebaseFirestore db;
+    String parentID;
+    String username;
+    int childAvatar;
+    int currentImageIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,30 +84,72 @@ public class ProgressionPage extends AppCompatActivity {
         avatarNames.add("Avatar 3");
         avatarNames.add("Avatar 4");
 
+        SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        parentID = pref.getString("uid", "");
+
+        db = FirebaseFirestore.getInstance();
+        db.collection("users").document(parentID).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot parentDocument = task.getResult();
+                        if (parentDocument.exists()) {
+                            List<String> childIds = (List<String>) parentDocument.get("children");
+                            if (childIds != null) {
+                                for (String childId : childIds) {
+                                    db.collection("users").document(childId).get()
+                                            .addOnCompleteListener(childTask -> {
+                                                if (childTask.isSuccessful()) {
+                                                    DocumentSnapshot childDocument = childTask.getResult();
+                                                    if (childDocument.exists()) {
+                                                        username = childDocument.getString("username");
+                                                        questCount = childDocument.getLong("questCount").intValue();
+                                                        childAvatar = childDocument.getLong("childAvatar").intValue();
+
+                                                        // Set the initial image
+                                                        childAvatarImage.setImageResource(avatarImages.get(childAvatar));
+                                                        currentImageIndex = childAvatar;
+
+                                                        childAvatarPresetNextButton.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                currentImageIndex++;
+                                                                if (currentImageIndex >= avatarImages.size()) {
+                                                                    currentImageIndex = 0;
+                                                                }
+                                                                updateAvatarUIAndFirebase();
+                                                            }
+                                                        });
+
+                                                        childAvatarPresetPrevButton.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                currentImageIndex--;
+                                                                if (currentImageIndex < 0) {
+                                                                    currentImageIndex = avatarImages.size() - 1;
+                                                                }
+                                                                updateAvatarUIAndFirebase();
+                                                            }
+                                                        });
+                                                    } else {
+                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
+                                                    }
+                                                } else {
+                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
+                                                }
+                                            });
+                                }
+                            } else {
+                                Log.d("DEBUG", "NO CHILDREN");
+                            }
+                        } else {
+                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
+                        }
+                    } else {
+                        Log.d("DEBUG", "Error getting parent document", task.getException());
+                    }
+                });
+
         loadAvatarPreset();
-
-
-        childAvatarPresetNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentImageIndex++;
-                if (currentImageIndex >= avatarImages.size()) {
-                    currentImageIndex = 0;
-                }
-                updateAvatarUIAndFirebase();
-            }
-        });
-
-        childAvatarPresetPrevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentImageIndex--;
-                if (currentImageIndex < 0) {
-                    currentImageIndex = avatarImages.size() - 1;
-                }
-                updateAvatarUIAndFirebase();
-            }
-        });
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -145,19 +196,23 @@ public class ProgressionPage extends AppCompatActivity {
         avatarNames.add("Avatar 3");
         avatarNames.add("Avatar 4");
 
-        // Set the initial image
-        childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
+
+
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String username = prefs.getString("username", "");
+
+
 
         // change text based on child here
-        childAvatarName.setText("Child Name");
+        childAvatarName.setText(username);
         statFloorNum.setText("12");
-        statQuestDoneNum.setText("12");
+        statQuestDoneNum.setText(Integer.toString(questCount));
 
 
         barChart = findViewById(R.id.chart);
         barChartLarge = findViewById(R.id.chartLarge);
 
-// Create entries for the bars
+        // Create entries for the bars
         List<BarEntry> entries1 = new ArrayList<>();
         entries1.add(new BarEntry(0f, 3f)); // Strength
         entries1.add(new BarEntry(1f, 2f)); // Intelligence
@@ -356,23 +411,26 @@ public class ProgressionPage extends AppCompatActivity {
     }
 
     private void loadAvatarPreset() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        db.collection("users").document(userId)
+        db.collection("users").whereEqualTo("username", username)
                 .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        String presetStr = documentSnapshot.getString("presetAvatar");
-                        if (presetStr != null) {
-                            try {
-                                currentImageIndex = Integer.parseInt(presetStr);
-                            } catch (NumberFormatException e) {
-                                currentImageIndex = 0;
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot document = task.getResult();
+                        if (document != null && !document.isEmpty()) {
+                            DocumentReference childRef = document.getDocuments().get(0).getReference();
+                            DocumentSnapshot documents = childRef.get().getResult();
+                            String presetStr = documents.getString("childAvatar");
+
+                            if (presetStr != null) {
+                                try {
+                                    currentImageIndex = Integer.parseInt(presetStr);
+                                } catch (NumberFormatException e) {
+                                    currentImageIndex = 0;
+                                }
                             }
+                            childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
+                            childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
                         }
-                        childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
-                        childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -384,15 +442,15 @@ public class ProgressionPage extends AppCompatActivity {
         childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
         childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        db.collection("users").document(userId)
-                .update("presetAvatar", String.valueOf(currentImageIndex))
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("Avatar", "presetAvatar updated successfully");
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("Avatar", "Failed to update presetAvatar", e);
+        db.collection("users").whereEqualTo("username", username).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot document = task.getResult();
+                        if (document != null && !document.isEmpty()) {
+                            DocumentReference childRef = document.getDocuments().get(0).getReference();
+                            childRef.update("childAvatar", currentImageIndex);
+                        }
+                    }
                 });
     }
 

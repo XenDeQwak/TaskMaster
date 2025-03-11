@@ -7,29 +7,45 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ManageChild extends AppCompatActivity {
-    ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openChildPage, copyButton, exitButton;
-    TextView codeText;
+    AppCompatButton addChildButton, copyButton, exitButton;
+    ImageButton imagebutton1, imagebutton3, imagebutton4, imagebutton5, openChildPage;
+    TextView codeText, childName;
+    Context context = this;
     Group dropDownGroup, popUpGroup;
-    GridLayout gridLayout;
+    GridLayout gridLayout, gridLayout1;
     String tavernCode;
     View rootLayout;
     FirebaseFirestore db;
@@ -51,11 +67,10 @@ public class ManageChild extends AppCompatActivity {
 
         // hooks
         imagebutton1 = findViewById(R.id.imageButton2);
-        imagebutton2 = findViewById(R.id.imageButton3);
+        addChildButton = findViewById(R.id.addChildButton);
         imagebutton3 = findViewById(R.id.imageButton4);
         imagebutton4 = findViewById(R.id.imageButton5);
         imagebutton5 = findViewById(R.id.imageButton6);
-        openChildPage = findViewById(R.id.open_child_page);
         dropDownGroup = findViewById(R.id.dropdownGroup);
         popUpGroup = findViewById(R.id.pop_up_tavern_code);
         copyButton = findViewById(R.id.copy_button);
@@ -63,6 +78,7 @@ public class ManageChild extends AppCompatActivity {
         codeText = findViewById(R.id.code_text);
         gridLayout = findViewById(R.id.gridLayout);
         rootLayout = findViewById(R.id.main);
+        gridLayout1 = findViewById(R.id.gridLayout1);
 
         // exclude elems within dropdown
         View[] dropDownElements = {
@@ -75,9 +91,51 @@ public class ManageChild extends AppCompatActivity {
                 findViewById(R.id.textView9)
         };
 
-        // hide dropdown group
+        // hide dropdown group and initial icons
         dropDownGroup.setVisibility(View.GONE);
+        db = FirebaseFirestore.getInstance();
 
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String parentID = prefs.getString("uid", "");
+
+        //child data init
+        db.collection("users").document(parentID).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot parentDocument = task.getResult();
+                        if (parentDocument.exists()) {
+                            List<String> childIds = (List<String>) parentDocument.get("children");
+                            if (childIds != null) {
+                                for (String childId : childIds) {
+                                    db.collection("users").document(childId).get()
+                                            .addOnCompleteListener(childTask -> {
+                                                if (childTask.isSuccessful()) {
+                                                    DocumentSnapshot childDocument = childTask.getResult();
+                                                    if (childDocument.exists()) {
+                                                        String childName = childDocument.getString("username");
+                                                        int childStr = childDocument.getLong("childStr").intValue();
+                                                        int childInt = childDocument.getLong("childInt").intValue();
+                                                        int childAvatar = childDocument.getLong("childAvatar").intValue();
+                                                        // Create the child frame
+                                                        createChildFrame(childName, childStr, childInt, childAvatar, 1);
+                                                    } else {
+                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
+                                                    }
+                                                } else {
+                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
+                                                }
+                                            });
+                                }
+                            } else {
+                                Log.d("DEBUG", "NO CHILDREN");
+                            }
+                        } else {
+                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
+                        }
+                    } else {
+                        Log.d("DEBUG", "Error getting parent document", task.getException());
+                    }
+                });
         // view dropdown group
         imagebutton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,10 +151,6 @@ public class ManageChild extends AppCompatActivity {
         // exclude elems within popup
         View[] popupElements = {
                 findViewById(R.id.pop_up_frame),
-                findViewById(R.id.copy_frame),
-                findViewById(R.id.exit_frame),
-                findViewById(R.id.copy_text),
-                findViewById(R.id.exit_text),
                 findViewById(R.id.notice_text),
                 findViewById(R.id.notice_shadow_overlay),
                 copyButton,
@@ -108,7 +162,7 @@ public class ManageChild extends AppCompatActivity {
         popUpGroup.setVisibility(View.GONE);
 
         // view popup group
-        imagebutton2.setOnClickListener(new View.OnClickListener() {
+        addChildButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -120,9 +174,7 @@ public class ManageChild extends AppCompatActivity {
             }
         });
 
-        db = FirebaseFirestore.getInstance();
 
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = prefs.getString("username", "");
 
         if (username != null) {
@@ -140,16 +192,18 @@ public class ManageChild extends AppCompatActivity {
                     .addOnFailureListener(e -> {
                         Toast.makeText(ManageChild.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
+        } else {
+            Log.d("DEBUG", "USERNAME NOT FOUND");
         }
 
-        openChildPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (popUpGroup.getVisibility() == View.GONE) {
-                    Toast.makeText(ManageChild.this, "Open Child Page ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        openChildPage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (popUpGroup.getVisibility() == View.GONE) {
+//                    Toast.makeText(ManageChild.this, "Open Child Page ", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
         imagebutton4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,6 +284,138 @@ public class ManageChild extends AppCompatActivity {
                 Toast.makeText(ManageChild.this, "Exit", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    private void createChildFrame(String childName, int strStat, int intStat, int childAvatar, int floor) {
+
+        int frameH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108, getResources().getDisplayMetrics());
+        int marginBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+        int childFrameH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 84, getResources().getDisplayMetrics());
+        int childFrameW = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 316, getResources().getDisplayMetrics());
+        int childMarginEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108, getResources().getDisplayMetrics());
+        int childMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 9, getResources().getDisplayMetrics());
+        int childMarginBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 137, getResources().getDisplayMetrics());
+        int childMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27, getResources().getDisplayMetrics());
+        int childAvatarW = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108, getResources().getDisplayMetrics());
+        int childAvatarH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 107, getResources().getDisplayMetrics());
+        int childAvatarStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 11, getResources().getDisplayMetrics());
+        int strMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 125, getResources().getDisplayMetrics());
+        int strMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+        int intMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 195, getResources().getDisplayMetrics());
+        int intMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+        int nameMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 125, getResources().getDisplayMetrics());
+        int nameMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
+        int floorMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 258, getResources().getDisplayMetrics());
+        int floorMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+
+
+        //new framelayout
+        FrameLayout newFrame = new FrameLayout(this);
+        FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                frameH
+        );
+        frameParams.gravity = Gravity.CENTER;
+        frameParams.bottomMargin = marginBottom;
+        newFrame.setLayoutParams(frameParams);
+
+        //child frame
+        ImageView childFrame = new ImageView(context);
+        FrameLayout.LayoutParams childFrameParams = new FrameLayout.LayoutParams(
+                childFrameW,
+                childFrameH
+        );
+        childFrameParams.setMarginStart(childMarginStart);
+        childFrameParams.setMarginEnd(childMarginEnd);
+        childFrameParams.topMargin = childMarginTop;
+        childFrameParams.bottomMargin = childMarginBottom;
+        childFrame.setLayoutParams(childFrameParams);
+        childFrame.setImageResource(R.drawable.rectangle_rounded);
+
+        //child frame avatar
+        ImageView childFrameAvatar = new ImageView(context);
+        FrameLayout.LayoutParams childFrameAvatarParams = new FrameLayout.LayoutParams(
+                childAvatarW,
+                childAvatarH
+        );
+        childFrameAvatarParams.setMarginStart(childAvatarStart);
+        childFrameAvatar.setLayoutParams(childFrameAvatarParams);
+
+        List<Integer>avatarImages = new ArrayList<>();
+        avatarImages.add(R.drawable.rectangle_rounded);
+        avatarImages.add(R.drawable.placeholderavatar1_framed);
+        avatarImages.add(R.drawable.placeholderavatar2_framed);
+        avatarImages.add(R.drawable.placeholderavatar3_framed);
+        avatarImages.add(R.drawable.placeholderavatar4_framed);
+
+        childFrameAvatar.setImageResource(avatarImages.get(childAvatar));
+
+        // STR Text
+        TextView strText = new TextView(context);
+        FrameLayout.LayoutParams strTextParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        strTextParams.setMarginStart(strMarginStart);
+        strTextParams.topMargin = strMarginTop;
+        strText.setLayoutParams(strTextParams);
+        strText.setText("STR " + String.valueOf(strStat));
+        strText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
+        strText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        strText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+
+        // INT Text
+        TextView intText = new TextView(context);
+        FrameLayout.LayoutParams intTextParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        intTextParams.setMarginStart(intMarginStart);
+        intTextParams.topMargin = intMarginTop;
+        intText.setLayoutParams(intTextParams);
+        intText.setText("INT " + String.valueOf(intStat));
+        intText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
+        intText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        intText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+
+        // Name Text
+        TextView nameText = new TextView(context);
+        FrameLayout.LayoutParams nameTextParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        nameTextParams.setMarginStart(nameMarginStart);
+        nameTextParams.topMargin = nameMarginTop;
+        nameText.setLayoutParams(nameTextParams);
+        nameText.setText(childName);
+        nameText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
+        nameText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+
+        // Floor Text
+        TextView floorText = new TextView(context);
+        FrameLayout.LayoutParams floorTextParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        floorTextParams.setMarginStart(floorMarginStart);
+        floorTextParams.topMargin = floorMarginTop;
+        floorText.setLayoutParams(floorTextParams);
+        floorText.setText("Floor: " + String.valueOf(floor));
+        floorText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
+        floorText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        floorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+
+        // Add views to newFrame
+        newFrame.addView(childFrame);
+        newFrame.addView(childFrameAvatar);
+        newFrame.addView(strText);
+        newFrame.addView(intText);
+        newFrame.addView(nameText);
+        newFrame.addView(floorText);
+        gridLayout1.addView(newFrame);
+
     }
 
     // exclude elems within dropdown and popup

@@ -14,7 +14,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
@@ -100,25 +100,25 @@
         app:layout_constraintTop_toTopOf="@+id/imageView16"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button3"
         android:layout_width="252dp"
         android:layout_height="55dp"
         android:layout_marginTop="206dp"
         android:layout_marginBottom="63dp"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
         android:text="Confirm"
         android:textAlignment="center"
+        android:textAllCaps="false"
         android:textColor="#3F3F3F"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView16"
         app:layout_constraintEnd_toEndOf="@+id/imageView16"
         app:layout_constraintStart_toStartOf="@+id/imageView16"
         app:layout_constraintTop_toTopOf="@+id/imageView16"
-        app:layout_constraintVertical_bias="0.0"
-        app:strokeColor="@color/black"
-        app:strokeWidth="1dp" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/userBox"

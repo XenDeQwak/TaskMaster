@@ -49,8 +49,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -62,8 +64,8 @@ public class QuestManagement extends AppCompatActivity {
     FirebaseFirestore db;
     CollectionReference questInfo;
     String userId;
-    ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton, assignAdvButton1, assignAdvButton2;
-    AppCompatButton setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, viewRewardsExitButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton, assignDropdownButton, assignCancelButton, assignConfirmButton;
+    ImageButton imagebutton1, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton, assignAdvButton1, assignAdvButton2;
+    AppCompatButton addQuestButton, setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, viewRewardsExitButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton, assignDropdownButton, assignCancelButton, assignConfirmButton;
     ImageView questFrame, questNameFrame, questImage, questImageIcon, imageView23, imageView18, assignDropdownFrame, popupAssignFrame, editQuestImage, imageView19, basePageFrame, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame, viewQuestFrame, viewQuestImage, viewDifficultyBG, childBarFrame, childBarAvatar;
     TextView questNameText, rewardsStr, rewardsInt, textView8, viewNotifTextMsg, textView5, basePageTitle, assignAdv1, assignAdv2;
     EditText editQuestTime, editQuestName, editQuestDesc, viewQuestName, viewQuestTime, viewQuestDesc;
@@ -78,11 +80,14 @@ public class QuestManagement extends AppCompatActivity {
     String questName, questDescription, time, rewardStat, rewardOptional;
     int difficulty;
     DocumentReference questRef;
-
+    int questDifficulty;
+    String rewardType;
     //quest count
     int groupCount = 0;
     int questId = 1;
     int defaultHour, defaultMinute;
+    int childAvatar;
+
     int questWidth, questHeight, imageWidth, imageHeight, nameFrameWidth, nameFrameHeight, topMarginImage, bottomMarginImage, topMarginNameFrame, bottomMarginNameFrame;
     Context context = this;
     View rootLayout;
@@ -106,6 +111,7 @@ public class QuestManagement extends AppCompatActivity {
     private Map<Integer, String> viewQuestRewardOptional = new HashMap<>();
     private Map<String, Object> questData = new HashMap<>();
     private String username;
+    private String prefUsername;
     private String parentCode;
     @SuppressLint("CutPasteId")
 
@@ -119,13 +125,65 @@ public class QuestManagement extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        Log.d("TAG", "user id: " + userId);
-
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         role = prefs.getString("role", "");
         userId = prefs.getString("uid", "");
+        prefUsername = prefs.getString("username", "");
+
+        //child data init
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot parentDocument = task.getResult();
+                        if (parentDocument.exists()) {
+                            List<String> childIds = (List<String>) parentDocument.get("children");
+                            if (childIds != null) {
+                                for (String childId : childIds) {
+                                    db.collection("users").document(childId).get()
+                                            .addOnCompleteListener(childTask -> {
+                                                if (childTask.isSuccessful()) {
+                                                    DocumentSnapshot childDocument = childTask.getResult();
+                                                    if (childDocument.exists()) {
+                                                        childAvatar = childDocument.getLong("childAvatar").intValue();
+
+                                                        //moved child bar init here for async
+                                                        if ("child".equals(role)) {
+                                                            addQuestButton.setVisibility(View.GONE);
+                                                            childBarGroup.setVisibility(View.VISIBLE);
+                                                            childBarName.setText(prefUsername);
+
+                                                            List<Integer>avatarImages = new ArrayList<>();
+                                                            avatarImages.add(R.drawable.rectangle_rounded);
+                                                            avatarImages.add(R.drawable.placeholderavatar1_framed);
+                                                            avatarImages.add(R.drawable.placeholderavatar2_framed);
+                                                            avatarImages.add(R.drawable.placeholderavatar3_framed);
+                                                            avatarImages.add(R.drawable.placeholderavatar4_framed);
+
+                                                            childBarAvatar.setImageResource(avatarImages.get(childAvatar));
+                                                        } else if ("parent".equals(role)) {
+                                                            childBarGroup.setVisibility(View.GONE);
+                                                        }
+                                                    } else {
+                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
+                                                    }
+                                                } else {
+                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
+                                                }
+                                            });
+                                }
+                            } else {
+                                Log.d("DEBUG", "NO CHILDREN");
+                            }
+                        } else {
+                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
+                        }
+                    } else {
+                        Log.d("DEBUG", "Error getting parent document", task.getException());
+                    }
+                });
 
 
+        //parent data init
         db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 
@@ -169,7 +227,7 @@ public class QuestManagement extends AppCompatActivity {
 
         // hooks
         imagebutton1 = findViewById(R.id.imageButton2);
-        imagebutton2 = findViewById(R.id.imageButton3);
+        addQuestButton = findViewById(R.id.addQuestButton);
         imagebutton3 = findViewById(R.id.imageButton4);
         imagebutton4 = findViewById(R.id.imageButton5);
         imagebutton5 = findViewById(R.id.imageButton6);
@@ -218,7 +276,7 @@ public class QuestManagement extends AppCompatActivity {
         approveQuestViewButtonP = findViewById(R.id.approveQuestViewButtonP);
         rejectQuestViewButtonP = findViewById(R.id.rejectQuestViewButtonP);
 
-
+        childBarName = findViewById(R.id.childBarName);
         viewQuestGroupButtonC = findViewById(R.id.viewQuestGroupButtonC);
 
         cancelQuestViewButtonC = findViewById(R.id.cancelQuestViewButtonC);
@@ -243,13 +301,12 @@ public class QuestManagement extends AppCompatActivity {
         textView5 = findViewById(R.id.textView5);
         imageView19 = findViewById(R.id.imageView19);
         imageView23 = findViewById(R.id.imageView23);
-        imageView18 = findViewById(R.id.imageView18);
 
         popupAssignGroup = findViewById(R.id.popupAssignGroup);
         assignDropdownFrame = findViewById(R.id.assignDropdownFrame);
         assignDropdownButton = findViewById(R.id.assignDropdownButton);
         assignAdvButton1 = findViewById(R.id.assignAdvButton1);
-        assignAdvButton2 = findViewById(R.id.assignAdvButton2);
+//        assignAdvButton2 = findViewById(R.id.assignAdvButton2);
         assignCancelButton = findViewById(R.id.assignCancelButton);
         assignConfirmButton = findViewById(R.id.assignConfirmButton);
         assignAdv1 = findViewById(R.id.assignAdv1);
@@ -269,20 +326,19 @@ public class QuestManagement extends AppCompatActivity {
 
         // hide from child
         if ("child".equals(role)) {
-            imagebutton2.setVisibility(View.GONE);
+            addQuestButton.setVisibility(View.GONE);
             imageView19.setVisibility(View.GONE);
             textView5.setVisibility(View.GONE);
             childBarGroup.setVisibility(View.VISIBLE);
             basePageFrame.setVisibility(View.VISIBLE);
             basePageTitle.setVisibility(View.VISIBLE);
             imageView23.setVisibility(View.GONE);
-            imageView18.setVisibility(View.GONE);
+            textView8.setText("Weekly Boss");
         } else if ("parent".equals(role)) {
             childBarGroup.setVisibility(View.GONE);
             basePageFrame.setVisibility(View.GONE);
             basePageTitle.setVisibility(View.GONE);
             imageView23.setVisibility(View.VISIBLE);
-            imageView18.setVisibility(View.VISIBLE);
         }
 
         // hide popupRewardsGroup
@@ -313,7 +369,7 @@ public class QuestManagement extends AppCompatActivity {
         });
 
 
-        imagebutton2.setOnClickListener(new View.OnClickListener() {
+        addQuestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (groupCount >= 4) { // limit quests
@@ -334,6 +390,7 @@ public class QuestManagement extends AppCompatActivity {
                                         questData.put("description", "");
                                         questData.put("difficulty", 0);
                                         questData.put("time", "");
+                                        questData.put("questTime", "");
                                         questData.put("rewardStat", "");
                                         questData.put("forVerif", false);
                                         questData.put("isQuestDone", true);
@@ -341,7 +398,8 @@ public class QuestManagement extends AppCompatActivity {
                                         questData.put("roomCode", parentCode);
                                         questData.put("questId", questId);
                                         questInfo.document(username + "Quest" + questId).set(questData);
-                                        createQuest("", "", 0, "", "", "", "");
+                                        createQuest("", "", 0, "", "", "");
+//                                        createQuest("", "", 0, "", "", "", "");
                                         editQuest();
                                     }
                                 }
@@ -351,13 +409,6 @@ public class QuestManagement extends AppCompatActivity {
 
             }
         });
-
-        ImageButton createQuestButton = findViewById(R.id.imageButton3);
-
-        if ("child".equals(role)) {
-            createQuestButton.setVisibility(View.GONE);
-            textView8.setText("Weekly Boss");
-        }
 
         imagebutton3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -398,7 +449,6 @@ public class QuestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 viewQuestGroup.setVisibility(View.GONE);
                 viewQuestGroupButtonC.setVisibility(View.GONE);
-                Toast.makeText(QuestManagement.this, "exit", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -418,7 +468,7 @@ public class QuestManagement extends AppCompatActivity {
                         if (document.exists()) {
                             Boolean parentVerif = document.getBoolean("forVerif");
                             if (Boolean.TRUE.equals(parentVerif)) {
-                                viewNotifTextMsg.setText("Quest status: Pending\\nPlease wait\\nfor confirmation!");
+                                viewNotifTextMsg.setText("Quest status: Pending\nPlease wait\nfor confirmation!");
                                 popupViewNotif.setVisibility(View.VISIBLE);
                             }
                         }
@@ -442,27 +492,6 @@ public class QuestManagement extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // if quest status pending true
-                db.collection("quest").document(username + "Quest" + (questId - 1)).get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    Boolean isVerifTrue = document.getBoolean("forVerif");
-                                    if (Boolean.TRUE.equals(isVerifTrue)) {
-                                        db.collection("quest").document(username + "Quest" + (questId - 1))
-                                                .delete()
-                                                .addOnSuccessListener(success -> {
-                                                    Log.d("TAG", "Deletion success");
-                                                })
-                                                .addOnFailureListener(fail -> {
-                                                    Log.d("TAG", "Can't delete");
-                                                });
-                                    }
-                                } else {
-                                    Toast.makeText(context, "NOT FOR VERIF YET", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
 
                 // quest status pending false
 
@@ -480,15 +509,77 @@ public class QuestManagement extends AppCompatActivity {
                 // if quest status pending
                 viewQuestGroup.setVisibility(View.GONE);
                 viewQuestGroupButtonP.setVisibility(View.GONE);
-                Toast.makeText(QuestManagement.this, "approve", Toast.LENGTH_SHORT).show();
+
+                db.collection("quest").document(username + "Quest" + (questId - 1)).get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    Boolean isVerifTrue = document.getBoolean("forVerif");
+                                    if (Boolean.TRUE.equals(isVerifTrue)) {
+                                        questDifficulty = document.getLong("difficulty").intValue();
+                                        rewardType = document.getString("rewardStat");
+
+                                        //access child data
+                                        db.collection("users").document(userId).get()
+                                                .addOnCompleteListener(tasks -> {
+                                                    if (tasks.isSuccessful()) {
+                                                        DocumentSnapshot parentDocument = tasks.getResult();
+                                                        if (parentDocument.exists()) {
+                                                            List<String> childIds = (List<String>) parentDocument.get("children");
+                                                            if (childIds != null) {
+                                                                for (String childId : childIds) {
+                                                                    db.collection("users").document(childId).get()
+                                                                            .addOnCompleteListener(childTask -> {
+                                                                                if (childTask.isSuccessful()) {
+                                                                                    DocumentSnapshot childDocument = childTask.getResult();
+                                                                                    if (childDocument.exists()) {
+                                                                                        DocumentReference childRef = db.collection("users").document(childId);
+                                                                                        if ("strength".equals(rewardType)) {
+                                                                                            childRef.update("childStr", childDocument.getLong("childStr").intValue() + questDifficulty);
+                                                                                        } else {
+                                                                                            childRef.update("childInt", childDocument.getLong("childInt").intValue() + questDifficulty);
+                                                                                        }
+                                                                                        childRef.update("questCount", childDocument.getLong("questCount").intValue() + 1);
+                                                                                    } else {
+                                                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
+                                                                                    }
+                                                                                } else {
+                                                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
+                                                                                }
+                                                                            });
+                                                                }
+                                                            } else {
+                                                                Log.d("DEBUG", "NO CHILDREN");
+                                                            }
+                                                        } else {
+                                                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
+                                                        }
+                                                    } else {
+                                                        Log.d("DEBUG", "Error getting parent document", task.getException());
+                                                    }
+                                                });
+                                        db.collection("quest").document(username + "Quest" + (questId - 1))
+                                                .delete()
+                                                .addOnSuccessListener(success -> {
+                                                    Log.d("TAG", "Deletion success");
+                                                })
+                                                .addOnFailureListener(fail -> {
+                                                    Log.d("TAG", "Can't delete");
+                                                });
+                                    } else {
+                                        viewNotifTextMsg.setText("Quest status: In Progress\nPlease wait\nuntil finished!");
+                                        popupViewNotif.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }
+                        });
                 // grant stat reward
                 // increase quest finished count
                 // del quest
 
                 // else
                 // show pop up "This quest is in progress"
-                //viewNotifTextMsg.setText("Quest status: In Progress\\nPlease wait\\nuntil finished!");
-                //popupViewNotif.setVisibility(View.VISIBLE);
             }
         });
 
@@ -576,7 +667,8 @@ public class QuestManagement extends AppCompatActivity {
                 rewardsStr.setVisibility(View.GONE);
                 rewardsIntButton.setVisibility(View.GONE);
                 rewardsStrButton.setVisibility(View.GONE);
-                Toast.makeText(QuestManagement.this, "open reward thing", Toast.LENGTH_SHORT).show();
+
+
             }
         });
 
@@ -683,7 +775,6 @@ public class QuestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 questRewardStat.put(lastClickedQuestId, "intelligence");
                 Log.d("QuestReward", "Quest " + lastClickedQuestId + ": set to intelligence");
-                Toast.makeText(QuestManagement.this, "set to int", Toast.LENGTH_SHORT).show();
                 rewardsDropdownButton.setText("Intelligence");
                 rewardsDropdownFrame.setVisibility(View.GONE);
                 rewardsInt.setVisibility(View.GONE);
@@ -699,7 +790,6 @@ public class QuestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 questRewardStat.put(lastClickedQuestId, "strength");
                 Log.d("QuestReward", "Quest " + lastClickedQuestId + ": set to strength");
-                Toast.makeText(QuestManagement.this, "set to str", Toast.LENGTH_SHORT).show();
                 rewardsDropdownButton.setText("Strength");
                 rewardsDropdownFrame.setVisibility(View.GONE);
                 rewardsInt.setVisibility(View.GONE);
@@ -720,7 +810,6 @@ public class QuestManagement extends AppCompatActivity {
                 rewardsIntButton.setVisibility(View.GONE);
                 rewardsStrButton.setVisibility(View.GONE);
                 popupRewardsGroup.setVisibility(View.GONE);
-                Toast.makeText(QuestManagement.this, "cancel rewards", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -734,7 +823,6 @@ public class QuestManagement extends AppCompatActivity {
                 rewardsIntButton.setVisibility(View.GONE);
                 rewardsStrButton.setVisibility(View.GONE);
                 popupRewardsGroup.setVisibility(View.GONE);
-                Toast.makeText(QuestManagement.this, "confirm rewards", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -794,11 +882,13 @@ public class QuestManagement extends AppCompatActivity {
                     }
 
                     // Update questRewardsOptional
-                    EditText editQuestRewardsOptional = findViewById(R.id.rewardsOptionalText); // Correct ID
+                    EditText editQuestRewardsOptional = findViewById(R.id.rewardsOptionalText);
                     if (editQuestRewardsOptional != null) {
                         questRewardOptional.put(lastClickedQuestId, editQuestRewardsOptional.getText().toString());
                         questRef.update("rewardOptional", editQuestRewardsOptional.getText().toString());
                     }
+
+                    questRef.update("rewardStat", questRewardStat.get(lastClickedQuestId));
 
                     // Hide the editor after saving
                     editQuestGroup.setVisibility(View.GONE);
@@ -819,9 +909,11 @@ public class QuestManagement extends AppCompatActivity {
                             time = document.getString("time");
                             rewardStat = document.getString("rewardStat");
                             rewardOptional = document.getString("rewardOptional");
+//                            questAssign = document.getString("questAssign");
                             Log.d("TAG", questName + questDescription + difficulty + time + rewardStat + rewardOptional);
                             // make quests depending on database
-                            createQuest(questName, questDescription, difficulty, time, rewardStat, null, rewardOptional);
+                            createQuest(questName, questDescription, difficulty, time, rewardStat, rewardOptional);
+//                            createQuest(questName, questDescription, difficulty, time, rewardStat, null, rewardOptional);
                             updateQuestIcon(rewardStat);
                         }
                     } else {
@@ -831,8 +923,11 @@ public class QuestManagement extends AppCompatActivity {
                 });
     }
 
-    private void createQuest(String questName, String questDescription, int questDiff, String questTime, String rewardStat, String questAssign, String rewardOptional) {
-        // convert px to dp
+
+    private void createQuest(String questName, String questDescription, int questDiff, String questTime, String rewardStat, String rewardOptional) {
+//        private void createQuest(String questName, String questDescription, int questDiff, String questTime, String rewardStat, String questAssign, String rewardOptional) {
+
+            // convert px to dp
         questWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 172, getResources().getDisplayMetrics());
         questHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 245, getResources().getDisplayMetrics());
         imageWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 161, getResources().getDisplayMetrics());
@@ -868,13 +963,11 @@ public class QuestManagement extends AppCompatActivity {
 
         // Access the questId later from newQuest
         int retrievedQuestId = (int) newQuest.getTag();
-        Toast.makeText(context, "Quest ID: " + retrievedQuestId, Toast.LENGTH_SHORT).show();
 
         // create quest frame
         questFrame = new ImageView(context);
         questFrame.setId(View.generateViewId());
         int questFrameId = questFrame.getId();
-        Toast.makeText(context, "QuestFrame ID: " + questFrameId, Toast.LENGTH_SHORT).show();
         questFrame.setLayoutParams(new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT
@@ -899,8 +992,12 @@ public class QuestManagement extends AppCompatActivity {
         imageParams.topMargin = topMarginImage;
         imageParams.bottomMargin = bottomMarginImage;
         questImage.setLayoutParams(imageParams);
-        questImage.setAlpha(0.5f);
-        questImage.setImageResource(R.drawable.rectangle_rounded);
+        //questImage.setAlpha(0.5f);
+        if ("strength".equals(rewardStat))
+            questImage.setImageResource(R.drawable.icon_str);
+        else if ("intelligence".equals(rewardStat))
+            questImage.setImageResource(R.drawable.icon_int);
+
 
         // create quest image icon
         questImageIcon = new ImageView(context);
@@ -939,7 +1036,7 @@ public class QuestManagement extends AppCompatActivity {
         questRewardStat.put(questId, rewardStat);
 
         // store quest assign
-        questAssigned.put(questId, questAssign);
+        questAssigned.put(questId, "questAssign");
 
         // store quest reward optional
         questRewardOptional.put(questId, rewardOptional);
@@ -987,7 +1084,6 @@ public class QuestManagement extends AppCompatActivity {
                             viewQuestGroupButtonP.setVisibility(View.VISIBLE); // for parent
 
                         } else if ("child".equals(role)) {
-                            Toast.makeText(QuestManagement.this, "Child View Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
                             viewQuestGroup.setVisibility(View.VISIBLE); // for child
                             viewQuestGroupButtonC.setVisibility(View.VISIBLE); // for child
                         }
@@ -1180,7 +1276,8 @@ public class QuestManagement extends AppCompatActivity {
                             rewardStat = document.getString("rewardStat");
                             rewardOptional = document.getString("rewardOptional");
                             // make quests depending on database
-                            createQuest(questName, questDescription, difficulty, time, rewardStat, null, rewardOptional);
+                            createQuest(questName, questDescription, difficulty, time, rewardStat, rewardOptional);
+//                            createQuest(questName, questDescription, difficulty, time, rewardStat, null, rewardOptional);
                         }
                     }
                 });
