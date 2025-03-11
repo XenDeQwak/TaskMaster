@@ -7,6 +7,6 @@
             android:insetTop="10dp"
             android:insetRight="10dp"
             android:insetBottom="10dp"
-            android:drawable="@drawable/bucklerbossdamaged" />
+            android:drawable="@drawable/bucklerbossdamaged_sprite" />
     </item>
 </layer-list>
