@@ -64,8 +64,8 @@ public class QuestManagement extends AppCompatActivity {
     FirebaseFirestore db;
     CollectionReference questInfo;
     String userId;
-    ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton, assignAdvButton1, assignAdvButton2;
-    AppCompatButton setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, viewRewardsExitButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton, assignDropdownButton, assignCancelButton, assignConfirmButton;
+    ImageButton imagebutton1, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton, assignAdvButton1, assignAdvButton2;
+    AppCompatButton addQuestButton, setRewardsButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, viewRewardsExitButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton, assignDropdownButton, assignCancelButton, assignConfirmButton;
     ImageView questFrame, questNameFrame, questImage, questImageIcon, imageView23, imageView18, assignDropdownFrame, popupAssignFrame, editQuestImage, imageView19, basePageFrame, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame, viewQuestFrame, viewQuestImage, viewDifficultyBG, childBarFrame, childBarAvatar;
     TextView questNameText, rewardsStr, rewardsInt, textView8, viewNotifTextMsg, textView5, basePageTitle, assignAdv1, assignAdv2;
     EditText editQuestTime, editQuestName, editQuestDesc, viewQuestName, viewQuestTime, viewQuestDesc;
@@ -148,7 +148,7 @@ public class QuestManagement extends AppCompatActivity {
 
                                                         //moved child bar init here for async
                                                         if ("child".equals(role)) {
-                                                            imagebutton2.setVisibility(View.GONE);
+                                                            addQuestButton.setVisibility(View.GONE);
                                                             childBarGroup.setVisibility(View.VISIBLE);
                                                             childBarName.setText(prefUsername);
 
@@ -227,7 +227,7 @@ public class QuestManagement extends AppCompatActivity {
 
         // hooks
         imagebutton1 = findViewById(R.id.imageButton2);
-        imagebutton2 = findViewById(R.id.imageButton3);
+        addQuestButton = findViewById(R.id.addQuestButton);
         imagebutton3 = findViewById(R.id.imageButton4);
         imagebutton4 = findViewById(R.id.imageButton5);
         imagebutton5 = findViewById(R.id.imageButton6);
@@ -301,13 +301,12 @@ public class QuestManagement extends AppCompatActivity {
         textView5 = findViewById(R.id.textView5);
         imageView19 = findViewById(R.id.imageView19);
         imageView23 = findViewById(R.id.imageView23);
-        imageView18 = findViewById(R.id.imageView18);
 
         popupAssignGroup = findViewById(R.id.popupAssignGroup);
         assignDropdownFrame = findViewById(R.id.assignDropdownFrame);
         assignDropdownButton = findViewById(R.id.assignDropdownButton);
         assignAdvButton1 = findViewById(R.id.assignAdvButton1);
-        assignAdvButton2 = findViewById(R.id.assignAdvButton2);
+//        assignAdvButton2 = findViewById(R.id.assignAdvButton2);
         assignCancelButton = findViewById(R.id.assignCancelButton);
         assignConfirmButton = findViewById(R.id.assignConfirmButton);
         assignAdv1 = findViewById(R.id.assignAdv1);
@@ -327,20 +326,19 @@ public class QuestManagement extends AppCompatActivity {
 
         // hide from child
         if ("child".equals(role)) {
-            imagebutton2.setVisibility(View.GONE);
+            addQuestButton.setVisibility(View.GONE);
             imageView19.setVisibility(View.GONE);
             textView5.setVisibility(View.GONE);
             childBarGroup.setVisibility(View.VISIBLE);
             basePageFrame.setVisibility(View.VISIBLE);
             basePageTitle.setVisibility(View.VISIBLE);
             imageView23.setVisibility(View.GONE);
-            imageView18.setVisibility(View.GONE);
+            textView8.setText("Weekly Boss");
         } else if ("parent".equals(role)) {
             childBarGroup.setVisibility(View.GONE);
             basePageFrame.setVisibility(View.GONE);
             basePageTitle.setVisibility(View.GONE);
             imageView23.setVisibility(View.VISIBLE);
-            imageView18.setVisibility(View.VISIBLE);
         }
 
         // hide popupRewardsGroup
@@ -371,7 +369,7 @@ public class QuestManagement extends AppCompatActivity {
         });
 
 
-        imagebutton2.setOnClickListener(new View.OnClickListener() {
+        addQuestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (groupCount >= 4) { // limit quests
@@ -411,13 +409,6 @@ public class QuestManagement extends AppCompatActivity {
 
             }
         });
-
-        ImageButton createQuestButton = findViewById(R.id.imageButton3);
-
-        if ("child".equals(role)) {
-            createQuestButton.setVisibility(View.GONE);
-            textView8.setText("Weekly Boss");
-        }
 
         imagebutton3.setOnClickListener(new View.OnClickListener() {
             @Override

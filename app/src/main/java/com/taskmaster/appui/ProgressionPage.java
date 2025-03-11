@@ -212,7 +212,7 @@ public class ProgressionPage extends AppCompatActivity {
         barChart = findViewById(R.id.chart);
         barChartLarge = findViewById(R.id.chartLarge);
 
-// Create entries for the bars
+        // Create entries for the bars
         List<BarEntry> entries1 = new ArrayList<>();
         entries1.add(new BarEntry(0f, 3f)); // Strength
         entries1.add(new BarEntry(1f, 2f)); // Intelligence

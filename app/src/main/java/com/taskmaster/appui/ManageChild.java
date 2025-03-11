@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.res.ResourcesCompat;
@@ -39,7 +40,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManageChild extends AppCompatActivity {
-    ImageButton imagebutton1, imagebutton2, imagebutton3, imagebutton4, imagebutton5, openChildPage, copyButton, exitButton;
+    AppCompatButton addChildButton, copyButton, exitButton;
+    ImageButton imagebutton1, imagebutton3, imagebutton4, imagebutton5, openChildPage;
     TextView codeText, childName;
     Context context = this;
     Group dropDownGroup, popUpGroup;
@@ -65,7 +67,7 @@ public class ManageChild extends AppCompatActivity {
 
         // hooks
         imagebutton1 = findViewById(R.id.imageButton2);
-        imagebutton2 = findViewById(R.id.imageButton3);
+        addChildButton = findViewById(R.id.addChildButton);
         imagebutton3 = findViewById(R.id.imageButton4);
         imagebutton4 = findViewById(R.id.imageButton5);
         imagebutton5 = findViewById(R.id.imageButton6);
@@ -149,10 +151,6 @@ public class ManageChild extends AppCompatActivity {
         // exclude elems within popup
         View[] popupElements = {
                 findViewById(R.id.pop_up_frame),
-                findViewById(R.id.copy_frame),
-                findViewById(R.id.exit_frame),
-                findViewById(R.id.copy_text),
-                findViewById(R.id.exit_text),
                 findViewById(R.id.notice_text),
                 findViewById(R.id.notice_shadow_overlay),
                 copyButton,
@@ -164,7 +162,7 @@ public class ManageChild extends AppCompatActivity {
         popUpGroup.setVisibility(View.GONE);
 
         // view popup group
-        imagebutton2.setOnClickListener(new View.OnClickListener() {
+        addChildButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

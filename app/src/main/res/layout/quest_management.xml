@@ -50,21 +50,24 @@
         app:layout_constraintTop_toTopOf="@+id/imageView7"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-    <ImageView
-        android:id="@+id/imageView18"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/addQuestButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:background="@drawable/button_shadowed_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
         android:layout_marginStart="316dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="743dp"
+        android:gravity="center"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:srcCompat="@drawable/rectangle_rounded" />
+        app:layout_constraintTop_toTopOf="@+id/imageView7" />
 
     <ImageView
         android:id="@+id/imageView19"
@@ -143,10 +146,12 @@
         android:id="@+id/imageView23"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView18"
-        app:layout_constraintEnd_toEndOf="@+id/imageView18"
-        app:layout_constraintStart_toStartOf="@+id/imageView18"
-        app:layout_constraintTop_toTopOf="@+id/imageView18"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/addQuestButton"
+        app:layout_constraintEnd_toEndOf="@+id/addQuestButton"
+        app:layout_constraintStart_toStartOf="@+id/addQuestButton"
+        app:layout_constraintTop_toTopOf="@+id/addQuestButton"
         app:srcCompat="@drawable/add_quest" />
 
     <ImageButton
@@ -159,19 +164,6 @@
         app:layout_constraintStart_toStartOf="@+id/imageView17"
         app:layout_constraintTop_toTopOf="@+id/imageView17"
         app:srcCompat="@null" />
-
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@null"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView18"
-        app:layout_constraintEnd_toEndOf="@+id/imageView18"
-        app:layout_constraintStart_toStartOf="@+id/imageView18"
-        app:layout_constraintTop_toTopOf="@+id/imageView18"
-        app:srcCompat="@null"
-        tools:visibility="visible" />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -470,7 +462,7 @@
         android:layout_marginTop="464dp"
         android:layout_marginEnd="220dp"
         android:layout_marginBottom="251dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Rewards"
@@ -536,7 +528,7 @@
         android:layout_marginTop="530dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="104dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Assign"
@@ -557,7 +549,7 @@
         android:layout_marginTop="675dp"
         android:layout_marginEnd="208dp"
         android:layout_marginBottom="34dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Cancel"
@@ -578,7 +570,7 @@
         android:layout_marginTop="675dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="34dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Save"
@@ -595,7 +587,7 @@
         android:id="@+id/childBarGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="childBarFrame, childBarAvatar, childBarName, childBarFloorCount, childBarStatsButton" />
 
     <ImageView
@@ -679,7 +671,7 @@
         android:layout_marginTop="115dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="23dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="More Stats"
@@ -808,7 +800,7 @@
         android:layout_marginTop="464dp"
         android:layout_marginEnd="220dp"
         android:layout_marginBottom="93dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Rewards"
@@ -868,7 +860,7 @@
         android:layout_marginTop="498dp"
         android:layout_marginEnd="208dp"
         android:layout_marginBottom="18dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Exit"
@@ -890,7 +882,7 @@
         android:layout_marginTop="498dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="18dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Finish"
@@ -918,7 +910,7 @@
         android:layout_marginTop="498dp"
         android:layout_marginEnd="228dp"
         android:layout_marginBottom="18dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Exit"
@@ -937,7 +929,7 @@
         android:layout_height="45dp"
         android:layout_marginTop="498dp"
         android:layout_marginBottom="18dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Reject"
@@ -958,7 +950,7 @@
         android:layout_marginTop="498dp"
         android:layout_marginEnd="22dp"
         android:layout_marginBottom="18dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
         android:text="Approve"
@@ -1204,7 +1196,7 @@
         android:layout_width="179dp"
         android:layout_height="40dp"
         android:layout_marginBottom="250dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:elevation="5dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Stat Increase"
@@ -1275,7 +1267,7 @@
         android:layout_marginTop="366dp"
         android:layout_marginEnd="175dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:elevation="1dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Cancel"
@@ -1297,7 +1289,7 @@
         android:layout_marginTop="366dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:elevation="1dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Confirm"
@@ -1342,7 +1334,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="popupAssignFrameShadow,popupAssignFrame,assignTextTitle,assignDropdownButton,assignCancelButton,assignConfirmButton,assignDropdownFrame,assignAdv1,assignAdv2,assignAdvButton1,assignAdvButton2" />
+        app:constraint_referenced_ids="popupAssignFrameShadow,popupAssignFrame,assignTextTitle,assignDropdownButton,assignCancelButton,assignConfirmButton,assignDropdownFrame,assignAdv1,assignAdv2" />
 
     <ImageView
         android:id="@+id/popupAssignFrameShadow"
@@ -1398,7 +1390,7 @@
         android:layout_width="179dp"
         android:layout_height="40dp"
         android:layout_marginBottom="250dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:elevation="5dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Adventurers"
@@ -1444,14 +1436,18 @@
         app:layout_constraintStart_toStartOf="@+id/popupAssignFrame"
         app:layout_constraintTop_toTopOf="@+id/popupAssignFrame" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/assignAdv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="169dp"
+        android:layout_height="30dp"
         android:layout_marginTop="82dp"
         android:layout_marginBottom="183dp"
         android:elevation="1dp"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/button_background"
         android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:textAllCaps="false"
         android:text="Adv 2"
         android:textAlignment="center"
         android:textColor="#3F3F3F"
@@ -1470,7 +1466,7 @@
         android:layout_marginTop="366dp"
         android:layout_marginEnd="175dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:elevation="1dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Cancel"
@@ -1492,7 +1488,7 @@
         android:layout_marginTop="366dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:elevation="1dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Confirm"
@@ -1519,18 +1515,18 @@
         app:layout_constraintTop_toTopOf="@+id/assignAdv1"
         app:srcCompat="@null" />
 
-    <ImageButton
-        android:id="@+id/assignAdvButton2"
-        android:layout_width="160dp"
-        android:layout_height="0dp"
-        android:background="@null"
-        android:elevation="1dp"
-        android:translationZ="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/assignAdv2"
-        app:layout_constraintEnd_toEndOf="@+id/assignAdv2"
-        app:layout_constraintStart_toStartOf="@+id/assignAdv2"
-        app:layout_constraintTop_toTopOf="@+id/assignAdv2"
-        app:srcCompat="@null" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/assignAdvButton2"-->
+<!--        android:layout_width="160dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:background="@null"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/assignAdv2"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/assignAdv2"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/assignAdv2"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/assignAdv2"-->
+<!--        app:srcCompat="@null" />-->
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/popupViewRewardsGroup"
@@ -1640,7 +1636,7 @@
         android:layout_height="53dp"
         android:layout_marginTop="240dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:elevation="1dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Exit"
@@ -1733,7 +1729,7 @@
         android:layout_height="53dp"
         android:layout_marginTop="190dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button_shadowed"
+        android:background="@drawable/button_shadowed_states"
         android:elevation="1dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Okay"
