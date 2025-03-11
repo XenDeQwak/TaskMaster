@@ -116,8 +116,9 @@ public class ManageChild extends AppCompatActivity {
                                                         int childStr = childDocument.getLong("childStr").intValue();
                                                         int childInt = childDocument.getLong("childInt").intValue();
                                                         int childAvatar = childDocument.getLong("childAvatar").intValue();
+                                                        int floorCount = childDocument.getLong("floor").intValue();
                                                         // Create the child frame
-                                                        createChildFrame(childName, childStr, childInt, childAvatar, 1);
+                                                        createChildFrame(childName, childStr, childInt, childAvatar, floorCount);
                                                     } else {
                                                         Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
                                                     }
@@ -287,7 +288,7 @@ public class ManageChild extends AppCompatActivity {
     }
 
 
-    private void createChildFrame(String childName, int strStat, int intStat, int childAvatar, int floor) {
+    private void createChildFrame(String childName, int strStat, int intStat, int childAvatar, int floorCount) {
 
         int frameH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108, getResources().getDisplayMetrics());
         int marginBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
@@ -402,7 +403,7 @@ public class ManageChild extends AppCompatActivity {
         floorTextParams.setMarginStart(floorMarginStart);
         floorTextParams.topMargin = floorMarginTop;
         floorText.setLayoutParams(floorTextParams);
-        floorText.setText("Floor: " + String.valueOf(floor));
+        floorText.setText("Floor: " + floorCount);
         floorText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
         floorText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         floorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
