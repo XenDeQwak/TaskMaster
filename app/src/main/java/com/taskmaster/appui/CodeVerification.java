@@ -17,6 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -31,6 +32,7 @@ public class CodeVerification extends AppCompatActivity {
     EditText codebox;
     EditText usernameBox;
     FirebaseFirestore db;
+    FirebaseAuth auth;
     CollectionReference childRef;
     int id = 1;
 
@@ -52,6 +54,7 @@ public class CodeVerification extends AppCompatActivity {
 
         // initialize Firestore
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         // hooks
         confirmButton = findViewById(R.id.button3);
@@ -76,6 +79,31 @@ public class CodeVerification extends AppCompatActivity {
             return;
         }
 
+
+        auth.createUserWithEmailAndPassword(username, code)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> childData = new HashMap<>();
+                        SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
+                        editor.putString("code", code).apply();
+
+                        childRef = db.collection("users");
+                        childData.put("role", "child");
+                        childData.put("username", username);
+                        childData.put("childStr", 0);
+                        childData.put("childInt", 0);
+                        childData.put("questCount", 0);
+                        childData.put("childAvatar", 0);
+                        childData.put("floor", 1);
+                        childData.put("parentCode", code);
+                        childRef.document(auth.getCurrentUser().getUid()).set(childData);
+                        startActivity(new Intent(CodeVerification.this, ChildLogin.class));
+
+                        Toast.makeText(CodeVerification.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CodeVerification.this, "Login failed", Toast.LENGTH_SHORT).show();
+                    }
+        });
         db.collection("users").whereEqualTo("username", username).get()
                 .addOnSuccessListener(userQuery -> {
                     if (!userQuery.isEmpty()) {
@@ -84,28 +112,6 @@ public class CodeVerification extends AppCompatActivity {
                         db.collection("users").whereEqualTo("code", code).limit(1).get()
                                 .addOnSuccessListener(querySnapshot -> {
                                     if (!querySnapshot.isEmpty()) {
-                                        DocumentSnapshot parentDoc = querySnapshot.getDocuments().get(0);
-                                        String parentName = parentDoc.getString("username");
-                                        String parentID = parentDoc.getId();
-                                        String childID = db.collection("users").document().getId();
-                                        Map<String, Object> childData = new HashMap<>();
-
-                                        childRef = db.collection("users");
-                                        childData.put("parentName", parentName);
-                                        childData.put("role", "child");
-                                        childData.put("username", username);
-                                        childData.put("childStr", 0);
-                                        childData.put("childInt", 0);
-                                        childData.put("questCount", 0);
-                                        childData.put("childAvatar", 0);
-                                        childData.put("floor", 1);
-                                        childRef.document(childID).set(childData)
-                                                .addOnSuccessListener(aVoid -> {
-                                                    db.collection("users").document(parentID)
-                                                            .update("children", FieldValue.arrayUnion(childID));
-                                                    Toast.makeText(CodeVerification.this, "Child account linked!", Toast.LENGTH_SHORT).show();
-                                                });;
-                                        startActivity(new Intent(CodeVerification.this, ChildLogin.class));
                                     } else {
                                         Toast.makeText(CodeVerification.this, "Invalid Code", Toast.LENGTH_SHORT).show();
                                     }

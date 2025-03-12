@@ -35,6 +35,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,6 +60,7 @@ public class ProgressionPage extends AppCompatActivity {
     int childAvatar;
     int currentImageIndex;
     int childInt, childStr;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,67 +87,49 @@ public class ProgressionPage extends AppCompatActivity {
         avatarNames.add("Avatar 3");
         avatarNames.add("Avatar 4");
 
-        SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        parentID = pref.getString("uid", "");
-
         db = FirebaseFirestore.getInstance();
-        db.collection("users").document(parentID).get()
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        String userId = user.getUid();
+
+        db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        DocumentSnapshot parentDocument = task.getResult();
-                        if (parentDocument.exists()) {
-                            List<String> childIds = (List<String>) parentDocument.get("children");
-                            if (childIds != null) {
-                                for (String childId : childIds) {
-                                    db.collection("users").document(childId).get()
-                                            .addOnCompleteListener(childTask -> {
-                                                if (childTask.isSuccessful()) {
-                                                    DocumentSnapshot childDocument = childTask.getResult();
-                                                    if (childDocument.exists()) {
-                                                        username = childDocument.getString("username");
-                                                        questCount = childDocument.getLong("questCount").intValue();
-                                                        childAvatar = childDocument.getLong("childAvatar").intValue();
+                        DocumentSnapshot childDocument = task.getResult();
+                        if (childDocument.exists()) {
+                            username = childDocument.getString("username");
+                            questCount = childDocument.getLong("questCount").intValue();
+                            childAvatar = childDocument.getLong("childAvatar").intValue();
 
-                                                        childInt = childDocument.getLong("childInt").intValue();
-                                                        childStr = childDocument.getLong("childStr").intValue();
+                            childInt = childDocument.getLong("childInt").intValue();
+                            childStr = childDocument.getLong("childStr").intValue();
 
-                                                        barGraph(childInt, childStr);
-                                                        // Set the initial image
-                                                        childAvatarImage.setImageResource(avatarImages.get(childAvatar));
-                                                        currentImageIndex = childAvatar;
+                            barGraph(childInt, childStr);
+                            // Set the initial image
+                            childAvatarImage.setImageResource(avatarImages.get(childAvatar));
+                            currentImageIndex = childAvatar;
 
-                                                        childAvatarPresetNextButton.setOnClickListener(new View.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(View v) {
-                                                                currentImageIndex++;
-                                                                if (currentImageIndex >= avatarImages.size()) {
-                                                                    currentImageIndex = 0;
-                                                                }
-                                                                updateAvatarUIAndFirebase();
-                                                            }
-                                                        });
-
-                                                        childAvatarPresetPrevButton.setOnClickListener(new View.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(View v) {
-                                                                currentImageIndex--;
-                                                                if (currentImageIndex < 0) {
-                                                                    currentImageIndex = avatarImages.size() - 1;
-                                                                }
-                                                                updateAvatarUIAndFirebase();
-                                                            }
-                                                        });
-                                                    } else {
-                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
-                                                    }
-                                                } else {
-                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
-                                                }
-                                            });
+                            childAvatarPresetNextButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    currentImageIndex++;
+                                    if (currentImageIndex >= avatarImages.size()) {
+                                        currentImageIndex = 0;
+                                    }
+                                    updateAvatarUIAndFirebase();
                                 }
-                            } else {
-                                Log.d("DEBUG", "NO CHILDREN");
-                            }
+                            });
+
+                            childAvatarPresetPrevButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    currentImageIndex--;
+                                    if (currentImageIndex < 0) {
+                                        currentImageIndex = avatarImages.size() - 1;
+                                    }
+                                    updateAvatarUIAndFirebase();
+                                }
+                            });
                         } else {
                             Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
                         }
