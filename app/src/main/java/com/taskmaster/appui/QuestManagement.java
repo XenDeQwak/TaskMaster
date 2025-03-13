@@ -727,20 +727,20 @@ public class QuestManagement extends AppCompatActivity {
             }
         });
 
-        assignAdvButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                questAssigned.put(lastClickedQuestId, "Adv 2");
-                Log.d("QuestAssigned", "Quest " + lastClickedQuestId + ": to Adv 2");
-                assignDropdownButton.setText("Adv 2");
-                assignDropdownFrame.setVisibility(View.GONE);
-                assignAdv1.setVisibility(View.GONE);
-                assignAdv2.setVisibility(View.GONE);
-                assignAdvButton1.setVisibility(View.GONE);
-                assignAdvButton2.setVisibility(View.GONE);
-                Toast.makeText(QuestManagement.this, "assign adv2", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        assignAdvButton2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                questAssigned.put(lastClickedQuestId, "Adv 2");
+//                Log.d("QuestAssigned", "Quest " + lastClickedQuestId + ": to Adv 2");
+//                assignDropdownButton.setText("Adv 2");
+//                assignDropdownFrame.setVisibility(View.GONE);
+//                assignAdv1.setVisibility(View.GONE);
+//                assignAdv2.setVisibility(View.GONE);
+//                assignAdvButton1.setVisibility(View.GONE);
+//                assignAdvButton2.setVisibility(View.GONE);
+//                Toast.makeText(QuestManagement.this, "assign adv2", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         assignCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
