@@ -3,6 +3,8 @@ package com.taskmaster.appui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,6 +47,7 @@ public class WeeklyBoss extends AppCompatActivity {
     int childStr;
     int childInt;
     String bossName;
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private int currentProgress = 100;
     private List<Integer> avatarImages;
     private List<String> avatarNames;
@@ -280,35 +283,67 @@ public class WeeklyBoss extends AppCompatActivity {
                        DocumentSnapshot bossDocument = task.getResult();
                        if (bossDocument.exists()) {
                            bossReq = bossDocument.getLong("bossReq").intValue();
-
                            if (childStr >= bossReq && childInt >= bossReq) {
-                               int totalDmg = 100;
-                               currentProgress -= totalDmg;
-                               updateProgressBar(currentProgress);
-                               double prevChildStats = ((childStr + childInt) / 2);
-                               bossReq = (int)Math.round(prevChildStats + Math.pow(10, 1.3) * Math.log10(prevChildStats));
-                               docRef.update("floor", floorCount + 1);
-                               bossDoc.update("bossReq", bossReq);
+                               final int[] damageSteps = {20, 40, 60, 80, 100};
+                               final int[] currentStepIndex = {0};
+                               final int delayMillis = 500;
 
-                               popupMonsterMessageText.setText("im defeated :(");
-                               popupMonsterMessage.setVisibility(View.VISIBLE);
+                               Runnable damageRunnable = new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       if (currentStepIndex[0] < damageSteps.length) {
+                                           int damage = damageSteps[currentStepIndex[0]];
+                                           currentProgress -= damage;
+                                           updateProgressBar(currentProgress);
+                                           currentStepIndex[0]++;
+                                           handler.postDelayed(this, delayMillis);
+                                       } else {
+                                           boolean isBossDead = true;
+                                           if (isBossDead) {
+                                               double prevChildStats = ((childStr + childInt) / 2);
+                                               bossReq = (int) Math.round(prevChildStats + Math.pow(10, 1.3) * Math.log10(prevChildStats));
+                                               docRef.update("floor", floorCount + 1);
+                                               bossDoc.update("bossReq", bossReq);
+                                               popupMonsterMessageText.setText("im defeated :(");
+                                               popupMonsterMessage.setVisibility(View.VISIBLE);
+                                           }
+                                       }
+                                   }
+                               };
 
-
+                               // Start the damage process
+                               handler.post(damageRunnable);
                            } else if ((childStr < bossReq && childInt < bossReq) || (childStr == bossReq && childInt < bossReq) || (childStr < bossReq && childInt == bossReq) || (childStr > bossReq && childInt < bossReq) || (childStr < bossReq && childInt > bossReq)) {
-                               double strDmg = ((double) childStr / bossReq);
-                               double intDmg = ((double) childInt / bossReq);
-                               double totalDmg = (intDmg * strDmg * 100);
-                               currentProgress -= totalDmg;
-                               currentProgress = Math.round(currentProgress);
-                               updateProgressBar(currentProgress);
+                               final double dmgIncrement = 0.2;
+                               final int[] currentSteps = {0};
+                               final int delayMillis = 500;
+                               final double[] prevTotalDmg = {100.0}; // Initialize with 100.0
 
-                               popupMonsterMessageText.setText("im :)");
-                               popupMonsterButton.setText("Exit");
-                               popupMonsterButton.setOnClickListener(e -> {
-                                   Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
-                                   startActivity(intent);
-                               });
-                               popupMonsterMessage.setVisibility(View.VISIBLE);
+                               Runnable damageRunnable = new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       if (currentSteps[0] < 5) { // Run for 5 steps
+                                           double strDmg = ((double) childStr / bossReq);
+                                           double intDmg = ((double) childInt / bossReq);
+                                           double baseDmg = (strDmg * intDmg * prevTotalDmg[0]);
+                                           double totalDmg = baseDmg * dmgIncrement;
+                                           prevTotalDmg[0] = baseDmg; // Update for the next step
+                                           currentProgress -= totalDmg;
+                                           updateProgressBar(currentProgress);
+                                           currentSteps[0]++;
+                                           handler.postDelayed(this, delayMillis);
+                                       } else {
+                                           popupMonsterMessageText.setText("im :)");
+                                           popupMonsterButton.setText("Exit");
+                                           popupMonsterButton.setOnClickListener(e -> {
+                                               Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
+                                               startActivity(intent);
+                                           });
+                                           popupMonsterMessage.setVisibility(View.VISIBLE);
+                                       }
+                                   }
+                               };
+                               handler.post(damageRunnable);
                            }
                        }
                    }
@@ -316,6 +351,7 @@ public class WeeklyBoss extends AppCompatActivity {
         // Check if the child's stats are sufficient to damage the boss
 
     }
+
 
     private void updateProgressBar(int progress) {
         int clampedProgress = Math.max(0, Math.min(progress, 100));
