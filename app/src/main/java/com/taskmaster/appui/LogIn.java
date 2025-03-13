@@ -99,32 +99,17 @@ public class LogIn extends AppCompatActivity {
             return;
         }
 
-        db.collection("users")
-                .whereEqualTo("username", username)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.getString("password").equals(password)) {
-                                SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
-                                editor.putString("username", username);
-                                editor.putString("role", "parent");
-                                editor.apply();
+        auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                    SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
+                    editor.putString("role", "parent").apply();
 
-                                FirebaseUser user = auth.getCurrentUser();
-                                if (user != null) {
-                                    String uid = user.getUid();
-                                    editor.putString("uid", uid);
-                                    editor.apply();
-                                }
-                                Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LogIn.this, QuestManagement.class));
-                                return;
-                            }
-                        }
-                    }
-                    checkUsername(username, password);
-                });
+                    Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LogIn.this, QuestManagement.class));
+                    return;
+            }
+            checkUsername(username, password);
+        });
     }
 
     private void checkUsername(String username, String password) {

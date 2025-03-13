@@ -21,6 +21,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -55,6 +57,8 @@ public class WeeklyBoss extends AppCompatActivity {
     ImageView childBarAvatar;
     String bossID;
     int floorCount;
+    ImageView monsterImage;
+    FirebaseAuth auth;
 
 
 
@@ -95,6 +99,7 @@ public class WeeklyBoss extends AppCompatActivity {
         monsterName = findViewById(R.id.monsterName);
         statReqStr = findViewById(R.id.statReqStr);
         statReqInt = findViewById(R.id.statReqInt);
+        monsterImage = findViewById(R.id.monsterImage);
 
         // exclude elems within dropdown
         View[] dropDownElements = {
@@ -116,82 +121,64 @@ public class WeeklyBoss extends AppCompatActivity {
 
         //child data init
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String userId = prefs.getString("uid", "");
-        String prefUsername = prefs.getString("username", "");
+        FirebaseUser user = auth.getCurrentUser();
+        String userId = user.getUid();
 
         Map<String, Object> bossData = new HashMap<>();
 
         db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        DocumentSnapshot parentDocument = task.getResult();
-                        if (parentDocument.exists()) {
-                            List<String> childIds = (List<String>) parentDocument.get("children");
-                            if (childIds != null) {
-                                for (String childId : childIds) {
-                                    db.collection("users").document(childId).get()
-                                            .addOnCompleteListener(childTask -> {
-                                                if (childTask.isSuccessful()) {
-                                                    DocumentSnapshot childDocument = childTask.getResult();
-                                                    if (childDocument.exists()) {
+                        DocumentSnapshot childDocument = task.getResult();
+                        if (childDocument.exists()) {
+                            db.collection("boss").get()
+                                    .addOnCompleteListener(tasks -> {
+                                        if (tasks.isSuccessful()) {
+                                            if (tasks.getResult().isEmpty()) {
+                                                bossData.put("bossReq", bossReq);
+                                                bossData.put("bossName", "Sancho");
+                                                bossData.put("bossAvatar", 0);
+                                                bossID = db.collection("boss").document().getId();
+                                                db.collection("boss").document(bossID).set(bossData);
+                                            } else {
+                                                QuerySnapshot bossDocs = tasks.getResult();
+                                                bossID = bossDocs.getDocuments().get(0).getId();
+                                                bossDoc = db.collection("boss").document(bossID);
+                                                bossName = bossDocs.getDocuments().get(0).getString("bossName");
+                                                monsterName.setText(bossName);
+                                                bossReq = bossDocs.getDocuments().get(0).getLong("bossReq").intValue();
+                                                statReqStr.setText("STR: " + bossReq);
+                                                statReqInt.setText("INT: " + bossReq);
+                                                monsterImage.setImageResource(R.drawable.bucklerbossundamaged);
+                                            }
+                                        }
+                                    });
 
-                                                        db.collection("boss").get()
-                                                                .addOnCompleteListener(tasks -> {
-                                                                    if (tasks.isSuccessful()) {
-                                                                        if (tasks.getResult().isEmpty()) {
-                                                                            bossData.put("bossReq", bossReq);
-                                                                            bossData.put("bossName", "Sancho");
-                                                                            bossData.put("bossAvatar", 0);
-                                                                            bossID = db.collection("boss").document().getId();
-                                                                            db.collection("boss").document(bossID).set(bossData);
-                                                                        } else {
-                                                                            QuerySnapshot bossDocs = tasks.getResult();
-                                                                            bossID = bossDocs.getDocuments().get(0).getId();
-                                                                            bossDoc = db.collection("boss").document(bossID);
-                                                                            bossName = bossDocs.getDocuments().get(0).getString("bossName");
-                                                                            monsterName.setText(bossName);
-                                                                            bossReq = bossDocs.getDocuments().get(0).getLong("bossReq").intValue();
-                                                                            statReqStr.setText("STR: " + bossReq);
-                                                                            statReqInt.setText("INT: " + bossReq);
-                                                                        }
-                                                                    }
-                                                                });
-
-                                                        childStr = childDocument.getLong("childStr").intValue();
-                                                        childInt = childDocument.getLong("childInt").intValue();
-                                                        floorCount = childDocument.getLong("floor").intValue();
-                                                        childAvatar = childDocument.getLong("childAvatar").intValue();
-                                                        childBarGroup.setVisibility(View.VISIBLE);
-                                                        childBarName.setText(prefUsername);
-                                                        childBarFloorCount.setText("Floor " + floorCount);
+                            childStr = childDocument.getLong("childStr").intValue();
+                            childInt = childDocument.getLong("childInt").intValue();
+                            floorCount = childDocument.getLong("floor").intValue();
+                            childAvatar = childDocument.getLong("childAvatar").intValue();
+                            childBarGroup.setVisibility(View.VISIBLE);
+                            childBarName.setText(childDocument.getString("username"));
+                            childBarFloorCount.setText("Floor " + floorCount);
 
 
-                                                        List<Integer>avatarImages = new ArrayList<>();
-                                                        avatarImages.add(R.drawable.rectangle_rounded);
-                                                        avatarImages.add(R.drawable.placeholderavatar1_framed);
-                                                        avatarImages.add(R.drawable.placeholderavatar2_framed);
-                                                        avatarImages.add(R.drawable.placeholderavatar3_framed);
-                                                        avatarImages.add(R.drawable.placeholderavatar4_framed);
+                            List<Integer>avatarImages = new ArrayList<>();
+                            avatarImages.add(R.drawable.rectangle_rounded);
+                            avatarImages.add(R.drawable.placeholderavatar1_framed);
+                            avatarImages.add(R.drawable.placeholderavatar2_framed);
+                            avatarImages.add(R.drawable.placeholderavatar3_framed);
+                            avatarImages.add(R.drawable.placeholderavatar4_framed);
 
-                                                        childBarAvatar.setImageResource(avatarImages.get(childAvatar));
-                                                        Log.d("FLOOR", "FLOOR: " + floorCount);
-                                                        DocumentReference docRef = db.collection("users").document(childId);
-                                                        fightButton.setOnClickListener(e -> {
-                                                            bossFight(docRef, bossID, bossDoc);
-                                                        });
-                                                    } else {
-                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
-                                                    }
-                                                } else {
-                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.d("DEBUG", "NO CHILDREN");
-                            }
+                            childBarAvatar.setImageResource(avatarImages.get(childAvatar));
+                            Log.d("FLOOR", "FLOOR: " + floorCount);
+                            DocumentReference docRef = db.collection("users").document(userId);
+                            fightButton.setOnClickListener(e -> {
+                                bossFight(docRef, bossID, bossDoc);
+                            });
                         } else {
                             Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
                         }
@@ -305,6 +292,7 @@ public class WeeklyBoss extends AppCompatActivity {
 
                                popupMonsterMessageText.setText("im defeated :(");
                                popupMonsterMessage.setVisibility(View.VISIBLE);
+
 
                            } else if ((childStr < bossReq && childInt < bossReq) || (childStr == bossReq && childInt < bossReq) || (childStr < bossReq && childInt == bossReq) || (childStr > bossReq && childInt < bossReq) || (childStr < bossReq && childInt > bossReq)) {
                                double strDmg = ((double) childStr / bossReq);

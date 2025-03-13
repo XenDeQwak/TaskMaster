@@ -18,6 +18,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +32,7 @@ public class ChildLogin extends AppCompatActivity {
     TextView signUpTextView;
     EditText usernameBox;
     FirebaseFirestore db;
+    FirebaseAuth auth;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,6 +51,7 @@ public class ChildLogin extends AppCompatActivity {
         });
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         confirmButton = findViewById(R.id.button3);
         usernameBox = findViewById(R.id.userBox);
@@ -72,24 +75,23 @@ public class ChildLogin extends AppCompatActivity {
             Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String code = pref.getString("code", "");
         SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
 
-        db.collection("users").whereEqualTo("username", username).limit(1).get()
-                .addOnSuccessListener(userQuery -> {
-                    if (!userQuery.isEmpty()) {
-                        editor.putString("username", username);
+        auth.signInWithEmailAndPassword(username, code)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
                         editor.putString("role", "child");
                         editor.apply();
 
                         Toast.makeText(ChildLogin.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ChildLogin.this, QuestManagement.class));
-                        finish();
+
                     } else {
-                        Toast.makeText(ChildLogin.this, "Invalid Username", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChildLogin.this, "Login failed", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .addOnFailureListener(e -> Toast.makeText(ChildLogin.this, "Error verifying user: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                });
     }
 
 

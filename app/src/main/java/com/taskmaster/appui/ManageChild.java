@@ -32,6 +32,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -49,7 +51,9 @@ public class ManageChild extends AppCompatActivity {
     String tavernCode;
     View rootLayout;
     FirebaseFirestore db;
-
+    FirebaseAuth auth;
+    String username;
+    List<String> childIds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,39 +93,65 @@ public class ManageChild extends AppCompatActivity {
         // hide dropdown group and initial icons
         dropDownGroup.setVisibility(View.GONE);
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String parentID = prefs.getString("uid", "");
+        FirebaseUser user = auth.getCurrentUser();
+        String userId = user.getUid();
 
-        //child data init
-        db.collection("users").document(parentID).get()
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            String code = document.getString("code");
+                            db.collection("users").whereEqualTo("parentCode", code).get()
+                                    .addOnCompleteListener(tasks -> {
+                                        if (tasks.isSuccessful()) {
+                                            childIds = new ArrayList<>();
+                                            for (QueryDocumentSnapshot documentSnapshot : tasks.getResult()) {
+                                                String childId = documentSnapshot.getId();
+                                                childIds.add(childId);
+
+                                                for (String childID : childIds) {
+                                                    db.collection("users").document(childID).get()
+                                                            .addOnCompleteListener(childTask -> {
+                                                                if (childTask.isSuccessful()) {
+                                                                    DocumentSnapshot childDocument = childTask.getResult();
+                                                                    if (childDocument.exists()) {
+                                                                        String childName = childDocument.getString("username");
+                                                                        int childStr = childDocument.getLong("childStr").intValue();
+                                                                        int childInt = childDocument.getLong("childInt").intValue();
+                                                                        int childAvatar = childDocument.getLong("childAvatar").intValue();
+                                                                        int floorCount = childDocument.getLong("floor").intValue();
+                                                                        createChildFrame(childName, childStr, childInt, childAvatar, floorCount);
+                                                                    } else {
+                                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
+                                                                    }
+                                                                } else {
+                                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
+                                                                }
+                                                            });
+                                                }
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
+                        }
+                    }
+                });
+
+
+        //parent data init
+        db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot parentDocument = task.getResult();
                         if (parentDocument.exists()) {
-                            List<String> childIds = (List<String>) parentDocument.get("children");
+                            tavernCode = parentDocument.getString("code");
+                            codeText.setText("Tavern Code: " + tavernCode);
                             if (childIds != null) {
-                                for (String childId : childIds) {
-                                    db.collection("users").document(childId).get()
-                                            .addOnCompleteListener(childTask -> {
-                                                if (childTask.isSuccessful()) {
-                                                    DocumentSnapshot childDocument = childTask.getResult();
-                                                    if (childDocument.exists()) {
-                                                        String childName = childDocument.getString("username");
-                                                        int childStr = childDocument.getLong("childStr").intValue();
-                                                        int childInt = childDocument.getLong("childInt").intValue();
-                                                        int childAvatar = childDocument.getLong("childAvatar").intValue();
-                                                        int floorCount = childDocument.getLong("floor").intValue();
-                                                        // Create the child frame
-                                                        createChildFrame(childName, childStr, childInt, childAvatar, floorCount);
-                                                    } else {
-                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
-                                                    }
-                                                } else {
-                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
-                                                }
-                                            });
-                                }
+
                             } else {
                                 Log.d("DEBUG", "NO CHILDREN");
                             }
@@ -169,28 +199,6 @@ public class ManageChild extends AppCompatActivity {
                 }
             }
         });
-
-
-        String username = prefs.getString("username", "");
-
-        if (username != null) {
-            db.collection("users")
-                    .whereEqualTo("username", username) // Query based on username
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                tavernCode = document.getString("code");
-                                codeText.setText("Tavern Code: " + tavernCode);
-                            }
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(ManageChild.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            Log.d("DEBUG", "USERNAME NOT FOUND");
-        }
 
 //        openChildPage.setOnClickListener(new View.OnClickListener() {
 //            @Override
