@@ -45,8 +45,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProgressionPage extends AppCompatActivity {
-    ImageButton dropDownGroupButton, imagebutton3, imagebutton4, imagebutton5, chartButton;
-    AppCompatButton childAvatarName, childAvatarPresetName, childAvatarPresetNextButton, childAvatarPresetPrevButton, statFloorNum, statQuestDoneNum, popupLargerChartExitButton;
+    ImageButton chartButton;
+    AppCompatButton childAvatarName, dropdownNavButton, navQuestPage, navManageAdv, navLogOut, childAvatarPresetName, childAvatarPresetNextButton, childAvatarPresetPrevButton, statFloorNum, statQuestDoneNum, popupLargerChartExitButton;
     ImageView statGraph, childAvatarImage;
     Group dropDownGroup, popupLargerChart;
     View rootLayout;
@@ -148,10 +148,10 @@ public class ProgressionPage extends AppCompatActivity {
         });
 
         // hooks
-        dropDownGroupButton = findViewById(R.id.dropdownIconButton);
-        imagebutton3 = findViewById(R.id.imageButton4);
-        imagebutton4 = findViewById(R.id.imageButton5);
-        imagebutton5 = findViewById(R.id.imageButton6);
+        dropdownNavButton = findViewById(R.id.dropdownNavButton);
+        navQuestPage = findViewById(R.id.navQuestPage);
+        navManageAdv = findViewById(R.id.navManageAdv);
+        navLogOut = findViewById(R.id.navLogOut);
         dropDownGroup = findViewById(R.id.dropdownGroup);
         rootLayout = findViewById(R.id.main);
 
@@ -195,20 +195,14 @@ public class ProgressionPage extends AppCompatActivity {
 
         // exclude elems within dropdown
         View[] dropDownElements = {
-                findViewById(R.id.imageView24),
-                findViewById(R.id.imageView25),
-                findViewById(R.id.imageView26),
-                findViewById(R.id.imageView27),
-                findViewById(R.id.textView7),
-                findViewById(R.id.textView8),
-                findViewById(R.id.textView9)
+                findViewById(R.id.navFrame)
         };
 
         // hide dropdown group
         dropDownGroup.setVisibility(View.GONE);
 
         // view dropdown group
-        dropDownGroupButton.setOnClickListener(new View.OnClickListener() {
+        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (dropDownGroup.getVisibility() == View.VISIBLE) {
@@ -219,7 +213,7 @@ public class ProgressionPage extends AppCompatActivity {
             }
         });
 
-        imagebutton4.setOnClickListener(new View.OnClickListener() {
+        navManageAdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ProgressionPage.this, "Move", Toast.LENGTH_SHORT).show();
@@ -228,7 +222,7 @@ public class ProgressionPage extends AppCompatActivity {
             }
         });
 
-        imagebutton3.setOnClickListener(new View.OnClickListener() {
+        navQuestPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ProgressionPage.this, "Move", Toast.LENGTH_SHORT).show();
@@ -237,7 +231,7 @@ public class ProgressionPage extends AppCompatActivity {
             }
         });
 
-        imagebutton5.setOnClickListener(new View.OnClickListener() {
+        navLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ProgressionPage.this, "Log Out", Toast.LENGTH_SHORT).show();
