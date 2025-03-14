@@ -36,8 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class WeeklyBoss extends AppCompatActivity {
-    ImageButton dropDownGroupButton, imagebutton3, imagebutton4, imagebutton5;
-    AppCompatButton fightButton, statReqStr, statReqInt, monsterName, childBarStatsButton, popupMonsterButton, childBarFloorCount;
+    AppCompatButton fightButton, dropdownNavButton, navQuestPage, navManageAdv, navLogOut, statReqStr, statReqInt, monsterName, childBarStatsButton, popupMonsterButton, childBarFloorCount;
     ImageView statGraph, childAvatarImage;
     TextView popupMonsterMessageText, monsterHealthBarText;
     Group dropDownGroup, popupMonsterMessage;
@@ -81,10 +80,10 @@ public class WeeklyBoss extends AppCompatActivity {
         });
 
         // hooks
-        dropDownGroupButton = findViewById(R.id.dropdownIconButton);
-        imagebutton3 = findViewById(R.id.imageButton4);
-        imagebutton4 = findViewById(R.id.imageButton5);
-        imagebutton5 = findViewById(R.id.imageButton6);
+        dropdownNavButton = findViewById(R.id.dropdownNavButton);
+        navQuestPage = findViewById(R.id.navQuestPage);
+        navManageAdv = findViewById(R.id.navManageAdv);
+        navLogOut = findViewById(R.id.navLogOut);
         dropDownGroup = findViewById(R.id.dropdownGroup);
         childBarStatsButton = findViewById(R.id.childBarStatsButton);
         rootLayout = findViewById(R.id.main);
@@ -106,13 +105,7 @@ public class WeeklyBoss extends AppCompatActivity {
 
         // exclude elems within dropdown
         View[] dropDownElements = {
-                findViewById(R.id.imageView24),
-                findViewById(R.id.imageView25),
-                findViewById(R.id.imageView26),
-                findViewById(R.id.imageView27),
-                findViewById(R.id.textView7),
-                findViewById(R.id.textView8),
-                findViewById(R.id.textView9)
+                findViewById(R.id.navFrame)
         };
 
         // hide popup
@@ -192,7 +185,7 @@ public class WeeklyBoss extends AppCompatActivity {
 
 
         // view dropdown group
-        dropDownGroupButton.setOnClickListener(new View.OnClickListener() {
+        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (dropDownGroup.getVisibility() == View.VISIBLE) {
@@ -203,14 +196,14 @@ public class WeeklyBoss extends AppCompatActivity {
             }
         });
 
-        imagebutton4.setOnClickListener(new View.OnClickListener() {
+        navManageAdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(WeeklyBoss.this, "ur here", Toast.LENGTH_SHORT).show();
             }
         });
 
-        imagebutton3.setOnClickListener(new View.OnClickListener() {
+        navQuestPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(WeeklyBoss.this, "Move", Toast.LENGTH_SHORT).show();
@@ -219,7 +212,7 @@ public class WeeklyBoss extends AppCompatActivity {
             }
         });
 
-        imagebutton5.setOnClickListener(new View.OnClickListener() {
+        navLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(WeeklyBoss.this, "Log Out", Toast.LENGTH_SHORT).show();

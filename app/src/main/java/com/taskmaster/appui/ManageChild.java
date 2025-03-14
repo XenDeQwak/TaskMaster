@@ -42,8 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManageChild extends AppCompatActivity {
-    AppCompatButton addChildButton, copyButton, exitButton;
-    ImageButton imagebutton1, imagebutton3, imagebutton4, imagebutton5, openChildPage;
+    AppCompatButton addChildButton, dropdownNavButton, navQuestPage, navManageAdv, navLogOut, copyButton, exitButton;
+    ImageButton openChildPage;
     TextView codeText, childName;
     Context context = this;
     Group dropDownGroup, popUpGroup;
@@ -70,11 +70,12 @@ public class ManageChild extends AppCompatActivity {
         });
 
         // hooks
-        imagebutton1 = findViewById(R.id.imageButton2);
+        dropdownNavButton = findViewById(R.id.dropdownNavButton);
         addChildButton = findViewById(R.id.addChildButton);
-        imagebutton3 = findViewById(R.id.imageButton4);
-        imagebutton4 = findViewById(R.id.imageButton5);
-        imagebutton5 = findViewById(R.id.imageButton6);
+        navQuestPage = findViewById(R.id.navQuestPage);
+        navManageAdv = findViewById(R.id.navManageAdv);
+        navLogOut = findViewById(R.id.navLogOut);
+
         dropDownGroup = findViewById(R.id.dropdownGroup);
         popUpGroup = findViewById(R.id.pop_up_tavern_code);
         copyButton = findViewById(R.id.copy_button);
@@ -86,13 +87,7 @@ public class ManageChild extends AppCompatActivity {
 
         // exclude elems within dropdown
         View[] dropDownElements = {
-                findViewById(R.id.imageView24),
-                findViewById(R.id.imageView25),
-                findViewById(R.id.imageView26),
-                findViewById(R.id.imageView27),
-                findViewById(R.id.textView7),
-                findViewById(R.id.textView8),
-                findViewById(R.id.textView9)
+                findViewById(R.id.navFrame)
         };
 
         // hide dropdown group and initial icons
@@ -168,7 +163,7 @@ public class ManageChild extends AppCompatActivity {
                     }
                 });
         // view dropdown group
-        imagebutton1.setOnClickListener(new View.OnClickListener() {
+        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (dropDownGroup.getVisibility() == View.VISIBLE) {
@@ -214,7 +209,7 @@ public class ManageChild extends AppCompatActivity {
 //            }
 //        });
 
-        imagebutton4.setOnClickListener(new View.OnClickListener() {
+        navManageAdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (popUpGroup.getVisibility() == View.GONE) {
@@ -223,7 +218,7 @@ public class ManageChild extends AppCompatActivity {
             }
         });
 
-        imagebutton3.setOnClickListener(new View.OnClickListener() {
+        navQuestPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (popUpGroup.getVisibility() == View.GONE) {
@@ -234,7 +229,7 @@ public class ManageChild extends AppCompatActivity {
             }
         });
 
-        imagebutton5.setOnClickListener(new View.OnClickListener() {
+        navLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (popUpGroup.getVisibility() == View.GONE) {
