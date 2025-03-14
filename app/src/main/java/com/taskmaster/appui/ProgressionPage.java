@@ -2,7 +2,10 @@ package com.taskmaster.appui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -190,7 +193,7 @@ public class ProgressionPage extends AppCompatActivity {
 
         // change text based on child here
         childAvatarName.setText(username);
-        statQuestDoneNum.setText(Integer.toString(questCount));
+        statQuestDoneNum.setText("11");
 
 
         // exclude elems within dropdown

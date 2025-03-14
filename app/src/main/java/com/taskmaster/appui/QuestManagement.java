@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -455,6 +456,7 @@ public class QuestManagement extends AppCompatActivity {
         cancelQuestViewButtonC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                updateQuestIcon1(rewardStat);
                 viewQuestGroup.setVisibility(View.GONE);
                 viewQuestGroupButtonC.setVisibility(View.GONE);
             }
@@ -489,6 +491,7 @@ public class QuestManagement extends AppCompatActivity {
         cancelQuestViewButtonP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                updateQuestIcon1(rewardStat);
                 viewQuestGroup.setVisibility(View.GONE);
                 viewQuestGroupButtonP.setVisibility(View.GONE);
                 Toast.makeText(QuestManagement.this, "exit", Toast.LENGTH_SHORT).show();
@@ -793,6 +796,7 @@ public class QuestManagement extends AppCompatActivity {
         cancelQuestEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                updateQuestIcon1(rewardStat);
                 Toast.makeText(QuestManagement.this, "cancel quest edit", Toast.LENGTH_SHORT).show();
                 editQuestGroup.setVisibility(View.GONE);
             }
@@ -842,6 +846,7 @@ public class QuestManagement extends AppCompatActivity {
                     editQuestGroup.setVisibility(View.GONE);
                     Toast.makeText(QuestManagement.this, "Quest " + lastClickedQuestId + " updated!", Toast.LENGTH_SHORT).show();
                 }
+//                updateQuestIcon(rewardStat, forVerif);
             }
         });
     }
@@ -987,6 +992,7 @@ public class QuestManagement extends AppCompatActivity {
         currentQuestNameText.setTextSize(20);
         currentQuestNameText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
         currentQuestNameText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        currentQuestNameText.setTextColor(Color.parseColor("#3F3F3F"));
 
         questTextViews.put(questId, currentQuestNameText);
 
@@ -1264,16 +1270,23 @@ public class QuestManagement extends AppCompatActivity {
                     viewQuestImageIcon.setImageResource(R.drawable.blank_icon);
                 }
             }
+        }
+    }
 
-            // add for verif icon logic
-//            if (forVerif && rewardStat.equals("intelligence")) {
-//
-//            } else if (forVerif && rewardStat.equals("strength")) {
-//                questImageIcon.setImageResource(R.drawable.icon_str_pending);
-//            } else {
-//                questImageIcon.setImageResource(R.drawable.blank_icon);
-//            }
-
+    private void updateQuestIcon1(String rewardStat) {
+        if (questImageIcon != null) {
+            if (editQuestImageIcon != null) {
+                if (rewardStat.equals("intelligence")) {
+                    editQuestImageIcon.setImageResource(R.drawable.icon_str_pending);
+                    viewQuestImageIcon.setImageResource(R.drawable.icon_str_pending);
+                } else if (rewardStat.equals("strength")) {
+                    editQuestImageIcon.setImageResource(R.drawable.icon_str_pending);
+                    viewQuestImageIcon.setImageResource(R.drawable.icon_str_pending);
+                } else {
+                    editQuestImageIcon.setImageResource(R.drawable.icon_str_pending);
+                    viewQuestImageIcon.setImageResource(R.drawable.icon_str_pending);
+                }
+            }
         }
     }
 

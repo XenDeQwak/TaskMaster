@@ -121,82 +121,120 @@
                 android:layout_gravity="center"
                 android:columnCount="1"
                 android:rowCount="6">
-                <!--
-                <FrameLayout
-                    android:id="@+id/childIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="108dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:visibility="gone">
 
-                    <ImageView
-                        android:id="@+id/child_frame"
-                        android:layout_width="316dp"
-                        android:layout_height="84dp"
-                        android:layout_marginStart="27dp"
-                        android:layout_marginTop="9dp"
-                        android:layout_marginEnd="18dp"
-                        android:layout_marginBottom="137dp"
-                        android:visibility="visible"
-                        app:srcCompat="@drawable/rectangle_rounded" />
+<!--                <FrameLayout-->
+<!--                    android:id="@+id/childIcon"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="108dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginBottom="5dp"-->
+<!--                    android:visibility="visible">-->
 
-                    <ImageView
-                        android:id="@+id/child_frame_avatar"
-                        android:layout_width="108dp"
-                        android:layout_height="107dp"
-                        android:layout_marginStart="11dp"
-                        android:visibility="visible"
-                        app:srcCompat="@drawable/circle_with_shadow" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/child_frame"-->
+<!--                        android:layout_width="316dp"-->
+<!--                        android:layout_height="94dp"-->
+<!--                        android:layout_marginStart="27dp"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:layout_marginEnd="18dp"-->
+<!--                        android:layout_marginBottom="137dp"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:srcCompat="@drawable/button_shadowed" />-->
 
-                    <TextView
-                        android:id="@+id/stat_view_str"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="125dp"
-                        android:layout_marginTop="50dp"
-                        android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="STR 0"
-                        android:textAlignment="center"
-                        android:textColor="#3F3F3F"
-                        android:textSize="20sp" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/child_frame_avatar"-->
+<!--                        android:layout_width="108dp"-->
+<!--                        android:layout_height="107dp"-->
+<!--                        android:layout_marginStart="11dp"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:srcCompat="@drawable/placeholderavatar1_framed_round" />-->
 
-                    <TextView
-                        android:id="@+id/child_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="125dp"
-                        android:layout_marginTop="15dp"
-                        android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="Lorem"
-                        android:textAlignment="center"
-                        android:textColor="#3F3F3F"
-                        android:textSize="20sp" />
+<!--                    <androidx.appcompat.widget.AppCompatButton-->
+<!--                        android:id="@+id/stat_view_str"-->
+<!--                        android:layout_width="90dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_marginTop="64dp"-->
+<!--                        android:layout_marginBottom="79dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:layout_marginStart="132dp"-->
+<!--                        android:background="@drawable/button_shadowed"-->
+<!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--                        android:text="STR: 0"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textColor="#3F3F3F"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:stateListAnimator="@null" />-->
 
-                    <TextView
-                        android:id="@+id/stat_view_int"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="195dp"
-                        android:layout_marginTop="50dp"
-                        android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="INT 0"
-                        android:textAlignment="center"
-                        android:textColor="#3F3F3F"
-                        android:textSize="20sp" />
+<!--                    <androidx.appcompat.widget.AppCompatButton-->
+<!--                        android:id="@+id/stat_view_int"-->
+<!--                        android:layout_width="90dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_marginTop="32dp"-->
+<!--                        android:layout_marginBottom="79dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:layout_marginStart="132dp"-->
+<!--                        android:background="@drawable/button_shadowed"-->
+<!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--                        android:text="INT: 0"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textColor="#3F3F3F"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:stateListAnimator="@null" />-->
 
-                    <TextView
-                        android:id="@+id/floor_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="258dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/eb_garamond_semibold"
-                        android:text="Floor: 0"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
-                </FrameLayout>
-                -->
+<!--                    <androidx.appcompat.widget.AppCompatButton-->
+<!--                        android:id="@+id/child_name"-->
+<!--                        android:layout_width="180dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_marginTop="1dp"-->
+<!--                        android:layout_marginBottom="89dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:layout_marginStart="132dp"-->
+<!--                        android:background="@drawable/button_shadowed"-->
+<!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--                        android:text="Loremm"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textColor="#3F3F3F"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:stateListAnimator="@null" />-->
+
+<!--                    <androidx.appcompat.widget.AppCompatButton-->
+<!--                        android:id="@+id/floor_view"-->
+<!--                        android:layout_width="90dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_marginTop="64dp"-->
+<!--                        android:layout_marginBottom="79dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:layout_marginStart="232dp"-->
+<!--                        android:background="@drawable/button_shadowed"-->
+<!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--                        android:text="Floor: 0"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textColor="#3F3F3F"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:stateListAnimator="@null" />-->
+
+<!--                    <androidx.appcompat.widget.AppCompatButton-->
+<!--                        android:id="@+id/quest_count"-->
+<!--                        android:layout_width="90dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_marginTop="32dp"-->
+<!--                        android:layout_marginBottom="79dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:layout_marginStart="232dp"-->
+<!--                        android:background="@drawable/button_shadowed"-->
+<!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--                        android:text="Quest: 0"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textColor="#3F3F3F"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:stateListAnimator="@null" />-->
+
+<!--                </FrameLayout>-->
             </GridLayout>
 
 
@@ -318,7 +356,7 @@
         android:id="@+id/dropdownGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="navFrame,navQuestPage,navManageAdv,navLogOut" />
 
         <ImageView

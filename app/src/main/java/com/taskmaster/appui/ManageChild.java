@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -295,24 +296,32 @@ public class ManageChild extends AppCompatActivity {
 
         int frameH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108, getResources().getDisplayMetrics());
         int marginBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
-        int childFrameH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 84, getResources().getDisplayMetrics());
+        int childFrameH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 94, getResources().getDisplayMetrics());
         int childFrameW = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 316, getResources().getDisplayMetrics());
-        int childMarginEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108, getResources().getDisplayMetrics());
-        int childMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 9, getResources().getDisplayMetrics());
+        int childMarginEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics());
+        int childMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
         int childMarginBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 137, getResources().getDisplayMetrics());
         int childMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27, getResources().getDisplayMetrics());
         int childAvatarW = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108, getResources().getDisplayMetrics());
         int childAvatarH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 107, getResources().getDisplayMetrics());
         int childAvatarStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 11, getResources().getDisplayMetrics());
-        int strMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 125, getResources().getDisplayMetrics());
-        int strMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
-        int intMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 195, getResources().getDisplayMetrics());
-        int intMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
-        int nameMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 125, getResources().getDisplayMetrics());
-        int nameMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
-        int floorMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 258, getResources().getDisplayMetrics());
-        int floorMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
 
+        int statH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        int statW = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 90, getResources().getDisplayMetrics());
+        int strMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 132, getResources().getDisplayMetrics());
+        int strMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, getResources().getDisplayMetrics());
+        int intMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 132, getResources().getDisplayMetrics());
+        int intMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
+        int floorMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 232, getResources().getDisplayMetrics());
+        int floorMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, getResources().getDisplayMetrics());
+        int questMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 232, getResources().getDisplayMetrics());
+        int questMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
+
+        int nameMarginStart = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 132, getResources().getDisplayMetrics());
+        int nameMargingBot = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 89, getResources().getDisplayMetrics());
+        int nameMarginEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics());
+        int nameH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        int nameW = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics());
 
         //new framelayout
         FrameLayout newFrame = new FrameLayout(this);
@@ -335,7 +344,7 @@ public class ManageChild extends AppCompatActivity {
         childFrameParams.topMargin = childMarginTop;
         childFrameParams.bottomMargin = childMarginBottom;
         childFrame.setLayoutParams(childFrameParams);
-        childFrame.setImageResource(R.drawable.rectangle_rounded);
+        childFrame.setImageResource(R.drawable.button_shadowed);
 
         //child frame avatar
         ImageView childFrameAvatar = new ImageView(context);
@@ -348,60 +357,91 @@ public class ManageChild extends AppCompatActivity {
 
         List<Integer>avatarImages = new ArrayList<>();
         avatarImages.add(R.drawable.rectangle_rounded);
-        avatarImages.add(R.drawable.placeholderavatar1_framed);
-        avatarImages.add(R.drawable.placeholderavatar2_framed);
-        avatarImages.add(R.drawable.placeholderavatar3_framed);
-        avatarImages.add(R.drawable.placeholderavatar4_framed);
+        avatarImages.add(R.drawable.placeholderavatar1_framed_round);
+        avatarImages.add(R.drawable.placeholderavatar2_framed_round);
+        avatarImages.add(R.drawable.placeholderavatar3_framed_round);
+        avatarImages.add(R.drawable.placeholderavatar4_framed_round);
 
         childFrameAvatar.setImageResource(avatarImages.get(childAvatar));
 
         // STR Text
-        TextView strText = new TextView(context);
+        AppCompatButton strText = new AppCompatButton(context);
         FrameLayout.LayoutParams strTextParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                statW,
+                statH
         );
         strTextParams.setMarginStart(strMarginStart);
         strTextParams.topMargin = strMarginTop;
         strText.setLayoutParams(strTextParams);
-        strText.setText("STR " + String.valueOf(strStat));
+        strText.setText("STR: " + String.valueOf(strStat));
         strText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
         strText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        strText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        strText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        strText.setTextColor(Color.parseColor("#3F3F3F"));
+        strText.setAllCaps(false);
+        strText.setBackgroundResource(R.drawable.button_shadowed);
+        strText.setStateListAnimator(null);
 
         // INT Text
-        TextView intText = new TextView(context);
+        AppCompatButton intText = new AppCompatButton(context);
         FrameLayout.LayoutParams intTextParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                statW,
+                statH
         );
         intTextParams.setMarginStart(intMarginStart);
         intTextParams.topMargin = intMarginTop;
         intText.setLayoutParams(intTextParams);
-        intText.setText("INT " + String.valueOf(intStat));
+        intText.setText("INT: " + String.valueOf(intStat));
         intText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
         intText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        intText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        intText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        intText.setTextColor(Color.parseColor("#3F3F3F"));
+        intText.setAllCaps(false);
+        intText.setBackgroundResource(R.drawable.button_shadowed);
+        intText.setStateListAnimator(null);
 
         // Name Text
-        TextView nameText = new TextView(context);
+        AppCompatButton nameText = new AppCompatButton(context);
         FrameLayout.LayoutParams nameTextParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                nameW,
+                nameH
         );
         nameTextParams.setMarginStart(nameMarginStart);
-        nameTextParams.topMargin = nameMarginTop;
+        nameTextParams.bottomMargin = nameMargingBot;
+        nameTextParams.setMarginEnd(nameMarginEnd);
         nameText.setLayoutParams(nameTextParams);
         nameText.setText(childName);
         nameText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
         nameText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        nameText.setTextColor(Color.parseColor("#3F3F3F"));
+        nameText.setAllCaps(false);
+        nameText.setBackgroundResource(R.drawable.button_shadowed);
+        nameText.setStateListAnimator(null);
+
+        // Quest Text
+        AppCompatButton questText = new AppCompatButton(context);
+        FrameLayout.LayoutParams questTextParams = new FrameLayout.LayoutParams(
+                statW,
+                statH
+        );
+        questTextParams.setMarginStart(questMarginStart);
+        questTextParams.topMargin = questMarginTop;
+        questText.setLayoutParams(questTextParams);
+        questText.setText("Quest: " + floorCount);
+        questText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
+        questText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        questText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        questText.setTextColor(Color.parseColor("#3F3F3F"));
+        questText.setAllCaps(false);
+        questText.setBackgroundResource(R.drawable.button_shadowed);
+        questText.setStateListAnimator(null);
 
         // Floor Text
-        TextView floorText = new TextView(context);
+        AppCompatButton floorText = new AppCompatButton(context);
         FrameLayout.LayoutParams floorTextParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                statW,
+                statH
         );
         floorTextParams.setMarginStart(floorMarginStart);
         floorTextParams.topMargin = floorMarginTop;
@@ -409,7 +449,11 @@ public class ManageChild extends AppCompatActivity {
         floorText.setText("Floor: " + floorCount);
         floorText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
         floorText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        floorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        floorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        floorText.setTextColor(Color.parseColor("#3F3F3F"));
+        floorText.setAllCaps(false);
+        floorText.setBackgroundResource(R.drawable.button_shadowed);
+        floorText.setStateListAnimator(null);
 
         // Add views to newFrame
         newFrame.addView(childFrame);
@@ -417,6 +461,7 @@ public class ManageChild extends AppCompatActivity {
         newFrame.addView(strText);
         newFrame.addView(intText);
         newFrame.addView(nameText);
+        newFrame.addView(questText);
         newFrame.addView(floorText);
         gridLayout1.addView(newFrame);
 
