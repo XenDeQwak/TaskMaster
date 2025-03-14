@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -60,6 +61,7 @@ public class ProgressionPage extends AppCompatActivity {
     FirebaseFirestore db;
     String parentID;
     String username;
+    TextView strCount, intCount;
     int childAvatar;
     int currentImageIndex;
     int childInt, childStr;
@@ -171,6 +173,9 @@ public class ProgressionPage extends AppCompatActivity {
         popupLargerChart = findViewById(R.id.popupLargerChart);
 
         chartButton = findViewById(R.id.chartButton);
+
+        strCount = findViewById(R.id.strCount);
+        intCount = findViewById(R.id.intCount);
 
         // image list
         avatarImages = new ArrayList<>();
@@ -388,6 +393,9 @@ public class ProgressionPage extends AppCompatActivity {
         xAxisLarge.setAxisMinimum(-0.5f); // Adjust the minimum value of the X-axis
         xAxisLarge.setValueFormatter(new IndexAxisValueFormatter(labels));
         barChartLarge.setTouchEnabled(false);
+
+        strCount.setText(String.valueOf(childStr));
+        intCount.setText(String.valueOf(childInt));
 
         barChartLarge.invalidate();
     }

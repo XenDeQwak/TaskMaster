@@ -172,6 +172,43 @@
         app:layout_constraintTop_toTopOf="@+id/statGraph"
         app:srcCompat="@null" />
 
+
+    <TextView
+        android:id="@+id/strCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="90dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:textColor="@color/white"
+        android:text="11"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/statGraph"
+        app:layout_constraintEnd_toEndOf="@+id/statGraph"
+        app:layout_constraintStart_toStartOf="@+id/statGraph"
+        app:layout_constraintTop_toTopOf="@+id/statGraph" />
+
+    <TextView
+        android:id="@+id/intCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="95dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:textColor="@color/white"
+        android:text="11"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/statGraph"
+        app:layout_constraintEnd_toEndOf="@+id/statGraph"
+        app:layout_constraintStart_toStartOf="@+id/statGraph"
+        app:layout_constraintTop_toTopOf="@+id/statGraph" />
+
+
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/statFloor"
         android:layout_width="166dp"
