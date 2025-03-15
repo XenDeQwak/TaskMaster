@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -161,7 +162,7 @@ public class QuestManagement extends AppCompatActivity {
                                 db.collection("users").whereEqualTo("code", childToParentCode).get()
                                         .addOnCompleteListener(tasks -> {
                                            if (task.isSuccessful()) {
-                                               for (QueryDocumentSnapshot document : tasks.getResult()) {
+                                                   for (QueryDocumentSnapshot document : tasks.getResult()) {
                                                    username = document.getString("username");
                                                    storedUsername = username;
                                                }
@@ -834,8 +835,32 @@ public class QuestManagement extends AppCompatActivity {
 
                     // Update the quest time
                     if (editQuestTime != null) {
+                        String time = editQuestTime.getText().toString();
                         questTimes.put(lastClickedQuestId, editQuestTime.getText().toString());
-                        questRef.update("time", editQuestTime.getText().toString());
+                        questRef.update("time", time);
+
+                        long hourL = 0, minuteL = 0, secondL = 0;
+                        String[] timeParts = time.split(":");
+
+                        if (timeParts.length == 2) {
+                            String hours = timeParts[0];
+                            String minutes = timeParts[1];
+                            String seconds = "0";
+                            hourL = Long.parseLong(hours);
+                            minuteL = Long.parseLong(minutes);
+                            secondL = Long.parseLong(seconds);
+                        } else if (timeParts.length == 3) {
+                            String hours = timeParts[0];
+                            String minutes = timeParts[1];
+                            String seconds = timeParts[2];
+                            hourL = Long.parseLong(hours);
+                            minuteL = Long.parseLong(minutes);
+                            secondL = Long.parseLong(seconds);
+                        } else {
+                            Log.e("TimeSplit", "Invalid time format: " + time);
+                        }
+                        countDownTimer(hourL, minuteL, secondL, lastClickedQuestId);
+
                     }
 
                     // Update questRewardsOptional
@@ -855,6 +880,34 @@ public class QuestManagement extends AppCompatActivity {
         });
     }
 
+    private void countDownTimer(long hourL, long minuteL, long secondL, int questId) {
+        long ms = hourL * 3600000 + minuteL * 60000 + secondL * 1000;
+        DocumentReference questRef = db.collection("quest").document(username + "Quest" + questId);
+        new CountDownTimer(ms, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long secondsRemaining = millisUntilFinished / 1000;
+                long hours = secondsRemaining / 3600;
+                long minutes = (secondsRemaining % 3600) / 60;
+                long seconds = secondsRemaining % 60;
+
+                String timeLeftFormatted;
+                if (hours > 0) {
+                    timeLeftFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+                } else {
+                    timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
+                }
+                viewQuestTime.setText(timeLeftFormatted);
+                Log.d("TIME: ", "Remaining time: " + timeLeftFormatted);
+                questRef.update("time", timeLeftFormatted);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+    }
     private void saveQuestToChild(String childID) {
         db.collection("users").document(childID).get()
                 .addOnCompleteListener(task -> {
@@ -873,31 +926,44 @@ public class QuestManagement extends AppCompatActivity {
         db.collection("quest").whereEqualTo("roomCode", parentCode).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        int questId;
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             questName = document.getString("name");
                             questDescription = document.getString("description");
                             difficulty = document.getLong("difficulty").intValue();
                             time = document.getString("time");
                             rewardStat = document.getString("rewardStat");
+                            questId = document.getLong("questId").intValue();
                             rewardOptional = document.getString("rewardOptional");
                             Boolean forVerif = document.getBoolean("forVerif");
-//                            questAssign = document.getString("questAssign");
-                            Log.d("TAG", questName + questDescription + difficulty + time + rewardStat + rewardOptional);
-                            // make quests depending on database
                             createQuest(questName, questDescription, difficulty, time, rewardStat, rewardOptional, forVerif);
-//                            createQuest(questName, questDescription, difficulty, time, rewardStat, null, rewardOptional);
                             updateQuestIcon(rewardStat, forVerif);
+                            long hourL = 0, minuteL = 0, secondL = 0;
+                            String[] timeParts = time.split(":");
+                            if (timeParts.length == 2) {
+                                String hours = timeParts[0];
+                                String minutes = timeParts[1];
+                                String seconds = "0";
+                                hourL = Long.parseLong(hours);
+                                minuteL = Long.parseLong(minutes);
+                                secondL = Long.parseLong(seconds);
+                            } else if (timeParts.length == 3) {
+                                String hours = timeParts[0];
+                                String minutes = timeParts[1];
+                                String seconds = timeParts[2];
+                                hourL = Long.parseLong(hours);
+                                minuteL = Long.parseLong(minutes);
+                                secondL = Long.parseLong(seconds);
+                            } else {
+                                Log.e("TimeSplit", "Invalid time format: " + time);
+                            }
+                            countDownTimer(hourL, minuteL, secondL, questId);
+
                         }
                     } else {
                         Log.d("ERROR", "NOTHING HAPPENED");
-                        return;
                     }
                 });
-    }
-
-
-    public QuestManagement() {
-        super();
     }
 
     private void createQuest(String questName, String questDescription, int questDiff, String questTime, String rewardStat, String rewardOptional, Boolean forVerif) {
@@ -1281,16 +1347,39 @@ public class QuestManagement extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        int questId;
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             questName = document.getString("name");
                             questDescription = document.getString("description");
                             difficulty = document.getLong("difficulty").intValue();
                             time = document.getString("time");
                             rewardStat = document.getString("rewardStat");
+                            questId = document.getLong("questId").intValue();
                             rewardOptional = document.getString("rewardOptional");
                             Boolean forVerif = document.getBoolean("forVerif");
                             createQuest(questName, questDescription, difficulty, time, rewardStat, rewardOptional, forVerif);
                             updateQuestIcon(rewardStat, forVerif);
+                            long hourL = 0, minuteL = 0, secondL = 0;
+                            String[] timeParts = time.split(":");
+                            if (timeParts.length == 2) {
+                                String hours = timeParts[0];
+                                String minutes = timeParts[1];
+                                String seconds = "0";
+                                hourL = Long.parseLong(hours);
+                                minuteL = Long.parseLong(minutes);
+                                secondL = Long.parseLong(seconds);
+                            } else if (timeParts.length == 3) {
+                                String hours = timeParts[0];
+                                String minutes = timeParts[1];
+                                String seconds = timeParts[2];
+                                hourL = Long.parseLong(hours);
+                                minuteL = Long.parseLong(minutes);
+                                secondL = Long.parseLong(seconds);
+                            } else {
+                                Log.e("TimeSplit", "Invalid time format: " + time);
+                            }
+                            countDownTimer(hourL, minuteL, secondL, questId);
+
                         }
                     } else {
                         // Handle the error
