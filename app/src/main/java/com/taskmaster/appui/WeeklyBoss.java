@@ -151,6 +151,7 @@ public class WeeklyBoss extends AppCompatActivity {
                                                 bossID = bossDocs.getDocuments().get(0).getId();
                                                 bossDoc = db.collection("boss").document(bossID);
                                                 bossName = bossDocs.getDocuments().get(0).getString("bossName");
+                                                int bossAvatar = bossDocs.getDocuments().get(0).getLong("bossAvatar").intValue();
                                                 monsterName.setText(bossName);
                                                 bossReq = bossDocs.getDocuments().get(0).getLong("bossReq").intValue();
                                                 statReqStr.setText("STR: " + bossReq);

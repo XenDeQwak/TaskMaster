@@ -86,8 +86,10 @@ public class LogIn extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         confirmButton.setOnClickListener(v -> authenticateUser());
-        forgotPasswordTextView.setOnClickListener(v -> Toast.makeText(LogIn.this, "Forgot Password? clicked", Toast.LENGTH_SHORT).show());
-        signUpTextView.setOnClickListener(v -> startActivity(new Intent(LogIn.this, SignUp.class)));
+        signUpTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(LogIn.this, SignUp.class);
+            startActivity(intent);
+                });
     }
 
     private void authenticateUser() {
@@ -106,28 +108,8 @@ public class LogIn extends AppCompatActivity {
 
                     Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LogIn.this, QuestManagement.class));
-                    return;
             }
-            checkUsername(username, password);
         });
-    }
-
-    private void checkUsername(String username, String password) {
-        db.collection("users")
-                .whereEqualTo("username", username)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.getString("password").equals(password)) {
-                                Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LogIn.this, QuestManagement.class));
-                                return;
-                            }
-                        }
-                    }
-                    Toast.makeText(LogIn.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-                });
     }
 
     private void hideSystemBars() {

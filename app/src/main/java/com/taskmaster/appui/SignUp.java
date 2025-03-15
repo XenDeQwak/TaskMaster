@@ -89,15 +89,6 @@ public class SignUp extends AppCompatActivity {
         confirmButton.setOnClickListener(v -> checkIfUserExists());
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            startActivity(new Intent(SignUp.this, LogIn.class));
-        }
-    }
-
     private void checkIfUserExists() {
         String email = emailbox.getText().toString().trim();
         String username = usernamebox.getText().toString().trim();
