@@ -34,35 +34,38 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-    <ImageView
-        android:id="@+id/imageView17"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dropdownNavButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
         android:layout_marginStart="10dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="316dp"
         android:layout_marginBottom="743dp"
         android:alpha="0.5"
+        android:gravity="center"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:srcCompat="@drawable/rectangle_rounded" />
+        app:layout_constraintTop_toTopOf="@+id/imageView7" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addQuestButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
         android:layout_marginStart="316dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="743dp"
         android:alpha="0.5"
-        android:background="@drawable/button_shadowed_states"
-        android:fontFamily="@font/eb_garamond_semibold"
         android:gravity="center"
-        android:stateListAnimator="@null"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
@@ -107,9 +110,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:fontFamily="@font/eb_garamond_semibold"
+        android:textColor="#3F3F3F"
         android:text="Quest Board"
         android:textAlignment="center"
-        android:textColor="#3F3F3F"
         android:textSize="24sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/basePageFrame"
@@ -136,10 +139,10 @@
         android:id="@+id/imageView22"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView17"
-        app:layout_constraintEnd_toEndOf="@+id/imageView17"
-        app:layout_constraintStart_toStartOf="@+id/imageView17"
-        app:layout_constraintTop_toTopOf="@+id/imageView17"
+        app:layout_constraintBottom_toBottomOf="@+id/dropdownNavButton"
+        app:layout_constraintEnd_toEndOf="@+id/dropdownNavButton"
+        app:layout_constraintStart_toStartOf="@+id/dropdownNavButton"
+        app:layout_constraintTop_toTopOf="@+id/dropdownNavButton"
         app:srcCompat="@drawable/dropdown" />
 
     <ImageView
@@ -153,17 +156,6 @@
         app:layout_constraintStart_toStartOf="@+id/addQuestButton"
         app:layout_constraintTop_toTopOf="@+id/addQuestButton"
         app:srcCompat="@drawable/add_quest" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView17"
-        app:layout_constraintEnd_toEndOf="@+id/imageView17"
-        app:layout_constraintStart_toStartOf="@+id/imageView17"
-        app:layout_constraintTop_toTopOf="@+id/imageView17"
-        app:srcCompat="@null" />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -426,12 +418,20 @@
         android:layout_marginTop="84dp"
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="554dp"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/editQuestFrame"
         app:layout_constraintEnd_toEndOf="@+id/editQuestFrame"
         app:layout_constraintStart_toStartOf="@+id/editQuestFrame"
         app:layout_constraintTop_toTopOf="@+id/editQuestFrame"
         app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/editQuestImageIcon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editQuestImage"
+        app:layout_constraintEnd_toEndOf="@+id/editQuestImage"
+        app:layout_constraintStart_toStartOf="@+id/editQuestImage"
+        app:layout_constraintTop_toTopOf="@+id/editQuestImage" />
 
     <EditText
         android:id="@+id/editQuestName"
@@ -639,11 +639,11 @@
 
     <ImageView
         android:id="@+id/childBarFrame"
-        android:layout_width="361dp"
+        android:layout_width="354dp"
         android:layout_height="194dp"
-        android:layout_marginStart="7dp"
+        android:layout_marginStart="11dp"
         android:layout_marginTop="624dp"
-        android:layout_marginEnd="7dp"
+        android:layout_marginEnd="11dp"
         android:layout_marginBottom="35dp"
         android:alpha="0.5"
         android:visibility="visible"
@@ -745,13 +745,13 @@
         android:layout_marginStart="7dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="7dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="110dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toBottomOf="@+id/imageView19"
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <ImageView
@@ -762,21 +762,29 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="320dp"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
         app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
         app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
         app:layout_constraintTop_toTopOf="@+id/viewQuestFrame"
         app:srcCompat="@drawable/rectangle_rounded" />
 
+    <ImageView
+        android:id="@+id/viewQuestImageIcon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewQuestImage"
+        app:layout_constraintEnd_toEndOf="@+id/viewQuestImage"
+        app:layout_constraintStart_toStartOf="@+id/viewQuestImage"
+        app:layout_constraintTop_toTopOf="@+id/viewQuestImage" />
+
     <EditText
         android:id="@+id/viewQuestName"
         android:layout_width="173dp"
         android:layout_height="39dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="261dp"
+        android:layout_marginTop="258dp"
         android:layout_marginEnd="161dp"
-        android:layout_marginBottom="271dp"
+        android:layout_marginBottom="296dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:focusable="false"
@@ -797,9 +805,9 @@
         android:layout_width="115dp"
         android:layout_height="39dp"
         android:layout_marginStart="219dp"
-        android:layout_marginTop="261dp"
+        android:layout_marginTop="258dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="271dp"
+        android:layout_marginBottom="296dp"
         android:background="@drawable/textbox_rounded"
         android:clickable="true"
         android:ems="10"
@@ -823,7 +831,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="326dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="149dp"
+        android:layout_marginBottom="164dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:focusable="false"
@@ -1014,150 +1022,87 @@
         android:id="@+id/dropdownGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="1dp"
-        android:translationZ="1dp"
         android:visibility="gone"
-        app:constraint_referenced_ids="imageView24,imageView25,imageView26,imageView27,textView7,textView8,textView9" />
+        app:constraint_referenced_ids="navFrame,navQuestPage,navManageAdv,navLogOut" />
 
     <ImageView
-        android:id="@+id/imageView24"
+        android:id="@+id/navFrame"
         android:layout_width="173dp"
         android:layout_height="295dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="190dp"
         android:layout_marginBottom="464dp"
-        android:alpha="0.8"
+        android:alpha="0.7"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toBottomOf="@+id/imageView17"
+        app:layout_constraintTop_toBottomOf="@+id/dropdownNavButton"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-    <ImageView
-        android:id="@+id/imageView25"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/navQuestPage"
         android:layout_width="161dp"
         android:layout_height="63dp"
         android:layout_marginTop="27dp"
         android:layout_marginBottom="205dp"
-        android:alpha="0.8"
+        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
+        app:layout_constraintEnd_toEndOf="@+id/navFrame"
+        app:layout_constraintStart_toStartOf="@+id/navFrame"
+        app:layout_constraintTop_toTopOf="@+id/navFrame"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:gravity="center"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView24"
-        app:layout_constraintEnd_toEndOf="@+id/imageView24"
-        app:layout_constraintStart_toStartOf="@+id/imageView24"
-        app:layout_constraintTop_toTopOf="@+id/imageView24"
-        app:srcCompat="@drawable/rectangle_rounded" />
+        android:text="Quest Board"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp" />
 
-    <ImageView
-        android:id="@+id/imageView26"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/navManageAdv"
         android:layout_width="161dp"
         android:layout_height="63dp"
         android:layout_marginTop="107dp"
         android:layout_marginBottom="125dp"
-        android:alpha="0.8"
+        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
+        app:layout_constraintEnd_toEndOf="@+id/navFrame"
+        app:layout_constraintStart_toStartOf="@+id/navFrame"
+        app:layout_constraintTop_toTopOf="@+id/navFrame"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:gravity="center"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView24"
-        app:layout_constraintEnd_toEndOf="@+id/imageView24"
-        app:layout_constraintHorizontal_bias="0.583"
-        app:layout_constraintStart_toStartOf="@+id/imageView24"
-        app:layout_constraintTop_toTopOf="@+id/imageView24"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/rectangle_rounded" />
+        android:text="Manage\nAdventurers"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp" />
 
-    <ImageView
-        android:id="@+id/imageView27"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/navLogOut"
         android:layout_width="161dp"
         android:layout_height="63dp"
         android:layout_marginTop="186dp"
         android:layout_marginBottom="46dp"
-        android:alpha="0.8"
+        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
+        app:layout_constraintEnd_toEndOf="@+id/navFrame"
+        app:layout_constraintStart_toStartOf="@+id/navFrame"
+        app:layout_constraintTop_toTopOf="@+id/navFrame"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:gravity="center"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView24"
-        app:layout_constraintEnd_toEndOf="@+id/imageView24"
-        app:layout_constraintHorizontal_bias="0.583"
-        app:layout_constraintStart_toStartOf="@+id/imageView24"
-        app:layout_constraintTop_toTopOf="@+id/imageView24"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/rectangle_rounded" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Quest Board"
-        android:textAlignment="center"
-        android:textColor="#3F3F3F"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView25"
-        app:layout_constraintEnd_toEndOf="@+id/imageView25"
-        app:layout_constraintStart_toStartOf="@+id/imageView25"
-        app:layout_constraintTop_toTopOf="@+id/imageView25" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Manage\nAdventurers"
-        android:textAlignment="center"
-        android:textColor="#3F3F3F"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView26"
-        app:layout_constraintEnd_toEndOf="@+id/imageView26"
-        app:layout_constraintStart_toStartOf="@+id/imageView26"
-        app:layout_constraintTop_toTopOf="@+id/imageView26" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/eb_garamond_semibold"
         android:text="Log Out"
         android:textAlignment="center"
+        android:textAllCaps="false"
         android:textColor="#3F3F3F"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView27"
-        app:layout_constraintEnd_toEndOf="@+id/imageView27"
-        app:layout_constraintStart_toStartOf="@+id/imageView27"
-        app:layout_constraintTop_toTopOf="@+id/imageView27" />
-
-    <ImageButton
-        android:id="@+id/imageButton4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView25"
-        app:layout_constraintEnd_toEndOf="@+id/imageView25"
-        app:layout_constraintStart_toStartOf="@+id/imageView25"
-        app:layout_constraintTop_toTopOf="@+id/imageView25"
-        app:srcCompat="@null" />
-
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView26"
-        app:layout_constraintEnd_toEndOf="@+id/imageView26"
-        app:layout_constraintStart_toStartOf="@+id/imageView26"
-        app:layout_constraintTop_toTopOf="@+id/imageView26"
-        app:srcCompat="@null" />
-
-    <ImageButton
-        android:id="@+id/imageButton6"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView27"
-        app:layout_constraintEnd_toEndOf="@+id/imageView27"
-        app:layout_constraintStart_toStartOf="@+id/imageView27"
-        app:layout_constraintTop_toTopOf="@+id/imageView27"
-        app:srcCompat="@null" />
+        android:textSize="20sp" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/popupRewardsGroup"
@@ -1183,12 +1128,12 @@
         android:id="@+id/popupRewardsFrame"
         android:layout_width="296dp"
         android:layout_height="435dp"
-        android:layout_marginStart="58dp"
         android:layout_marginTop="162dp"
+        android:layout_marginStart="58dp"
         android:layout_marginEnd="58dp"
         android:layout_marginBottom="320dp"
-        android:alpha="1"
         android:clickable="true"
+        android:alpha="1"
         android:elevation="1dp"
         android:translationZ="1dp"
         android:visibility="visible"
@@ -1400,8 +1345,8 @@
         android:id="@+id/popupAssignFrame"
         android:layout_width="296dp"
         android:layout_height="435dp"
-        android:layout_marginStart="58dp"
         android:layout_marginTop="162dp"
+        android:layout_marginStart="58dp"
         android:layout_marginEnd="58dp"
         android:layout_marginBottom="320dp"
         android:alpha="1"
