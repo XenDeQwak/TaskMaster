@@ -534,52 +534,25 @@ public class QuestManagement extends AppCompatActivity {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     Boolean isVerifTrue = document.getBoolean("forVerif");
+                                    String childID = document.getString("childId");
                                     if (Boolean.TRUE.equals(isVerifTrue)) {
-                                        questDifficulty = document.getLong("difficulty").intValue();
-                                        rewardType = document.getString("rewardStat");
-
-                                        //access child data
-                                        db.collection("users").document(userId).get()
+                                        db.collection("users").document(childID).get()
                                                 .addOnCompleteListener(tasks -> {
                                                     if (tasks.isSuccessful()) {
-                                                        DocumentSnapshot parentDocument = tasks.getResult();
-                                                        if (parentDocument.exists()) {
-                                                            if (childIds != null) {
-                                                                for (String childId : childIds) {
-                                                                    db.collection("users").document(childId).get()
-                                                                            .addOnCompleteListener(childTask -> {
-                                                                                if (childTask.isSuccessful()) {
-                                                                                    DocumentSnapshot childDocument = childTask.getResult();
-                                                                                    if (childDocument.exists()) {
-                                                                                        Log.d("CHILD", childId);
-                                                                                        DocumentReference childRef = db.collection("users").document(childId);
-                                                                                        if ("strength".equals(rewardType)) {
-                                                                                            childRef.update("childStr", childDocument.getLong("childStr").intValue() + questDifficulty);
-                                                                                        } else {
-                                                                                            childRef.update("childInt", childDocument.getLong("childInt").intValue() + questDifficulty);
-                                                                                        }
-                                                                                        childRef.update("questCount", childDocument.getLong("questCount").intValue() + 1);
-
-
-
-                                                                                    } else {
-                                                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
-                                                                                    }
-                                                                                } else {
-                                                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
-                                                                                }
-                                                                            });
-                                                                }
+                                                        DocumentSnapshot childDocument = tasks.getResult();
+                                                        if (childDocument.exists()) {
+                                                            DocumentReference childRef = db.collection("users").document(childID);
+                                                            if ("strength".equals(rewardType)) {
+                                                                childRef.update("childStr", childDocument.getLong("childStr").intValue() + questDifficulty);
                                                             } else {
-                                                                Log.d("DEBUG", "NO CHILDREN");
+                                                                childRef.update("childInt", childDocument.getLong("childInt").intValue() + questDifficulty);
                                                             }
-                                                        } else {
-                                                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
+                                                            childRef.update("questCount", childDocument.getLong("questCount").intValue() + 1);
                                                         }
-                                                    } else {
-                                                        Log.d("DEBUG", "Error getting parent document", task.getException());
                                                     }
                                                 });
+                                        questDifficulty = document.getLong("difficulty").intValue();
+                                        rewardType = document.getString("rewardStat");
                                         db.collection("quest").document(username + "Quest" + (lastClickedQuestId))
                                                 .delete()
                                                 .addOnSuccessListener(success -> {

@@ -45,6 +45,7 @@ public class WeeklyBoss extends AppCompatActivity {
     int bossReq = 10;
     int childStr;
     int childInt;
+    int bossAvatar;
     String bossName;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private int currentProgress = 100;
@@ -119,7 +120,6 @@ public class WeeklyBoss extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         FirebaseUser user = auth.getCurrentUser();
         String userId = user.getUid();
 
@@ -135,7 +135,6 @@ public class WeeklyBoss extends AppCompatActivity {
                                         if (tasks.isSuccessful()) {
                                             if (tasks.getResult().isEmpty()) {
                                                 bossData.put("bossReq", bossReq);
-                                                bossData.put("bossName", "Sancho");
                                                 bossData.put("bossAvatar", 0);
                                                 bossID = db.collection("boss").document().getId();
                                                 db.collection("boss").document(bossID).set(bossData);
@@ -143,13 +142,23 @@ public class WeeklyBoss extends AppCompatActivity {
                                                 QuerySnapshot bossDocs = tasks.getResult();
                                                 bossID = bossDocs.getDocuments().get(0).getId();
                                                 bossDoc = db.collection("boss").document(bossID);
-                                                bossName = bossDocs.getDocuments().get(0).getString("bossName");
-                                                int bossAvatar = bossDocs.getDocuments().get(0).getLong("bossAvatar").intValue();
-                                                monsterName.setText(bossName);
+                                                bossAvatar = bossDocs.getDocuments().get(0).getLong("bossAvatar").intValue();
+
+                                                List<Integer>bossImages = new ArrayList<>();
+                                                bossImages.add(R.drawable.bucklerbossundamaged);
+                                                bossImages.add(R.drawable.bookbossundamaged);
+
+                                                if (bossAvatar == 0) {
+                                                    monsterImage.setImageResource(bossImages.get(0));
+                                                    monsterName.setText("SHIELD");
+                                                } else {
+                                                    monsterImage.setImageResource(bossImages.get(1));
+                                                    monsterName.setText("BOOK");
+                                                }
+
                                                 bossReq = bossDocs.getDocuments().get(0).getLong("bossReq").intValue();
                                                 statReqStr.setText("STR: " + bossReq);
                                                 statReqInt.setText("INT: " + bossReq);
-                                                monsterImage.setImageResource(R.drawable.bucklerbossundamaged);
                                             }
                                         }
                                     });
@@ -297,9 +306,22 @@ public class WeeklyBoss extends AppCompatActivity {
                                                double prevChildStats = ((childStr + childInt) / 2);
                                                bossReq = (int) Math.round(prevChildStats + Math.pow(10, 1.3) * Math.log10(prevChildStats));
                                                docRef.update("floor", floorCount + 1);
-                                               bossDoc.update("bossReq", bossReq);
-                                               popupMonsterMessageText.setText("im defeated :(");
-                                               popupMonsterMessage.setVisibility(View.VISIBLE);
+
+                                               bossAvatar = (bossAvatar == 0) ? 1 : 0;
+
+                                               bossDoc.update("bossReq", bossReq, "bossAvatar", bossAvatar)
+                                                       .addOnSuccessListener(aVoid -> {
+                                                           if (bossAvatar == 0) {
+                                                               monsterImage.setImageResource(R.drawable.bucklerbossundamaged);
+                                                           } else {
+                                                               monsterImage.setImageResource(R.drawable.bookbossundamaged);
+                                                           }
+                                                           popupMonsterMessageText.setText("im defeated :(");
+                                                           popupMonsterMessage.setVisibility(View.VISIBLE);
+                                                       })
+                                                       .addOnFailureListener(e -> {
+                                                           Log.e("BossAvatarUpdate", "Error updating bossAvatar", e);
+                                                       });
                                            }
                                        }
                                    }

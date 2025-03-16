@@ -108,31 +108,27 @@ public class ManageChild extends AppCompatActivity {
                             db.collection("users").whereEqualTo("parentCode", code).get()
                                     .addOnCompleteListener(tasks -> {
                                         if (tasks.isSuccessful()) {
-                                            childIds = new ArrayList<>();
                                             for (QueryDocumentSnapshot documentSnapshot : tasks.getResult()) {
                                                 String childId = documentSnapshot.getId();
-                                                childIds.add(childId);
-
-                                                for (String childID : childIds) {
-                                                    db.collection("users").document(childID).get()
-                                                            .addOnCompleteListener(childTask -> {
-                                                                if (childTask.isSuccessful()) {
-                                                                    DocumentSnapshot childDocument = childTask.getResult();
-                                                                    if (childDocument.exists()) {
-                                                                        String childName = childDocument.getString("username");
-                                                                        int childStr = childDocument.getLong("childStr").intValue();
-                                                                        int childInt = childDocument.getLong("childInt").intValue();
-                                                                        int childAvatar = childDocument.getLong("childAvatar").intValue();
-                                                                        int floorCount = childDocument.getLong("floor").intValue();
-                                                                        createChildFrame(childName, childStr, childInt, childAvatar, floorCount);
-                                                                    } else {
-                                                                        Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
-                                                                    }
+                                                db.collection("users").document(childId).get()
+                                                        .addOnCompleteListener(childTask -> {
+                                                            if (childTask.isSuccessful()) {
+                                                                DocumentSnapshot childDocument = childTask.getResult();
+                                                                if (childDocument.exists()) {
+                                                                    String childName = childDocument.getString("username");
+                                                                    int childStr = childDocument.getLong("childStr").intValue();
+                                                                    int childInt = childDocument.getLong("childInt").intValue();
+                                                                    int childAvatar = childDocument.getLong("childAvatar").intValue();
+                                                                    int floorCount = childDocument.getLong("floor").intValue();
+                                                                    int questCount = childDocument.getLong("questCount").intValue();
+                                                                    createChildFrame(childName, childStr, childInt, childAvatar, floorCount, questCount);
                                                                 } else {
-                                                                    Log.e("DEBUG", "Error getting child document", childTask.getException());
+                                                                    Log.d("DEBUG", "CHILD DOCUMENT DOES NOT EXIST");
                                                                 }
-                                                            });
-                                                }
+                                                            } else {
+                                                                Log.e("DEBUG", "Error getting child document", childTask.getException());
+                                                            }
+                                                        });
                                             }
                                         }
                                     });
@@ -292,7 +288,7 @@ public class ManageChild extends AppCompatActivity {
     }
 
 
-    private void createChildFrame(String childName, int strStat, int intStat, int childAvatar, int floorCount) {
+    private void createChildFrame(String childName, int strStat, int intStat, int childAvatar, int floorCount, int questCount) {
 
         int frameH = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 108, getResources().getDisplayMetrics());
         int marginBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
@@ -428,7 +424,7 @@ public class ManageChild extends AppCompatActivity {
         questTextParams.setMarginStart(questMarginStart);
         questTextParams.topMargin = questMarginTop;
         questText.setLayoutParams(questTextParams);
-        questText.setText("Quest: " + floorCount);
+        questText.setText("Quest: " + questCount);
         questText.setTypeface(ResourcesCompat.getFont(context, R.font.eb_garamond_semibold));
         questText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         questText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
