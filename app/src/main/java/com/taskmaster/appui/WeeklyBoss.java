@@ -173,11 +173,11 @@ public class WeeklyBoss extends AppCompatActivity {
 
 
                             List<Integer>avatarImages = new ArrayList<>();
-                            avatarImages.add(R.drawable.rectangle_rounded);
-                            avatarImages.add(R.drawable.placeholderavatar1_framed);
-                            avatarImages.add(R.drawable.placeholderavatar2_framed);
-                            avatarImages.add(R.drawable.placeholderavatar3_framed);
-                            avatarImages.add(R.drawable.placeholderavatar4_framed);
+                            avatarImages.add(R.drawable.placeholderavatar5_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar1_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar2_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar3_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar4_framed_round);
 
                             childBarAvatar.setImageResource(avatarImages.get(childAvatar));
                             Log.d("FLOOR", "FLOOR: " + floorCount);

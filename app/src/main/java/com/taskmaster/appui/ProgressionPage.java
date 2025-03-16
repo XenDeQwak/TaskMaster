@@ -43,6 +43,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class ProgressionPage extends AppCompatActivity {
     int childAvatar;
     int currentImageIndex;
     int childInt, childStr;
+    int floorCount;
     FirebaseAuth auth;
 
     @Override
@@ -108,11 +110,19 @@ public class ProgressionPage extends AppCompatActivity {
 
                             childInt = childDocument.getLong("childInt").intValue();
                             childStr = childDocument.getLong("childStr").intValue();
+                            childAvatarName.setText(childDocument.getString("username"));
+                            floorCount = childDocument.getLong("floor").intValue();
+
 
                             barGraph(childInt, childStr);
                             // Set the initial image
                             childAvatarImage.setImageResource(avatarImages.get(childAvatar));
                             currentImageIndex = childAvatar;
+
+                            childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
+
+                            statQuestDoneNum.setText(String.valueOf(questCount));
+                            statFloorNum.setText(String.valueOf(floorCount));
 
                             childAvatarPresetNextButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -179,11 +189,11 @@ public class ProgressionPage extends AppCompatActivity {
 
         // image list
         avatarImages = new ArrayList<>();
-        avatarImages.add(R.drawable.rectangle_rounded);
-        avatarImages.add(R.drawable.placeholderavatar1_framed);
-        avatarImages.add(R.drawable.placeholderavatar2_framed);
-        avatarImages.add(R.drawable.placeholderavatar3_framed);
-        avatarImages.add(R.drawable.placeholderavatar4_framed);
+        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
+        avatarImages.add(R.drawable.placeholderavatar1_framed_round);
+        avatarImages.add(R.drawable.placeholderavatar2_framed_round);
+        avatarImages.add(R.drawable.placeholderavatar3_framed_round);
+        avatarImages.add(R.drawable.placeholderavatar4_framed_round);
 
         // name list
         avatarNames = new ArrayList<>();
@@ -197,7 +207,8 @@ public class ProgressionPage extends AppCompatActivity {
         String username = prefs.getString("username", "");
 
         // change text based on child here
-        childAvatarName.setText(username);
+//        childAvatarName.setText(username);
+
         statQuestDoneNum.setText("11");
 
 
@@ -394,6 +405,12 @@ public class ProgressionPage extends AppCompatActivity {
         xAxisLarge.setValueFormatter(new IndexAxisValueFormatter(labels));
         barChartLarge.setTouchEnabled(false);
 
+        if (childInt == 0) {
+            intCount.setVisibility(View.GONE);
+        }
+        if (childStr == 0) {
+            strCount.setVisibility(View.GONE);
+        }
         strCount.setText(String.valueOf(childStr));
         intCount.setText(String.valueOf(childInt));
 

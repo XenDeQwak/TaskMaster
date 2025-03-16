@@ -258,8 +258,8 @@
         android:id="@+id/childBarAvatar"
         android:layout_width="152dp"
         android:layout_height="170dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:layout_marginStart="6dp"
         android:layout_marginEnd="192dp"
         android:layout_marginBottom="4dp"
         android:visibility="visible"
@@ -267,7 +267,7 @@
         app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
         app:layout_constraintStart_toStartOf="@+id/childBarFrame"
         app:layout_constraintTop_toTopOf="@+id/childBarFrame"
-        app:srcCompat="@drawable/rectangle_rounded" />
+        app:srcCompat="@drawable/placeholderavatar5_framed_round" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/childBarName"

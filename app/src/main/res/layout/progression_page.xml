@@ -311,7 +311,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/childAvatarName"
-        android:layout_width="173dp"
+        android:layout_width="203dp"
         android:layout_height="40dp"
         android:layout_marginTop="433dp"
         android:layout_marginBottom="296dp"
@@ -353,7 +353,7 @@
         android:layout_marginBottom="41dp"
         android:background="@drawable/button_shadowed"
         android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Preset 1"
+        android:text=""
         android:textAlignment="center"
         android:textColor="#3F3F3F"
         android:textSize="24sp"
