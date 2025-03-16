@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.CountDownTimer;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -63,6 +65,9 @@ public class WeeklyBoss extends AppCompatActivity {
     ImageView monsterImage;
     FirebaseAuth auth;
 
+    private CountDownTimer bossTimer;
+    private boolean bossIsDead = false;
+
 
 
     @Override
@@ -70,7 +75,6 @@ public class WeeklyBoss extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.weekly_boss);
-
         // hide status bar and nav bar
         hideSystemBars();
 
@@ -276,96 +280,136 @@ public class WeeklyBoss extends AppCompatActivity {
                 popupMonsterMessage.setVisibility(View.GONE);
             }
         });
+
+        startBossTimer();
+
     }
 
     private void bossFight(DocumentReference docRef, String bossID, DocumentReference bossDoc) {
         //boss data init
         db.collection("boss").document(bossID).get()
                 .addOnCompleteListener(task -> {
-                   if (task.isSuccessful()) {
-                       DocumentSnapshot bossDocument = task.getResult();
-                       if (bossDocument.exists()) {
-                           bossReq = bossDocument.getLong("bossReq").intValue();
-                           if (childStr >= bossReq && childInt >= bossReq) {
-                               final int[] damageSteps = {20, 40, 60, 80, 100};
-                               final int[] currentStepIndex = {0};
-                               final int delayMillis = 500;
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot bossDocument = task.getResult();
+                        if (bossDocument.exists()) {
+                            bossReq = bossDocument.getLong("bossReq").intValue();
+                            if (childStr >= bossReq && childInt >= bossReq) {
+                                final int[] damageSteps = {20, 40, 60, 80, 100};
+                                final int[] currentStepIndex = {0};
+                                final int delayMillis = 500;
 
-                               Runnable damageRunnable = new Runnable() {
-                                   @Override
-                                   public void run() {
-                                       if (currentStepIndex[0] < damageSteps.length) {
-                                           int damage = damageSteps[currentStepIndex[0]];
-                                           currentProgress -= damage;
-                                           updateProgressBar(currentProgress);
-                                           currentStepIndex[0]++;
-                                           handler.postDelayed(this, delayMillis);
-                                       } else {
-                                           boolean isBossDead = true;
-                                           if (isBossDead) {
-                                               double prevChildStats = ((childStr + childInt) / 2);
-                                               bossReq = (int) Math.round(prevChildStats + Math.pow(10, 1.3) * Math.log10(prevChildStats));
-                                               docRef.update("floor", floorCount + 1);
+                                Runnable damageRunnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (currentStepIndex[0] < damageSteps.length) {
+                                            int damage = damageSteps[currentStepIndex[0]];
+                                            currentProgress -= damage;
+                                            updateProgressBar(currentProgress);
+                                            currentStepIndex[0]++;
+                                            handler.postDelayed(this, delayMillis);
+                                        } else {
+                                            bossIsDead = true;  // Mark the boss as defeated immediately
+                                            double prevChildStats = ((childStr + childInt) / 2.0);
+                                            bossReq = (int) Math.round(prevChildStats + Math.pow(10, 1.3) * Math.log10(prevChildStats));
+                                            docRef.update("floor", floorCount + 1);
 
-                                               bossAvatar = (bossAvatar == 0) ? 1 : 0;
+                                            bossAvatar = (bossAvatar == 0) ? 1 : 0;
 
-                                               bossDoc.update("bossReq", bossReq, "bossAvatar", bossAvatar)
-                                                       .addOnSuccessListener(aVoid -> {
-                                                           if (bossAvatar == 0) {
-                                                               monsterImage.setImageResource(R.drawable.bucklerbossundamaged);
-                                                           } else {
-                                                               monsterImage.setImageResource(R.drawable.bookbossundamaged);
-                                                           }
-                                                           popupMonsterMessageText.setText("im defeated :(");
-                                                           popupMonsterMessage.setVisibility(View.VISIBLE);
-                                                       })
-                                                       .addOnFailureListener(e -> {
-                                                           Log.e("BossAvatarUpdate", "Error updating bossAvatar", e);
-                                                       });
-                                           }
-                                       }
-                                   }
-                               };
+                                            bossDoc.update("bossReq", bossReq, "bossAvatar", bossAvatar)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        if (bossAvatar == 0) {
+                                                            monsterImage.setImageResource(R.drawable.bucklerbossundamaged);
+                                                        } else {
+                                                            monsterImage.setImageResource(R.drawable.bookbossundamaged);
+                                                        }
+                                                        popupMonsterMessageText.setText("im defeated :(");
+                                                        popupMonsterMessage.setVisibility(View.VISIBLE);
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        Log.e("BossAvatarUpdate", "Error updating bossAvatar", e);
+                                                    });
+                                        }
 
-                               // Start the damage process
-                               handler.post(damageRunnable);
-                           } else if ((childStr < bossReq && childInt < bossReq) || (childStr == bossReq && childInt < bossReq) || (childStr < bossReq && childInt == bossReq) || (childStr > bossReq && childInt < bossReq) || (childStr < bossReq && childInt > bossReq)) {
-                               final double dmgIncrement = 0.2;
-                               final int[] currentSteps = {0};
-                               final int delayMillis = 500;
-                               final double[] prevTotalDmg = {100.0}; // Initialize with 100.0
+                                    }
+                                };
 
-                               Runnable damageRunnable = new Runnable() {
-                                   @Override
-                                   public void run() {
-                                       if (currentSteps[0] < 5) { // Run for 5 steps
-                                           double strDmg = ((double) childStr / bossReq);
-                                           double intDmg = ((double) childInt / bossReq);
-                                           double baseDmg = (strDmg * intDmg * prevTotalDmg[0]);
-                                           double totalDmg = baseDmg * dmgIncrement;
-                                           prevTotalDmg[0] = baseDmg; // Update for the next step
-                                           currentProgress -= totalDmg;
-                                           updateProgressBar(currentProgress);
-                                           currentSteps[0]++;
-                                           handler.postDelayed(this, delayMillis);
-                                       } else {
-                                           popupMonsterMessageText.setText("im :)");
-                                           popupMonsterButton.setText("Exit");
-                                           popupMonsterButton.setOnClickListener(e -> {
-                                               Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
-                                               startActivity(intent);
-                                           });
-                                           popupMonsterMessage.setVisibility(View.VISIBLE);
-                                       }
-                                   }
-                               };
-                               handler.post(damageRunnable);
-                           }
-                       }
-                   }
+                                // Start the damage process
+                                handler.post(damageRunnable);
+                            } else if ((childStr < bossReq && childInt < bossReq) || (childStr == bossReq && childInt < bossReq) || (childStr < bossReq && childInt == bossReq) || (childStr > bossReq && childInt < bossReq) || (childStr < bossReq && childInt > bossReq)) {
+                                final double dmgIncrement = 0.2;
+                                final int[] currentSteps = {0};
+                                final int delayMillis = 500;
+                                final double[] prevTotalDmg = {100.0}; // Initialize with 100.0
+
+                                Runnable damageRunnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (currentSteps[0] < 5) { // Run for 5 steps
+                                            double strDmg = ((double) childStr / bossReq);
+                                            double intDmg = ((double) childInt / bossReq);
+                                            double baseDmg = (strDmg * intDmg * prevTotalDmg[0]);
+                                            double totalDmg = baseDmg * dmgIncrement;
+                                            prevTotalDmg[0] = baseDmg; // Update for the next step
+                                            currentProgress -= totalDmg;
+                                            updateProgressBar(currentProgress);
+                                            currentSteps[0]++;
+                                            handler.postDelayed(this, delayMillis);
+                                        } else {
+                                            popupMonsterMessageText.setText("im :)");
+                                            popupMonsterButton.setText("Exit");
+                                            popupMonsterButton.setOnClickListener(e -> {
+                                                Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
+                                                startActivity(intent);
+                                            });
+                                            popupMonsterMessage.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+                                };
+                                handler.post(damageRunnable);
+                            }
+                        }
+                    }
                 });
         // Check if the child's stats are sufficient to damage the boss
 
+    }
+    private void startBossTimer() {
+        // to milliseconds
+        long ms = 7L * 24 * 3600000; // 7 days
+
+        bossTimer = new CountDownTimer(ms, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long totalSeconds = millisUntilFinished / 1000;
+                long days = totalSeconds / (24 * 3600);
+                long remainder = totalSeconds % (24 * 3600);
+                long hours = remainder / 3600;
+                remainder %= 3600;
+                long minutes = remainder / 60;
+                long seconds = remainder % 60;
+
+                String timeLeftFormatted = String.format("%dd %02dh %02dm %02ds", days, hours, minutes, seconds);
+                popupMonsterMessageText.setText("Boss Timer: " + timeLeftFormatted);
+                Log.d("BOSS_TIMER", "Remaining time: " + timeLeftFormatted);
+            }
+
+            @Override
+            public void onFinish() {
+                if (!bossIsDead) {  // Timer expired and the boss hasn't been defeated
+                    // Reduce the child's stats by 5
+                    FirebaseUser user = auth.getCurrentUser();
+                    if (user != null) {
+                        String childId = user.getUid();
+                        DocumentReference childRef = db.collection("users").document(childId);
+                        childRef.update("childStr", FieldValue.increment(-5));
+                        childRef.update("childInt", FieldValue.increment(-5));
+                    }
+                    popupMonsterMessageText.setText("Time's up! You lose!");
+                }
+            }
+
+
+        }.start();
     }
 
 
