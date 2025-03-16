@@ -388,7 +388,7 @@ public class QuestManagement extends AppCompatActivity {
         addQuestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (childIds != null) {
+                if (!childIds.isEmpty()) {
                     if (groupCount >= 4) { // limit quests
                         Toast.makeText(QuestManagement.this, "Max quests reached!", Toast.LENGTH_SHORT).show();
                         return;
@@ -458,6 +458,7 @@ public class QuestManagement extends AppCompatActivity {
                 Toast.makeText(QuestManagement.this, "Log Out", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(QuestManagement.this, Splash.class);
                 questData.clear();
+                auth.signOut();
                 startActivity(intent);
             }
         });

@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "441274681577",
-    "firebase_url": "https://taskmaster-database-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "taskmaster-database",
-    "storage_bucket": "taskmaster-database.firebasestorage.app"
+    "project_number": "23739065388",
+    "project_id": "taskmasterv2-6a019",
+    "storage_bucket": "taskmasterv2-6a019.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:441274681577:android:25568eaaa00598a67e0878",
+        "mobilesdk_app_id": "1:23739065388:android:25da0d6bb8a50a352d9d89",
         "android_client_info": {
           "package_name": "com.taskmaster.appui"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAMGPGlVyFf0tUQoNxQwcFjgeu8PtKNwTs"
+          "current_key": "AIzaSyBnBIFNvXD6cDFG7FpUKE1rCm4XF3HX5EQ"
         }
       ],
       "services": {
