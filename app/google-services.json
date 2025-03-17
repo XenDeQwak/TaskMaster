@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "23739065388",
-    "project_id": "taskmasterv2-6a019",
-    "storage_bucket": "taskmasterv2-6a019.firebasestorage.app"
+    "project_number": "120375756304",
+    "project_id": "taskmasterv3",
+    "storage_bucket": "taskmasterv3.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:23739065388:android:25da0d6bb8a50a352d9d89",
+        "mobilesdk_app_id": "1:120375756304:android:fdb00f240e692a8f5b2c95",
         "android_client_info": {
           "package_name": "com.taskmaster.appui"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBnBIFNvXD6cDFG7FpUKE1rCm4XF3HX5EQ"
+          "current_key": "AIzaSyAkhsreVJJf0Hs_-wQ1SuAkXAp_J4tMihs"
         }
       ],
       "services": {

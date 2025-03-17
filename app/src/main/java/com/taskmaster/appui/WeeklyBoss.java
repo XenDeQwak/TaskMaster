@@ -39,8 +39,8 @@ import java.util.Map;
 
 public class WeeklyBoss extends AppCompatActivity {
     AppCompatButton fightButton, dropdownNavButton, navQuestPage, navManageAdv, navLogOut, statReqStr, statReqInt, monsterName, childBarStatsButton, popupMonsterButton, childBarFloorCount;
-    ImageView statGraph, childAvatarImage;
-    TextView popupMonsterMessageText, monsterHealthBarText;
+    ImageView statGraph, childAvatarImage, popupMonsterImage;
+    TextView popupMonsterMessageText, monsterHealthBarText, popupMonsterName;
     Group dropDownGroup, popupMonsterMessage;
     ProgressBar monsterHealthBar;
     View rootLayout;
@@ -64,10 +64,7 @@ public class WeeklyBoss extends AppCompatActivity {
     int floorCount;
     ImageView monsterImage;
     FirebaseAuth auth;
-
-    private CountDownTimer bossTimer;
-    private boolean bossIsDead = false;
-
+    private boolean bossIsDead;
 
 
     @Override
@@ -83,7 +80,6 @@ public class WeeklyBoss extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         // hooks
         dropdownNavButton = findViewById(R.id.dropdownNavButton);
         navQuestPage = findViewById(R.id.navQuestPage);
@@ -95,6 +91,7 @@ public class WeeklyBoss extends AppCompatActivity {
         childBarName = findViewById(R.id.childBarName);
         childBarGroup = findViewById(R.id.childBarGroup);
         childBarAvatar = findViewById(R.id.childBarAvatar);
+        popupMonsterName = findViewById(R.id.popupMonsterName);
 
         fightButton = findViewById(R.id.fightButton);
         popupMonsterButton = findViewById(R.id.popupMonsterButton);
@@ -107,6 +104,7 @@ public class WeeklyBoss extends AppCompatActivity {
         statReqStr = findViewById(R.id.statReqStr);
         statReqInt = findViewById(R.id.statReqInt);
         monsterImage = findViewById(R.id.monsterImage);
+        popupMonsterImage = findViewById(R.id.popupMonsterImage);
 
         // exclude elems within dropdown
         View[] dropDownElements = {
@@ -140,6 +138,7 @@ public class WeeklyBoss extends AppCompatActivity {
                                             if (tasks.getResult().isEmpty()) {
                                                 bossData.put("bossReq", bossReq);
                                                 bossData.put("bossAvatar", 0);
+                                                bossData.put("bossIsDead", false);
                                                 bossID = db.collection("boss").document().getId();
                                                 db.collection("boss").document(bossID).set(bossData);
                                             } else {
@@ -147,7 +146,7 @@ public class WeeklyBoss extends AppCompatActivity {
                                                 bossID = bossDocs.getDocuments().get(0).getId();
                                                 bossDoc = db.collection("boss").document(bossID);
                                                 bossAvatar = bossDocs.getDocuments().get(0).getLong("bossAvatar").intValue();
-
+                                                bossIsDead = bossDocs.getDocuments().get(0).getBoolean("bossIsDead");
                                                 List<Integer>bossImages = new ArrayList<>();
                                                 bossImages.add(R.drawable.bucklerbossundamaged);
                                                 bossImages.add(R.drawable.bookbossundamaged);
@@ -155,9 +154,13 @@ public class WeeklyBoss extends AppCompatActivity {
                                                 if (bossAvatar == 0) {
                                                     monsterImage.setImageResource(bossImages.get(0));
                                                     monsterName.setText("SHIELD");
+                                                    popupMonsterName.setText("SHIELD");
+                                                    popupMonsterImage.setImageResource(R.drawable.bucklerbossdamaged);
                                                 } else {
                                                     monsterImage.setImageResource(bossImages.get(1));
                                                     monsterName.setText("BOOK");
+                                                    popupMonsterName.setText("BOOK");
+                                                    popupMonsterImage.setImageResource(R.drawable.bookbossdamaged);
                                                 }
 
                                                 bossReq = bossDocs.getDocuments().get(0).getLong("bossReq").intValue();
@@ -174,6 +177,7 @@ public class WeeklyBoss extends AppCompatActivity {
                             childBarGroup.setVisibility(View.VISIBLE);
                             childBarName.setText(childDocument.getString("username"));
                             childBarFloorCount.setText("Floor " + floorCount);
+                            //startBossTimer();
 
 
                             List<Integer>avatarImages = new ArrayList<>();
@@ -281,8 +285,6 @@ public class WeeklyBoss extends AppCompatActivity {
             }
         });
 
-        startBossTimer();
-
     }
 
     private void bossFight(DocumentReference docRef, String bossID, DocumentReference bossDoc) {
@@ -308,11 +310,14 @@ public class WeeklyBoss extends AppCompatActivity {
                                             currentStepIndex[0]++;
                                             handler.postDelayed(this, delayMillis);
                                         } else {
-                                            bossIsDead = true;  // Mark the boss as defeated immediately
+                                            DocumentReference bossRef = db.collection("boss").document(bossID);
+                                            bossRef.update("bossIsDead", true);
                                             double prevChildStats = ((childStr + childInt) / 2.0);
                                             bossReq = (int) Math.round(prevChildStats + Math.pow(10, 1.3) * Math.log10(prevChildStats));
                                             docRef.update("floor", floorCount + 1);
 
+                                            popupMonsterMessageText.setText("You have defeated me!");
+                                            popupMonsterMessage.setVisibility(View.VISIBLE);
                                             bossAvatar = (bossAvatar == 0) ? 1 : 0;
 
                                             bossDoc.update("bossReq", bossReq, "bossAvatar", bossAvatar)
@@ -322,8 +327,6 @@ public class WeeklyBoss extends AppCompatActivity {
                                                         } else {
                                                             monsterImage.setImageResource(R.drawable.bookbossundamaged);
                                                         }
-                                                        popupMonsterMessageText.setText("im defeated :(");
-                                                        popupMonsterMessage.setVisibility(View.VISIBLE);
                                                     })
                                                     .addOnFailureListener(e -> {
                                                         Log.e("BossAvatarUpdate", "Error updating bossAvatar", e);
@@ -332,8 +335,6 @@ public class WeeklyBoss extends AppCompatActivity {
 
                                     }
                                 };
-
-                                // Start the damage process
                                 handler.post(damageRunnable);
                             } else if ((childStr < bossReq && childInt < bossReq) || (childStr == bossReq && childInt < bossReq) || (childStr < bossReq && childInt == bossReq) || (childStr > bossReq && childInt < bossReq) || (childStr < bossReq && childInt > bossReq)) {
                                 final double dmgIncrement = 0.2;
@@ -355,7 +356,7 @@ public class WeeklyBoss extends AppCompatActivity {
                                             currentSteps[0]++;
                                             handler.postDelayed(this, delayMillis);
                                         } else {
-                                            popupMonsterMessageText.setText("im :)");
+                                            popupMonsterMessageText.setText("Come back when you're stronger!");
                                             popupMonsterButton.setText("Exit");
                                             popupMonsterButton.setOnClickListener(e -> {
                                                 Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
@@ -377,7 +378,7 @@ public class WeeklyBoss extends AppCompatActivity {
         // to milliseconds
         long ms = 7L * 24 * 3600000; // 7 days
 
-        bossTimer = new CountDownTimer(ms, 1000) {
+        new CountDownTimer(ms, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long totalSeconds = millisUntilFinished / 1000;
@@ -390,7 +391,6 @@ public class WeeklyBoss extends AppCompatActivity {
 
                 String timeLeftFormatted = String.format("%dd %02dh %02dm %02ds", days, hours, minutes, seconds);
                 popupMonsterMessageText.setText("Boss Timer: " + timeLeftFormatted);
-                Log.d("BOSS_TIMER", "Remaining time: " + timeLeftFormatted);
             }
 
             @Override

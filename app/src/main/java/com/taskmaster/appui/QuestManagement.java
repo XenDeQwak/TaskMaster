@@ -513,15 +513,18 @@ public class QuestManagement extends AppCompatActivity {
         rejectQuestViewButtonP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // if quest status pending true
-
-                // quest status pending false
-
-                // else
-                // show pop up "This quest is in progress"
-                //viewNotifTextMsg.setText("Quest status: In Progress\\nPlease wait\\nuntil finished!");
-                //popupViewNotif.setVisibility(View.VISIBLE);
-                recreate();
+                db.collection("quest").document(username + "Quest" + lastClickedQuestId).get()
+                                .addOnCompleteListener(task -> {
+                                   if (task.isSuccessful()) {
+                                       DocumentSnapshot document = task.getResult();
+                                       if (document.exists()) {
+                                           DocumentReference questRef = db.collection("quest").document(username + "Quest" + lastClickedQuestId);
+                                           questRef.update("forVerif", false);
+                                           viewNotifTextMsg.setText("You have rejected the \nquest approval");
+                                           popupViewNotif.setVisibility(View.VISIBLE);
+                                       }
+                                   }
+                                });
             }
         });
 
@@ -884,7 +887,7 @@ public class QuestManagement extends AppCompatActivity {
                 }
                 viewQuestTime.setText(timeLeftFormatted);
                 Log.d("TIME: ", "Remaining time: " + timeLeftFormatted);
-                questRef.update("time", timeLeftFormatted);
+                //questRef.update("time", timeLeftFormatted);
             }
 
             @Override
@@ -1471,7 +1474,6 @@ public class QuestManagement extends AppCompatActivity {
                             rewardOptional = document.getString("rewardOptional");
                             Boolean forVerif = document.getBoolean("forVerif");
                             createQuest(questName, questDescription, difficulty, time, rewardStat, rewardOptional, forVerif);
-//                            updateQuestIcon(rewardStat, forVerif);
                             long hourL = 0, minuteL = 0, secondL = 0;
                             String[] timeParts = time.split(":");
                             if (timeParts.length == 2) {
