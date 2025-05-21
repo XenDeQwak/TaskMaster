@@ -207,10 +207,6 @@ public class WeeklyBoss extends AppCompatActivity {
 
 
         // view dropdown group
-        NavUtil.setNavigation(this, navLogOut, Splash.class);
-        NavUtil.setNavigation(this, childBarStatsButton,ProgressionPage.class);
-        NavUtil.setNavigation(this,navQuestPage, QuestManagement.class);
-
         dropdownNavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,41 +217,11 @@ public class WeeklyBoss extends AppCompatActivity {
                 }
             }
         });
-
-        //navmanageadv remove this btn
-//        navManageAdv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(WeeklyBoss.this, "ur here", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        navQuestPage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(WeeklyBoss.this, "Move", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        navLogOut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(WeeklyBoss.this, "Log Out", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(WeeklyBoss.this, Splash.class);
-//                startActivity(intent);
-//            }
-//        });
-
-//        childBarStatsButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(WeeklyBoss.this, "stats", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(WeeklyBoss.this, ProgressionPage.class);
-//                startActivity(intent);
-//            }
-//        });
+        NavUtil.setNavigation(this, childBarStatsButton,ProgressionPage.class);
+        //DropDowns
+        NavUtil.setNavigation(this, navLogOut, Splash.class);
+        NavUtil.setNavigation(this,navQuestPage, QuestManagement.class);
+        navManageAdv.setEnabled(false); //Frontend make this greyed out or smth
 
         // exit dropdown & popup group
         rootLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -359,10 +325,7 @@ public class WeeklyBoss extends AppCompatActivity {
                                         } else {
                                             popupMonsterMessageText.setText("Come back when you're stronger!");
                                             popupMonsterButton.setText("Exit");
-                                            popupMonsterButton.setOnClickListener(e -> {
-                                                Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
-                                                startActivity(intent);
-                                            });
+                                            NavUtil.setNavigation(WeeklyBoss.this, popupMonsterButton, ProgressionPage.class);
                                             popupMonsterMessage.setVisibility(View.VISIBLE);
                                         }
                                     }
