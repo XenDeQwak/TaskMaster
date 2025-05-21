@@ -1,4 +1,4 @@
-package com.taskmaster.appui;
+package com.taskmaster.appui.Page;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,9 +18,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.taskmaster.appui.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +55,7 @@ public class CodeVerification extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         // hooks
-        confirmButton = findViewById(R.id.button3);
+        confirmButton = findViewById(R.id.confirmButton);
         codebox = findViewById(R.id.editTextTextEmailAddress6);
         usernameBox = findViewById(R.id.userBox);
 

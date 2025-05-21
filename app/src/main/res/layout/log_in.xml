@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogIn">
+    tools:context=".Page.LogIn">
 
     <ImageView
         android:id="@+id/imageView6"
@@ -115,7 +115,7 @@
         tools:visibility="gone" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/signupTextView"
         android:layout_width="252dp"
         android:layout_height="19dp"
         android:layout_marginStart="44dp"

@@ -1,4 +1,4 @@
-package com.taskmaster.appui;
+package com.taskmaster.appui.Page;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
@@ -46,6 +46,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.taskmaster.appui.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,10 +1,9 @@
-package com.taskmaster.appui;
+package com.taskmaster.appui.Page;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +11,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.taskmaster.appui.R;
 
 public class RoleSelect extends AppCompatActivity {
 
@@ -34,7 +35,7 @@ public class RoleSelect extends AppCompatActivity {
 
         // hooks
         parentButton = findViewById(R.id.button2);
-        childButton = findViewById(R.id.button3);
+        childButton = findViewById(R.id.confirmButton);
 
         // test for button
         parentButton.setOnClickListener(new View.OnClickListener() {

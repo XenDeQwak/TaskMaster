@@ -1,47 +1,54 @@
-package com.taskmaster.appui;
+package com.taskmaster.appui.Page;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.taskmaster.appui.FirebaseHandler.AuthHandler;
+import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
+import com.taskmaster.appui.R;
 
 public class ChildLogin extends AppCompatActivity {
 
     AppCompatButton confirmButton;
     TextView signUpTextView;
     EditText usernameBox;
-    FirebaseFirestore db;
-    FirebaseAuth auth;
+    FirestoreHandler firestoreHandler;
+    AuthHandler authHandler;
+
+
+    Intent QuestManagement;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        firestoreHandler = new FirestoreHandler();
+        authHandler = new AuthHandler();
+
+        QuestManagement = new Intent(ChildLogin.this, com.taskmaster.appui.Page.QuestManagement.class);
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.child_login);
 
-        // hide status bar and nav bar
+        // Hide status bar and nav bar
         hideSystemBars();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -50,12 +57,11 @@ public class ChildLogin extends AppCompatActivity {
             return insets;
         });
 
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
 
-        confirmButton = findViewById(R.id.button3);
+
+        confirmButton = findViewById(R.id.confirmButton);
         usernameBox = findViewById(R.id.userBox);
-        signUpTextView = findViewById(R.id.textView4);
+        signUpTextView = findViewById(R.id.signupTextView);
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,29 +75,32 @@ public class ChildLogin extends AppCompatActivity {
     }
 
     private void verifyUser() {
+
         String username = usernameBox.getText().toString().trim();
+        String password = "idk";
 
         if (username.isEmpty()) {
             Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();
             return;
         }
-        SharedPreferences pref = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String code = pref.getString("code", "");
-        SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
 
-        auth.signInWithEmailAndPassword(username, code)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        editor.putString("role", "child");
-                        editor.apply();
+        try {
+            Task<AuthResult> loginAttempt = authHandler.signInUser(username, password)
+                    .addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ChildLogin.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                                startActivity(QuestManagement);
+                            } else {
+                                Toast.makeText(ChildLogin.this, "Login failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-                        Toast.makeText(ChildLogin.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(ChildLogin.this, QuestManagement.class));
-
-                    } else {
-                        Toast.makeText(ChildLogin.this, "Login failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
 

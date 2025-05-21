@@ -1,14 +1,12 @@
-package com.taskmaster.appui;
+package com.taskmaster.appui.Page;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,16 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.taskmaster.appui.FirebaseHandler.AuthHandler;
+import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
+import com.taskmaster.appui.R;
 
 public class LogIn extends AppCompatActivity {
 
@@ -34,11 +36,21 @@ public class LogIn extends AppCompatActivity {
     TextView forgotPasswordTextView, signUpTextView, logInTextView;
     AppCompatButton confirmButton;
     EditText emailbox, passwordbox;
-    FirebaseFirestore db;
-    FirebaseAuth auth;
+
+    FirestoreHandler firestoreHandler;
+    AuthHandler authHandler;
+
+    Intent SignUp, QuestManagement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SignUp = new Intent(LogIn.this, SignUp.class);
+        QuestManagement = new Intent(LogIn.this, QuestManagement.class);
+
+        firestoreHandler = new FirestoreHandler();
+        authHandler = new AuthHandler();
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.log_in);
@@ -58,7 +70,7 @@ public class LogIn extends AppCompatActivity {
         passwordbox = findViewById(R.id.editTextTextEmailAddress2);
         forgotPasswordTextView = findViewById(R.id.textView3);
         confirmButton = findViewById(R.id.button);
-        signUpTextView = findViewById(R.id.textView4);
+        signUpTextView = findViewById(R.id.signupTextView);
         container1 = findViewById(R.id.imageView7);
         container2 = findViewById(R.id.imageView9);
         container3 = findViewById(R.id.imageView10);
@@ -82,13 +94,9 @@ public class LogIn extends AppCompatActivity {
         line.setAnimation(pop_out_Anim);
         logInTextView.setAnimation(pop_out_Anim);
 
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
-
         confirmButton.setOnClickListener(v -> authenticateUser());
         signUpTextView.setOnClickListener(v -> {
-            Intent intent = new Intent(LogIn.this, SignUp.class);
-            startActivity(intent);
+                    startActivity(SignUp);
                 });
     }
 
@@ -101,15 +109,19 @@ public class LogIn extends AppCompatActivity {
             return;
         }
 
-        auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                    SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
-                    editor.putString("role", "parent").apply();
+        authHandler.signInUser(username, password)
+                .addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            startActivity(QuestManagement);
+                        } else {
 
-                    Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LogIn.this, QuestManagement.class));
-            }
-        });
+                        }
+                    }
+                });
+
     }
 
     private void hideSystemBars() {
