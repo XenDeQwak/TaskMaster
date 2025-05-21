@@ -106,6 +106,10 @@ public class WeeklyBoss extends AppCompatActivity {
         monsterImage = findViewById(R.id.monsterImage);
         popupMonsterImage = findViewById(R.id.popupMonsterImage);
 
+        childBarFloorCount = findViewById(R.id.childBarFloorCount);
+        // ... inside onCreate() after initializing views:
+        fightButton = findViewById(R.id.fightButton);
+
         // exclude elems within dropdown
         View[] dropDownElements = {
                 findViewById(R.id.navFrame)
@@ -203,6 +207,10 @@ public class WeeklyBoss extends AppCompatActivity {
 
 
         // view dropdown group
+        NavUtil.setNavigation(this, navLogOut, Splash.class);
+        NavUtil.setNavigation(this, childBarStatsButton,ProgressionPage.class);
+        NavUtil.setNavigation(this,navQuestPage, QuestManagement.class);
+
         dropdownNavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,39 +222,40 @@ public class WeeklyBoss extends AppCompatActivity {
             }
         });
 
-        navManageAdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(WeeklyBoss.this, "ur here", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //navmanageadv remove this btn
+//        navManageAdv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(WeeklyBoss.this, "ur here", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        navQuestPage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(WeeklyBoss.this, "Move", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        navLogOut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(WeeklyBoss.this, "Log Out", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(WeeklyBoss.this, Splash.class);
+//                startActivity(intent);
+//            }
+//        });
 
-        navQuestPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(WeeklyBoss.this, "Move", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(WeeklyBoss.this, QuestManagement.class);
-                startActivity(intent);
-            }
-        });
-
-        navLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(WeeklyBoss.this, "Log Out", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(WeeklyBoss.this, Splash.class);
-                startActivity(intent);
-            }
-        });
-
-        childBarStatsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(WeeklyBoss.this, "stats", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(WeeklyBoss.this, ProgressionPage.class);
-                startActivity(intent);
-            }
-        });
+//        childBarStatsButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(WeeklyBoss.this, "stats", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(WeeklyBoss.this, ProgressionPage.class);
+//                startActivity(intent);
+//            }
+//        });
 
         // exit dropdown & popup group
         rootLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -261,7 +270,6 @@ public class WeeklyBoss extends AppCompatActivity {
                             break;
                         }
                     }
-
                     if (!isInsideDropdown) {
                         dropDownGroup.setVisibility(View.GONE);
                     }
@@ -269,14 +277,8 @@ public class WeeklyBoss extends AppCompatActivity {
                 return false;
             }
         });
-        childBarFloorCount = findViewById(R.id.childBarFloorCount);
 
         updateProgressBar(currentProgress);
-
-        // ... inside onCreate() after initializing views:
-        fightButton = findViewById(R.id.fightButton);
-
-
 
         popupMonsterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,7 +286,6 @@ public class WeeklyBoss extends AppCompatActivity {
                 popupMonsterMessage.setVisibility(View.GONE);
             }
         });
-
     }
 
     private void bossFight(DocumentReference docRef, String bossID, DocumentReference bossDoc) {
@@ -411,7 +412,6 @@ public class WeeklyBoss extends AppCompatActivity {
 
         }.start();
     }
-
 
     private void updateProgressBar(int progress) {
         int clampedProgress = Math.max(0, Math.min(progress, 100));
