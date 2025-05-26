@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.Services.DropdownService;
 import com.taskmaster.appui.Services.NavUtil;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 public class WeeklyBoss extends AppCompatActivity {
-    AppCompatButton fightButton, dropdownNavButton, navQuestPage, navManageAdv, navLogOut, statReqStr, statReqInt, monsterName, childBarStatsButton, popupMonsterButton, childBarFloorCount;
+    AppCompatButton fightButton, statReqStr, statReqInt, monsterName, childBarStatsButton, popupMonsterButton, childBarFloorCount;
     ImageView statGraph, childAvatarImage, popupMonsterImage;
     TextView popupMonsterMessageText, monsterHealthBarText, popupMonsterName;
     Group dropDownGroup, popupMonsterMessage;
@@ -79,10 +80,6 @@ public class WeeklyBoss extends AppCompatActivity {
             return insets;
         });
         // hooks
-        dropdownNavButton = findViewById(R.id.dropdownNavButton);
-        navQuestPage = findViewById(R.id.navQuestPage);
-        navManageAdv = findViewById(R.id.navManageAdv);
-        navLogOut = findViewById(R.id.navLogOut);
         dropDownGroup = findViewById(R.id.dropdownGroup);
         childBarStatsButton = findViewById(R.id.childBarStatsButton);
         rootLayout = findViewById(R.id.main);
@@ -107,18 +104,11 @@ public class WeeklyBoss extends AppCompatActivity {
         childBarFloorCount = findViewById(R.id.childBarFloorCount);
         // ... inside onCreate() after initializing views:
         fightButton = findViewById(R.id.fightButton);
+        DropdownService.dropdownSetup(this, rootLayout);
 
-        // exclude elems within dropdown
-        View[] dropDownElements = {
-                findViewById(R.id.navFrame)
-        };
-
+        NavUtil.setNavigation(this, childBarStatsButton,ProgressionPage.class);
         // hide popup
         popupMonsterMessage.setVisibility(View.GONE);
-
-        // hide dropdown group
-        dropDownGroup.setVisibility(View.GONE);
-
 
         //child data init
         db = FirebaseFirestore.getInstance();
@@ -203,44 +193,6 @@ public class WeeklyBoss extends AppCompatActivity {
                     }
                 });
 
-
-        // view dropdown group
-        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dropDownGroup.getVisibility() == View.VISIBLE) {
-                    dropDownGroup.setVisibility(View.GONE);
-                } else {
-                    dropDownGroup.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        NavUtil.setNavigation(this, childBarStatsButton,ProgressionPage.class);
-        //DropDowns
-        NavUtil.setNavigation(this, navLogOut, Splash.class);
-        NavUtil.setNavigation(this,navQuestPage, QuestManagement.class);
-        navManageAdv.setEnabled(false); //Frontend make this greyed out or smth
-
-        // exit dropdown & popup group
-        rootLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    boolean isInsideDropdown = false;
-
-                    for (View element : dropDownElements) {
-                        if (isViewTouched(element, event)) {
-                            isInsideDropdown = true;
-                            break;
-                        }
-                    }
-                    if (!isInsideDropdown) {
-                        dropDownGroup.setVisibility(View.GONE);
-                    }
-                }
-                return false;
-            }
-        });
 
         updateProgressBar(currentProgress);
 
@@ -381,15 +333,6 @@ public class WeeklyBoss extends AppCompatActivity {
     }
 
     // exclude elems within dropdown and popup
-    private boolean isViewTouched(View view, MotionEvent event) {
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-        int x = location[0];
-        int y = location[1];
-
-        return event.getRawX() >= x && event.getRawX() <= x + view.getWidth()
-                && event.getRawY() >= y && event.getRawY() <= y + view.getHeight();
-    }
 
     private void hideSystemBars() {
         // hide status bar
