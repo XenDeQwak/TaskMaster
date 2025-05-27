@@ -11,7 +11,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -33,6 +32,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.taskmaster.appui.Page.Login.Splash;
+import com.taskmaster.appui.Page.Main.QuestManagement;
 import com.taskmaster.appui.R;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class ManageChild extends AppCompatActivity {
         setContentView(R.layout.manage_child);
 
         // hide status bar and nav bar
-        hideSystemBars();
+        NavUtil.hideSystemBars(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -470,16 +471,4 @@ public class ManageChild extends AppCompatActivity {
                 && event.getRawY() >= y && event.getRawY() <= y + view.getHeight();
     }
 
-    private void hideSystemBars() {
-        // hide status bar
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // hide nav bar
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
 }

@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page;
+package com.taskmaster.appui.Page.Main;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
@@ -13,7 +13,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -46,6 +45,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.taskmaster.appui.Page.Login.Splash;
+import com.taskmaster.appui.Page.ManageChild;
+import com.taskmaster.appui.Page.NavUtil;
+import com.taskmaster.appui.Page.ProgressionPage;
+import com.taskmaster.appui.Page.WeeklyBoss;
 import com.taskmaster.appui.R;
 
 import java.util.ArrayList;
@@ -123,10 +127,21 @@ public class QuestManagement extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        role = prefs.getString("role", "");
+        // SharedPreferences be damned fr
+        //SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        //role = prefs.getString("role", "");
 
-        FirebaseUser user = auth.getCurrentUser();
+        // Ill encapsulate this later
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore.getInstance().collection("Users").document(user.getUid()).get().addOnCompleteListener(
+                new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        role = (String)task.getResult().get("Role");
+                    }
+                }
+        );
+
         userId = user.getUid();
 
         db.collection("users").document(userId).get()
@@ -222,7 +237,7 @@ public class QuestManagement extends AppCompatActivity {
             });
         }
 
-        hideSystemBars();
+        NavUtil.hideSystemBars(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -1539,16 +1554,5 @@ public class QuestManagement extends AppCompatActivity {
         }
     }
 
-    private void hideSystemBars() {
-        // hide status bar
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // hide the nav bar
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
+
 }
