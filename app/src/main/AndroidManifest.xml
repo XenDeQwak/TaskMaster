@@ -19,7 +19,7 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".Page.Login.ParentLogin"
+            android:name=".Page.Login.UserLogin"
             android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize" />

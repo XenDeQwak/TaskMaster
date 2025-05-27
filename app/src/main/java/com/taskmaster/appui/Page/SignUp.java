@@ -19,8 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.taskmaster.appui.Page.Login.ParentLogin;
+import com.taskmaster.appui.Page.Login.UserLogin;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.Services.NavUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -153,7 +154,7 @@ public class SignUp extends AppCompatActivity {
                     db.collection("users").document(uid).set(userData)
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignUp.this, ParentLogin.class));
+                                startActivity(new Intent(SignUp.this, UserLogin.class));
                             })
                             .addOnFailureListener(e -> {
                                 Toast.makeText(SignUp.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();

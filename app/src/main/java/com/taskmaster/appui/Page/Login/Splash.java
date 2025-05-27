@@ -13,7 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.taskmaster.appui.Page.NavUtil;
+import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.R;
 
 public class Splash extends AppCompatActivity {
@@ -24,11 +24,16 @@ public class Splash extends AppCompatActivity {
     Animation pop_out_Anim, fade_in_Anim;
     ImageView bg, logo, logo_shadow;
 
+    Intent LoginIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.splash);
+
+        // init intent
+        LoginIntent = new Intent(Splash.this, UserLogin.class);
 
         // hide status bar and nav bar
         NavUtil.hideSystemBars(this);
@@ -57,8 +62,8 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(Splash.this, RoleSelect.class);
-                startActivity(intent);
+
+                startActivity(LoginIntent);
                 finish();
             }
         }, SPLASH_SCREEN);

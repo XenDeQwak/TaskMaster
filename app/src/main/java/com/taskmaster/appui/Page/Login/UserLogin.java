@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -19,10 +18,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.taskmaster.appui.FirebaseHandler.AuthHandler;
 import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
 import com.taskmaster.appui.Page.Main.QuestManagement;
-import com.taskmaster.appui.Page.NavUtil;
+import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.R;
 
-public class ParentLogin extends AppCompatActivity {
+public class UserLogin extends AppCompatActivity {
 
     Animation pop_out_Anim, fade_in_Anim;
     //ImageView container1, container2, container3, bg, logo, logo_shadow, line;
@@ -38,8 +37,8 @@ public class ParentLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        SignUpIntent = new Intent(ParentLogin.this, com.taskmaster.appui.Page.SignUp.class);
-        QuestManagementIntent = new Intent(ParentLogin.this, com.taskmaster.appui.Page.Main.QuestManagement.class);
+        SignUpIntent = new Intent(UserLogin.this, com.taskmaster.appui.Page.SignUp.class);
+        QuestManagementIntent = new Intent(UserLogin.this, com.taskmaster.appui.Page.Main.QuestManagement.class);
 
         firestoreHandler = new FirestoreHandler();
         authHandler = new AuthHandler();
@@ -96,7 +95,7 @@ public class ParentLogin extends AppCompatActivity {
             public void onClick(View v) {
                 // Log-in Logic
                 LogInManager logInManager = new LogInManager();
-                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), ParentLogin.this, QuestManagement.class);
+                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, QuestManagement.class);
             }
         });
 
@@ -125,7 +124,7 @@ public class ParentLogin extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(ParentLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
                             startActivity(QuestManagement);
                         } else {
 

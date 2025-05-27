@@ -47,7 +47,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.Page.Login.Splash;
 import com.taskmaster.appui.Page.ManageChild;
-import com.taskmaster.appui.Page.NavUtil;
+import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.Page.ProgressionPage;
 import com.taskmaster.appui.Page.WeeklyBoss;
 import com.taskmaster.appui.R;

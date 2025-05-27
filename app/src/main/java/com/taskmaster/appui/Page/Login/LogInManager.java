@@ -15,7 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.taskmaster.appui.FirebaseHandler.AuthHandler;
 import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
-import com.taskmaster.appui.Page.NavUtil;
+import com.taskmaster.appui.Services.NavUtil;
 
 public class LogInManager {
 
