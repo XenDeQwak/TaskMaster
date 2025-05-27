@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,6 +26,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.taskmaster.appui.Page.Login.Splash;
+import com.taskmaster.appui.Page.Main.QuestManagement;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.Services.DropdownService;
 import com.taskmaster.appui.Services.NavUtil;
@@ -72,7 +73,7 @@ public class WeeklyBoss extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.weekly_boss);
         // hide status bar and nav bar
-        hideSystemBars();
+        NavUtil.hideSystemBars(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -334,16 +335,4 @@ public class WeeklyBoss extends AppCompatActivity {
 
     // exclude elems within dropdown and popup
 
-    private void hideSystemBars() {
-        // hide status bar
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // hide nav bar
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
 }

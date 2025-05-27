@@ -2,8 +2,6 @@ package com.taskmaster.appui.Page;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -21,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.taskmaster.appui.Page.Login.ParentLogin;
 import com.taskmaster.appui.R;
 
 import java.util.HashMap;
@@ -43,7 +42,7 @@ public class SignUp extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.sign_up);
 
-        hideSystemBars();
+        NavUtil.hideSystemBars(this);
         auth = FirebaseAuth.getInstance();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -55,12 +54,12 @@ public class SignUp extends AppCompatActivity {
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        emailbox = findViewById(R.id.editTextTextEmailAddress2);
+        emailbox = findViewById(R.id.passwordBox2);
         passwordbox = findViewById(R.id.editTextTextEmailAddress3);
-        usernamebox = findViewById(R.id.editTextTextEmailAddress);
+        usernamebox = findViewById(R.id.emailBox2);
         firstnamebox = findViewById(R.id.editTextTextEmailAddress4);
         lastnamebox = findViewById(R.id.editTextTextEmailAddress5);
-        confirmButton = findViewById(R.id.button);
+        confirmButton = findViewById(R.id.confirmButton2);
         container1 = findViewById(R.id.imageView7);
         container2 = findViewById(R.id.imageView9);
         container3 = findViewById(R.id.imageView10);
@@ -154,7 +153,7 @@ public class SignUp extends AppCompatActivity {
                     db.collection("users").document(uid).set(userData)
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignUp.this, LogIn.class));
+                                startActivity(new Intent(SignUp.this, ParentLogin.class));
                             })
                             .addOnFailureListener(e -> {
                                 Toast.makeText(SignUp.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -167,14 +166,5 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    private void hideSystemBars() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
+
 }
