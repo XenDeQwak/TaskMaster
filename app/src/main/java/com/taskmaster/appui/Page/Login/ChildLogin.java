@@ -1,3 +1,7 @@
+/*
+ THIS CLASS IS DEPRECATED
+ */
+
 package com.taskmaster.appui.Page.Login;
 
 import android.annotation.SuppressLint;
@@ -17,7 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.taskmaster.appui.FirebaseHandler.AuthHandler;
 import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
 import com.taskmaster.appui.Page.Main.QuestManagement;
-import com.taskmaster.appui.Page.NavUtil;
+import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.R;
 
 public class ChildLogin extends AppCompatActivity {

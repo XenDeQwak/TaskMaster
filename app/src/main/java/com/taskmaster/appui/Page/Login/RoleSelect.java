@@ -1,3 +1,7 @@
+/*
+ THIS CLASS IS DEPRECATED
+ */
+
 package com.taskmaster.appui.Page.Login;
 
 import android.content.Intent;
@@ -11,7 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.taskmaster.appui.Page.NavUtil;
+import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.R;
 
 public class RoleSelect extends AppCompatActivity {
@@ -41,7 +45,7 @@ public class RoleSelect extends AppCompatActivity {
         parentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RoleSelect.this, ParentLogin.class);
+                Intent intent = new Intent(RoleSelect.this, UserLogin.class);
                 startActivity(intent);
             }
         });

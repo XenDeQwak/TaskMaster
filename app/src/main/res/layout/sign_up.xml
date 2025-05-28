@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Page.SignUp">
+    tools:context=".Page.Login.SignUp">
 
     <ImageView
         android:id="@+id/imageView6"
@@ -85,7 +85,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Sign Up"
         android:textAlignment="center"
@@ -96,11 +96,10 @@
         app:layout_constraintTop_toTopOf="@+id/imageView10" />
 
     <EditText
-        android:id="@+id/emailBox2"
+        android:id="@+id/usernameSignUpBox"
         android:layout_width="252dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="118dp"
-        android:layout_marginBottom="327dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
@@ -110,17 +109,15 @@
         android:textAlignment="center"
         android:textColor="#3F3F3F"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/passwordBox2"
+        android:id="@+id/emailSignUpBox"
         android:layout_width="252dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="162dp"
-        android:layout_marginBottom="280dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
@@ -130,17 +127,15 @@
         android:textAlignment="center"
         android:textColor="#3F3F3F"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameSignUpBox" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress3"
+        android:id="@+id/passwordSignUpBox"
         android:layout_width="252dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="212dp"
-        android:layout_marginBottom="233dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
@@ -150,17 +145,15 @@
         android:textAlignment="center"
         android:textColor="#3F3F3F"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/emailSignUpBox" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress4"
+        android:id="@+id/firstnameSignUpBox"
         android:layout_width="252dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="259dp"
-        android:layout_marginBottom="186dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
@@ -170,17 +163,15 @@
         android:textAlignment="center"
         android:textColor="#3F3F3F"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress5"
+        android:id="@+id/lastnameSignUpBox"
         android:layout_width="252dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="306dp"
-        android:layout_marginBottom="139dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
@@ -190,17 +181,15 @@
         android:textAlignment="center"
         android:textColor="#3F3F3F"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/firstnameSignUpBox" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/confirmButton2"
         android:layout_width="252dp"
         android:layout_height="55dp"
-        android:layout_marginTop="390dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
@@ -212,7 +201,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10"
         app:strokeColor="@color/black"
         app:strokeWidth="1dp" />
 

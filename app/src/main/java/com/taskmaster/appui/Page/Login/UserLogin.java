@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,33 +16,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.taskmaster.appui.FirebaseHandler.AuthHandler;
-import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
 import com.taskmaster.appui.Page.Main.QuestManagement;
-import com.taskmaster.appui.Page.NavUtil;
+import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.R;
 
-public class ParentLogin extends AppCompatActivity {
+public class UserLogin extends AppCompatActivity {
 
     Animation pop_out_Anim, fade_in_Anim;
-    //ImageView container1, container2, container3, bg, logo, logo_shadow, line;
-    TextView forgotPasswordTextView, signUpTextView, logInTextView;
+    TextView forgotPasswordTextView, signUpTextView;
     AppCompatButton confirmButton;
     EditText emailbox, passwordbox;
-
-    FirestoreHandler firestoreHandler;
-    AuthHandler authHandler;
-
     Intent SignUpIntent, QuestManagementIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        SignUpIntent = new Intent(ParentLogin.this, com.taskmaster.appui.Page.SignUp.class);
-        QuestManagementIntent = new Intent(ParentLogin.this, com.taskmaster.appui.Page.Main.QuestManagement.class);
-
-        firestoreHandler = new FirestoreHandler();
-        authHandler = new AuthHandler();
+        SignUpIntent = new Intent(UserLogin.this, SignUp.class);
+        QuestManagementIntent = new Intent(UserLogin.this, QuestManagement.class);
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -59,8 +49,8 @@ public class ParentLogin extends AppCompatActivity {
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        emailbox = findViewById(R.id.emailBox2);
-        passwordbox = findViewById(R.id.passwordBox2);
+        emailbox = findViewById(R.id.usernameSignUpBox);
+        passwordbox = findViewById(R.id.emailSignUpBox);
         forgotPasswordTextView = findViewById(R.id.textView3);
         confirmButton = findViewById(R.id.confirmButton2);
         signUpTextView = findViewById(R.id.signupTextView);
@@ -95,8 +85,9 @@ public class ParentLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Log-in Logic
+                //Toast.makeText(UserLogin.this, "HELLO WORLD", Toast.LENGTH_SHORT).show();
                 LogInManager logInManager = new LogInManager();
-                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), ParentLogin.this, QuestManagement.class);
+                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, QuestManagement.class);
             }
         });
 
@@ -125,7 +116,7 @@ public class ParentLogin extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(ParentLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
                             startActivity(QuestManagement);
                         } else {
 

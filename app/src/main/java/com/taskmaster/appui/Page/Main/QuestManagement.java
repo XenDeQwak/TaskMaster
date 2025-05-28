@@ -45,9 +45,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.taskmaster.appui.FirebaseHandler.AuthHandler;
+import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
 import com.taskmaster.appui.Page.Login.Splash;
 import com.taskmaster.appui.Page.ManageChild;
-import com.taskmaster.appui.Page.NavUtil;
+import com.taskmaster.appui.Services.GenericCallback;
+import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.Page.ProgressionPage;
 import com.taskmaster.appui.Page.WeeklyBoss;
 import com.taskmaster.appui.R;
@@ -59,6 +62,7 @@ import java.util.Map;
 
 public class QuestManagement extends AppCompatActivity {
 
+    public User user;
     private long lastClickTime = 0;
     private static final long DOUBLE_CLICK_TIME_DELTA = 300;
     private FirebaseAuth auth;
@@ -79,7 +83,7 @@ public class QuestManagement extends AppCompatActivity {
     ConstraintLayout newQuest;
     ConstraintSet constraintSet;
     RatingBar setDifficultyRating, viewDifficultyRating;
-    String role;
+    public String role;
     String questName, questDescription, time, rewardStat, rewardOptional;
     int difficulty;
     DocumentReference questRef;
@@ -127,115 +131,21 @@ public class QuestManagement extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        // SharedPreferences be damned fr
-        //SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        //role = prefs.getString("role", "");
-
-        // Ill encapsulate this later
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseFirestore.getInstance().collection("Users").document(user.getUid()).get().addOnCompleteListener(
-                new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        role = (String)task.getResult().get("Role");
-                    }
+        // Init user object
+        user = new User(FirebaseAuth.getInstance().getCurrentUser());
+        FirestoreHandler.getUserInformation(user.userAuth.getUid(), new GenericCallback<DocumentSnapshot>() {
+            @Override
+            public void onCallback(DocumentSnapshot documentSnapshot) {
+                if ("child".equals(documentSnapshot.get("Role"))) {
+                    //child data init
+                    childInit();
+                } else {
+                    //parent data init
+                    parentInit();
                 }
-        );
+            }
+        });
 
-        userId = user.getUid();
-
-        db.collection("users").document(userId).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            String code = document.getString("code");
-                            db.collection("users").whereEqualTo("parentCode", code).get()
-                                    .addOnCompleteListener(tasks -> {
-                                        if (tasks.isSuccessful()) {
-                                            childIds = new ArrayList<>();
-                                            for (QueryDocumentSnapshot documentSnapshot : tasks.getResult()) {
-                                                String childId = documentSnapshot.getId();
-                                                childIds.add(childId);
-                                            }
-                                        }
-                                    });
-                        } else {
-                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
-                        }
-                    }
-                });
-
-        //child data init
-        if ("child".equals(role)) {
-            db.collection("users").document(userId).get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot childDocument = task.getResult();
-                            if (childDocument.exists()) {
-                                String childToParentCode = childDocument.getString("parentCode");
-                                childFetchQuest(childToParentCode, userId);
-                                db.collection("users").whereEqualTo("code", childToParentCode).get()
-                                        .addOnCompleteListener(tasks -> {
-                                           if (task.isSuccessful()) {
-                                                   for (QueryDocumentSnapshot document : tasks.getResult()) {
-                                                   username = document.getString("username");
-                                                   storedUsername = username;
-                                               }
-                                           }
-                                        });
-                                childAvatar = childDocument.getLong("childAvatar").intValue();
-                                addQuestButton.setVisibility(View.GONE);
-                                childBarGroup.setVisibility(View.VISIBLE);
-                                childBarName.setText(childDocument.getString("username"));
-                                childBarFloorCount.setText("Floor: " + childDocument.getLong("floor").intValue());
-
-                                List<Integer> avatarImages = new ArrayList<>();
-                                avatarImages.add(R.drawable.placeholderavatar5_framed_round);
-                                avatarImages.add(R.drawable.placeholderavatar1_framed_round);
-                                avatarImages.add(R.drawable.placeholderavatar2_framed_round);
-                                avatarImages.add(R.drawable.placeholderavatar3_framed_round);
-                                avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-
-                                childBarAvatar.setImageResource(avatarImages.get(childAvatar));
-                            } else {
-                                Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
-                            }
-                        } else {
-                            Log.d("DEBUG", "Error getting parent document", task.getException());
-                        }
-                    });
-
-        } else {
-            //parent data init
-            db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        username = document.getString("username");
-                        parentCode = document.getString("code");
-                        if (document.exists()) {
-                            fetchQuests(parentCode);
-                            DocumentReference docRef = db.collection("quest").document(username + "Quest" + questId);
-                            docRef.get().addOnCompleteListener(tasks -> {
-                                if (tasks.isSuccessful()) {
-                                    DocumentSnapshot documents = tasks.getResult();
-                                    if (documents.exists()) {
-                                        childBarGroup.setVisibility(View.GONE);
-                                        Boolean parentVerif = documents.getBoolean("forVerif");
-                                        if (Boolean.TRUE.equals(parentVerif)) {
-                                            Log.d("RECEIVED", "Child verification received");
-                                        }
-                                    } else {
-                                        Log.d("TAG", "DOCUMENT NOT EXIST");
-                                    }
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-        }
 
         NavUtil.hideSystemBars(this);
 
@@ -1216,6 +1126,76 @@ public class QuestManagement extends AppCompatActivity {
         groupCount++;
         questId++;
         updateScrollViewVisibility();
+    }
+
+    private void childInit () {
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot childDocument = task.getResult();
+                        if (childDocument.exists()) {
+                            String childToParentCode = childDocument.getString("parentCode");
+                            childFetchQuest(childToParentCode, userId);
+                            db.collection("users").whereEqualTo("code", childToParentCode).get()
+                                    .addOnCompleteListener(tasks -> {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : tasks.getResult()) {
+                                                username = document.getString("username");
+                                                storedUsername = username;
+                                            }
+                                        }
+                                    });
+                            childAvatar = childDocument.getLong("childAvatar").intValue();
+                            addQuestButton.setVisibility(View.GONE);
+                            childBarGroup.setVisibility(View.VISIBLE);
+                            childBarName.setText(childDocument.getString("username"));
+                            childBarFloorCount.setText("Floor: " + childDocument.getLong("floor").intValue());
+
+                            List<Integer> avatarImages = new ArrayList<>();
+                            avatarImages.add(R.drawable.placeholderavatar5_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar1_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar2_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar3_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar4_framed_round);
+
+                            childBarAvatar.setImageResource(avatarImages.get(childAvatar));
+                        } else {
+                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
+                        }
+                    } else {
+                        Log.d("DEBUG", "Error getting parent document", task.getException());
+                    }
+                });
+    }
+
+    private void parentInit () {
+        db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    username = document.getString("username");
+                    parentCode = document.getString("code");
+                    if (document.exists()) {
+                        fetchQuests(parentCode);
+                        DocumentReference docRef = db.collection("quest").document(username + "Quest" + questId);
+                        docRef.get().addOnCompleteListener(tasks -> {
+                            if (tasks.isSuccessful()) {
+                                DocumentSnapshot documents = tasks.getResult();
+                                if (documents.exists()) {
+                                    childBarGroup.setVisibility(View.GONE);
+                                    Boolean parentVerif = documents.getBoolean("forVerif");
+                                    if (Boolean.TRUE.equals(parentVerif)) {
+                                        Log.d("RECEIVED", "Child verification received");
+                                    }
+                                } else {
+                                    Log.d("TAG", "DOCUMENT NOT EXIST");
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
     private void populateQuestEditor(int questId) {

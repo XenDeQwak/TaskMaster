@@ -8,8 +8,8 @@ import android.widget.Button;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
 
-import com.taskmaster.appui.Page.QuestManagement;
-import com.taskmaster.appui.Page.Splash;
+import com.taskmaster.appui.Page.Main.QuestManagement;
+import com.taskmaster.appui.Page.Login.Splash;
 import com.taskmaster.appui.Page.WeeklyBoss;
 import com.taskmaster.appui.R;
 
