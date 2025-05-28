@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,27 +17,28 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.taskmaster.appui.Page.Main.QuestManagement;
-import com.taskmaster.appui.Services.NavUtil;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.Services.NavUtil;
 
-public class UserLogin extends AppCompatActivity {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+public class SignUp extends AppCompatActivity {
 
     Animation pop_out_Anim, fade_in_Anim;
-    TextView forgotPasswordTextView, signUpTextView;
+    ImageView container1, container2, container3, bg, logo, logo_shadow;
+    TextView logInTextView;
     AppCompatButton confirmButton;
-    EditText emailbox, passwordbox;
-    Intent SignUpIntent, QuestManagementIntent;
+    EditText emailbox, passwordbox, usernamebox, firstnamebox, lastnamebox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        SignUpIntent = new Intent(UserLogin.this, SignUp.class);
-        QuestManagementIntent = new Intent(UserLogin.this, QuestManagement.class);
-
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.parent_login);
+        setContentView(R.layout.sign_up);
 
         NavUtil.hideSystemBars(this);
 
@@ -49,11 +51,14 @@ public class UserLogin extends AppCompatActivity {
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        emailbox = findViewById(R.id.usernameSignUpBox);
-        passwordbox = findViewById(R.id.emailSignUpBox);
-        forgotPasswordTextView = findViewById(R.id.textView3);
+        emailbox = findViewById(R.id.emailSignUpBox);
+        usernamebox = findViewById(R.id.usernameSignUpBox);
+        passwordbox = findViewById(R.id.passwordSignUpBox);
+        firstnamebox = findViewById(R.id.firstnameSignUpBox);
+        lastnamebox = findViewById(R.id.lastnameSignUpBox);
         confirmButton = findViewById(R.id.confirmButton2);
-        signUpTextView = findViewById(R.id.signupTextView);
+
+        View[] signUpInformation = {emailbox, usernamebox, passwordbox, firstnamebox, lastnamebox};
 
         // Lets be real now we dont need this
         /*
@@ -63,7 +68,6 @@ public class UserLogin extends AppCompatActivity {
         logo = findViewById(R.id.imageView13);
         logo_shadow = findViewById(R.id.imageView14);
         bg = findViewById(R.id.imageView6);
-        line = findViewById(R.id.imageView15);
         logInTextView = findViewById(R.id.textView);
 
         bg.setAnimation(fade_in_Anim);
@@ -71,60 +75,25 @@ public class UserLogin extends AppCompatActivity {
         logo_shadow.setAnimation(pop_out_Anim);
         emailbox.setAnimation(pop_out_Anim);
         passwordbox.setAnimation(pop_out_Anim);
-        forgotPasswordTextView.setAnimation(pop_out_Anim);
+        usernamebox.setAnimation(pop_out_Anim);
+        firstnamebox.setAnimation(pop_out_Anim);
+        lastnamebox.setAnimation(pop_out_Anim);
         confirmButton.setAnimation(pop_out_Anim);
-        signUpTextView.setAnimation(pop_out_Anim);
         container1.setAnimation(pop_out_Anim);
         container2.setAnimation(pop_out_Anim);
         container3.setAnimation(pop_out_Anim);
-        line.setAnimation(pop_out_Anim);
         logInTextView.setAnimation(pop_out_Anim);
         */
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Log-in Logic
-                //Toast.makeText(UserLogin.this, "HELLO WORLD", Toast.LENGTH_SHORT).show();
+                // Sign-up logic
+                // Yes Im also using LogInManager for SignUp because why not
                 LogInManager logInManager = new LogInManager();
-                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, QuestManagement.class);
+                logInManager.attemptUserSignUp(signUpInformation, SignUp.this);
             }
         });
-
-
-        signUpTextView.setOnClickListener(v -> {
-                    startActivity(SignUpIntent);
-                });
-
-
     }
-
-
-
-    /*
-    private void authenticateUser() {
-        String username = emailbox.getText().toString().trim();
-        String password = passwordbox.getText().toString().trim();
-
-        if (username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        authHandler.signInUser(username, password)
-                .addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(UserLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            startActivity(QuestManagement);
-                        } else {
-
-                        }
-                    }
-                });
-
-    }
-    */
 
 }
