@@ -49,6 +49,7 @@ import com.taskmaster.appui.FirebaseHandler.AuthHandler;
 import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
 import com.taskmaster.appui.Page.Login.Splash;
 import com.taskmaster.appui.Page.ManageChild;
+import com.taskmaster.appui.Services.DropdownService;
 import com.taskmaster.appui.Services.GenericCallback;
 import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.Page.ProgressionPage;
@@ -72,12 +73,12 @@ public class QuestManagement extends AppCompatActivity {
     String storedUsername;
     String userId;
     ImageButton imagebutton1, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton, assignAdvButton1, assignAdvButton2;
-    AppCompatButton addQuestButton, dropdownNavButton, navQuestPage, navManageAdv, navLogOut, assignAdv, assignPrevBtn, assignNextBtn, setRewardsButton, viewRewardsDropdownButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, viewRewardsExitButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton, assignDropdownButton, assignCancelButton, assignConfirmButton;
+    AppCompatButton addQuestButton,assignAdv, assignPrevBtn, assignNextBtn, setRewardsButton, viewRewardsDropdownButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, viewRewardsExitButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton, assignDropdownButton, assignCancelButton, assignConfirmButton;
     ImageView questFrame, questNameFrame, questImage, questImageIcon, imageView23, imageView18, assignDropdownFrame, popupAssignFrame, editQuestImageIcon, viewQuestImageIcon, imageView19, basePageFrame, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame, viewQuestFrame, viewQuestImage, viewDifficultyBG, childBarFrame, childBarAvatar;
     TextView questNameText, rewardsStr, rewardsInt, textView8, viewNotifTextMsg, textView5, basePageTitle;
     EditText editQuestTime, editQuestName, editQuestDesc, viewQuestName, viewQuestTime, viewQuestDesc, viewRewardsOptionalText;
     ScrollView scrollView;
-    Group dropDownGroup, editQuestGroup, popupRewardsGroup, viewQuestGroup, childBarGroup, viewQuestGroupButtonC, viewQuestGroupButtonP, popupViewRewardsGroup, popupViewNotif, popupAssignGroup;
+    Group editQuestGroup, popupRewardsGroup, viewQuestGroup, childBarGroup, viewQuestGroupButtonC, viewQuestGroupButtonP, popupViewRewardsGroup, popupViewNotif, popupAssignGroup;
     GridLayout gridLayout;
     LinearLayout newGroup;
     ConstraintLayout newQuest;
@@ -156,16 +157,12 @@ public class QuestManagement extends AppCompatActivity {
         });
 
         // hooks
-        dropdownNavButton = findViewById(R.id.dropdownNavButton);
-        addQuestButton = findViewById(R.id.addQuestButton);
-        navQuestPage = findViewById(R.id.navQuestPage);
-        navManageAdv = findViewById(R.id.navManageAdv);
-        navLogOut = findViewById(R.id.navLogOut);
 
-        dropDownGroup = findViewById(R.id.dropdownGroup);
+        addQuestButton = findViewById(R.id.addQuestButton);
         gridLayout = findViewById(R.id.gridLayout);
         rootLayout = findViewById(R.id.main);
         scrollView = findViewById(R.id.scrollView1);
+        DropdownService.dropdownSetup(this,rootLayout);
 
         editQuestTime = findViewById(R.id.editQuestTime);
         editQuestName = findViewById(R.id.editQuestName);
@@ -246,10 +243,6 @@ public class QuestManagement extends AppCompatActivity {
         assignNextBtn = findViewById(R.id.assignNextBtn);
         viewRewardsDropdownButton = findViewById(R.id.viewRewardsDropdownButton);
 
-        // exclude elems within dropdown
-        View[] dropDownElements = {
-                findViewById(R.id.navFrame)
-        };
 
         // hide from child
         if ("child".equals(role)) {
@@ -260,7 +253,7 @@ public class QuestManagement extends AppCompatActivity {
             basePageFrame.setVisibility(View.VISIBLE);
             basePageTitle.setVisibility(View.VISIBLE);
             imageView23.setVisibility(View.GONE);
-            navManageAdv.setText("Weekly Boss");
+//            navManageAdv.setText("Weekly Boss");
         } else if ("parent".equals(role)) {
             childBarGroup.setVisibility(View.GONE);
             basePageFrame.setVisibility(View.GONE);
@@ -279,22 +272,6 @@ public class QuestManagement extends AppCompatActivity {
 
         // remove scrollview visibility initially, keep this cause dropdown exit doesn't function as intended
         scrollView.setVisibility(View.GONE);
-
-        // hide dropdown group
-        dropDownGroup.setVisibility(View.GONE);
-
-        // view dropdown group
-        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dropDownGroup.getVisibility() == View.VISIBLE) {
-                    dropDownGroup.setVisibility(View.GONE);
-                } else {
-                    dropDownGroup.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
         assignNextBtn.setOnClickListener(e -> {
             currentIndex++;
             if (currentIndex >= childIds.size())
@@ -352,40 +329,6 @@ public class QuestManagement extends AppCompatActivity {
                     popupViewNotif.setVisibility(View.VISIBLE);
                 }
 
-            }
-        });
-
-        navQuestPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(QuestManagement.this, "ur here", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        navManageAdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // change dropdown specific for child
-                if ("child".equals(role)) {
-                    Toast.makeText(QuestManagement.this, "Move", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(QuestManagement.this, WeeklyBoss.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(QuestManagement.this, "Move", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(QuestManagement.this, ManageChild.class);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        navLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(QuestManagement.this, "Log Out", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(QuestManagement.this, Splash.class);
-                questData.clear();
-                auth.signOut();
-                startActivity(intent);
             }
         });
 
@@ -543,27 +486,6 @@ public class QuestManagement extends AppCompatActivity {
                 Toast.makeText(QuestManagement.this, "stats", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(QuestManagement.this, ProgressionPage.class);
                 startActivity(intent);
-            }
-        });
-
-        // exit dropdown
-        rootLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (dropDownGroup.getVisibility() == View.VISIBLE && event.getAction() == MotionEvent.ACTION_DOWN) {
-                    boolean isInsideDropdown = false;
-                    for (View element : dropDownElements) {
-                        if (isViewTouched(element, event)) {
-                            isInsideDropdown = true;
-                            break;
-                        }
-                    }
-                    if (!isInsideDropdown) {
-                        dropDownGroup.setVisibility(View.GONE);
-                        return true;
-                    }
-                }
-                return false;
             }
         });
 
@@ -1029,44 +951,43 @@ public class QuestManagement extends AppCompatActivity {
 
         int currentQuestId = questId; // Save unique ID to avoid issues with references
         openQuestButton.setTag(currentQuestId);
+
+        //Removed if navgroup==gone here, if it breaks ill put it back -cent
         openQuestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Handle button click for the correct questId
-                if (dropDownGroup.getVisibility() == View.GONE) {
+                int clickedQuestId = (int) v.getTag();
+                lastClickedQuestId = clickedQuestId;
+                populateQuestEditor(clickedQuestId);
 
-                    int clickedQuestId = (int) v.getTag();
-                    lastClickedQuestId = clickedQuestId;
-                    populateQuestEditor(clickedQuestId);
+                long clickTime = System.currentTimeMillis();
+                boolean isDoubleClick = (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA);
+                lastClickTime = clickTime;
 
-                    long clickTime = System.currentTimeMillis();
-                    boolean isDoubleClick = (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA);
-                    lastClickTime = clickTime;
-
-                    if (isDoubleClick) {
+                if (isDoubleClick) {
 //                        if ("parent".equals(role)) {
 //                            Toast.makeText(QuestManagement.this, "Parent View Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
 //                            viewQuestGroup.setVisibility(View.VISIBLE);
 //                            viewQuestGroupButtonP.setVisibility(View.VISIBLE);
 //                        }
-                    } else {
-                        if ("child".equals(role)) {
+                } else {
+                    if ("child".equals(role)) {
+                        viewQuestGroup.setVisibility(View.VISIBLE);
+                        viewQuestGroupButtonC.setVisibility(View.VISIBLE);
+                    } else if ("parent".equals(role)) {
+                        if (forVerif) {
                             viewQuestGroup.setVisibility(View.VISIBLE);
-                            viewQuestGroupButtonC.setVisibility(View.VISIBLE);
-                        } else if ("parent".equals(role)) {
-                            if (forVerif) {
-                                viewQuestGroup.setVisibility(View.VISIBLE);
-                                viewQuestGroupButtonP.setVisibility(View.VISIBLE);
-                            } else {
-                                editQuestGroup.setVisibility(View.VISIBLE);
-                            }
+                            viewQuestGroupButtonP.setVisibility(View.VISIBLE);
+                        } else {
+                            editQuestGroup.setVisibility(View.VISIBLE);
                         }
+
                     }
                 }
             }
         });
         newQuest.addView(openQuestButton);
-
 
         // add views to ConstraintLayout
         newQuest.addView(questFrame);
@@ -1512,17 +1433,6 @@ public class QuestManagement extends AppCompatActivity {
             }
         }
         return null; // Return null if quest not found
-    }
-
-    // exclude elems within dropdown
-    private boolean isViewTouched(View view, MotionEvent event) {
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-        int x = location[0];
-        int y = location[1];
-
-        return event.getRawX() >= x && event.getRawX() <= x + view.getWidth()
-                && event.getRawY() >= y && event.getRawY() <= y + view.getHeight();
     }
 
     // to update scroll view visibility
