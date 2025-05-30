@@ -35,17 +35,18 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.taskmaster.appui.Page.Login.Splash;
 import com.taskmaster.appui.Page.Main.QuestManagement;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.Services.DropdownService;
 import com.taskmaster.appui.Services.NavUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ManageChild extends AppCompatActivity {
-    AppCompatButton addChildButton, dropdownNavButton, navQuestPage, navManageAdv, navLogOut, copyButton, exitButton;
+    AppCompatButton addChildButton, copyButton, exitButton;
     ImageButton openChildPage;
     TextView codeText, childName;
     Context context = this;
-    Group dropDownGroup, popUpGroup;
+    Group popUpGroup;
     GridLayout gridLayout, gridLayout1;
     String tavernCode;
     View rootLayout;
@@ -69,13 +70,7 @@ public class ManageChild extends AppCompatActivity {
         });
 
         // hooks
-        dropdownNavButton = findViewById(R.id.dropdownNavButton);
         addChildButton = findViewById(R.id.addChildButton);
-        navQuestPage = findViewById(R.id.navQuestPage);
-        navManageAdv = findViewById(R.id.navManageAdv);
-        navLogOut = findViewById(R.id.navLogOut);
-
-        dropDownGroup = findViewById(R.id.dropdownGroup);
         popUpGroup = findViewById(R.id.pop_up_tavern_code);
         copyButton = findViewById(R.id.copy_button);
         exitButton = findViewById(R.id.exit_button);
@@ -83,14 +78,9 @@ public class ManageChild extends AppCompatActivity {
         gridLayout = findViewById(R.id.gridLayout);
         rootLayout = findViewById(R.id.main);
         gridLayout1 = findViewById(R.id.gridLayout1);
-
-        // exclude elems within dropdown
-        View[] dropDownElements = {
-                findViewById(R.id.navFrame)
-        };
+        DropdownService.dropdownSetup(this,rootLayout);
 
         // hide dropdown group and initial icons
-        dropDownGroup.setVisibility(View.GONE);
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
@@ -136,7 +126,6 @@ public class ManageChild extends AppCompatActivity {
                     }
                 });
 
-
         //parent data init
         db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
@@ -157,34 +146,12 @@ public class ManageChild extends AppCompatActivity {
                         Log.d("DEBUG", "Error getting parent document", task.getException());
                     }
                 });
-        // view dropdown group
-        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dropDownGroup.getVisibility() == View.VISIBLE) {
-                    dropDownGroup.setVisibility(View.GONE);
-                } else {
-                    dropDownGroup.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        // exclude elems within popup
-        View[] popupElements = {
-                findViewById(R.id.pop_up_frame),
-                findViewById(R.id.notice_text),
-                findViewById(R.id.notice_shadow_overlay),
-                copyButton,
-                exitButton,
-                codeText
-        };
 
         // hide popup group
         popUpGroup.setVisibility(View.GONE);
 
         // view popup group
         addChildButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if (popUpGroup.getVisibility() == View.VISIBLE) {
@@ -204,66 +171,6 @@ public class ManageChild extends AppCompatActivity {
 //            }
 //        });
 
-        navManageAdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (popUpGroup.getVisibility() == View.GONE) {
-                    Toast.makeText(ManageChild.this, "ur here", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        navQuestPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (popUpGroup.getVisibility() == View.GONE) {
-                    Toast.makeText(ManageChild.this, "Move", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ManageChild.this, QuestManagement.class);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        navLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (popUpGroup.getVisibility() == View.GONE) {
-                    Toast.makeText(ManageChild.this, "Log Out", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ManageChild.this, Splash.class);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        // exit dropdown & popup group
-        rootLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    boolean isInsideDropdown = false;
-
-                    for (View element : dropDownElements) {
-                        if (isViewTouched(element, event)) {
-                            isInsideDropdown = true;
-                            break;
-                        }
-                    }
-
-                    for (View element : popupElements) {
-                        if (isViewTouched(element, event)) {
-                            isInsideDropdown = true;
-                            break;
-                        }
-                    }
-
-                    if (!isInsideDropdown) {
-                        dropDownGroup.setVisibility(View.GONE);
-                        popUpGroup.setVisibility(View.GONE);
-                    }
-                }
-                return false;
-            }
-        });
 
         copyButton.setOnClickListener(new View.OnClickListener() {
             @Override
