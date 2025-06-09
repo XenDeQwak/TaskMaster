@@ -343,13 +343,13 @@
         app:layout_constraintHeight_percent="0.75"
         app:layout_constraintWidth_percent="0.85"/>
 
-        <GridLayout
+<!--        <GridLayout
             android:id="@+id/gridLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:columnCount="1"
-            android:rowCount="6">
+            android:rowCount="6"> -->
 
             <!--                <FrameLayout-->
             <!--                    android:id="@+id/childIcon"-->
@@ -464,8 +464,7 @@
             <!--                        android:stateListAnimator="@null" />-->
 
             <!--                </FrameLayout>-->
-        </GridLayout>
-
+    <!--    </GridLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -494,7 +493,7 @@
         app:layout_constraintEnd_toEndOf="@+id/dropdownNavButton"
         app:layout_constraintStart_toStartOf="@+id/dropdownNavButton"
         app:layout_constraintTop_toTopOf="@+id/dropdownNavButton"
-        app:srcCompat="@drawable/dropdown" />
+        app:srcCompat="@drawable/dropdown" /> -->
 
 
     <!--    <ImageButton-->
@@ -508,6 +507,7 @@
     <!--        app:layout_constraintTop_toTopOf="@+id/addChildButton"-->
     <!--        app:srcCompat="@null" />-->
 
+    <!--
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="355dp"
@@ -749,6 +749,5 @@
         app:layout_constraintStart_toStartOf="@+id/pop_up_frame"
         app:layout_constraintTop_toTopOf="@+id/pop_up_frame"
         app:srcCompat="@drawable/rectangle_rounded" />
-
-
+        -->
 </androidx.constraintlayout.widget.ConstraintLayout>
