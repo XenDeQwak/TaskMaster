@@ -160,6 +160,7 @@
         app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainerTopTextContainer"
         app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerTopTextContainer" />
 
+    <!--THIS IS WHERE EVERYTHING IN THE SHOP IS CONTAINED -->
     <ImageView
         android:id="@+id/imageView20"
         android:layout_width="0dp"
@@ -175,6 +176,7 @@
         app:srcCompat="@drawable/rectangle_rounded" />
 
 
+    <!--this is where the containers of all the items are -->
     <ImageView
         android:id="@+id/cosmeticShopContainerItemContainer"
         android:layout_width="0dp"
@@ -189,162 +191,6 @@
         android:layout_marginTop="7.5dp"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-
-    <ImageView
-        android:id="@+id/cosmeticShopContainerItemContainerItem"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.5"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainer"
-        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainer"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.2"
-        android:layout_marginLeft="7.5dp"
-        android:layout_marginTop="7.5dp"
-        app:srcCompat="@drawable/rectangle_rounded" />
-
-    <ImageView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPicture"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clickable="false"
-        android:focusable="false"
-        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerItemContainerItem"
-        app:layout_constraintEnd_toEndOf="@+id/cosmeticShopContainerItemContainerItem"
-        app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainerItemContainerItem"
-        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerItemContainerItem"
-        app:srcCompat="@drawable/placeholderavatar1" />
-
-    <TextView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPictureText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Silver Armor"
-        android:textSize="25sp"
-        android:textColor="#3F3F3F"
-        android:fontFamily="@font/eb_garamond_semibold"
-        app:layout_constraintStart_toEndOf="@id/cosmeticShopContainerItemContainerItem"
-        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainerItem"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="7.5dp" />
-
-    <TextView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPictureTextCost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1 G"
-        android:textSize="25sp"
-        android:textColor="#3F3F3F"
-        android:fontFamily="@font/eb_garamond_semibold"
-        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainetItemPictureText"
-        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainetItemPictureText"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="7.5dp" />
-
-    <ImageView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPicture2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clickable="false"
-        android:focusable="false"
-        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerItemContainerItem2"
-        app:layout_constraintEnd_toEndOf="@+id/cosmeticShopContainerItemContainerItem2"
-        app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainerItemContainerItem2"
-        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerItemContainerItem2"
-        app:srcCompat="@drawable/placeholderavatar2" />
-    <TextView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPictureText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bronze Armor"
-        android:textSize="25sp"
-        android:textColor="#3F3F3F"
-        android:fontFamily="@font/eb_garamond_semibold"
-        app:layout_constraintStart_toEndOf="@id/cosmeticShopContainerItemContainerItem2"
-        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainerItem2"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="7.5dp" />
-    <TextView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPictureTextCost2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1 G"
-        android:textSize="25sp"
-        android:textColor="#3F3F3F"
-        android:fontFamily="@font/eb_garamond_semibold"
-        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainetItemPictureText2"
-        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainetItemPictureText2"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="7.5dp" />
-
-    <ImageView
-        android:id="@+id/cosmeticShopContainerItemContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.5"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@id/imageView20"
-        app:layout_constraintTop_toTopOf="@id/imageView20"
-        app:layout_constraintHeight_percent="0.125"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginLeft="7.5dp"
-        android:layout_marginTop="7.5dp"
-        app:srcCompat="@drawable/rectangle_rounded" />
-
-    <ImageView
-        android:id="@+id/cosmeticShopContainerItemContainerItem"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.5"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainer"
-        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainer"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.2"
-        android:layout_marginLeft="7.5dp"
-        android:layout_marginTop="7.5dp"
-        app:srcCompat="@drawable/rectangle_rounded" />
-
-    <ImageView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPicture"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clickable="false"
-        android:focusable="false"
-        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerItemContainerItem"
-        app:layout_constraintEnd_toEndOf="@+id/cosmeticShopContainerItemContainerItem"
-        app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainerItemContainerItem"
-        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerItemContainerItem"
-        app:srcCompat="@drawable/placeholderavatar1" />
-
-    <TextView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPictureText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Silver Armor"
-        android:textSize="25sp"
-        android:textColor="#3F3F3F"
-        android:fontFamily="@font/eb_garamond_semibold"
-        app:layout_constraintStart_toEndOf="@id/cosmeticShopContainerItemContainerItem"
-        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainerItem"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="7.5dp" />
-
-    <TextView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPictureTextCost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2 G"
-        android:textSize="25sp"
-        android:textColor="#3F3F3F"
-        android:fontFamily="@font/eb_garamond_semibold"
-        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainetItemPictureText"
-        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainetItemPictureText"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="7.5dp" />
-
-    <!-- Duplicated Block -->
     <ImageView
         android:id="@+id/cosmeticShopContainerItemContainer2"
         android:layout_width="0dp"
@@ -355,6 +201,22 @@
         app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainer"
         app:layout_constraintHeight_percent="0.125"
         app:layout_constraintWidth_percent="0.8"
+        android:layout_marginLeft="7.5dp"
+        android:layout_marginTop="7.5dp"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+
+    <!--this ones the picture containers -->
+    <ImageView
+        android:id="@+id/cosmeticShopContainerItemContainerItem"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainer"
+        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainer"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.2"
         android:layout_marginLeft="7.5dp"
         android:layout_marginTop="7.5dp"
         app:srcCompat="@drawable/rectangle_rounded" />
@@ -373,7 +235,89 @@
         android:layout_marginTop="7.5dp"
         app:srcCompat="@drawable/rectangle_rounded" />
 
+    <!--and this is the pictures it contained -->
+    <ImageView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPicture"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerItemContainerItem"
+        app:layout_constraintEnd_toEndOf="@+id/cosmeticShopContainerItemContainerItem"
+        app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainerItemContainerItem"
+        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerItemContainerItem"
+        app:srcCompat="@drawable/placeholderavatar1" />
 
+    <ImageView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPicture2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerItemContainerItem2"
+        app:layout_constraintEnd_toEndOf="@+id/cosmeticShopContainerItemContainerItem2"
+        app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainerItemContainerItem2"
+        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerItemContainerItem2"
+        app:srcCompat="@drawable/placeholderavatar2" />
+
+    <!--and this is the text for the cosmetic name -->
+    <TextView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPictureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Silver Armor"
+        android:textSize="25sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintStart_toEndOf="@id/cosmeticShopContainerItemContainerItem"
+        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainerItem"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7.5dp" />
+
+    <TextView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPictureText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bronze Armor"
+        android:textSize="25sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintStart_toEndOf="@id/cosmeticShopContainerItemContainerItem2"
+        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainerItem2"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7.5dp" />
+
+    <!--and this is the price cost text -->
+    <TextView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPictureTextCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2 G"
+        android:textSize="25sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainetItemPictureText"
+        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainetItemPictureText"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7.5dp" />
+
+    <TextView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPictureTextCost2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 G"
+        android:textSize="25sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainetItemPictureText2"
+        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainetItemPictureText2"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7.5dp" />
+
+
+
+    <!--
+    IDK what this was originally for but commenting it out seems to not do anything
     <LinearLayout
         android:id="@+id/cosmeticInfoLayout"
         android:layout_width="0dp"
@@ -384,6 +328,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView0"
         app:layout_constraintBottom_toBottomOf="@+id/imageView0"
         android:layout_marginStart="16dp"/>
+     -->
 
 
     <ScrollView
