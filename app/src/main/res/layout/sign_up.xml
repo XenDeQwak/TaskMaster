@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/defaultbg_placeholder" />
+        app:srcCompat="@drawable/background1" />
 
     <ImageView
         android:id="@+id/imageView7"
@@ -54,9 +54,10 @@
         android:alpha="0.6"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
         app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:layout_constraintVertical_bias="0.475"
+        app:layout_constraintVertical_bias="0.48"
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <ImageView
@@ -199,8 +200,7 @@
         android:id="@+id/button"
         android:layout_width="252dp"
         android:layout_height="55dp"
-        android:layout_marginTop="390dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
@@ -209,11 +209,28 @@
         android:textAllCaps="false"
         android:textColor="#3F3F3F"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+        app:layout_constraintTop_toBottomOf="@id/editTextTextEmailAddress5"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10"
         app:strokeColor="@color/black"
         app:strokeWidth="1dp" />
+
+    <TextView
+        android:id="@+id/loginTextView"
+        android:layout_width="252dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Already have an account? Return to Login!"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button"
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
