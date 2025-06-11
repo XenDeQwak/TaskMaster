@@ -95,7 +95,7 @@ public class CodeVerification extends AppCompatActivity {
                         childData.put("floor", 1);
                         childData.put("parentCode", code);
                         childRef.document(auth.getCurrentUser().getUid()).set(childData);
-                        startActivity(new Intent(CodeVerification.this, ChildLogin.class));
+//                        startActivity(new Intent(CodeVerification.this, ChildLogin.class));
 
                         Toast.makeText(CodeVerification.this, "Login successful", Toast.LENGTH_SHORT).show();
                     } else {
