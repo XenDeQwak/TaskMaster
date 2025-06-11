@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TaskMaster</string>
+    <string name="_00_00_00">00 : 00 : 00</string>
+    <string name="nyenyenye">nyenyenye</string>
 </resources>

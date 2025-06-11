@@ -28,8 +28,10 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -103,15 +105,58 @@
     <ImageView
         android:id="@+id/monsterImage"
         android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_height="230dp"
         android:layout_marginTop="101dp"
-        android:layout_marginBottom="500dp"
+        android:layout_marginBottom="520dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/baseFrame"
         app:layout_constraintEnd_toEndOf="@+id/baseFrame"
         app:layout_constraintStart_toStartOf="@+id/baseFrame"
         app:layout_constraintTop_toBottomOf="@+id/basePageFrame"
         app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/timeboxHrs"
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="520dp"
+        android:layout_marginEnd="100dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
+        app:layout_constraintStart_toStartOf="@+id/baseFrame"
+        app:layout_constraintTop_toBottomOf="@+id/basePageFrame"
+        app:srcCompat="@drawable/rectangle_rounded3" />
+
+    <ImageView
+        android:id="@+id/timeboxSec"
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="520dp"
+        android:layout_marginStart="105dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
+        app:layout_constraintStart_toStartOf="@+id/baseFrame"
+        app:layout_constraintTop_toBottomOf="@+id/basePageFrame"
+        app:srcCompat="@drawable/rectangle_rounded3" />
+
+    <TextView
+        android:id="@+id/TimerTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:textColor="#3F3F3F"
+        android:text="00 : 00 : 00"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/baseInnerFrame"
+        app:layout_constraintStart_toStartOf="@+id/baseInnerFrame"
+        app:layout_constraintTop_toTopOf="@+id/baseInnerFrame"
+        tools:ignore="HardcodedText" />
+
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/monsterName"
