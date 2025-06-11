@@ -14,11 +14,6 @@
         android:theme="@style/Theme.AppUi"
         tools:targetApi="31">
         <activity
-            android:name=".Page.Login.RoleSelect"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
             android:name=".Page.Login.UserLogin"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -56,11 +51,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Page.ManageChild"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name=".Page.Login.ChildLogin"
             android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize" />
