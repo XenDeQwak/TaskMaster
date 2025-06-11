@@ -1,13 +1,11 @@
 package com.taskmaster.appui.Page.Login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,13 +24,9 @@ public class UserLogin extends AppCompatActivity {
     TextView forgotPasswordTextView, signUpTextView;
     AppCompatButton confirmButton;
     EditText emailbox, passwordbox;
-    Intent SignUpIntent, QuestManagementIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        SignUpIntent = new Intent(UserLogin.this, SignUp.class);
-        QuestManagementIntent = new Intent(UserLogin.this, QuestManagement.class);
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -90,12 +84,7 @@ public class UserLogin extends AppCompatActivity {
                 logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, QuestManagement.class);
             }
         });
-
-
-        signUpTextView.setOnClickListener(v -> {
-                    startActivity(SignUpIntent);
-                });
-
+        NavUtil.setNavigation(this,signUpTextView, SignUp.class);
 
     }
 

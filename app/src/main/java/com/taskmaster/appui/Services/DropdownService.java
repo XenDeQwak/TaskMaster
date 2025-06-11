@@ -3,7 +3,6 @@ package com.taskmaster.appui.Services;
 import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
@@ -32,7 +31,10 @@ public class DropdownService {
         View[] dropDownElements = {activity.findViewById(R.id.navFrame)};
 
         //NAV
-        NavUtil.setNavigation(activity, navLogOut, Splash.class);
+        navLogOut.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            NavUtil.instantNavigation(activity, Splash.class);
+        });
         NavUtil.setNavigation(activity,navQuestPage, QuestManagement.class);
 
         dropDownGroup.setVisibility(View.GONE);
@@ -52,13 +54,11 @@ public class DropdownService {
         });
 
         //Btn Fx
-        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (dropDownGroup.getVisibility() == View.VISIBLE) {
-                    dropDownGroup.setVisibility(View.GONE);
-                } else {
-                    dropDownGroup.setVisibility(View.VISIBLE);
-                }
+        dropdownNavButton.setOnClickListener(v -> {
+            if (dropDownGroup.getVisibility() == View.VISIBLE) {
+                dropDownGroup.setVisibility(View.GONE);
+            } else {
+                dropDownGroup.setVisibility(View.VISIBLE);
             }
         });
         // exit dropdown & popup group
