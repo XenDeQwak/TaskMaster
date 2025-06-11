@@ -15,12 +15,13 @@ public class User {
         this.userAuth = userAuth;
     }
 
-
     public FirebaseUser getUserAuth () {
         return userAuth;
     }
-
     public DocumentSnapshot getUserDocumentSnapshot () {
         return userDocumentSnapshot;
+    }
+    public void setUserDocumentSnapshot(){
+        FirestoreHandler.getUserInformation(userAuth.getUid(), documentSnapshot -> userDocumentSnapshot=documentSnapshot);
     }
 }
