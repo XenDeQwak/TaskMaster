@@ -7,20 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".Page.CosmeticShop">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/TopGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuidePercent="0.2" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/BottomGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuidePercent="0.2" />
-
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="0dp"
@@ -121,8 +107,6 @@
         app:layout_constraintEnd_toEndOf="@+id/currencyBox"
         app:layout_constraintStart_toStartOf="@+id/currencyBox"
         app:layout_constraintTop_toTopOf="@+id/currencyBox" />
-
-
 
     <ImageView
         android:id="@+id/cosmeticShopContainerTopTextContainer"
@@ -262,7 +246,7 @@
 
     <!--and this is the text for the cosmetic name -->
     <TextView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPictureText"
+        android:id="@+id/cosmeticShopContainerItemContainerItemPictureText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Silver Armor"
@@ -275,7 +259,7 @@
         android:layout_marginTop="7.5dp" />
 
     <TextView
-        android:id="@+id/cosmeticShopContainerItemContainetItemPictureText2"
+        android:id="@+id/cosmeticShopContainerItemContainerItemPictureText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bronze Armor"
@@ -296,8 +280,8 @@
         android:textSize="25sp"
         android:textColor="#3F3F3F"
         android:fontFamily="@font/eb_garamond_semibold"
-        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainetItemPictureText"
-        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainetItemPictureText"
+        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainerItemPictureText"
+        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainerItemPictureText"
         android:layout_marginStart="8dp"
         android:layout_marginTop="7.5dp" />
 
@@ -309,8 +293,8 @@
         android:textSize="25sp"
         android:textColor="#3F3F3F"
         android:fontFamily="@font/eb_garamond_semibold"
-        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainetItemPictureText2"
-        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainetItemPictureText2"
+        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainerItemPictureText2"
+        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainerItemPictureText2"
         android:layout_marginStart="8dp"
         android:layout_marginTop="7.5dp" />
 

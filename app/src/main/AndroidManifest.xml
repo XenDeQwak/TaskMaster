@@ -24,6 +24,11 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
+            android:name=".Page.CosmeticShop"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
             android:name=".Page.Login.Splash"
             android:exported="true"
             android:screenOrientation="portrait"
