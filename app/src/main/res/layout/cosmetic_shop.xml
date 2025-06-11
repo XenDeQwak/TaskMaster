@@ -1,0 +1,753 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Page.CosmeticShop">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/TopGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuidePercent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/BottomGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuidePercent="0.2" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="1.0"
+        app:layout_constraintHeight_percent="1.0"
+        app:layout_constraintDimensionRatio="1:"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/defaultbg_placeholder" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.95"
+        app:layout_constraintHeight_percent="0.95"
+        app:layout_constraintDimensionRatio=""
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dropdownNavButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:gravity="center"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/imageView20"
+        app:layout_constraintStart_toStartOf="@+id/imageView20"
+        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerTopTextContainer"
+        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerTopTextContainer"
+        app:layout_constraintWidth_percent="0.125"
+        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="0.5"
+    />
+
+    <ImageView
+        android:id="@+id/dropdownNavImg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/dropdownNavButton"
+        app:layout_constraintEnd_toEndOf="@+id/dropdownNavButton"
+        app:layout_constraintStart_toStartOf="@+id/dropdownNavButton"
+        app:layout_constraintTop_toTopOf="@+id/dropdownNavButton"
+        app:srcCompat="@drawable/dropdown" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/currencyBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:gravity="center"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerTopTextContainer"
+        app:layout_constraintEnd_toEndOf="@+id/imageView20"
+        app:layout_constraintStart_toStartOf="@+id/imageView20"
+        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerTopTextContainer"
+        app:layout_constraintWidth_percent="0.125"
+        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintVertical_bias="0.5"
+        />
+
+    <TextView
+        android:id="@+id/currencyText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="1 G"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/currencyBox"
+        app:layout_constraintEnd_toEndOf="@+id/currencyBox"
+        app:layout_constraintStart_toStartOf="@+id/currencyBox"
+        app:layout_constraintTop_toTopOf="@+id/currencyBox" />
+
+
+
+    <ImageView
+        android:id="@+id/cosmeticShopContainerTopTextContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintHeight_percent="0.075"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/BottomGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/TopGuideline"
+        android:layout_marginTop="7.5dp"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <TextView
+        android:id="@+id/cosmeticShopText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Cosmetics"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerTopTextContainer"
+        app:layout_constraintEnd_toEndOf="@+id/cosmeticShopContainerTopTextContainer"
+        app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainerTopTextContainer"
+        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerTopTextContainer" />
+
+    <!--THIS IS WHERE EVERYTHING IN THE SHOP IS CONTAINED -->
+    <ImageView
+        android:id="@+id/imageView20"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
+        app:layout_constraintHeight_percent="0.75"
+        app:layout_constraintWidth_percent="0.85"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+
+    <!--this is where the containers of all the items are -->
+    <ImageView
+        android:id="@+id/cosmeticShopContainerItemContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/imageView20"
+        app:layout_constraintTop_toTopOf="@id/imageView20"
+        app:layout_constraintHeight_percent="0.125"
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginLeft="7.5dp"
+        android:layout_marginTop="7.5dp"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/cosmeticShopContainerItemContainer2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/imageView20"
+        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainer"
+        app:layout_constraintHeight_percent="0.125"
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginLeft="7.5dp"
+        android:layout_marginTop="7.5dp"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+
+    <!--this ones the picture containers -->
+    <ImageView
+        android:id="@+id/cosmeticShopContainerItemContainerItem"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainer"
+        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainer"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.2"
+        android:layout_marginLeft="7.5dp"
+        android:layout_marginTop="7.5dp"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ImageView
+        android:id="@+id/cosmeticShopContainerItemContainerItem2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainer2"
+        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainer2"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.2"
+        android:layout_marginLeft="7.5dp"
+        android:layout_marginTop="7.5dp"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <!--and this is the pictures it contained -->
+    <ImageView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPicture"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerItemContainerItem"
+        app:layout_constraintEnd_toEndOf="@+id/cosmeticShopContainerItemContainerItem"
+        app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainerItemContainerItem"
+        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerItemContainerItem"
+        app:srcCompat="@drawable/placeholderavatar1" />
+
+    <ImageView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPicture2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerItemContainerItem2"
+        app:layout_constraintEnd_toEndOf="@+id/cosmeticShopContainerItemContainerItem2"
+        app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainerItemContainerItem2"
+        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerItemContainerItem2"
+        app:srcCompat="@drawable/placeholderavatar2" />
+
+    <!--and this is the text for the cosmetic name -->
+    <TextView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPictureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Silver Armor"
+        android:textSize="25sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintStart_toEndOf="@id/cosmeticShopContainerItemContainerItem"
+        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainerItem"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7.5dp" />
+
+    <TextView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPictureText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bronze Armor"
+        android:textSize="25sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintStart_toEndOf="@id/cosmeticShopContainerItemContainerItem2"
+        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerItemContainerItem2"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7.5dp" />
+
+    <!--and this is the price cost text -->
+    <TextView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPictureTextCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2 G"
+        android:textSize="25sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainetItemPictureText"
+        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainetItemPictureText"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7.5dp" />
+
+    <TextView
+        android:id="@+id/cosmeticShopContainerItemContainetItemPictureTextCost2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 G"
+        android:textSize="25sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintTop_toBottomOf="@id/cosmeticShopContainerItemContainetItemPictureText2"
+        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerItemContainetItemPictureText2"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7.5dp" />
+
+
+
+    <!--
+    IDK what this was originally for but commenting it out seems to not do anything
+    <LinearLayout
+        android:id="@+id/cosmeticInfoLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@+id/imageView0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView0"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView0"
+        android:layout_marginStart="16dp"/>
+     -->
+
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView20"
+        app:layout_constraintHeight_percent="0.75"
+        app:layout_constraintWidth_percent="0.85"/>
+
+<!--        <GridLayout
+            android:id="@+id/gridLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:columnCount="1"
+            android:rowCount="6"> -->
+
+            <!--                <FrameLayout-->
+            <!--                    android:id="@+id/childIcon"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="108dp"-->
+            <!--                    android:layout_gravity="center"-->
+            <!--                    android:layout_marginBottom="5dp"-->
+            <!--                    android:visibility="visible">-->
+
+            <!--                    <ImageView-->
+            <!--                        android:id="@+id/child_frame"-->
+            <!--                        android:layout_width="316dp"-->
+            <!--                        android:layout_height="94dp"-->
+            <!--                        android:layout_marginStart="27dp"-->
+            <!--                        android:layout_marginTop="5dp"-->
+            <!--                        android:layout_marginEnd="18dp"-->
+            <!--                        android:layout_marginBottom="137dp"-->
+            <!--                        android:visibility="visible"-->
+            <!--                        app:srcCompat="@drawable/button_shadowed" />-->
+
+            <!--                    <ImageView-->
+            <!--                        android:id="@+id/child_frame_avatar"-->
+            <!--                        android:layout_width="108dp"-->
+            <!--                        android:layout_height="107dp"-->
+            <!--                        android:layout_marginStart="11dp"-->
+            <!--                        android:visibility="visible"-->
+            <!--                        app:srcCompat="@drawable/placeholderavatar1_framed_round" />-->
+
+            <!--                    <androidx.appcompat.widget.AppCompatButton-->
+            <!--                        android:id="@+id/stat_view_str"-->
+            <!--                        android:layout_width="90dp"-->
+            <!--                        android:layout_height="30dp"-->
+            <!--                        android:layout_marginTop="64dp"-->
+            <!--                        android:layout_marginBottom="79dp"-->
+            <!--                        android:layout_marginEnd="16dp"-->
+            <!--                        android:layout_marginStart="132dp"-->
+            <!--                        android:background="@drawable/button_shadowed"-->
+            <!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+            <!--                        android:text="STR: 0"-->
+            <!--                        android:textAlignment="center"-->
+            <!--                        android:textColor="#3F3F3F"-->
+            <!--                        android:textSize="18sp"-->
+            <!--                        android:textAllCaps="false"-->
+            <!--                        android:stateListAnimator="@null" />-->
+
+            <!--                    <androidx.appcompat.widget.AppCompatButton-->
+            <!--                        android:id="@+id/stat_view_int"-->
+            <!--                        android:layout_width="90dp"-->
+            <!--                        android:layout_height="30dp"-->
+            <!--                        android:layout_marginTop="32dp"-->
+            <!--                        android:layout_marginBottom="79dp"-->
+            <!--                        android:layout_marginEnd="16dp"-->
+            <!--                        android:layout_marginStart="132dp"-->
+            <!--                        android:background="@drawable/button_shadowed"-->
+            <!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+            <!--                        android:text="INT: 0"-->
+            <!--                        android:textAlignment="center"-->
+            <!--                        android:textColor="#3F3F3F"-->
+            <!--                        android:textSize="18sp"-->
+            <!--                        android:textAllCaps="false"-->
+            <!--                        android:stateListAnimator="@null" />-->
+
+            <!--                    <androidx.appcompat.widget.AppCompatButton-->
+            <!--                        android:id="@+id/child_name"-->
+            <!--                        android:layout_width="180dp"-->
+            <!--                        android:layout_height="30dp"-->
+            <!--                        android:layout_marginTop="1dp"-->
+            <!--                        android:layout_marginBottom="89dp"-->
+            <!--                        android:layout_marginEnd="16dp"-->
+            <!--                        android:layout_marginStart="132dp"-->
+            <!--                        android:background="@drawable/button_shadowed"-->
+            <!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+            <!--                        android:text="Loremm"-->
+            <!--                        android:textAlignment="center"-->
+            <!--                        android:textColor="#3F3F3F"-->
+            <!--                        android:textSize="18sp"-->
+            <!--                        android:textAllCaps="false"-->
+            <!--                        android:stateListAnimator="@null" />-->
+
+            <!--                    <androidx.appcompat.widget.AppCompatButton-->
+            <!--                        android:id="@+id/floor_view"-->
+            <!--                        android:layout_width="90dp"-->
+            <!--                        android:layout_height="30dp"-->
+            <!--                        android:layout_marginTop="64dp"-->
+            <!--                        android:layout_marginBottom="79dp"-->
+            <!--                        android:layout_marginEnd="16dp"-->
+            <!--                        android:layout_marginStart="232dp"-->
+            <!--                        android:background="@drawable/button_shadowed"-->
+            <!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+            <!--                        android:text="Floor: 0"-->
+            <!--                        android:textAlignment="center"-->
+            <!--                        android:textColor="#3F3F3F"-->
+            <!--                        android:textSize="18sp"-->
+            <!--                        android:textAllCaps="false"-->
+            <!--                        android:stateListAnimator="@null" />-->
+
+            <!--                    <androidx.appcompat.widget.AppCompatButton-->
+            <!--                        android:id="@+id/quest_count"-->
+            <!--                        android:layout_width="90dp"-->
+            <!--                        android:layout_height="30dp"-->
+            <!--                        android:layout_marginTop="32dp"-->
+            <!--                        android:layout_marginBottom="79dp"-->
+            <!--                        android:layout_marginEnd="16dp"-->
+            <!--                        android:layout_marginStart="232dp"-->
+            <!--                        android:background="@drawable/button_shadowed"-->
+            <!--                        android:fontFamily="@font/eb_garamond_semibold"-->
+            <!--                        android:text="Quest: 0"-->
+            <!--                        android:textAlignment="center"-->
+            <!--                        android:textColor="#3F3F3F"-->
+            <!--                        android:textSize="18sp"-->
+            <!--                        android:textAllCaps="false"-->
+            <!--                        android:stateListAnimator="@null" />-->
+
+            <!--                </FrameLayout>-->
+    <!--    </GridLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Shop"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainer"
+        app:layout_constraintEnd_toEndOf="@+id/cosmeticShopContainer"
+        app:layout_constraintStart_toStartOf="@+id/cosmeticShopContainer"
+        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainer" />
+
+    <ImageView
+        android:id="@+id/imageView22"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/dropdownNavButton"
+        app:layout_constraintEnd_toEndOf="@+id/dropdownNavButton"
+        app:layout_constraintStart_toStartOf="@+id/dropdownNavButton"
+        app:layout_constraintTop_toTopOf="@+id/dropdownNavButton"
+        app:srcCompat="@drawable/dropdown" /> -->
+
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/imageButton3"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:background="@null"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/addChildButton"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/addChildButton"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/addChildButton"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/addChildButton"-->
+    <!--        app:srcCompat="@null" />-->
+
+    <!--
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="355dp"
+        android:layout_height="755dp"
+        android:layout_marginTop="121dp"
+        android:layout_marginBottom="5dp"
+        android:fillViewport="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/cosmeticShopContainer">
+
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:columnCount="1"
+            android:rowCount="6">
+
+            <LinearLayout
+                android:id="@+id/group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="355dp"
+                    android:layout_height="84dp">
+
+                    <ImageView
+                        android:id="@+id/quest_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.5"
+                        android:visibility="visible"
+                        app:srcCompat="@drawable/rectangle_rounded" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </GridLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/dropdownGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="navFrame,navQuestPage,navManageAdv,navLogOut" />
+
+    <ImageView
+        android:id="@+id/navFrame"
+        android:layout_width="173dp"
+        android:layout_height="295dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="190dp"
+        android:layout_marginBottom="464dp"
+        android:alpha="0.7"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/dropdownNavButton"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/navQuestPage"
+        android:layout_width="161dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="205dp"
+        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
+        app:layout_constraintEnd_toEndOf="@+id/navFrame"
+        app:layout_constraintStart_toStartOf="@+id/navFrame"
+        app:layout_constraintTop_toTopOf="@+id/navFrame"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:gravity="center"
+        android:visibility="visible"
+        android:text="Quest Board"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/navManageAdv"
+        android:layout_width="161dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginBottom="125dp"
+        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
+        app:layout_constraintEnd_toEndOf="@+id/navFrame"
+        app:layout_constraintStart_toStartOf="@+id/navFrame"
+        app:layout_constraintTop_toTopOf="@+id/navFrame"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:gravity="center"
+        android:visibility="visible"
+        android:text="Manage\nAdventurers"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/navLogOut"
+        android:layout_width="161dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="186dp"
+        android:layout_marginBottom="46dp"
+        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
+        app:layout_constraintEnd_toEndOf="@+id/navFrame"
+        app:layout_constraintStart_toStartOf="@+id/navFrame"
+        app:layout_constraintTop_toTopOf="@+id/navFrame"
+        android:background="@drawable/button_shadowed_nostroke_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:gravity="center"
+        android:visibility="visible"
+        android:text="Log Out"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="20sp" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/pop_up_tavern_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="pop_up_frame,copy_button,exit_button,notice_text,notice_shadow_overlay,code_text" />
+
+    <ImageView
+        android:id="@+id/notice_shadow_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/shadow_overlay" />
+
+    <ImageView
+        android:id="@+id/pop_up_frame"
+        android:layout_width="296dp"
+        android:layout_height="223dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="189dp"
+        android:layout_marginEnd="58dp"
+        android:layout_marginBottom="500dp"
+        android:alpha="1"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <TextView
+        android:id="@+id/notice_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="101dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="95dp"
+        android:layout_marginBottom="171dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Notice!"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
+        app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
+        app:layout_constraintStart_toStartOf="@+id/pop_up_frame"
+        app:layout_constraintTop_toTopOf="@+id/pop_up_frame" />
+
+    <TextView
+        android:id="@+id/code_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="87dp"
+        android:layout_marginBottom="88dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Tavern Code:"
+        android:textAlignment="center"
+        android:textColor="#3F3F3F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
+        app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
+        app:layout_constraintStart_toStartOf="@+id/pop_up_frame"
+        app:layout_constraintTop_toTopOf="@+id/pop_up_frame" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/copy_button"
+        android:layout_width="109dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="154dp"
+        android:layout_marginEnd="175dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_shadowed_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:text="Copy"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
+        app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
+        app:layout_constraintStart_toStartOf="@+id/pop_up_frame"
+        app:layout_constraintTop_toTopOf="@+id/pop_up_frame"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/exit_button"
+        android:layout_width="109dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="175dp"
+        android:layout_marginTop="154dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_shadowed_states"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:stateListAnimator="@null"
+        android:text="Exit"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#3F3F3F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
+        app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
+        app:layout_constraintStart_toStartOf="@+id/pop_up_frame"
+        app:layout_constraintTop_toTopOf="@+id/pop_up_frame"
+        app:srcCompat="@drawable/rectangle_rounded" />
+        -->
+</androidx.constraintlayout.widget.ConstraintLayout>

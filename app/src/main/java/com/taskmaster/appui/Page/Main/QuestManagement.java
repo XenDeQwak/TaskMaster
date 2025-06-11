@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page;
+package com.taskmaster.appui.Page.Main;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
@@ -13,7 +13,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -46,6 +45,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.taskmaster.appui.FirebaseHandler.AuthHandler;
+import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
+import com.taskmaster.appui.Page.Login.Splash;
+import com.taskmaster.appui.Page.ManageChild;
+import com.taskmaster.appui.Services.DropdownService;
+import com.taskmaster.appui.Services.GenericCallback;
+import com.taskmaster.appui.Services.NavUtil;
+import com.taskmaster.appui.Page.ProgressionPage;
+import com.taskmaster.appui.Page.WeeklyBoss;
 import com.taskmaster.appui.R;
 
 import java.util.ArrayList;
@@ -55,6 +63,7 @@ import java.util.Map;
 
 public class QuestManagement extends AppCompatActivity {
 
+    public User user;
     private long lastClickTime = 0;
     private static final long DOUBLE_CLICK_TIME_DELTA = 300;
     private FirebaseAuth auth;
@@ -64,18 +73,18 @@ public class QuestManagement extends AppCompatActivity {
     String storedUsername;
     String userId;
     ImageButton imagebutton1, imagebutton3, imagebutton4, imagebutton5, openQuestButton, rewardsStrButton, rewardsIntButton, assignAdvButton1, assignAdvButton2;
-    AppCompatButton addQuestButton, dropdownNavButton, navQuestPage, navManageAdv, navLogOut, assignAdv, assignPrevBtn, assignNextBtn, setRewardsButton, viewRewardsDropdownButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, viewRewardsExitButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton, assignDropdownButton, assignCancelButton, assignConfirmButton;
+    AppCompatButton addQuestButton,assignAdv, assignPrevBtn, assignNextBtn, setRewardsButton, viewRewardsDropdownButton, assignQuestButton, cancelQuestEditButton, saveQuestEditButton, rewardsDropdownButton, rewardsCancelButton, rewardsConfirmButton, viewRewardsButton, viewRewardsExitButton, cancelQuestViewButton, finishQuestViewButton, childBarName, childBarFloorCount, childBarStatsButton, cancelQuestViewButtonC,finishQuestViewButtonC, cancelQuestViewButtonP,approveQuestViewButtonP,rejectQuestViewButtonP, viewNotifOkayButton, assignDropdownButton, assignCancelButton, assignConfirmButton;
     ImageView questFrame, questNameFrame, questImage, questImageIcon, imageView23, imageView18, assignDropdownFrame, popupAssignFrame, editQuestImageIcon, viewQuestImageIcon, imageView19, basePageFrame, popupRewardsFrameShadow, popupRewardsFrame, rewardsDropdownFrame, viewQuestFrame, viewQuestImage, viewDifficultyBG, childBarFrame, childBarAvatar;
     TextView questNameText, rewardsStr, rewardsInt, textView8, viewNotifTextMsg, textView5, basePageTitle;
     EditText editQuestTime, editQuestName, editQuestDesc, viewQuestName, viewQuestTime, viewQuestDesc, viewRewardsOptionalText;
     ScrollView scrollView;
-    Group dropDownGroup, editQuestGroup, popupRewardsGroup, viewQuestGroup, childBarGroup, viewQuestGroupButtonC, viewQuestGroupButtonP, popupViewRewardsGroup, popupViewNotif, popupAssignGroup;
+    Group editQuestGroup, popupRewardsGroup, viewQuestGroup, childBarGroup, viewQuestGroupButtonC, viewQuestGroupButtonP, popupViewRewardsGroup, popupViewNotif, popupAssignGroup;
     GridLayout gridLayout;
     LinearLayout newGroup;
     ConstraintLayout newQuest;
     ConstraintSet constraintSet;
     RatingBar setDifficultyRating, viewDifficultyRating;
-    String role;
+    public String role;
     String questName, questDescription, time, rewardStat, rewardOptional;
     int difficulty;
     DocumentReference questRef;
@@ -123,106 +132,23 @@ public class QuestManagement extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        role = prefs.getString("role", "");
-
-        FirebaseUser user = auth.getCurrentUser();
-        userId = user.getUid();
-
-        db.collection("users").document(userId).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            String code = document.getString("code");
-                            db.collection("users").whereEqualTo("parentCode", code).get()
-                                    .addOnCompleteListener(tasks -> {
-                                        if (tasks.isSuccessful()) {
-                                            childIds = new ArrayList<>();
-                                            for (QueryDocumentSnapshot documentSnapshot : tasks.getResult()) {
-                                                String childId = documentSnapshot.getId();
-                                                childIds.add(childId);
-                                            }
-                                        }
-                                    });
-                        } else {
-                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
-                        }
-                    }
-                });
-
-        //child data init
-        if ("child".equals(role)) {
-            db.collection("users").document(userId).get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot childDocument = task.getResult();
-                            if (childDocument.exists()) {
-                                String childToParentCode = childDocument.getString("parentCode");
-                                childFetchQuest(childToParentCode, userId);
-                                db.collection("users").whereEqualTo("code", childToParentCode).get()
-                                        .addOnCompleteListener(tasks -> {
-                                           if (task.isSuccessful()) {
-                                                   for (QueryDocumentSnapshot document : tasks.getResult()) {
-                                                   username = document.getString("username");
-                                                   storedUsername = username;
-                                               }
-                                           }
-                                        });
-                                childAvatar = childDocument.getLong("childAvatar").intValue();
-                                addQuestButton.setVisibility(View.GONE);
-                                childBarGroup.setVisibility(View.VISIBLE);
-                                childBarName.setText(childDocument.getString("username"));
-                                childBarFloorCount.setText("Floor: " + childDocument.getLong("floor").intValue());
-
-                                List<Integer> avatarImages = new ArrayList<>();
-                                avatarImages.add(R.drawable.placeholderavatar5_framed_round);
-                                avatarImages.add(R.drawable.placeholderavatar1_framed_round);
-                                avatarImages.add(R.drawable.placeholderavatar2_framed_round);
-                                avatarImages.add(R.drawable.placeholderavatar3_framed_round);
-                                avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-
-                                childBarAvatar.setImageResource(avatarImages.get(childAvatar));
-                            } else {
-                                Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
-                            }
-                        } else {
-                            Log.d("DEBUG", "Error getting parent document", task.getException());
-                        }
-                    });
-
-        } else {
-            //parent data init
-            db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        username = document.getString("username");
-                        parentCode = document.getString("code");
-                        if (document.exists()) {
-                            fetchQuests(parentCode);
-                            DocumentReference docRef = db.collection("quest").document(username + "Quest" + questId);
-                            docRef.get().addOnCompleteListener(tasks -> {
-                                if (tasks.isSuccessful()) {
-                                    DocumentSnapshot documents = tasks.getResult();
-                                    if (documents.exists()) {
-                                        childBarGroup.setVisibility(View.GONE);
-                                        Boolean parentVerif = documents.getBoolean("forVerif");
-                                        if (Boolean.TRUE.equals(parentVerif)) {
-                                            Log.d("RECEIVED", "Child verification received");
-                                        }
-                                    } else {
-                                        Log.d("TAG", "DOCUMENT NOT EXIST");
-                                    }
-                                }
-                            });
-                        }
-                    }
+        // Init user object
+        user = new User(FirebaseAuth.getInstance().getCurrentUser());
+        FirestoreHandler.getUserInformation(user.userAuth.getUid(), new GenericCallback<DocumentSnapshot>() {
+            @Override
+            public void onCallback(DocumentSnapshot documentSnapshot) {
+                if ("child".equals(documentSnapshot.get("Role"))) {
+                    //child data init
+                    childInit();
+                } else {
+                    //parent data init
+                    parentInit();
                 }
-            });
-        }
+            }
+        });
 
-        hideSystemBars();
+
+        NavUtil.hideSystemBars(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -231,16 +157,12 @@ public class QuestManagement extends AppCompatActivity {
         });
 
         // hooks
-        dropdownNavButton = findViewById(R.id.dropdownNavButton);
-        addQuestButton = findViewById(R.id.addQuestButton);
-        navQuestPage = findViewById(R.id.navQuestPage);
-        navManageAdv = findViewById(R.id.navManageAdv);
-        navLogOut = findViewById(R.id.navLogOut);
 
-        dropDownGroup = findViewById(R.id.dropdownGroup);
+        addQuestButton = findViewById(R.id.addQuestButton);
         gridLayout = findViewById(R.id.gridLayout);
         rootLayout = findViewById(R.id.main);
         scrollView = findViewById(R.id.scrollView1);
+        DropdownService.dropdownSetup(this,rootLayout);
 
         editQuestTime = findViewById(R.id.editQuestTime);
         editQuestName = findViewById(R.id.editQuestName);
@@ -321,10 +243,6 @@ public class QuestManagement extends AppCompatActivity {
         assignNextBtn = findViewById(R.id.assignNextBtn);
         viewRewardsDropdownButton = findViewById(R.id.viewRewardsDropdownButton);
 
-        // exclude elems within dropdown
-        View[] dropDownElements = {
-                findViewById(R.id.navFrame)
-        };
 
         // hide from child
         if ("child".equals(role)) {
@@ -335,7 +253,7 @@ public class QuestManagement extends AppCompatActivity {
             basePageFrame.setVisibility(View.VISIBLE);
             basePageTitle.setVisibility(View.VISIBLE);
             imageView23.setVisibility(View.GONE);
-            navManageAdv.setText("Weekly Boss");
+//            navManageAdv.setText("Weekly Boss");
         } else if ("parent".equals(role)) {
             childBarGroup.setVisibility(View.GONE);
             basePageFrame.setVisibility(View.GONE);
@@ -354,22 +272,6 @@ public class QuestManagement extends AppCompatActivity {
 
         // remove scrollview visibility initially, keep this cause dropdown exit doesn't function as intended
         scrollView.setVisibility(View.GONE);
-
-        // hide dropdown group
-        dropDownGroup.setVisibility(View.GONE);
-
-        // view dropdown group
-        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dropDownGroup.getVisibility() == View.VISIBLE) {
-                    dropDownGroup.setVisibility(View.GONE);
-                } else {
-                    dropDownGroup.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
         assignNextBtn.setOnClickListener(e -> {
             currentIndex++;
             if (currentIndex >= childIds.size())
@@ -427,40 +329,6 @@ public class QuestManagement extends AppCompatActivity {
                     popupViewNotif.setVisibility(View.VISIBLE);
                 }
 
-            }
-        });
-
-        navQuestPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(QuestManagement.this, "ur here", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        navManageAdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // change dropdown specific for child
-                if ("child".equals(role)) {
-                    Toast.makeText(QuestManagement.this, "Move", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(QuestManagement.this, WeeklyBoss.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(QuestManagement.this, "Move", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(QuestManagement.this, ManageChild.class);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        navLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(QuestManagement.this, "Log Out", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(QuestManagement.this, Splash.class);
-                questData.clear();
-                auth.signOut();
-                startActivity(intent);
             }
         });
 
@@ -618,27 +486,6 @@ public class QuestManagement extends AppCompatActivity {
                 Toast.makeText(QuestManagement.this, "stats", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(QuestManagement.this, ProgressionPage.class);
                 startActivity(intent);
-            }
-        });
-
-        // exit dropdown
-        rootLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (dropDownGroup.getVisibility() == View.VISIBLE && event.getAction() == MotionEvent.ACTION_DOWN) {
-                    boolean isInsideDropdown = false;
-                    for (View element : dropDownElements) {
-                        if (isViewTouched(element, event)) {
-                            isInsideDropdown = true;
-                            break;
-                        }
-                    }
-                    if (!isInsideDropdown) {
-                        dropDownGroup.setVisibility(View.GONE);
-                        return true;
-                    }
-                }
-                return false;
             }
         });
 
@@ -1104,44 +951,43 @@ public class QuestManagement extends AppCompatActivity {
 
         int currentQuestId = questId; // Save unique ID to avoid issues with references
         openQuestButton.setTag(currentQuestId);
+
+        //Removed if navgroup==gone here, if it breaks ill put it back -cent
         openQuestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Handle button click for the correct questId
-                if (dropDownGroup.getVisibility() == View.GONE) {
+                int clickedQuestId = (int) v.getTag();
+                lastClickedQuestId = clickedQuestId;
+                populateQuestEditor(clickedQuestId);
 
-                    int clickedQuestId = (int) v.getTag();
-                    lastClickedQuestId = clickedQuestId;
-                    populateQuestEditor(clickedQuestId);
+                long clickTime = System.currentTimeMillis();
+                boolean isDoubleClick = (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA);
+                lastClickTime = clickTime;
 
-                    long clickTime = System.currentTimeMillis();
-                    boolean isDoubleClick = (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA);
-                    lastClickTime = clickTime;
-
-                    if (isDoubleClick) {
+                if (isDoubleClick) {
 //                        if ("parent".equals(role)) {
 //                            Toast.makeText(QuestManagement.this, "Parent View Quest " + clickedQuestId, Toast.LENGTH_SHORT).show();
 //                            viewQuestGroup.setVisibility(View.VISIBLE);
 //                            viewQuestGroupButtonP.setVisibility(View.VISIBLE);
 //                        }
-                    } else {
-                        if ("child".equals(role)) {
+                } else {
+                    if ("child".equals(role)) {
+                        viewQuestGroup.setVisibility(View.VISIBLE);
+                        viewQuestGroupButtonC.setVisibility(View.VISIBLE);
+                    } else if ("parent".equals(role)) {
+                        if (forVerif) {
                             viewQuestGroup.setVisibility(View.VISIBLE);
-                            viewQuestGroupButtonC.setVisibility(View.VISIBLE);
-                        } else if ("parent".equals(role)) {
-                            if (forVerif) {
-                                viewQuestGroup.setVisibility(View.VISIBLE);
-                                viewQuestGroupButtonP.setVisibility(View.VISIBLE);
-                            } else {
-                                editQuestGroup.setVisibility(View.VISIBLE);
-                            }
+                            viewQuestGroupButtonP.setVisibility(View.VISIBLE);
+                        } else {
+                            editQuestGroup.setVisibility(View.VISIBLE);
                         }
+
                     }
                 }
             }
         });
         newQuest.addView(openQuestButton);
-
 
         // add views to ConstraintLayout
         newQuest.addView(questFrame);
@@ -1201,6 +1047,76 @@ public class QuestManagement extends AppCompatActivity {
         groupCount++;
         questId++;
         updateScrollViewVisibility();
+    }
+
+    private void childInit () {
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot childDocument = task.getResult();
+                        if (childDocument.exists()) {
+                            String childToParentCode = childDocument.getString("parentCode");
+                            childFetchQuest(childToParentCode, userId);
+                            db.collection("users").whereEqualTo("code", childToParentCode).get()
+                                    .addOnCompleteListener(tasks -> {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : tasks.getResult()) {
+                                                username = document.getString("username");
+                                                storedUsername = username;
+                                            }
+                                        }
+                                    });
+                            childAvatar = childDocument.getLong("childAvatar").intValue();
+                            addQuestButton.setVisibility(View.GONE);
+                            childBarGroup.setVisibility(View.VISIBLE);
+                            childBarName.setText(childDocument.getString("username"));
+                            childBarFloorCount.setText("Floor: " + childDocument.getLong("floor").intValue());
+
+                            List<Integer> avatarImages = new ArrayList<>();
+                            avatarImages.add(R.drawable.placeholderavatar5_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar1_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar2_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar3_framed_round);
+                            avatarImages.add(R.drawable.placeholderavatar4_framed_round);
+
+                            childBarAvatar.setImageResource(avatarImages.get(childAvatar));
+                        } else {
+                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
+                        }
+                    } else {
+                        Log.d("DEBUG", "Error getting parent document", task.getException());
+                    }
+                });
+    }
+
+    private void parentInit () {
+        db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    username = document.getString("username");
+                    parentCode = document.getString("code");
+                    if (document.exists()) {
+                        fetchQuests(parentCode);
+                        DocumentReference docRef = db.collection("quest").document(username + "Quest" + questId);
+                        docRef.get().addOnCompleteListener(tasks -> {
+                            if (tasks.isSuccessful()) {
+                                DocumentSnapshot documents = tasks.getResult();
+                                if (documents.exists()) {
+                                    childBarGroup.setVisibility(View.GONE);
+                                    Boolean parentVerif = documents.getBoolean("forVerif");
+                                    if (Boolean.TRUE.equals(parentVerif)) {
+                                        Log.d("RECEIVED", "Child verification received");
+                                    }
+                                } else {
+                                    Log.d("TAG", "DOCUMENT NOT EXIST");
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
     private void populateQuestEditor(int questId) {
@@ -1519,17 +1435,6 @@ public class QuestManagement extends AppCompatActivity {
         return null; // Return null if quest not found
     }
 
-    // exclude elems within dropdown
-    private boolean isViewTouched(View view, MotionEvent event) {
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-        int x = location[0];
-        int y = location[1];
-
-        return event.getRawX() >= x && event.getRawX() <= x + view.getWidth()
-                && event.getRawY() >= y && event.getRawY() <= y + view.getHeight();
-    }
-
     // to update scroll view visibility
     private void updateScrollViewVisibility() {
         if (groupCount >= 1) {
@@ -1539,16 +1444,5 @@ public class QuestManagement extends AppCompatActivity {
         }
     }
 
-    private void hideSystemBars() {
-        // hide status bar
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // hide the nav bar
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
+
 }

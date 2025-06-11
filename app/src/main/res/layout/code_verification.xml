@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Page.CodeVerification">
+    tools:context=".Page.Login.CodeVerification">
 
     <ImageView
         android:id="@+id/imageView3"
@@ -143,7 +143,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/userBox"
+        android:id="@+id/emailBox"
         android:layout_width="255dp"
         android:layout_height="55dp"
         android:layout_marginTop="98dp"

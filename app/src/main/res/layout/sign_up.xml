@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Page.SignUp">
+    tools:context=".Page.Login.SignUp">
 
     <ImageView
         android:id="@+id/imageView6"
@@ -97,7 +97,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView10" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/usernameSignUpBox"
         android:layout_width="252dp"
         android:layout_height="33dp"
         android:layout_marginTop="118dp"
@@ -114,10 +114,10 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/emailSignUpBox"
         android:layout_width="252dp"
         android:layout_height="33dp"
         android:layout_marginTop="162dp"
@@ -134,10 +134,10 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameSignUpBox" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress3"
+        android:id="@+id/passwordSignUpBox"
         android:layout_width="252dp"
         android:layout_height="33dp"
         android:layout_marginTop="212dp"
@@ -154,10 +154,10 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/emailSignUpBox" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress4"
+        android:id="@+id/firstnameSignUpBox"
         android:layout_width="252dp"
         android:layout_height="33dp"
         android:layout_marginTop="259dp"
@@ -174,10 +174,10 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress5"
+        android:id="@+id/lastnameSignUpBox"
         android:layout_width="252dp"
         android:layout_height="33dp"
         android:layout_marginTop="306dp"
@@ -194,13 +194,14 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/firstnameSignUpBox" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/confirmButton2"
         android:layout_width="252dp"
         android:layout_height="55dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="390dp"
+        android:layout_marginBottom="33dp"
         android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
