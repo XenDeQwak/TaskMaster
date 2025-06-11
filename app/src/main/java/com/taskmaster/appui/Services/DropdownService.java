@@ -39,19 +39,15 @@ public class DropdownService {
 
         dropDownGroup.setVisibility(View.GONE);
 
-        User user = new User(FirebaseAuth.getInstance().getCurrentUser());
-        FirestoreHandler.getUserInformation(user.getUserAuth().getUid(), new GenericCallback<DocumentSnapshot>() {
-            @Override
-            public void onCallback(DocumentSnapshot documentSnapshot) {
-                if ("parent".equals(documentSnapshot.get("Role"))) {
-                    NavUtil.setNavigation(activity, navManageAdv, ManageChild.class);
-                    navManageAdv.setText("Manage Adventurers");
-                } else {
-                    NavUtil.setNavigation(activity, navManageAdv, WeeklyBoss.class);
-                    navManageAdv.setText("Weekly Boss");
-                }
-            }
-        });
+        User user = User.getInstance();
+
+        if ("parent".equals(user.getDocumentSnapshot().get("Role"))) {
+            NavUtil.setNavigation(activity, navManageAdv, ManageChild.class);
+            navManageAdv.setText("Manage Adventurers");
+        } else {
+            NavUtil.setNavigation(activity, navManageAdv, WeeklyBoss.class);
+            navManageAdv.setText("Weekly Boss");
+        }
 
         //Btn Fx
         dropdownNavButton.setOnClickListener(v -> {

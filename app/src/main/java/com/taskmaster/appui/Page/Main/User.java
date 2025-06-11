@@ -1,7 +1,6 @@
 package com.taskmaster.appui.Page.Main;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
 import com.taskmaster.appui.Services.GenericCallback;
@@ -10,18 +9,34 @@ public class User {
 
     FirebaseUser userAuth;
     DocumentSnapshot userDocumentSnapshot;
+    private static User instance;
 
-    public User (FirebaseUser userAuth) {
+    public static User getInstance() {
+        if (instance == null) {
+            instance = new User();
+        }
+        return instance;
+    }
+
+    private User(){} //Singleton
+
+    public void setUser(FirebaseUser userAuth){
         this.userAuth = userAuth;
     }
 
     public FirebaseUser getUserAuth () {
         return userAuth;
     }
-    public DocumentSnapshot getUserDocumentSnapshot () {
+    public void setUserAuth(FirebaseUser userAuth){
+        this.userAuth = userAuth;
+    }
+    public DocumentSnapshot getDocumentSnapshot () {
         return userDocumentSnapshot;
     }
-    public void setUserDocumentSnapshot(){
-        FirestoreHandler.getUserInformation(userAuth.getUid(), documentSnapshot -> userDocumentSnapshot=documentSnapshot);
+    public void loadDocumentSnapshot(GenericCallback<Void> callback){
+        FirestoreHandler.getUserInformation(userAuth.getUid(), documentSnapshot -> {
+            userDocumentSnapshot=documentSnapshot;
+            callback.onCallback(null);
+        });
     }
 }

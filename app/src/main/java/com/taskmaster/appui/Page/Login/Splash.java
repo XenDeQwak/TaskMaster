@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.Page.Main.QuestManagement;
+import com.taskmaster.appui.Page.Main.User;
 import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.R;
 
@@ -23,7 +24,7 @@ public class Splash extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.splash);
@@ -45,9 +46,14 @@ public class Splash extends AppCompatActivity {
         logo.setAnimation(pop_out_Anim);
         logo_shadow.setAnimation(pop_out_Anim);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         new Handler().postDelayed(() -> {
             if(user!=null){
-                NavUtil.instantNavigation(Splash.this,QuestManagement.class);
+                User newUser = User.getInstance();
+                newUser.setUser(user);
+                newUser.loadDocumentSnapshot(documentSnapshot -> {
+                    NavUtil.instantNavigation(Splash.this,QuestManagement.class);
+                });
             }
             else{
                 NavUtil.instantNavigation(Splash.this,UserLogin.class);
