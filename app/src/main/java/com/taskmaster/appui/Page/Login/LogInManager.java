@@ -42,7 +42,11 @@ public class LogInManager {
             AuthHandler.signInUser(credential, IsSignInSuccess -> {
                 if (IsSignInSuccess) {
                     Toast.makeText(origin, "Login successful", Toast.LENGTH_SHORT).show();
-                    NavUtil.instantNavigation(origin, destination);
+                    User newUser = User.getInstance();
+                    newUser.setUser(FirebaseAuth.getInstance().getCurrentUser());
+                    newUser.loadDocumentSnapshot(documentSnapshot -> {
+                        NavUtil.instantNavigation(origin, destination);
+                    });
                 } else {
                     Toast.makeText(origin, "Login failed", Toast.LENGTH_SHORT).show();
                 }

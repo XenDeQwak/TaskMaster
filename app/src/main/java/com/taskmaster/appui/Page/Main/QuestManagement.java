@@ -114,7 +114,6 @@ public class QuestManagement extends AppCompatActivity {
         user = User.getInstance();
         role = user.getDocumentSnapshot().get("Role").toString();
 
-
         NavUtil.hideSystemBars(this);
 
         // hooks
