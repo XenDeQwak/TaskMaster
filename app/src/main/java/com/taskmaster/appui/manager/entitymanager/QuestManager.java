@@ -41,6 +41,7 @@ public class QuestManager {
         Quest q = new Quest();
         q.setName((String) questData.get("Name"));
         q.setDescription((String) questData.get("Description"));
+        q.setStartDate((Date) questData.get("StartDate"));
         q.setDeadlineDate((Date) questData.get("DeadlineDate"));
         q.setRewardStat((Stats) questData.get("RewardStat"));
         q.setCreatorReference((DocumentReference) questData.get("CreatorReference"));
@@ -53,6 +54,7 @@ public class QuestManager {
         HashMap<String, Object> qd = new HashMap<>();
         qd.put("Name", quest.getName());
         qd.put("Description", quest.getDescription());
+        qd.put("StartDate", quest.getStartDate());
         qd.put("DeadlineDate", quest.getDeadlineDate());
         qd.put("RewardStat", quest.getRewardStat());
         qd.put("CreatorReference", quest.getCreatorReference());

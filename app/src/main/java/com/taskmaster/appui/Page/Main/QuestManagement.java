@@ -70,6 +70,7 @@ public class QuestManagement extends AppCompatActivity {
     ConstraintSet constraintSet;
     RatingBar setDifficultyRating, viewDifficultyRating;
     DocumentReference questRef;
+
     //quest count
     int groupCount = 0;
     int questId = 1;
@@ -96,6 +97,7 @@ public class QuestManagement extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.quest_management);
@@ -218,55 +220,8 @@ public class QuestManagement extends AppCompatActivity {
             System.out.println("error");
         }
 
-        assignPrevBtn.setOnClickListener(e -> {
-            currentIndex--;
-            if (currentIndex < 0)
-                currentIndex = childIds.size() - 1;
-            saveQuestToChild(childIds.get(currentIndex));
-        });
+        addQuestButton.setOnClickListener(v -> {
 
-        addQuestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!childIds.isEmpty()) {
-                    if (groupCount >= 4) { // limit quests
-                        Toast.makeText(QuestManagement.this, "Max quests reached!", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    db.collection("users").whereEqualTo("uid", userId).get().addOnCompleteListener(
-                            new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            parentCode = document.getString("code");
-                                            username = document.getString("username");
-                                            questInfo = db.collection("quest");
-                                            questData.put("name", "");
-                                            questData.put("description", "");
-                                            questData.put("difficulty", 0);
-                                            questData.put("time", "");
-                                            questData.put("questTime", "");
-                                            questData.put("rewardStat", "");
-                                            questData.put("forVerif", false);
-                                            questData.put("childId", "");
-                                            questData.put("rewardOptional", "");
-                                            questData.put("roomCode", parentCode);
-                                            questData.put("questId", questId);
-                                            questInfo.document(username + "Quest" + questId).set(questData);
-                                            createQuest("", "", 0, "", "", "", false);
-
-                                        }
-                                    }
-                                }
-
-                            });
-                } else {
-                    viewNotifTextMsg.setText("You cannot make quests\nwithout your adventurers.");
-                    popupViewNotif.setVisibility(View.VISIBLE);
-                }
-
-            }
         });
 
         // cancel quest view child
@@ -276,153 +231,6 @@ public class QuestManagement extends AppCompatActivity {
                 viewQuestGroup.setVisibility(View.GONE);
                 viewQuestGroupButtonC.setVisibility(View.GONE);
                 recreate();
-            }
-        });
-
-        // quest finish
-        finishQuestViewButtonC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // if quest status pending false
-                viewQuestGroup.setVisibility(View.GONE);
-                viewQuestGroupButtonC.setVisibility(View.GONE);
-                // quest status pending true
-                DocumentReference docRef = db.collection("quest").document(storedUsername + "Quest" + (lastClickedQuestId));
-                docRef.update("forVerif", true);
-                docRef.get().addOnCompleteListener(tasks -> {
-                    if (tasks.isSuccessful()) {
-                        DocumentSnapshot document = tasks.getResult();
-                        if (document.exists()) {
-                            Boolean parentVerif = document.getBoolean("forVerif");
-                            if (Boolean.TRUE.equals(parentVerif)) {
-                                viewNotifTextMsg.setText("Quest status: Pending\nPlease wait\nfor confirmation!");
-                                popupViewNotif.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    }
-                });
-            }
-        });
-
-        // exit quest view parent
-        cancelQuestViewButtonP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewQuestGroup.setVisibility(View.GONE);
-                viewQuestGroupButtonP.setVisibility(View.GONE);
-                Toast.makeText(QuestManagement.this, "exit", Toast.LENGTH_SHORT).show();
-                recreate();
-            }
-        });
-
-        // quest view reject parent
-        rejectQuestViewButtonP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                db.collection("quest").document(username + "Quest" + lastClickedQuestId).get()
-                                .addOnCompleteListener(task -> {
-                                   if (task.isSuccessful()) {
-                                       DocumentSnapshot document = task.getResult();
-                                       if (document.exists()) {
-                                           DocumentReference questRef = db.collection("quest").document(username + "Quest" + lastClickedQuestId);
-                                           questRef.update("forVerif", false);
-                                           viewNotifTextMsg.setText("You have rejected the \nquest approval");
-                                           popupViewNotif.setVisibility(View.VISIBLE);
-                                       }
-                                   }
-                                });
-            }
-        });
-
-        // quest view approval parent
-        approveQuestViewButtonP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // if quest status pending
-                viewQuestGroup.setVisibility(View.GONE);
-                viewQuestGroupButtonP.setVisibility(View.GONE);
-
-                db.collection("quest").document(username + "Quest" + (lastClickedQuestId)).get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    Boolean isVerifTrue = document.getBoolean("forVerif");
-                                    String childID = document.getString("childId");
-                                    if (Boolean.TRUE.equals(isVerifTrue)) {
-                                        db.collection("users").document(childID).get()
-                                                .addOnCompleteListener(tasks -> {
-                                                    if (tasks.isSuccessful()) {
-                                                        DocumentSnapshot childDocument = tasks.getResult();
-                                                        if (childDocument.exists()) {
-                                                            DocumentReference childRef = db.collection("users").document(childID);
-                                                            if ("strength".equals(rewardType)) {
-                                                                childRef.update("childStr", childDocument.getLong("childStr").intValue() + questDifficulty);
-                                                            } else {
-                                                                childRef.update("childInt", childDocument.getLong("childInt").intValue() + questDifficulty);
-                                                            }
-                                                            childRef.update("questCount", childDocument.getLong("questCount").intValue() + 1);
-                                                        }
-                                                    }
-                                                });
-                                        questDifficulty = document.getLong("difficulty").intValue();
-                                        rewardType = document.getString("rewardStat");
-                                        db.collection("quest").document(username + "Quest" + (lastClickedQuestId))
-                                                .delete()
-                                                .addOnSuccessListener(success -> {
-                                                    Log.d("TAG", "Deletion success");
-                                                })
-                                                .addOnFailureListener(fail -> {
-                                                    Log.d("TAG", "Can't delete");
-                                                });
-                                    } else {
-                                        viewNotifTextMsg.setText("Quest status: In Progress\nPlease wait\nuntil finished!");
-                                        popupViewNotif.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            }
-                        });
-                // grant stat reward
-                // increase quest finished count
-                // del quest
-
-                // else
-                // show pop up "This quest is in progress"
-                recreate();
-            }
-        });
-
-        viewNotifOkayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupViewNotif.setVisibility(View.GONE);
-                Toast.makeText(QuestManagement.this, "exit", Toast.LENGTH_SHORT).show();
-                recreate();
-            }
-        });
-
-        // view reward
-        viewRewardsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupViewRewardsGroup.setVisibility(View.VISIBLE);
-//                viewRewardsDropdownButton.setText(rewardStat);
-            }
-        });
-
-        viewRewardsExitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupViewRewardsGroup.setVisibility(View.GONE);
-            }
-        });
-
-        childBarStatsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(QuestManagement.this, "stats", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(QuestManagement.this, ProgressionPage.class);
-                startActivity(intent);
             }
         });
 

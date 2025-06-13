@@ -11,6 +11,8 @@ public class Quest {
 
     private String name, description;
     @ServerTimestamp
+    private Date startDate;
+    @ServerTimestamp
     private Date deadlineDate;
     private Stats rewardStat;
     private DocumentReference creatorReference;
@@ -30,6 +32,14 @@ public class Quest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getDeadlineDate() {
