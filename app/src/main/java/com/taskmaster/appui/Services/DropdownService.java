@@ -8,8 +8,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
 import com.taskmaster.appui.Page.Main.QuestManagement;
 import com.taskmaster.appui.Page.Login.Splash;
 import com.taskmaster.appui.Page.Main.User;

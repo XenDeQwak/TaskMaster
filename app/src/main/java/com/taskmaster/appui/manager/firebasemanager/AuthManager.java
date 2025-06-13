@@ -1,4 +1,4 @@
-package com.taskmaster.appui.FirebaseHandler;
+package com.taskmaster.appui.manager.firebasemanager;
 
 import android.util.Log;
 
@@ -12,10 +12,9 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.taskmaster.appui.Page.Main.User;
 import com.taskmaster.appui.Services.GenericCallback;
 
-public class AuthHandler {
+public class AuthManager {
 
     private static FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private static FirebaseAuth auth = FirebaseAuth.getInstance();

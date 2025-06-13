@@ -1,4 +1,4 @@
-package com.taskmaster.appui.FirebaseHandler;
+package com.taskmaster.appui.manager.firebasemanager;
 
 import android.util.Log;
 
@@ -14,10 +14,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.Services.GenericCallback;
+import com.taskmaster.appui.entity.Quest;
+import com.taskmaster.appui.manager.entitymanager.QuestManager;
 
+import java.util.List;
 import java.util.Map;
 
-public class FirestoreHandler {
+public class FirestoreManager {
 
     private static FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -80,6 +83,32 @@ public class FirestoreHandler {
                 }
             }
         });
+    }
+
+    public static void uploadQuest (String creatorUID, Quest quest) {
+        String questID = Integer.toString(quest.hashCode());
+        firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(quest))
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Debug", "Successfully created quest document");
+                    } else {
+                        Log.d("Debug", "Failed to create quest document");
+                    }
+                });
+    }
+
+    public static void fetchQuests (String creatorUID, GenericCallback<List<DocumentSnapshot>> callback) {
+        firestore.collection("Quests").whereEqualTo("CreatorUID", creatorUID).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Debug", "Successfully fetched quests");
+                        List<DocumentSnapshot> questDocs = task.getResult().getDocuments();
+                        callback.onCallback(questDocs);
+                    } else {
+                        task.getException().printStackTrace();
+                        Log.d("Debug", "Failed to fetch quests");
+                    }
+                });
     }
 
     public static FirebaseFirestore getFirestore() {

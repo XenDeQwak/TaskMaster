@@ -2,7 +2,7 @@ package com.taskmaster.appui.Page.Main;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
+import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.Services.GenericCallback;
 
 public class User {
@@ -39,7 +39,7 @@ public class User {
     }
 
     public void loadDocumentSnapshot(GenericCallback<Void> callback){
-        FirestoreHandler.getUserInformation(userAuth.getUid(), documentSnapshot -> {
+        FirestoreManager.getUserInformation(userAuth.getUid(), documentSnapshot -> {
             setDocumentSnapshot(documentSnapshot);
             callback.onCallback(null);
         });

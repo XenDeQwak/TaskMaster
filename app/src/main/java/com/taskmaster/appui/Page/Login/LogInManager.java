@@ -5,21 +5,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.taskmaster.appui.FirebaseHandler.AuthHandler;
-import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
-import com.taskmaster.appui.Page.Main.QuestManagement;
+import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.Page.Main.User;
-import com.taskmaster.appui.Services.GenericCallback;
 import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.Services.SignUpFlowService;
 
@@ -35,11 +24,11 @@ public class LogInManager {
             return;
         }
 
-        credential = AuthHandler.provideCredential(email, password);
+        credential = AuthManager.provideCredential(email, password);
 
         try {
 
-            AuthHandler.signInUser(credential, IsSignInSuccess -> {
+            AuthManager.signInUser(credential, IsSignInSuccess -> {
                 if (IsSignInSuccess) {
                     Toast.makeText(origin, "Login successful", Toast.LENGTH_SHORT).show();
                     User newUser = User.getInstance();

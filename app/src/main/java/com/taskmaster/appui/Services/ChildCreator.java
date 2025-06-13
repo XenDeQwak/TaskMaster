@@ -8,8 +8,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.taskmaster.appui.FirebaseHandler.AuthHandler;
-import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
+import com.taskmaster.appui.manager.firebasemanager.AuthManager;
+import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,8 +83,8 @@ public class ChildCreator {
     }
 
     private void createChildData () {
-        FirebaseUser parent = AuthHandler.getAuth().getCurrentUser();
-        DocumentReference parentRef = FirestoreHandler.getFirestore().collection("Users").document(parent.getUid());
+        FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
+        DocumentReference parentRef = FirestoreManager.getFirestore().collection("Users").document(parent.getUid());
 
         Map<String, Object> childData = new HashMap<>();
         childData.put("Email", childEmail);

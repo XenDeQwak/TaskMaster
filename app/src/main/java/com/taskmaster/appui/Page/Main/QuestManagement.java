@@ -27,9 +27,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,14 +37,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
 import com.taskmaster.appui.Services.DropdownService;
-import com.taskmaster.appui.Services.GenericCallback;
 import com.taskmaster.appui.Services.NavUtil;
 import com.taskmaster.appui.Page.ProgressionPage;
 import com.taskmaster.appui.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +165,6 @@ public class QuestManagement extends AppCompatActivity {
 
         cancelQuestViewButtonC = findViewById(R.id.cancelQuestViewButtonC);
         finishQuestViewButtonC = findViewById(R.id.finishQuestViewButtonC);
-
 
         popupViewNotif = findViewById(R.id.popupViewNotif);
         viewNotifTextMsg = findViewById(R.id.viewNotifTextMsg);

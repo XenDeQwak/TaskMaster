@@ -3,7 +3,6 @@ package com.taskmaster.appui.Page;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
@@ -28,32 +26,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.Firebase;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.taskmaster.appui.FirebaseHandler.AuthHandler;
-import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
-import com.taskmaster.appui.Page.Login.Splash;
-import com.taskmaster.appui.Page.Main.QuestManagement;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.Services.ChildCreator;
 import com.taskmaster.appui.Services.DropdownService;
 import com.taskmaster.appui.Services.NavUtil;
 
-import org.checkerframework.checker.initialization.qual.UnknownInitialization;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
 
 public class ManageChild extends AppCompatActivity {
     AppCompatButton addChildButton, copyButton, exitButton;

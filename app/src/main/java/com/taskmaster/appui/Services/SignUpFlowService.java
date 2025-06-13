@@ -5,8 +5,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
-import com.taskmaster.appui.FirebaseHandler.AuthHandler;
-import com.taskmaster.appui.FirebaseHandler.FirestoreHandler;
+import com.taskmaster.appui.manager.firebasemanager.AuthManager;
+import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.Page.Login.UserLogin;
 
 import java.util.HashMap;
@@ -33,13 +33,13 @@ public class SignUpFlowService {
     }
 
     public void start() {
-        AuthHandler.createTemporaryUser(tempUser -> {
+        AuthManager.createTemporaryUser(tempUser -> {
             checkEmail(tempUser);
         });
     }
 
     private void checkEmail (FirebaseUser tempUser) {
-        FirestoreHandler.checkIfEmailIsTaken(email, isEmailFree -> {
+        FirestoreManager.checkIfEmailIsTaken(email, isEmailFree -> {
             if (isEmailFree) {
                 checkUsername(tempUser);
             } else {
@@ -49,7 +49,7 @@ public class SignUpFlowService {
     }
 
     private void checkUsername (FirebaseUser tempUser) {
-        FirestoreHandler.checkIfUsernameIsTaken(username, isUsernameFree -> {
+        FirestoreManager.checkIfUsernameIsTaken(username, isUsernameFree -> {
             if (isUsernameFree) {
                 createAccount(tempUser);
             } else {
@@ -67,8 +67,8 @@ public class SignUpFlowService {
         userData.put("Lastname", lastname);
         userData.put("Role", "parent");
 
-        AuthCredential credential = AuthHandler.provideCredential(email, password);
-        FirestoreHandler.createUser(tempUser, credential, userData, e -> {
+        AuthCredential credential = AuthManager.provideCredential(email, password);
+        FirestoreManager.createUser(tempUser, credential, userData, e -> {
             Toast.makeText(origin, "User registered successfully", Toast.LENGTH_SHORT).show();
             NavUtil.instantNavigation(origin, UserLogin.class);
         });
