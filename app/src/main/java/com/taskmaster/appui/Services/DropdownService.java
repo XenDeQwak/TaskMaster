@@ -3,6 +3,7 @@ package com.taskmaster.appui.Services;
 import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
@@ -18,7 +19,7 @@ import com.taskmaster.appui.R;
 public class DropdownService {
 
     public static void dropdownSetup(Activity activity, View root){
-        AppCompatButton dropdownNavButton = activity.findViewById(R.id.dropdownNavButton);
+        ImageView dropdownNavButton = activity.findViewById(R.id.NavBarButton);
         Group dropDownGroup = activity.findViewById(R.id.dropdownGroup);
         AppCompatButton navQuestPage = activity.findViewById(R.id.navQuestPage);
         AppCompatButton navManageAdv = activity.findViewById(R.id.navManageAdv);
@@ -55,6 +56,7 @@ public class DropdownService {
                 dropDownGroup.setVisibility(View.VISIBLE);
             }
         });
+
         // exit dropdown & popup group
         root.setOnTouchListener(new View.OnTouchListener() {
             @Override

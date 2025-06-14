@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.taskmaster.appui.Page.Main.ParentQuestView;
 import com.taskmaster.appui.Page.Main.QuestManagement;
 import com.taskmaster.appui.Page.Main.User;
 import com.taskmaster.appui.Services.NavUtil;
@@ -51,11 +52,11 @@ public class Splash extends AppCompatActivity {
             User newUser = User.getInstance();
             newUser.setUser(user);
             newUser.loadDocumentSnapshot(documentSnapshot -> {
-                NavUtil.instantNavigation(Splash.this,QuestManagement.class);
+                NavUtil.instantNavigation(Splash.this, ParentQuestView.class);
             });
         }
         else{
-            NavUtil.instantNavigation(Splash.this,UserLogin.class);
+            NavUtil.instantNavigation(Splash.this, UserLogin.class);
         }
     }
 }

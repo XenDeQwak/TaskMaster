@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background1"
+    tools:context=".Page.Main.ParentQuestView">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/dropdownContainerGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/mainContainerGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="NavBarButton,CreateQuestButton,topBarContainer,titleContainer,mainContainer" />
+
+    <ImageView
+        android:id="@+id/NavBarButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:alpha="0.8"
+        android:background="@drawable/rectangle_rounded2"
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainer"
+        app:layout_constraintStart_toStartOf="@+id/topBarContainer"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainer"
+        app:srcCompat="@drawable/dropdown" />
+
+    <ImageView
+        android:id="@+id/CreateQuestButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:alpha="0.8"
+        android:background="@drawable/rectangle_rounded2"
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainer"
+        app:layout_constraintEnd_toEndOf="@+id/topBarContainer"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainer"
+        app:srcCompat="@drawable/add_quest" />
+
+    <View
+        android:id="@+id/topBarContainer"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/mainContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainContainer"
+        app:layout_constraintTop_toTopOf="@+id/mainContainer" />
+
+    <View
+        android:id="@+id/titleContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0.8"
+        android:background="@drawable/rectangle_rounded2"
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainer"
+        app:layout_constraintEnd_toStartOf="@+id/CreateQuestButton"
+        app:layout_constraintStart_toEndOf="@+id/NavBarButton"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainer" />
+
+    <ImageView
+        android:id="@+id/mainContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Quest Board"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainer"
+        app:layout_constraintEnd_toEndOf="@+id/titleContainer"
+        app:layout_constraintStart_toStartOf="@+id/titleContainer"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainer" />
+
+    <ScrollView
+        android:id="@+id/questScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0.8"
+        app:layout_constraintBottom_toBottomOf="@+id/mainContainer"
+        app:layout_constraintEnd_toEndOf="@+id/mainContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainContainer"
+        app:layout_constraintTop_toBottomOf="@+id/topBarContainer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="@+id/NavBarButton"
+        app:layout_constraintTop_toTopOf="@+id/NavBarButton">
+
+        <ImageView
+            android:id="@+id/dropdownBG"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0.85"
+            app:srcCompat="@drawable/rectangle_rounded" />
+
+        <LinearLayout
+            android:id="@+id/dropdownContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.85"
+                android:background="@drawable/rectangle_rounded2"
+                android:fontFamily="@font/eb_garamond_semibold"
+                android:padding="16dp"
+                android:text="Quests"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.85"
+                android:background="@drawable/rectangle_rounded2"
+                android:fontFamily="@font/eb_garamond_semibold"
+                android:padding="16dp"
+                android:text="Adventurers"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.85"
+                android:background="@drawable/rectangle_rounded2"
+                android:fontFamily="@font/eb_garamond_semibold"
+                android:padding="16dp"
+                android:text="Log Out"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

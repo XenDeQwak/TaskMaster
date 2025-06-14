@@ -1174,20 +1174,20 @@
         android:layout_height="63dp"
         android:layout_marginTop="186dp"
         android:layout_marginBottom="46dp"
-        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
-        app:layout_constraintEnd_toEndOf="@+id/navFrame"
-        app:layout_constraintStart_toStartOf="@+id/navFrame"
-        app:layout_constraintTop_toTopOf="@+id/navFrame"
         android:background="@drawable/button_shadowed_nostroke_states"
         android:fontFamily="@font/eb_garamond_semibold"
-        android:stateListAnimator="@null"
         android:gravity="center"
-        android:visibility="visible"
+        android:stateListAnimator="@null"
         android:text="Log Out"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#3F3F3F"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
+        app:layout_constraintEnd_toEndOf="@+id/navFrame"
+        app:layout_constraintStart_toStartOf="@+id/navFrame"
+        app:layout_constraintTop_toTopOf="@+id/navFrame" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/popupRewardsGroup"
