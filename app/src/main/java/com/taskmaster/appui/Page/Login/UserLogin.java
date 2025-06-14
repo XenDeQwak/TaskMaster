@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.Page.Main.QuestManagement;
-import com.taskmaster.appui.Services.NavUtil;
+import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
 
 public class UserLogin extends AppCompatActivity {

@@ -32,9 +32,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.Services.ChildCreator;
-import com.taskmaster.appui.Services.DropdownService;
-import com.taskmaster.appui.Services.NavUtil;
+import com.taskmaster.appui.util.ChildCreator;
+import com.taskmaster.appui.util.DropdownService;
+import com.taskmaster.appui.util.NavUtil;
 
 import java.util.ArrayList;
 import java.util.List;

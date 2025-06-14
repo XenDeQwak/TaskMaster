@@ -1,16 +1,12 @@
 package com.taskmaster.appui.Page;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.Services.TimeUtil;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.taskmaster.appui.util.TimeUtil;
 
 public class CosmeticShop extends AppCompatActivity {
 

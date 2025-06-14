@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.taskmaster.appui.Services.GenericCallback;
+import com.taskmaster.appui.util.GenericCallback;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 
@@ -111,7 +111,7 @@ public class FirestoreManager {
                 });
     }
 
-    public static FirebaseFirestore getFirestore() {
+    public static FirebaseFirestore getFirestore () {
         return firestore;
     }
 }

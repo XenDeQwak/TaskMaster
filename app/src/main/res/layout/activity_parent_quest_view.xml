@@ -120,6 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/NavBarButton"
         app:layout_constraintTop_toTopOf="@+id/NavBarButton">
 
@@ -150,7 +151,7 @@
                 android:padding="16dp"
                 android:text="Quests"
                 android:textAlignment="center"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/navAdventurersButton"
@@ -166,7 +167,7 @@
                 android:padding="16dp"
                 android:text="Adventurers"
                 android:textAlignment="center"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/navLogOutButton"
@@ -181,7 +182,7 @@
                 android:padding="16dp"
                 android:text="Log Out"
                 android:textAlignment="center"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
         </LinearLayout>
     </FrameLayout>
 

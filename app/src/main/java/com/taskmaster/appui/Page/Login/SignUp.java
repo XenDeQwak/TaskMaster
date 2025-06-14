@@ -1,6 +1,5 @@
 package com.taskmaster.appui.Page.Login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -8,7 +7,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,14 +15,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.Services.NavUtil;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import com.taskmaster.appui.util.NavUtil;
 
 public class SignUp extends AppCompatActivity {
 

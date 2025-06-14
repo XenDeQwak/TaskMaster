@@ -41,8 +41,8 @@ public class QuestManager {
         Quest q = new Quest();
         q.setName((String) questData.get("Name"));
         q.setDescription((String) questData.get("Description"));
-        q.setStartDate((Date) questData.get("StartDate"));
-        q.setDeadlineDate((Date) questData.get("DeadlineDate"));
+        q.setStartDate((long) questData.get("StartDate"));
+        q.setDeadlineDate((long) questData.get("DeadlineDate"));
         q.setRewardStat((Stats) questData.get("RewardStat"));
         q.setCreatorReference((DocumentReference) questData.get("CreatorReference"));
         q.setCreatorUID((String) questData.get("CreatorUID"));

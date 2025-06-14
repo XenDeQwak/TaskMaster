@@ -1,7 +1,6 @@
 package com.taskmaster.appui.Page.Login;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -12,9 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.Page.Main.ParentQuestView;
-import com.taskmaster.appui.Page.Main.QuestManagement;
 import com.taskmaster.appui.Page.Main.User;
-import com.taskmaster.appui.Services.NavUtil;
+import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
 
 public class Splash extends AppCompatActivity {

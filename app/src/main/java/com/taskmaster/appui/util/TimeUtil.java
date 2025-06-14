@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Services;
+package com.taskmaster.appui.util;
 
 import android.os.CountDownTimer;
 import android.os.Handler;

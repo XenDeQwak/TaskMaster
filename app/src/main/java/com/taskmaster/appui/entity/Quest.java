@@ -10,10 +10,8 @@ import java.util.Date;
 public class Quest {
 
     private String name, description;
-    @ServerTimestamp
-    private Date startDate;
-    @ServerTimestamp
-    private Date deadlineDate;
+    private long startDate;
+    private long deadlineDate;
     private Stats rewardStat;
     private DocumentReference creatorReference;
     private String creatorUID;
@@ -34,19 +32,19 @@ public class Quest {
         this.description = description;
     }
 
-    public Date getStartDate() {
+    public long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(long startDate) {
         this.startDate = startDate;
     }
 
-    public Date getDeadlineDate() {
+    public long getDeadlineDate() {
         return deadlineDate;
     }
 
-    public void setDeadlineDate(Date deadlineDate) {
+    public void setDeadlineDate(long deadlineDate) {
         this.deadlineDate = deadlineDate;
     }
 

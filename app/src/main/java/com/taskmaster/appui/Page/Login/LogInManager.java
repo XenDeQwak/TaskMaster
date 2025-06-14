@@ -9,8 +9,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.Page.Main.User;
-import com.taskmaster.appui.Services.NavUtil;
-import com.taskmaster.appui.Services.SignUpFlowService;
+import com.taskmaster.appui.util.NavUtil;
+import com.taskmaster.appui.util.SignUpFlowService;
 
 public class LogInManager {
 

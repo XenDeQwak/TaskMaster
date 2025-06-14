@@ -3,7 +3,7 @@ package com.taskmaster.appui.Page.Main;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
-import com.taskmaster.appui.Services.GenericCallback;
+import com.taskmaster.appui.util.GenericCallback;
 
 public class User {
 

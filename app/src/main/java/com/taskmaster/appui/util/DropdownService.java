@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Services;
+package com.taskmaster.appui.util;
 
 import android.app.Activity;
 import android.view.MotionEvent;

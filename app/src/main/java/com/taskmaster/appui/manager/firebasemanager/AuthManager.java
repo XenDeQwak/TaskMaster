@@ -12,7 +12,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.taskmaster.appui.Services.GenericCallback;
+import com.taskmaster.appui.util.GenericCallback;
 
 public class AuthManager {
 
