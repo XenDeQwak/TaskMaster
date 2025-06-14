@@ -15,20 +15,20 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".Page.Main.ParentQuestView"
+            android:name=".view.parent.ParentQuestView"
             android:exported="false" />
         <activity
-            android:name=".Page.Login.UserLogin"
+            android:name=".view.login.UserLogin"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Page.CosmeticShop"
+            android:name=".view.child.CosmeticShop"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Page.Login.Splash"
+            android:name=".view.login.Splash"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -39,32 +39,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Page.Login.SignUp"
+            android:name=".view.login.SignUp"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Page.Login.CodeVerification"
+            android:name=".view.login.CodeVerification"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Page.Main.QuestManagement"
+            android:name=".view.parent.QuestManagement"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Page.ManageChild"
+            android:name=".view.parent.ManageChild"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Page.ProgressionPage"
+            android:name=".view.child.ProgressionPage"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Page.WeeklyBoss"
+            android:name=".view.child.WeeklyBoss"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />

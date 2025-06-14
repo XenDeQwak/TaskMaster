@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page.Main;
+package com.taskmaster.appui.entity;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;

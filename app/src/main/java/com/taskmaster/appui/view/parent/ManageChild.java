@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page;
+package com.taskmaster.appui.view.parent;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;

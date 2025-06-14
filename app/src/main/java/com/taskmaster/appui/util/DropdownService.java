@@ -9,11 +9,11 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.taskmaster.appui.Page.Main.QuestManagement;
-import com.taskmaster.appui.Page.Login.Splash;
-import com.taskmaster.appui.Page.Main.User;
-import com.taskmaster.appui.Page.ManageChild;
-import com.taskmaster.appui.Page.WeeklyBoss;
+import com.taskmaster.appui.view.parent.QuestManagement;
+import com.taskmaster.appui.view.login.Splash;
+import com.taskmaster.appui.entity.User;
+import com.taskmaster.appui.view.parent.ManageChild;
+import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.R;
 
 public class DropdownService {

@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page.Login;
+package com.taskmaster.appui.view.login;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.taskmaster.appui.Page.Main.QuestManagement;
+import com.taskmaster.appui.view.parent.QuestManagement;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
 

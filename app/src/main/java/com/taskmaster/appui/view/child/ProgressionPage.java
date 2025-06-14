@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page;
+package com.taskmaster.appui.view.child;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,8 +35,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.taskmaster.appui.Page.Login.Splash;
-import com.taskmaster.appui.Page.Main.QuestManagement;
+import com.taskmaster.appui.view.login.Splash;
+import com.taskmaster.appui.view.parent.QuestManagement;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.util.NavUtil;
 

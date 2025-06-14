@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page.Login;
+package com.taskmaster.appui.view.login;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;

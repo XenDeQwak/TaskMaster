@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page.Main;
+package com.taskmaster.appui.view.parent;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.taskmaster.appui.Page.Login.Splash;
-import com.taskmaster.appui.Page.ManageChild;
+import com.taskmaster.appui.view.login.Splash;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;

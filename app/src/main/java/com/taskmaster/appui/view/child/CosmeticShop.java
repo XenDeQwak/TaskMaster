@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page;
+package com.taskmaster.appui.view.child;
 
 import android.os.Bundle;
 import android.widget.TextView;

@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page.Login;
+package com.taskmaster.appui.view.login;
 
 import android.app.Activity;
 import android.view.View;
@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
-import com.taskmaster.appui.Page.Main.User;
+import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.util.SignUpFlowService;
 

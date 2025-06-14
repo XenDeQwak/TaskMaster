@@ -7,7 +7,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
-import com.taskmaster.appui.Page.Login.UserLogin;
+import com.taskmaster.appui.view.login.UserLogin;
 
 import java.util.HashMap;
 import java.util.Map;

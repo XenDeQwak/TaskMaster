@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Page.Login;
+package com.taskmaster.appui.view.login;
 
 import android.os.Bundle;
 import android.view.animation.Animation;
@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.taskmaster.appui.Page.Main.ParentQuestView;
-import com.taskmaster.appui.Page.Main.User;
+import com.taskmaster.appui.view.parent.ParentQuestView;
+import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
 
