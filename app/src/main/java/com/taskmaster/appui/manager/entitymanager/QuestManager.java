@@ -9,32 +9,31 @@ import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class QuestManager {
 
-    List<Quest> QuestList;
+    ArrayList<Quest> questList;
 
-    public QuestManager (List<Quest> QuestList) {
-        this.QuestList = QuestList;
+    public QuestManager (ArrayList<Quest> QuestList) {
+        this.questList = QuestList;
     }
 
     public QuestManager () {
-        this.QuestList = new ArrayList<>();
+        this.questList = new ArrayList<>();
     }
 
     public List<Quest> getQuestList() {
-        return QuestList;
+        return questList;
     }
 
     public void addQuest (Quest quest) {
-        QuestList.add(quest);
+        questList.add(quest);
     }
 
     public void removeQuest (Quest quest) {
-        QuestList.remove(quest);
+        questList.remove(quest);
     }
 
     public static Quest parseQuestData (HashMap<String, Object> questData) {
@@ -64,12 +63,12 @@ public class QuestManager {
     }
 
     public void loadQuestsFromFirestore () {
-        QuestList.clear();
+        questList.clear();
         FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
         FirestoreManager.fetchQuests(parent.getUid(), dsl -> {
             for (DocumentSnapshot ds : dsl) {
                 Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
-                QuestList.add(q);
+                questList.add(q);
             }
         });
     }

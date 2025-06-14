@@ -1,4 +1,4 @@
-package com.taskmaster.appui.util;
+package com.taskmaster.appui.manager.entitymanager;
 
 
 import android.content.Context;
@@ -9,55 +9,90 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class ChildCreator {
+public class ChildManager {
 
-    Context context;
-    String childEmail;
-    String childPassword;
-    String childUsername;
-    String childFirstname;
-    String childLastname;
+    private List<Child> childList;
 
-    FirebaseOptions options;
-    FirebaseApp tempFB;
-    FirebaseAuth tempAuth;
-    FirebaseFirestore tempFirestore;
+    private Context context;
+    private FirebaseOptions options;
+    private FirebaseApp tempFB;
+    private FirebaseAuth tempAuth;
+    private FirebaseFirestore tempFirestore;
 
-    public ChildCreator (Context context) {
+    public ChildManager () {
+        new ChildManager(new ArrayList<>());
+    }
+
+    public ChildManager (List<Child> childList) {
+        this.childList = childList;
+    }
+
+    public ChildManager(Context context) {
         this.context = context;
     }
 
+    public static Child parseChildData (Map<String, Object> childData) {
+        Child c = new Child();
+        c.setChildEmail((String) childData.get("Email"));
+        c.setChildUsername((String) childData.get("Username"));
+        c.setChildFirstname((String) childData.get("Firstname"));
+        c.setChildLastname((String) childData.get("Lastname"));
+
+        return c;
+    }
+
+    public static Map<String, Object> packChildData (Child child) {
+        Map<String, Object> cd = new HashMap<>();
+        cd.put("Email", child.getChildEmail());
+        cd.put("Username", child.getChildUsername());
+        cd.put("Firstname", child.getChildFirstname());
+        cd.put("Lastname", child.getChildLastname());
+
+        return cd;
+    }
+
+    /**
+     * Pass a Map<String, Object> object to this method to create a child object
+     * @param childData
+     * @param childPassword
+     */
     public void create (Map<String, Object> childData, String childPassword) {
-        childEmail = (String) childData.get("Email");
-        childUsername = (String) childData.get("Username");
-        childFirstname = (String) childData.get("Firstname");
-        childLastname = (String) childData.get("Lastname");
-        this.childPassword = childPassword;
-        initTempFirebaseConnection(context);
+        Child c = parseChildData(childData);
+        c.setChildPassword(childPassword);
+        initTempFirebaseConnection(context, c);
     }
 
+    /**
+     * Debug method used to create random child objects
+     */
     public void create () {
-        createTestChildForDebug();
-        initTempFirebaseConnection(context);
+        initTempFirebaseConnection(context, createTestChildForDebug());
     }
 
-    private void createTestChildForDebug () {
+    private Child createTestChildForDebug () {
+        Child c = new Child();
         Random r = new Random();
-        childEmail = "testchild" + r.nextInt(100) + "@email.com";
-        childUsername = "testchild";
-        childFirstname = "test";
-        childLastname = "child";
-        this.childPassword = "testchild";
+        c.setChildEmail("testchild" + r.nextInt(100) + "@email.com");
+        c.setChildUsername("testchild");
+        c.setChildFirstname("test");
+        c.setChildLastname("child");
+        c.setChildPassword("testchild");
+
+        return c;
     }
 
-    private void initTempFirebaseConnection (Context context) {
+    private void initTempFirebaseConnection (Context context, Child c) {
+        childList.add(c);
         options = new FirebaseOptions.Builder()
                 .setApiKey("AIzaSyAkhsreVJJf0Hs_-wQ1SuAkXAp_J4tMihs")
                 .setApplicationId("1:120375756304:android:fdb00f240e692a8f5b2c95")
@@ -68,14 +103,14 @@ public class ChildCreator {
         tempAuth = FirebaseAuth.getInstance(tempFB);
         tempFirestore = FirebaseFirestore.getInstance(tempFB);
 
-        createChildAuth();
+        createChildAuth(c);
     }
 
-    private void createChildAuth () {
-        tempAuth.createUserWithEmailAndPassword(childEmail, childPassword).addOnCompleteListener(task -> {
+    private void createChildAuth (Child c) {
+        tempAuth.createUserWithEmailAndPassword(c.getChildEmail(), c.getChildPassword()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 System.out.println("Successfully created child account");
-                createChildData();
+                createChildData(c);
             } else {
                 task.getException().printStackTrace();
                 System.out.println("Failed to create child account");
@@ -83,17 +118,11 @@ public class ChildCreator {
         });
     }
 
-    private void createChildData () {
+    private void createChildData (Child c) {
         FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
         DocumentReference parentRef = FirestoreManager.getFirestore().collection("Users").document(parent.getUid());
 
-        Map<String, Object> childData = new HashMap<>();
-        childData.put("Email", childEmail);
-        childData.put("Username", childUsername);
-        childData.put("Firstname", childFirstname);
-        childData.put("Lastname", childLastname);
-        childData.put("ParentRef", parentRef);
-        childData.put("Role", "child");
+        Map<String, Object> childData = packChildData(c);
 
         tempAuth.addAuthStateListener(auth -> {
             FirebaseUser child = auth.getCurrentUser();

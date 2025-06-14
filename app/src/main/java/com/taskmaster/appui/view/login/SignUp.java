@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.manager.viewmanager.LogInManager;
 import com.taskmaster.appui.util.NavUtil;
 
 public class SignUp extends AppCompatActivity {

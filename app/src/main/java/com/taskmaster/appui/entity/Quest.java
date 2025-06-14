@@ -13,6 +13,7 @@ public class Quest {
     private long startDate;
     private long deadlineDate;
     private Stats rewardStat;
+    private String rewardExtra;
     private DocumentReference creatorReference;
     private String creatorUID;
 
@@ -54,6 +55,14 @@ public class Quest {
 
     public void setRewardStat(Stats rewardStat) {
         this.rewardStat = rewardStat;
+    }
+
+    public String getRewardExtra() {
+        return rewardExtra;
+    }
+
+    public void setRewardExtra(String rewardExtra) {
+        this.rewardExtra = rewardExtra;
     }
 
     public DocumentReference getCreatorReference() {

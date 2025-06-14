@@ -1,4 +1,4 @@
-package com.taskmaster.appui.util;
+package com.taskmaster.appui.manager.viewmanager;
 
 import android.app.Activity;
 import android.widget.Toast;
@@ -7,22 +7,23 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.login.UserLogin;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignUpFlowService {
+public class SignUpManager {
 
     private final Activity origin;
     private final String email, username, password, firstname, lastname;
 
-    public SignUpFlowService(Activity origin,
-                             String email,
-                             String username,
-                             String password,
-                             String firstname,
-                             String lastname
+    public SignUpManager(Activity origin,
+                         String email,
+                         String username,
+                         String password,
+                         String firstname,
+                         String lastname
     ) {
         this.origin = origin;
         this.email = email;

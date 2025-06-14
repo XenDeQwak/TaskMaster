@@ -32,8 +32,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.util.ChildCreator;
-import com.taskmaster.appui.util.DropdownService;
+import com.taskmaster.appui.manager.entitymanager.ChildManager;
+import com.taskmaster.appui.util.DropdownUtil;
 import com.taskmaster.appui.util.NavUtil;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class ManageChild extends AppCompatActivity {
         gridLayout = findViewById(R.id.gridLayout);
         rootLayout = findViewById(R.id.main);
         gridLayout1 = findViewById(R.id.gridLayout1);
-        DropdownService.dropdownSetup(this,rootLayout);
+        DropdownUtil.dropdownSetup(this,rootLayout);
 
         // hide dropdown group and initial icons
         db = FirebaseFirestore.getInstance();
@@ -153,7 +153,7 @@ public class ManageChild extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ChildCreator cc = new ChildCreator(context);
+                ChildManager cc = new ChildManager(context);
                 cc.create();
 
             }

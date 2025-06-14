@@ -33,7 +33,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.taskmaster.appui.entity.User;
-import com.taskmaster.appui.util.DropdownService;
+import com.taskmaster.appui.util.DropdownUtil;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
 
@@ -112,7 +112,7 @@ public class QuestManagement extends AppCompatActivity {
         gridLayout = findViewById(R.id.gridLayout);
         rootLayout = findViewById(R.id.main);
         scrollView = findViewById(R.id.scrollView1);
-        DropdownService.dropdownSetup(this,rootLayout);
+        DropdownUtil.dropdownSetup(this,rootLayout);
 
         editQuestTime = findViewById(R.id.editQuestTime);
         editQuestName = findViewById(R.id.editQuestName);

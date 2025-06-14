@@ -16,7 +16,7 @@ import com.taskmaster.appui.view.parent.ManageChild;
 import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.R;
 
-public class DropdownService {
+public class DropdownUtil {
 
     public static void dropdownSetup(Activity activity, View root){
         ImageView dropdownNavButton = activity.findViewById(R.id.NavBarButton);

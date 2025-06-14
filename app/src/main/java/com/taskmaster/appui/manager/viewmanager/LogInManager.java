@@ -1,4 +1,4 @@
-package com.taskmaster.appui.view.login;
+package com.taskmaster.appui.manager.viewmanager;
 
 import android.app.Activity;
 import android.view.View;
@@ -10,7 +10,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
-import com.taskmaster.appui.util.SignUpFlowService;
 
 public class LogInManager {
 
@@ -56,7 +55,7 @@ public class LogInManager {
         firstnamebox = (EditText) signUpInformation[3];
         lastnamebox = (EditText) signUpInformation[4];
 
-        SignUpFlowService signUpFlow = new SignUpFlowService(
+        SignUpManager signUpManager = new SignUpManager(
                 origin,
                 emailbox.getText().toString(),
                 usernamebox.getText().toString(),
@@ -64,7 +63,7 @@ public class LogInManager {
                 firstnamebox.getText().toString(),
                 lastnamebox.getText().toString()
         );
-        signUpFlow.start();
+        signUpManager.start();
 
     }
 

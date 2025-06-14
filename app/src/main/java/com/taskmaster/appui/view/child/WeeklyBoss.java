@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.util.DropdownService;
+import com.taskmaster.appui.util.DropdownUtil;
 import com.taskmaster.appui.util.NavUtil;
 
 import java.util.ArrayList;
@@ -102,7 +102,7 @@ public class WeeklyBoss extends AppCompatActivity {
         childBarFloorCount = findViewById(R.id.childBarFloorCount);
         // ... inside onCreate() after initializing views:
         fightButton = findViewById(R.id.fightButton);
-        DropdownService.dropdownSetup(this, rootLayout);
+        DropdownUtil.dropdownSetup(this, rootLayout);
 
         NavUtil.setNavigation(this, childBarStatsButton,ProgressionPage.class);
         // hide popup
