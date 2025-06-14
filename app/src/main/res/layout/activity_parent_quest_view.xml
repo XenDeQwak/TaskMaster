@@ -32,14 +32,15 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:alpha="0.8"
+        android:background="#D08A8A"
         app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
         app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
         app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
-        app:layout_constraintTop_toBottomOf="@+id/topBarContainerQV">
+        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer">
 
         <LinearLayout
             android:layout_width="match_parent"

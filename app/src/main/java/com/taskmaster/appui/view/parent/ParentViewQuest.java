@@ -20,7 +20,6 @@ import java.util.HashMap;
 public class ParentViewQuest extends ParentView {
 
     QuestManager questManager;
-    ImageView CreateQuestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

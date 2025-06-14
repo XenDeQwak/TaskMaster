@@ -14,8 +14,6 @@ import com.taskmaster.appui.manager.entitymanager.ChildManager;
 
 public class ParentViewManageChild extends ParentView {
 
-    ChildManager childManager;
-    ImageView CreateAdventurerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +28,6 @@ public class ParentViewManageChild extends ParentView {
 
         initNavigationMenu(this, ParentViewManageChild.class);
 
-        // Initialize CreateQuestButton
-        //CreateAdventurerButton = findViewById(R.id.CreateAdventurerButton);
 
     }
 }

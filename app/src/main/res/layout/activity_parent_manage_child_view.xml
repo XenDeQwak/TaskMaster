@@ -8,15 +8,8 @@
     android:background="@drawable/background1"
     tools:context=".view.parent.ParentViewManageChild">
 
-    <com.taskmaster.appui.view.uimodule.TopBar
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        app:layout_constraintEnd_toEndOf="@+id/mainContainerMCV"
-        app:layout_constraintStart_toStartOf="@+id/mainContainerMCV"
-        app:layout_constraintTop_toTopOf="@+id/mainContainerMCV" />
-
     <ImageView
-        android:id="@+id/mainContainerMCV"
+        android:id="@+id/mainAdventurerContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -37,19 +30,28 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:alpha="0.8"
-        app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
-        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
-        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
-        app:layout_constraintTop_toBottomOf="@+id/topBarContainerQV">
+        android:background="#8E99CA"
+        app:layout_constraintBottom_toBottomOf="@+id/mainAdventurerContainer"
+        app:layout_constraintEnd_toEndOf="@+id/mainAdventurerContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainAdventurerContainer"
+        app:layout_constraintTop_toTopOf="@+id/mainAdventurerContainer">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
+    <com.taskmaster.appui.view.uimodule.TopBar
+        android:id="@+id/topBarParent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/mainAdventurerContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainAdventurerContainer"
+        app:layout_constraintTop_toTopOf="@+id/mainAdventurerContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
