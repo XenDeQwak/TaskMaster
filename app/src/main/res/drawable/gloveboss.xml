@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/rectangle_rounded" />
+    <item>
+        <inset
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:insetLeft="10dp"
+            android:insetTop="10dp"
+            android:insetRight="10dp"
+            android:insetBottom="10dp"
+            android:drawable="@drawable/gloveboss_sprite"
+            />
+    </item>
+</layer-list>

@@ -20,6 +20,7 @@ import com.taskmaster.appui.R;
 
 public class UserLogin extends AppCompatActivity {
 
+    public static UserLogin userLogin;
     Animation pop_out_Anim, fade_in_Anim;
     TextView forgotPasswordTextView, signUpTextView;
     AppCompatButton confirmButton;
@@ -27,6 +28,8 @@ public class UserLogin extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        userLogin = this;
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -84,10 +87,8 @@ public class UserLogin extends AppCompatActivity {
                 logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, QuestManagement.class);
             }
         });
-        NavUtil.setNavigation(this,signUpTextView, SignUp.class);
 
-    }
-
+        NavUtil.setNavigation(this, signUpTextView, SignUp.class);
 
 
     /*
@@ -115,5 +116,5 @@ public class UserLogin extends AppCompatActivity {
 
     }
     */
-
+    }
 }

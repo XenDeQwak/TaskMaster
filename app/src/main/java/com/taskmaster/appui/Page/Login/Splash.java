@@ -47,17 +47,15 @@ public class Splash extends AppCompatActivity {
         logo_shadow.setAnimation(pop_out_Anim);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        new Handler().postDelayed(() -> {
-            if(user!=null){
-                User newUser = User.getInstance();
-                newUser.setUser(user);
-                newUser.loadDocumentSnapshot(documentSnapshot -> {
-                    NavUtil.instantNavigation(Splash.this,QuestManagement.class);
-                });
-            }
-            else{
-                NavUtil.instantNavigation(Splash.this,UserLogin.class);
-            }
-        }, 3000);
+        if(user!=null){
+            User newUser = User.getInstance();
+            newUser.setUser(user);
+            newUser.loadDocumentSnapshot(documentSnapshot -> {
+                NavUtil.instantNavigation(Splash.this,QuestManagement.class);
+            });
+        }
+        else{
+            NavUtil.instantNavigation(Splash.this,UserLogin.class);
+        }
     }
 }

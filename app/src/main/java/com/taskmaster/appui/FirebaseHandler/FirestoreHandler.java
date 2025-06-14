@@ -57,6 +57,7 @@ public class FirestoreHandler {
         );
     }
 
+
     public static void createUser (FirebaseUser tempUser, AuthCredential credential, Map<String, Object> userData, GenericCallback callback) {
         tempUser.linkWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -81,4 +82,7 @@ public class FirestoreHandler {
         });
     }
 
+    public static FirebaseFirestore getFirestore() {
+        return firestore;
+    }
 }

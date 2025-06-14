@@ -33,9 +33,14 @@ public class User {
     public DocumentSnapshot getDocumentSnapshot () {
         return userDocumentSnapshot;
     }
+
+    public void setDocumentSnapshot(DocumentSnapshot userDocumentSnapshot) {
+        this.userDocumentSnapshot = userDocumentSnapshot;
+    }
+
     public void loadDocumentSnapshot(GenericCallback<Void> callback){
         FirestoreHandler.getUserInformation(userAuth.getUid(), documentSnapshot -> {
-            userDocumentSnapshot=documentSnapshot;
+            setDocumentSnapshot(documentSnapshot);
             callback.onCallback(null);
         });
     }
