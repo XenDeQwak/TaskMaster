@@ -49,13 +49,13 @@ public class DropdownService {
         }
 
         //Btn Fx
-        dropdownNavButton.setOnClickListener(v -> {
-            if (dropDownGroup.getVisibility() == View.VISIBLE) {
-                dropDownGroup.setVisibility(View.GONE);
-            } else {
-                dropDownGroup.setVisibility(View.VISIBLE);
-            }
-        });
+//        dropdownNavButton.setOnClickListener(v -> {
+//            if (dropDownGroup.getVisibility() == View.VISIBLE) {
+//                dropDownGroup.setVisibility(View.GONE);
+//            } else {
+//                dropDownGroup.setVisibility(View.VISIBLE);
+//            }
+//        });
 
         // exit dropdown & popup group
         root.setOnTouchListener(new View.OnTouchListener() {

@@ -116,29 +116,29 @@
     </ScrollView>
 
     <FrameLayout
+        android:id="@+id/dropdownContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:padding="8dp"
         app:layout_constraintStart_toStartOf="@+id/NavBarButton"
         app:layout_constraintTop_toTopOf="@+id/NavBarButton">
 
         <ImageView
             android:id="@+id/dropdownBG"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="200dp"
+            android:layout_height="230dp"
             android:alpha="0.85"
             app:srcCompat="@drawable/rectangle_rounded" />
 
         <LinearLayout
-            android:id="@+id/dropdownContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/dropdownLinearView"
+            android:layout_width="200dp"
+            android:layout_height="230dp"
             android:alpha="1"
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/navQueueButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -150,37 +150,38 @@
                 android:padding="16dp"
                 android:text="Quests"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/navAdventurersButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:alpha="0.85"
                 android:background="@drawable/rectangle_rounded2"
                 android:fontFamily="@font/eb_garamond_semibold"
                 android:padding="16dp"
                 android:text="Adventurers"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/navLogOutButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:alpha="0.85"
                 android:background="@drawable/rectangle_rounded2"
                 android:fontFamily="@font/eb_garamond_semibold"
                 android:padding="16dp"
                 android:text="Log Out"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
     </FrameLayout>
 
