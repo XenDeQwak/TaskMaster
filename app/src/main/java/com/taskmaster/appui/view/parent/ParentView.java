@@ -35,13 +35,13 @@ public class ParentView extends AppCompatActivity {
 
         // Dropdown menu logic
         NavBarButton.setOnClickListener(v -> {
-            System.out.println("HELLO WORLD");
+            //System.out.println("HELLO WORLD");
             DropdownNavMenu nav = findViewById(R.id.dropdownNavMenu);
             if (nav.getVisibility() == GONE) {
-                System.out.println("Now you see me");
+                //System.out.println("Now you see me");
                 nav.setVisibility(VISIBLE);
             } else {
-                System.out.println("Now you don't");
+                //System.out.println("Now you don't");
                 nav.setVisibility(GONE);
             }
         });

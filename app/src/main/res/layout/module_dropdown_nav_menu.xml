@@ -15,30 +15,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/dropdownBG"
-            android:layout_width="200dp"
-            android:layout_height="230dp"
-            android:alpha="0.85"
-            android:background="@drawable/rectangle_rounded" />
-
         <LinearLayout
             android:id="@+id/dropdownLinearView"
-            android:layout_width="200dp"
-            android:layout_height="230dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:alpha="1"
+            android:background="@drawable/rectangle_rounded"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/navQueueButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:alpha="0.85"
                 android:background="@drawable/rectangle_rounded2"
                 android:fontFamily="@font/eb_garamond_semibold"
+                android:minWidth="200dp"
                 android:padding="16dp"
                 android:text="Quests"
                 android:textAlignment="center"
@@ -47,7 +42,7 @@
             <Button
                 android:id="@+id/navAdventurersButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
@@ -55,6 +50,7 @@
                 android:alpha="0.85"
                 android:background="@drawable/rectangle_rounded2"
                 android:fontFamily="@font/eb_garamond_semibold"
+                android:minWidth="200dp"
                 android:padding="16dp"
                 android:text="Adventurers"
                 android:textAlignment="center"
@@ -63,13 +59,14 @@
             <Button
                 android:id="@+id/navLogOutButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:alpha="0.85"
                 android:background="@drawable/rectangle_rounded2"
                 android:fontFamily="@font/eb_garamond_semibold"
+                android:minWidth="200dp"
                 android:padding="16dp"
                 android:text="Log Out"
                 android:textAlignment="center"

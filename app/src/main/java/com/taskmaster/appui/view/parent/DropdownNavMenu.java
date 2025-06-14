@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.util.AttributeSet;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
@@ -35,11 +36,14 @@ public class DropdownNavMenu extends FrameLayout {
     }
 
     private void init () {
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.module_dropdown_nav_menu, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.module_dropdown_nav_menu, this);
         // Initialize Navigation Buttons
-        navQueueButton  = v.findViewById(R.id.navQueueButton);
-        navAdventurersButton  = v.findViewById(R.id.navAdventurersButton);
-        navLogOutButton = v.findViewById(R.id.navLogOutButton);
+        navQueueButton  = findViewById(R.id.navQueueButton);
+        navAdventurersButton  = findViewById(R.id.navAdventurersButton);
+        navLogOutButton = findViewById(R.id.navLogOutButton);
+
+        LinearLayout ll = findViewById(R.id.dropdownLinearView);
+        ll.getBackground().setAlpha(153);
     }
 
     public void attachActivity (Activity activity) {

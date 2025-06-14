@@ -127,8 +127,6 @@
         app:layout_constraintHeight_percent="0.075"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/BottomGuideline"
-        app:layout_constraintTop_toBottomOf=""
         android:layout_marginTop="7.5dp"
         app:srcCompat="@drawable/rectangle_rounded" />
 
