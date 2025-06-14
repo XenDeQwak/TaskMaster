@@ -24,11 +24,10 @@ import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 
 import java.util.HashMap;
 
-public class ParentQuestView extends AppCompatActivity {
+public class ParentViewQuest extends ParentView {
 
     QuestManager questManager;
-    ImageView NavBarButton, CreateQuestButton;
-    Button navQueueButton, navAdventurersButton, navLogOutButton;
+    ImageView CreateQuestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,30 +40,10 @@ public class ParentQuestView extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize top bar buttons
-        NavBarButton = findViewById(R.id.NavBarButton);
+        initNavigationMenu();
+
+        // Initialize CreateQuestButton
         CreateQuestButton = findViewById(R.id.CreateQuestButton);
-
-        // Initialize Nav Buttons
-        navQueueButton  = findViewById(R.id.navQueueButton);
-        navAdventurersButton  = findViewById(R.id.navAdventurersButton);
-        navLogOutButton = findViewById(R.id.navLogOutButton);
-        NavUtil.setNavigation(this, navQueueButton, ParentQuestView.class);
-        NavUtil.setNavigation(this, navAdventurersButton, ManageChild.class);
-        navLogOutButton.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            NavUtil.instantNavigation(this, Splash.class);
-        });
-
-        // Dropdown menu logic
-        NavBarButton.setOnClickListener(v -> {
-            FrameLayout dropdownContainer = findViewById(R.id.dropdownContainer);
-            if (dropdownContainer.getVisibility() == View.VISIBLE ) {
-                dropdownContainer.setVisibility(View.GONE);
-            } else if (dropdownContainer.getVisibility() == View.GONE) {
-                dropdownContainer.setVisibility(View.VISIBLE);
-            }
-        });
 
         // Create Quest
         CreateQuestButton.setOnClickListener(v -> {

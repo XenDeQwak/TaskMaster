@@ -16,12 +16,12 @@ public class QuestManager {
 
     ArrayList<Quest> questList;
 
-    public QuestManager (ArrayList<Quest> QuestList) {
-        this.questList = QuestList;
-    }
-
     public QuestManager () {
         this.questList = new ArrayList<>();
+    }
+
+    public QuestManager (ArrayList<Quest> QuestList) {
+        this.questList = QuestList;
     }
 
     public List<Quest> getQuestList() {

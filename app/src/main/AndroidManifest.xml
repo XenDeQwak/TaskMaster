@@ -15,7 +15,10 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".view.parent.ParentQuestView"
+            android:name=".view.parent.ParentViewManageChild"
+            android:exported="false" />
+        <activity
+            android:name=".view.parent.ParentViewQuest"
             android:exported="false" />
         <activity
             android:name=".view.login.UserLogin"

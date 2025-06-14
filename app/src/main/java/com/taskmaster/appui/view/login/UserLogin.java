@@ -15,8 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.manager.viewmanager.LogInManager;
-import com.taskmaster.appui.view.parent.ParentQuestView;
-import com.taskmaster.appui.view.parent.QuestManagement;
+import com.taskmaster.appui.view.parent.ParentViewQuest;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
 
@@ -86,7 +85,7 @@ public class UserLogin extends AppCompatActivity {
                 // Log-in Logic
                 //Toast.makeText(UserLogin.this, "HELLO WORLD", Toast.LENGTH_SHORT).show();
                 LogInManager logInManager = new LogInManager();
-                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, ParentQuestView.class);
+                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, ParentViewQuest.class);
             }
         });
 

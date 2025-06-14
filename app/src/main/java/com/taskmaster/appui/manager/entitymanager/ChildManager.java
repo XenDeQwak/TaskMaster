@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class ChildManager {
 
-    private List<Child> childList;
+    private ArrayList<Child> childList;
 
     private Context context;
     private FirebaseOptions options;
@@ -30,10 +30,10 @@ public class ChildManager {
     private FirebaseFirestore tempFirestore;
 
     public ChildManager () {
-        new ChildManager(new ArrayList<>());
+        this.childList = new ArrayList<>();
     }
 
-    public ChildManager (List<Child> childList) {
+    public ChildManager (ArrayList<Child> childList) {
         this.childList = childList;
     }
 
@@ -92,7 +92,7 @@ public class ChildManager {
     }
 
     private void initTempFirebaseConnection (Context context, Child c) {
-        childList.add(c);
+        //childList.add(c);
         options = new FirebaseOptions.Builder()
                 .setApiKey("AIzaSyAkhsreVJJf0Hs_-wQ1SuAkXAp_J4tMihs")
                 .setApplicationId("1:120375756304:android:fdb00f240e692a8f5b2c95")
@@ -147,9 +147,6 @@ public class ChildManager {
                         }
                     });
         });
-
-
-
 
     }
 

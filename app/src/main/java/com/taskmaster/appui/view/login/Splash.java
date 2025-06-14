@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.taskmaster.appui.view.parent.ParentQuestView;
+import com.taskmaster.appui.view.parent.ParentViewQuest;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
@@ -50,7 +50,7 @@ public class Splash extends AppCompatActivity {
             User newUser = User.getInstance();
             newUser.setUser(user);
             newUser.loadDocumentSnapshot(documentSnapshot -> {
-                NavUtil.instantNavigation(Splash.this, ParentQuestView.class);
+                NavUtil.instantNavigation(Splash.this, ParentViewQuest.class);
             });
         }
         else{
