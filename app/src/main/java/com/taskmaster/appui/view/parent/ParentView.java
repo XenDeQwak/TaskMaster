@@ -1,39 +1,23 @@
 package com.taskmaster.appui.view.parent;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
 import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.manager.entitymanager.ChildManager;
-import com.taskmaster.appui.util.NavUtil;
-import com.taskmaster.appui.view.login.Splash;
+import com.taskmaster.appui.view.uimodule.DropdownNavMenu;
+import com.taskmaster.appui.view.uimodule.TopBar;
 
 public class ParentView extends AppCompatActivity {
 
-    ImageView NavBarButton;
-    DropdownNavMenu dropdownNavMenu;
+    TopBar topBar;
 
-    void initNavigationMenu(Activity activity) {
+    void initNavigationMenu(Activity activity, Class c) {
 
-        dropdownNavMenu = findViewById(R.id.dropdownNavMenu);
-        dropdownNavMenu.attachActivity(this);
+        topBar = findViewById(R.id.topBarParent);
+        topBar.setCreateButton(c);
+        topBar.attachActivity(activity);
 
     }
 

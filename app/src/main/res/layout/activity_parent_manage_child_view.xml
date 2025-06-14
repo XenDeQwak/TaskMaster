@@ -8,24 +8,9 @@
     android:background="@drawable/background1"
     tools:context=".view.parent.ParentViewManageChild">
 
-    <ImageView
-        android:id="@+id/createAdventurerButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:alpha="0.8"
-        android:background="@drawable/rectangle_rounded2"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerMCV"
-        app:layout_constraintEnd_toEndOf="@+id/topBarContainerMCV"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainerMCV"
-        app:srcCompat="@drawable/add_quest" />
-
-    <View
-        android:id="@+id/topBarContainerMCV"
+    <com.taskmaster.appui.view.uimodule.TopBar
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="@+id/mainContainerMCV"
         app:layout_constraintStart_toStartOf="@+id/mainContainerMCV"
         app:layout_constraintTop_toTopOf="@+id/mainContainerMCV" />
@@ -47,39 +32,24 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-    <View
-        android:id="@+id/titleContainerMCV"
+    <ScrollView
+        android:id="@+id/questScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="72dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:alpha="0.8"
-        android:background="@drawable/rectangle_rounded2"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerMCV"
-        app:layout_constraintEnd_toEndOf="@+id/topBarContainerMCV"
-        app:layout_constraintEnd_toStartOf="@+id/createAdventurerButton"
-        app:layout_constraintStart_toStartOf="@+id/topBarContainerMCV"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainerMCV" />
+        app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
+        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
+        app:layout_constraintTop_toBottomOf="@+id/topBarContainerQV">
 
-    <TextView
-        android:id="@+id/titleTextViewMCV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Adventurers"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/titleContainerMCV"
-        app:layout_constraintEnd_toEndOf="@+id/titleContainerMCV"
-        app:layout_constraintStart_toStartOf="@+id/titleContainerMCV"
-        app:layout_constraintTop_toTopOf="@+id/titleContainerMCV" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
-    <com.taskmaster.appui.view.parent.DropdownNavMenu
-        android:id="@+id/dropdownNavMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="@+id/topBarContainerMCV"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainerMCV">
-
-    </com.taskmaster.appui.view.parent.DropdownNavMenu>
 </androidx.constraintlayout.widget.ConstraintLayout>

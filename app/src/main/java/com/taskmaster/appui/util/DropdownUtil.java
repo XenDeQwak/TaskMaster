@@ -19,7 +19,7 @@ import com.taskmaster.appui.R;
 public class DropdownUtil {
 
     public static void dropdownSetup(Activity activity, View root){
-        ImageView dropdownNavButton = activity.findViewById(R.id.NavBarButton);
+        //ImageView dropdownNavButton = activity.findViewById(R.id.NavBarButton);
         Group dropDownGroup = activity.findViewById(R.id.dropdownGroup);
         AppCompatButton navQuestPage = activity.findViewById(R.id.navQuestPage);
         AppCompatButton navManageAdv = activity.findViewById(R.id.navManageAdv);

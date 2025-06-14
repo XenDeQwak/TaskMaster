@@ -8,45 +8,9 @@
     android:background="@drawable/background1"
     tools:context=".view.parent.ParentViewQuest">
 
-
-
+    <!--  Main  -->
     <ImageView
-        android:id="@+id/CreateQuestButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:alpha="0.8"
-        android:background="@drawable/rectangle_rounded2"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerQV"
-        app:layout_constraintEnd_toEndOf="@+id/topBarContainerQV"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainerQV"
-        app:srcCompat="@drawable/add_quest" />
-
-    <View
-        android:id="@+id/topBarContainerQV"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/mainContainerQV"
-        app:layout_constraintStart_toStartOf="@+id/mainContainerQV"
-        app:layout_constraintTop_toTopOf="@+id/mainContainerQV" />
-
-    <View
-        android:id="@+id/titleContainerQV"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginEnd="16dp"
-        android:alpha="0.8"
-        android:background="@drawable/rectangle_rounded2"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerQV"
-        app:layout_constraintEnd_toStartOf="@+id/CreateQuestButton"
-        app:layout_constraintStart_toStartOf="@+id/topBarContainerQV"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainerQV" />
-
-    <ImageView
-        android:id="@+id/mainContainerQV"
+        android:id="@+id/mainQuestContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -62,19 +26,7 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-    <TextView
-        android:id="@+id/titleTextViewQV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Quest Board"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerQV"
-        app:layout_constraintEnd_toEndOf="@+id/titleContainerQV"
-        app:layout_constraintStart_toStartOf="@+id/titleContainerQV"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainerQV" />
-
+    <!--  Quest list  -->
     <ScrollView
         android:id="@+id/questScrollView"
         android:layout_width="0dp"
@@ -84,9 +36,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:alpha="0.8"
-        app:layout_constraintBottom_toBottomOf="@+id/mainContainerQV"
-        app:layout_constraintEnd_toEndOf="@+id/mainContainerQV"
-        app:layout_constraintStart_toStartOf="@+id/mainContainerQV"
+        app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
+        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
         app:layout_constraintTop_toBottomOf="@+id/topBarContainerQV">
 
         <LinearLayout
@@ -95,11 +47,12 @@
             android:orientation="vertical" />
     </ScrollView>
 
-    <com.taskmaster.appui.view.parent.DropdownNavMenu
-        android:id="@+id/dropdownNavMenu"
-        android:layout_width="wrap_content"
+    <com.taskmaster.appui.view.uimodule.TopBar
+        android:id="@+id/topBarParent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/topBarContainerQV"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainerQV" />
+        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
+        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
