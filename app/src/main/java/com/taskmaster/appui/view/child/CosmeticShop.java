@@ -40,4 +40,5 @@ public class CosmeticShop extends AppCompatActivity {
         String timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
         runOnUiThread(() -> countdownBox.setText(timeFormatted));
     }
+
 }

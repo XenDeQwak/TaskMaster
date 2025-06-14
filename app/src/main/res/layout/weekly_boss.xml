@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.994"
         app:srcCompat="@drawable/background1" />
 
     <ImageView
@@ -105,21 +105,23 @@
     <ImageView
         android:id="@+id/monsterImage"
         android:layout_width="250dp"
-        android:layout_height="230dp"
-        android:layout_marginTop="101dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="70dp"
         android:layout_marginBottom="520dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/baseFrame"
         app:layout_constraintEnd_toEndOf="@+id/baseFrame"
+        app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toStartOf="@+id/baseFrame"
         app:layout_constraintTop_toBottomOf="@+id/basePageFrame"
+        app:layout_constraintVertical_bias="0.425"
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <ImageView
         android:id="@+id/timeboxHrs"
         android:layout_width="45dp"
         android:layout_height="35dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="520dp"
         android:layout_marginEnd="100dp"
         android:visibility="visible"
@@ -132,7 +134,7 @@
         android:id="@+id/timeboxSec"
         android:layout_width="45dp"
         android:layout_height="35dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="520dp"
         android:layout_marginStart="105dp"
         android:visibility="visible"
@@ -145,7 +147,7 @@
         android:id="@+id/TimerTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:textColor="#3F3F3F"
         android:text="00 : 00 : 00"
