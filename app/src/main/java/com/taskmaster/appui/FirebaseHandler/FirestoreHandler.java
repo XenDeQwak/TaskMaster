@@ -82,4 +82,7 @@ public class FirestoreHandler {
         });
     }
 
+    public static FirebaseFirestore getFirestore() {
+        return firestore;
+    }
 }

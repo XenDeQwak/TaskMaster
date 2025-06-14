@@ -66,4 +66,7 @@ public class AuthHandler {
         return EmailAuthProvider.getCredential(email, password);
     }
 
+    public static FirebaseAuth getAuth() {
+        return auth;
+    }
 }
