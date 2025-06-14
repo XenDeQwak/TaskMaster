@@ -1,5 +1,6 @@
 package com.taskmaster.appui.util;
 
+
 import android.content.Context;
 
 import com.google.firebase.FirebaseApp;
@@ -95,7 +96,8 @@ public class ChildCreator {
         childData.put("Role", "child");
 
         tempAuth.addAuthStateListener(auth -> {
-            tempFirestore.collection("Users").document(parent.getUid()).collection("adventurers").document(auth.getCurrentUser().getUid()).set(childData)
+            FirebaseUser child = auth.getCurrentUser();
+            tempFirestore.collection("Users").document(parent.getUid()).collection("adventurers").document(child.getUid()).set(childData)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             System.out.println("Successfully created child data document");
@@ -104,7 +106,22 @@ public class ChildCreator {
                         }
                         tempFB.delete();
                     });
+
+            Map<String, Object> childParentReference  = new HashMap<>();
+            childParentReference.put("Parent", parent.getUid());
+            tempFirestore.collection("ChildParentLookUp").document(child.getUid()).set(childParentReference)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            System.out.println("Successfully created child-parent reference document");
+                        } else {
+                            System.out.println("Failed to create child-parent reference document");
+                        }
+                    });
         });
+
+
+
+
     }
 
 }

@@ -67,7 +67,6 @@ public class ParentQuestView extends AppCompatActivity {
             }
         });
 
-
         // Create Quest
         CreateQuestButton.setOnClickListener(v -> {
             HashMap<String, Object> questData = new HashMap<>();
@@ -82,11 +81,6 @@ public class ParentQuestView extends AppCompatActivity {
             questManager.addQuest(q);
             FirestoreManager.uploadQuest(AuthManager.getAuth().getUid(), q);
         });
-
-
-
-
-
 
         questManager = new QuestManager();
         questManager.loadQuestsFromFirestore();
