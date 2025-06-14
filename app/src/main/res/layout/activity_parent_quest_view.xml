@@ -8,22 +8,7 @@
     android:background="@drawable/background1"
     tools:context=".view.parent.ParentViewQuest">
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/mainContainerGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="NavBarButton,CreateQuestButton,topBarContainer,titleContainer,mainContainer" />
 
-    <ImageView
-        android:id="@+id/NavBarButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:alpha="0.8"
-        android:background="@drawable/rectangle_rounded2"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarContainer"
-        app:layout_constraintStart_toStartOf="@+id/topBarContainer"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainer"
-        app:srcCompat="@drawable/dropdown" />
 
     <ImageView
         android:id="@+id/CreateQuestButton"
@@ -31,37 +16,37 @@
         android:layout_height="60dp"
         android:alpha="0.8"
         android:background="@drawable/rectangle_rounded2"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarContainer"
-        app:layout_constraintEnd_toEndOf="@+id/topBarContainer"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainer"
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerQV"
+        app:layout_constraintEnd_toEndOf="@+id/topBarContainerQV"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainerQV"
         app:srcCompat="@drawable/add_quest" />
 
     <View
-        android:id="@+id/topBarContainer"
+        android:id="@+id/topBarContainerQV"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/mainContainer"
-        app:layout_constraintStart_toStartOf="@+id/mainContainer"
-        app:layout_constraintTop_toTopOf="@+id/mainContainer" />
+        app:layout_constraintEnd_toEndOf="@+id/mainContainerQV"
+        app:layout_constraintStart_toStartOf="@+id/mainContainerQV"
+        app:layout_constraintTop_toTopOf="@+id/mainContainerQV" />
 
     <View
-        android:id="@+id/titleContainer"
+        android:id="@+id/titleContainerQV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="72dp"
         android:layout_marginEnd="16dp"
         android:alpha="0.8"
         android:background="@drawable/rectangle_rounded2"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarContainer"
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerQV"
         app:layout_constraintEnd_toStartOf="@+id/CreateQuestButton"
-        app:layout_constraintStart_toEndOf="@+id/NavBarButton"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainer" />
+        app:layout_constraintStart_toStartOf="@+id/topBarContainerQV"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainerQV" />
 
     <ImageView
-        android:id="@+id/mainContainer"
+        android:id="@+id/mainContainerQV"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -78,17 +63,17 @@
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/titleTextViewQV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Quest Board"
         android:textColor="@color/black"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/topBarContainer"
-        app:layout_constraintEnd_toEndOf="@+id/titleContainer"
-        app:layout_constraintStart_toStartOf="@+id/titleContainer"
-        app:layout_constraintTop_toTopOf="@+id/topBarContainer" />
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerQV"
+        app:layout_constraintEnd_toEndOf="@+id/titleContainerQV"
+        app:layout_constraintStart_toStartOf="@+id/titleContainerQV"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainerQV" />
 
     <ScrollView
         android:id="@+id/questScrollView"
@@ -99,10 +84,10 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:alpha="0.8"
-        app:layout_constraintBottom_toBottomOf="@+id/mainContainer"
-        app:layout_constraintEnd_toEndOf="@+id/mainContainer"
-        app:layout_constraintStart_toStartOf="@+id/mainContainer"
-        app:layout_constraintTop_toBottomOf="@+id/topBarContainer">
+        app:layout_constraintBottom_toBottomOf="@+id/mainContainerQV"
+        app:layout_constraintEnd_toEndOf="@+id/mainContainerQV"
+        app:layout_constraintStart_toStartOf="@+id/mainContainerQV"
+        app:layout_constraintTop_toBottomOf="@+id/topBarContainerQV">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -114,9 +99,7 @@
         android:id="@+id/dropdownNavMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/NavBarButton"
-        app:layout_constraintTop_toBottomOf="@+id/NavBarButton" />
+        app:layout_constraintStart_toStartOf="@+id/topBarContainerQV"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainerQV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

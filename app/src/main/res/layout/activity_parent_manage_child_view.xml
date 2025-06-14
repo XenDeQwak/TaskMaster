@@ -6,4 +6,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
-    tools:context=".view.parent.ParentViewManageChild"/>
+    tools:context=".view.parent.ParentViewManageChild">
+
+    <ImageView
+        android:id="@+id/createAdventurerButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:alpha="0.8"
+        android:background="@drawable/rectangle_rounded2"
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerMCV"
+        app:layout_constraintEnd_toEndOf="@+id/topBarContainerMCV"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainerMCV"
+        app:srcCompat="@drawable/add_quest" />
+
+    <View
+        android:id="@+id/topBarContainerMCV"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/mainContainerMCV"
+        app:layout_constraintStart_toStartOf="@+id/mainContainerMCV"
+        app:layout_constraintTop_toTopOf="@+id/mainContainerMCV" />
+
+    <ImageView
+        android:id="@+id/mainContainerMCV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <View
+        android:id="@+id/titleContainerMCV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0.8"
+        android:background="@drawable/rectangle_rounded2"
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerMCV"
+        app:layout_constraintEnd_toEndOf="@+id/topBarContainerMCV"
+        app:layout_constraintEnd_toStartOf="@+id/createAdventurerButton"
+        app:layout_constraintStart_toStartOf="@+id/topBarContainerMCV"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainerMCV" />
+
+    <TextView
+        android:id="@+id/titleTextViewMCV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Adventurers"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/titleContainerMCV"
+        app:layout_constraintEnd_toEndOf="@+id/titleContainerMCV"
+        app:layout_constraintStart_toStartOf="@+id/titleContainerMCV"
+        app:layout_constraintTop_toTopOf="@+id/titleContainerMCV" />
+
+    <com.taskmaster.appui.view.parent.DropdownNavMenu
+        android:id="@+id/dropdownNavMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@+id/topBarContainerMCV"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainerMCV">
+
+    </com.taskmaster.appui.view.parent.DropdownNavMenu>
+</androidx.constraintlayout.widget.ConstraintLayout>

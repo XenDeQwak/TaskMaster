@@ -40,7 +40,7 @@ public class ParentViewQuest extends ParentView {
             return insets;
         });
 
-        initNavigationMenu();
+        initNavigationMenu(this);
 
         // Initialize CreateQuestButton
         CreateQuestButton = findViewById(R.id.CreateQuestButton);

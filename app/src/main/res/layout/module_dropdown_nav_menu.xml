@@ -4,16 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:focusable="false">
+
+    <ImageView
+        android:id="@+id/NavBarButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:alpha="0.8"
+        android:background="@drawable/rectangle_rounded2"
+        app:layout_constraintBottom_toBottomOf="@+id/topBarContainerQV"
+        app:layout_constraintStart_toStartOf="@+id/topBarContainerQV"
+        app:layout_constraintTop_toTopOf="@+id/topBarContainerQV"
+        app:srcCompat="@drawable/dropdown" />
 
     <FrameLayout
         android:id="@+id/dropdownContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/NavBarButton">
 
         <LinearLayout
             android:id="@+id/dropdownLinearView"
@@ -25,8 +40,8 @@
 
             <Button
                 android:id="@+id/navQueueButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
@@ -41,8 +56,8 @@
 
             <Button
                 android:id="@+id/navAdventurersButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
@@ -58,8 +73,8 @@
 
             <Button
                 android:id="@+id/navLogOutButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
@@ -73,5 +88,4 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </FrameLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

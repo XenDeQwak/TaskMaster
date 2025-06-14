@@ -3,11 +3,14 @@ package com.taskmaster.appui.view.parent;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,24 +30,10 @@ public class ParentView extends AppCompatActivity {
     ImageView NavBarButton;
     DropdownNavMenu dropdownNavMenu;
 
-    void initNavigationMenu() {
+    void initNavigationMenu(Activity activity) {
 
-        NavBarButton = findViewById(R.id.NavBarButton);
-        dropdownNavMenu = new DropdownNavMenu(this);
+        dropdownNavMenu = findViewById(R.id.dropdownNavMenu);
         dropdownNavMenu.attachActivity(this);
-
-        // Dropdown menu logic
-        NavBarButton.setOnClickListener(v -> {
-            //System.out.println("HELLO WORLD");
-            DropdownNavMenu nav = findViewById(R.id.dropdownNavMenu);
-            if (nav.getVisibility() == GONE) {
-                //System.out.println("Now you see me");
-                nav.setVisibility(VISIBLE);
-            } else {
-                //System.out.println("Now you don't");
-                nav.setVisibility(GONE);
-            }
-        });
 
     }
 

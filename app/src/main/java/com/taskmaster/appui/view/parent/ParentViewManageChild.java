@@ -28,7 +28,7 @@ public class ParentViewManageChild extends ParentView {
             return insets;
         });
 
-        initNavigationMenu();
+        initNavigationMenu(this);
 
         // Initialize CreateQuestButton
         //CreateAdventurerButton = findViewById(R.id.CreateAdventurerButton);
