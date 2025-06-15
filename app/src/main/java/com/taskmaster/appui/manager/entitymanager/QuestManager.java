@@ -70,7 +70,7 @@ public class QuestManager {
         qd.put("CreatorUID", FirestoreManager.getFirestore().collection("Users").document("user").getId());
         qd.put("CreatorRef", FirestoreManager.getFirestore().collection("Users").document("user"));
         qd.put("StartDate", 2025000000000L);
-        qd.put("EndDate", 202536586340L);
+        qd.put("EndDate", 202536586399L);
         qd.put("RewardStat", Stats.STRENGTH);
         qd.put("RewardExtra", "test");
         Quest q = QuestManager.parseQuestData(qd);
