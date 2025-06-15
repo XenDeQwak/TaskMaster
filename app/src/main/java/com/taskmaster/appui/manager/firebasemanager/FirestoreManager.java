@@ -17,6 +17,7 @@ import com.taskmaster.appui.util.GenericCallback;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,14 +86,26 @@ public class FirestoreManager {
         });
     }
 
-    public static void uploadQuest (String creatorUID, Quest quest) {
-        String questID = Integer.toString(quest.hashCode());
-        firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(quest))
+    public static void uploadQuest (Quest q) {
+        String questID = Integer.toString(q.hashCode());
+        firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Debug", "Successfully created quest document");
                     } else {
                         Log.d("Debug", "Failed to create quest document");
+                    }
+                });
+
+        HashMap<String, Object> ref = new HashMap<>();
+        ref.put("QuestRef", firestore.collection("Quests").document(questID));
+        firestore.collection("Users").document(q.getCreatorUID()).collection("quests").document(questID).set(ref)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Debug", "Successfully created quest reference");
+                    } else {
+                        task.getException().printStackTrace();
+                        Log.d("Debug", "Failed to create quest reference");
                     }
                 });
     }

@@ -36,43 +36,45 @@ public class QuestManager {
         questList.remove(quest);
     }
 
-    public static Quest parseQuestData (HashMap<String, Object> questData) {
-        Quest q = new Quest();
-        q.setName((String) questData.get("Name"));
-        q.setDescription((String) questData.get("Description"));
-        q.setCreatorUID((String) questData.get("CreatorUID"));
-        q.setStartDate((Long) questData.get("StartDate"));
-        q.setEndDate((Long) questData.get("EndDate"));
-        q.setRewardStat((Stats) questData.get("RewardStat"));
-        q.setRewardExtra((String) questData.get("RewardExtra"));
+    public static Quest parseQuestData (HashMap<String, Object> qd) {
+        return new Quest(
+                (String) qd.get("Name"),
+                (String) qd.get("Description"),
+                (String) qd.get("CreatorUID"),
+                (DocumentReference) qd.get("CreatorRef"),
+                (Long) qd.get("StartDate"),
+                (Long) qd.get("EndDate"),
+                (Stats) qd.get("RewardStat"),
+                (String) qd.get("RewardExtra")
+                );
+    }
 
-        return q;
+    public static HashMap<String, Object> packQuestData (Quest q) {
+        HashMap<String, Object> qd = new HashMap<>();
+        qd.put("Name", q.getName());
+        qd.put("Description", q.getDescription());
+        qd.put("CreatorUID", q.getCreatorUID());
+        qd.put("CreatorRef", q.getCreatorReference());
+        qd.put("StartDate", q.getStartDate());
+        qd.put("EndDate", q.getEndDate());
+        qd.put("RewardStat", q.getRewardStat());
+        qd.put("RewardExtra", q.getRewardExtra());
+
+        return qd;
     }
 
     public static Quest createTestQuest () {
         HashMap<String, Object> qd = new HashMap<>();
         qd.put("Name", "testquest");
         qd.put("Description", "I am a test quest");
-        qd.put("CreatorUID", 2025000000000L);
-        qd.put("StartDate", 202536586340L);
-        qd.put("EndDate", Stats.STRENGTH);
-        qd.put("RewardStat", FirestoreManager.getFirestore().collection("Users").document("test"));
+        qd.put("CreatorUID", FirestoreManager.getFirestore().collection("Users").document("user").getId());
+        qd.put("CreatorRef", FirestoreManager.getFirestore().collection("Users").document("user"));
+        qd.put("StartDate", 2025000000000L);
+        qd.put("EndDate", 202536586340L);
+        qd.put("RewardStat", Stats.STRENGTH);
         qd.put("RewardExtra", "test");
         Quest q = QuestManager.parseQuestData(qd);
         return q;
-    }
-
-    public static HashMap<String, Object> packQuestData (Quest quest) {
-        HashMap<String, Object> qd = new HashMap<>();
-        qd.put("Name", quest.getName());
-        qd.put("Description", quest.getDescription());
-        qd.put("CreatorUID", quest.getCreatorUID());
-        qd.put("StartDate", quest.getStartDate());
-        qd.put("EndDate", quest.getEndDate());
-        qd.put("RewardStat", quest.getRewardStat());
-        qd.put("RewardExtra", quest.getRewardExtra());
-
-        return qd;
     }
 
     public void loadQuestsFromFirestore () {

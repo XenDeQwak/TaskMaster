@@ -36,13 +36,13 @@ public class ParentViewQuest extends ParentView {
 
         initNavigationMenu(this, ParentViewQuest.class);
 
+        // Initialize createQuestButton
         createQuestButton = topBar.getCreateObjectButton();
-
-        // Create Quest
         createQuestButton.setOnClickListener(v -> {
+            //System.out.println("I AM PRESSED");
             Quest q = QuestManager.createTestQuest();
             questManager.addQuest(q);
-            FirestoreManager.uploadQuest(AuthManager.getAuth().getUid(), q);
+            FirestoreManager.uploadQuest(q);
         });
 
         questManager = new QuestManager();

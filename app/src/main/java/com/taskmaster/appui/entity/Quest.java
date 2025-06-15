@@ -12,6 +12,25 @@ public class Quest {
     private DocumentReference creatorReference;
 
 
+    public Quest(String name,
+                 String description,
+                 String creatorUID,
+                 DocumentReference creatorReference,
+                 long startDate,
+                 long endDate,
+                 Stats rewardStat,
+                 String rewardExtra) {
+        this.name = name;
+        this.description = description;
+        this.creatorUID = creatorUID;
+        this.creatorReference = creatorReference;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.rewardStat = rewardStat;
+        this.rewardExtra = rewardExtra;
+    }
+
+
     public String getName() {
         return name;
     }
