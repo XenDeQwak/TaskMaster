@@ -153,8 +153,8 @@ public class ManageChild extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ChildManager cc = new ChildManager(context);
-                cc.create();
+//                ChildManager cc = new ChildManager(context);
+//                cc.create();
 
             }
         });

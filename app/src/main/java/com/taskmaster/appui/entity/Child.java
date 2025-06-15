@@ -1,5 +1,9 @@
 package com.taskmaster.appui.entity;
 
+import com.google.firebase.firestore.DocumentReference;
+
+import org.w3c.dom.Document;
+
 public class Child {
 
     String childEmail;
@@ -7,6 +11,26 @@ public class Child {
     String childUsername;
     String childFirstname;
     String childLastname;
+    String parentUID;
+    DocumentReference parentRef;
+
+
+    public Child(String childEmail,
+                 String childPassword,
+                 String childUsername,
+                 String childFirstname,
+                 String childLastname,
+                 String parentUID,
+                 DocumentReference parentRef) {
+        this.childEmail = childEmail;
+        this.childPassword = childPassword;
+        this.childUsername = childUsername;
+        this.childFirstname = childFirstname;
+        this.childLastname = childLastname;
+        this.parentUID = parentUID;
+        this.parentRef = parentRef;
+    }
+
 
     public String getChildEmail() {
         return childEmail;
@@ -46,5 +70,21 @@ public class Child {
 
     public void setChildLastname(String childLastname) {
         this.childLastname = childLastname;
+    }
+
+    public String getParentUID() {
+        return parentUID;
+    }
+
+    public void setParentUID(String parentUID) {
+        this.parentUID = parentUID;
+    }
+
+    public DocumentReference getParentRef() {
+        return parentRef;
+    }
+
+    public void setParentRef(DocumentReference parentRef) {
+        this.parentRef = parentRef;
     }
 }
