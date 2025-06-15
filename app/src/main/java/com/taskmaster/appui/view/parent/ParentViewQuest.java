@@ -40,15 +40,7 @@ public class ParentViewQuest extends ParentView {
 
         // Create Quest
         createQuestButton.setOnClickListener(v -> {
-            HashMap<String, Object> questData = new HashMap<>();
-            questData.put("Name", "testquest");
-            questData.put("Description", "I am a test quest");
-            questData.put("StartDate", 2025000000000L);
-            questData.put("DeadlineDate", 202536586340L);
-            questData.put("RewardStat", Stats.STRENGTH);
-            questData.put("CreatorReference", FirestoreManager.getFirestore().collection("Users").document("test"));
-            questData.put("CreatorUID", "test");
-            Quest q = QuestManager.parseQuestData(questData);
+            Quest q = QuestManager.createTestQuest();
             questManager.addQuest(q);
             FirestoreManager.uploadQuest(AuthManager.getAuth().getUid(), q);
         });

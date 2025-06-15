@@ -49,6 +49,19 @@ public class QuestManager {
         return q;
     }
 
+    public static Quest createTestQuest () {
+        HashMap<String, Object> qd = new HashMap<>();
+        qd.put("Name", "testquest");
+        qd.put("Description", "I am a test quest");
+        qd.put("CreatorUID", 2025000000000L);
+        qd.put("StartDate", 202536586340L);
+        qd.put("EndDate", Stats.STRENGTH);
+        qd.put("RewardStat", FirestoreManager.getFirestore().collection("Users").document("test"));
+        qd.put("RewardExtra", "test");
+        Quest q = QuestManager.parseQuestData(qd);
+        return q;
+    }
+
     public static HashMap<String, Object> packQuestData (Quest quest) {
         HashMap<String, Object> qd = new HashMap<>();
         qd.put("Name", quest.getName());

@@ -15,7 +15,6 @@ import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -76,10 +75,10 @@ public class ChildManager {
      * Debug method used to create random child objects
      */
     public void create () {
-        initTempFirebaseConnection(context, createTestChildForDebug());
+        initTempFirebaseConnection(context, createTestChild());
     }
 
-    private Child createTestChildForDebug () {
+    private Child createTestChild() {
         Child c = new Child();
         Random r = new Random();
         c.setChildEmail("testchild" + r.nextInt(100) + "@email.com");
