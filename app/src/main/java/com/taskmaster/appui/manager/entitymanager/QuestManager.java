@@ -40,19 +40,24 @@ public class QuestManager {
         Quest q = new Quest();
         q.setName((String) questData.get("Name"));
         q.setDescription((String) questData.get("Description"));
-        q.setCreatorUID((String) questData.get("Name"));
-        q.setStartDate((Long) questData.get("Name"));
-        q.setEndDate((Long) questData.get("Name"));
-        q.setRewardStat((Stats) questData.get("Name"));
-        q.setRewardExtra((String) questData.get("Name"));
-        q.setName((String) questData.get("Name"));
+        q.setCreatorUID((String) questData.get("CreatorUID"));
+        q.setStartDate((Long) questData.get("StartDate"));
+        q.setEndDate((Long) questData.get("EndDate"));
+        q.setRewardStat((Stats) questData.get("RewardStat"));
+        q.setRewardExtra((String) questData.get("RewardExtra"));
 
         return q;
     }
 
     public static HashMap<String, Object> packQuestData (Quest quest) {
         HashMap<String, Object> qd = new HashMap<>();
-
+        qd.put("Name", quest.getName());
+        qd.put("Description", quest.getDescription());
+        qd.put("CreatorUID", quest.getCreatorUID());
+        qd.put("StartDate", quest.getStartDate());
+        qd.put("EndDate", quest.getEndDate());
+        qd.put("RewardStat", quest.getRewardStat());
+        qd.put("RewardExtra", quest.getRewardExtra());
 
         return qd;
     }

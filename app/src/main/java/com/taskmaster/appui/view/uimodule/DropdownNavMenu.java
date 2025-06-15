@@ -29,11 +29,6 @@ public class DropdownNavMenu extends FrameLayout {
     }
 
 
-    public DropdownNavMenu(Context context) {
-        super(context);
-        init();
-    }
-
     private void init () {
         LayoutInflater.from(getContext()).inflate(R.layout.module_dropdown_nav_menu, this);
         // Initialize Navigation Buttons

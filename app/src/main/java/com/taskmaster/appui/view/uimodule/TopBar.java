@@ -30,11 +30,6 @@ public class TopBar extends FrameLayout {
         Toast.makeText(context, "HELLO WORLD AUTOMATICALLY MADE", Toast.LENGTH_LONG).show();
     }
 
-    public TopBar(Context context) {
-        super(context);
-        init();
-    }
-
     private void init () {
         LayoutInflater.from(getContext()).inflate(R.layout.module_top_bar, this);
         navBarButton = findViewById(R.id.navBarButton);
