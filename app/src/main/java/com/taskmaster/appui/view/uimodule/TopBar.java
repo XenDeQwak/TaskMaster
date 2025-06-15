@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -26,6 +27,7 @@ public class TopBar extends FrameLayout {
     public TopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
+        Toast.makeText(context, "HELLO WORLD AUTOMATICALLY MADE", Toast.LENGTH_LONG).show();
     }
 
     public TopBar(Context context) {

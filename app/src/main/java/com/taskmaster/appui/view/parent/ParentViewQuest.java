@@ -14,12 +14,14 @@ import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.entity.enums.Stats;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+import com.taskmaster.appui.view.uimodule.TopBar;
 
 import java.util.HashMap;
 
 public class ParentViewQuest extends ParentView {
 
     QuestManager questManager;
+    ImageView createQuestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,23 +36,22 @@ public class ParentViewQuest extends ParentView {
 
         initNavigationMenu(this, ParentViewQuest.class);
 
-//        // Initialize CreateQuestButton
-//        CreateQuestButton = findViewById(R.id.createQuestButton);
-//
-//        // Create Quest
-//        CreateQuestButton.setOnClickListener(v -> {
-//            HashMap<String, Object> questData = new HashMap<>();
-//            questData.put("Name", "testquest");
-//            questData.put("Description", "I am a test quest");
-//            questData.put("StartDate", 2025000000000L);
-//            questData.put("DeadlineDate", 202536586340L);
-//            questData.put("RewardStat", Stats.STRENGTH);
-//            questData.put("CreatorReference", FirestoreManager.getFirestore().collection("Users").document("test"));
-//            questData.put("CreatorUID", "test");
-//            Quest q = QuestManager.parseQuestData(questData);
-//            questManager.addQuest(q);
-//            FirestoreManager.uploadQuest(AuthManager.getAuth().getUid(), q);
-//        });
+        createQuestButton = topBar.getCreateObjectButton();
+
+        // Create Quest
+        createQuestButton.setOnClickListener(v -> {
+            HashMap<String, Object> questData = new HashMap<>();
+            questData.put("Name", "testquest");
+            questData.put("Description", "I am a test quest");
+            questData.put("StartDate", 2025000000000L);
+            questData.put("DeadlineDate", 202536586340L);
+            questData.put("RewardStat", Stats.STRENGTH);
+            questData.put("CreatorReference", FirestoreManager.getFirestore().collection("Users").document("test"));
+            questData.put("CreatorUID", "test");
+            Quest q = QuestManager.parseQuestData(questData);
+            questManager.addQuest(q);
+            FirestoreManager.uploadQuest(AuthManager.getAuth().getUid(), q);
+        });
 
         questManager = new QuestManager();
         questManager.loadQuestsFromFirestore();

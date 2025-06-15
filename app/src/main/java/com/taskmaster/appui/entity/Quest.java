@@ -1,21 +1,16 @@
 package com.taskmaster.appui.entity;
 
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.ServerTimestamp;
 import com.taskmaster.appui.entity.enums.Stats;
-
-import java.util.Date;
 
 public class Quest {
 
-    private String name, description;
-    private long startDate;
-    private long deadlineDate;
+    private String name, description, creatorUID;
+    private long startDate, endDate;
     private Stats rewardStat;
     private String rewardExtra;
     private DocumentReference creatorReference;
-    private String creatorUID;
+
 
     public String getName() {
         return name;
@@ -33,6 +28,14 @@ public class Quest {
         this.description = description;
     }
 
+    public String getCreatorUID() {
+        return creatorUID;
+    }
+
+    public void setCreatorUID(String creatorUID) {
+        this.creatorUID = creatorUID;
+    }
+
     public long getStartDate() {
         return startDate;
     }
@@ -41,12 +44,12 @@ public class Quest {
         this.startDate = startDate;
     }
 
-    public long getDeadlineDate() {
-        return deadlineDate;
+    public long getEndDate() {
+        return endDate;
     }
 
-    public void setDeadlineDate(long deadlineDate) {
-        this.deadlineDate = deadlineDate;
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
     }
 
     public Stats getRewardStat() {
@@ -71,13 +74,5 @@ public class Quest {
 
     public void setCreatorReference(DocumentReference creatorReference) {
         this.creatorReference = creatorReference;
-    }
-
-    public String getCreatorUID() {
-        return creatorUID;
-    }
-
-    public void setCreatorUID(String creatorUID) {
-        this.creatorUID = creatorUID;
     }
 }

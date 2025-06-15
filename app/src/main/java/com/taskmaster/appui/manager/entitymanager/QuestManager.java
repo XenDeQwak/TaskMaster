@@ -17,7 +17,7 @@ public class QuestManager {
     ArrayList<Quest> questList;
 
     public QuestManager () {
-        this.questList = new ArrayList<>();
+        this(new ArrayList<>());
     }
 
     public QuestManager (ArrayList<Quest> QuestList) {
@@ -40,24 +40,19 @@ public class QuestManager {
         Quest q = new Quest();
         q.setName((String) questData.get("Name"));
         q.setDescription((String) questData.get("Description"));
-        q.setStartDate((long) questData.get("StartDate"));
-        q.setDeadlineDate((long) questData.get("DeadlineDate"));
-        q.setRewardStat((Stats) questData.get("RewardStat"));
-        q.setCreatorReference((DocumentReference) questData.get("CreatorReference"));
-        q.setCreatorUID((String) questData.get("CreatorUID"));
+        q.setCreatorUID((String) questData.get("Name"));
+        q.setStartDate((Long) questData.get("Name"));
+        q.setEndDate((Long) questData.get("Name"));
+        q.setRewardStat((Stats) questData.get("Name"));
+        q.setRewardExtra((String) questData.get("Name"));
+        q.setName((String) questData.get("Name"));
 
         return q;
     }
 
     public static HashMap<String, Object> packQuestData (Quest quest) {
         HashMap<String, Object> qd = new HashMap<>();
-        qd.put("Name", quest.getName());
-        qd.put("Description", quest.getDescription());
-        qd.put("StartDate", quest.getStartDate());
-        qd.put("DeadlineDate", quest.getDeadlineDate());
-        qd.put("RewardStat", quest.getRewardStat());
-        qd.put("CreatorReference", quest.getCreatorReference());
-        qd.put("CreatorUID", quest.getCreatorUID());
+
 
         return qd;
     }
