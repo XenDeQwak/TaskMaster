@@ -117,19 +117,18 @@
         android:id="@+id/cosmeticShopContainerTopTextContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:alpha="0.5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
         app:layout_constraintTop_toTopOf="@+id/imageView7"
         app:layout_constraintWidth_percent="0.45"
         app:layout_constraintHeight_percent="0.075"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/BottomGuideline"
-        app:layout_constraintTop_toBottomOf=""
-        android:layout_marginTop="7.5dp"
+        app:layout_constraintVertical_bias="0.0075"
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <TextView
