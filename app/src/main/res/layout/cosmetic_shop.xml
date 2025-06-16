@@ -102,7 +102,7 @@
         android:visibility="visible"
         app:autoSizeMaxTextSize="30sp"
         app:autoSizeMinTextSize="10sp"
-        app:autoSizeStepGranularity="0.1sp"
+        app:autoSizeStepGranularity="1sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@+id/currencyBox"
         app:layout_constraintEnd_toEndOf="@+id/currencyBox"
