@@ -77,6 +77,10 @@ public class QuestManager {
         return QuestManager.parseQuestData(qd);
     }
 
+    public static void updateQuest () {
+
+    }
+
     public void loadQuestsFromFirestore () {
         questList.clear();
         FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
