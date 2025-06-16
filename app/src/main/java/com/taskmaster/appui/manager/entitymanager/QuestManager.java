@@ -69,12 +69,12 @@ public class QuestManager {
         qd.put("Description", "I am a test quest");
         qd.put("CreatorUID", FirestoreManager.getFirestore().collection("Users").document("user").getId());
         qd.put("CreatorRef", FirestoreManager.getFirestore().collection("Users").document("user"));
-        qd.put("StartDate", 2025000000000L);
-        qd.put("EndDate", 202536586399L);
+        qd.put("StartDate", 2025000000000L);    // January 1, 2025, 00:00
+        qd.put("EndDate", 202536586399L);       // December 31, 2025, 23:59
         qd.put("RewardStat", Stats.STRENGTH);
         qd.put("RewardExtra", "test");
-        Quest q = QuestManager.parseQuestData(qd);
-        return q;
+
+        return QuestManager.parseQuestData(qd);
     }
 
     public void loadQuestsFromFirestore () {

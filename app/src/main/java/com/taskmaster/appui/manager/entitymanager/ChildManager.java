@@ -21,17 +21,13 @@ public class ChildManager {
     private TemporaryConnectionManager tempConnectionManager;
 
 
-
-    public ChildManager () {
-        this.childList = new ArrayList<>();
-    }
-
-    public ChildManager (ArrayList<Child> childList) {
+    public ChildManager (ArrayList<Child> childList, Context context) {
         this.childList = childList;
+        this.context = context;
     }
 
     public ChildManager(Context context) {
-        this.context = context;
+        this(new ArrayList<>(), context);
     }
 
     public static Child parseChildData (Map<String, Object> cd) {
@@ -54,28 +50,12 @@ public class ChildManager {
         cd.put("Firstname", c.getChildFirstname());
         cd.put("Lastname", c.getChildLastname());
         cd.put("ParentUID", c.getParentUID());
-        cd.put("ParentRef", c.getParentUID());
+        cd.put("ParentRef", c.getParentRef());
 
         return cd;
     }
 
-
-    public void addChild(Child c, String cpass) {
-        c.setChildPassword(cpass);
-
-        childList.add(c);
-        tempConnectionManager = new TemporaryConnectionManager();
-        tempConnectionManager.start(context);
-        tempConnectionManager.uploadChild(c);
-        tempConnectionManager.end();
-    }
-
-
-    public void addChild() {
-        addChild(createTestChild(), "testchild");
-    }
-
-    private Child createTestChild() {
+    public static Child createTestChild() {
         Random r = new Random();
         return new Child(
                 "testchild" + r.nextInt(100) + "@email.com",
@@ -88,6 +68,8 @@ public class ChildManager {
         );
     }
 
-
+    public void addChild(Child c) {
+        childList.add(c);
+    }
 
 }

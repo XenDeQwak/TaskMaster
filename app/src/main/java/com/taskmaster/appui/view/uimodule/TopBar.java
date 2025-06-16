@@ -27,7 +27,7 @@ public class TopBar extends FrameLayout {
     public TopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
-        Toast.makeText(context, "HELLO WORLD AUTOMATICALLY MADE", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "HELLO WORLD AUTOMATICALLY MADE", Toast.LENGTH_LONG).show();
     }
 
     private void init () {
@@ -42,7 +42,7 @@ public class TopBar extends FrameLayout {
 
         // Dropdown menu logic
         navBarButton.setOnClickListener(v -> {
-            System.out.println("HELLO WORLD");
+            //System.out.println("HELLO WORLD");
             FrameLayout navMenu = dropdownNavMenu.findViewById(R.id.dropdownContainer);
             if (navMenu.getVisibility() == GONE) {
                 //System.out.println("Now you see me");

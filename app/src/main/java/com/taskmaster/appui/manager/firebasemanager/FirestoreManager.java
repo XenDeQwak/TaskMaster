@@ -87,6 +87,9 @@ public class FirestoreManager {
     }
 
     public static void uploadQuest (Quest q) {
+
+        System.out.println(q.getCreatorReference());
+        System.out.println(q.getCreatorReference().getPath());
         String questID = Integer.toString(q.hashCode());
         firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
                 .addOnCompleteListener(task -> {

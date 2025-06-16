@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.login.Splash;
+import com.taskmaster.appui.view.parent.ManageChild;
 import com.taskmaster.appui.view.parent.ParentViewManageChild;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 

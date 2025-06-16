@@ -32,6 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.util.DropdownUtil;
 import com.taskmaster.appui.util.NavUtil;
@@ -153,8 +154,8 @@ public class ManageChild extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                ChildManager cc = new ChildManager(context);
-//                cc.create();
+                //ChildManager cc = new ChildManager(context);
+                //cc.addChild(); // Keep empty for testing
 
             }
         });

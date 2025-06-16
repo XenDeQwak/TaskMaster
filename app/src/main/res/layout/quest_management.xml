@@ -345,7 +345,7 @@
         android:id="@+id/editQuestGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="editQuestGroupFrameShadow,assignNextBtn,assignPrevBtn,editQuestFrame,editQuestImage,editQuestName,editQuestTime,editQuestDesc,setRewardsButton,setDifficultyBG,setDifficultyRating,childAvatar,assignQuest,cancelQuestEditButton,saveQuestEditButton"
         tools:visibility="gone" />
 

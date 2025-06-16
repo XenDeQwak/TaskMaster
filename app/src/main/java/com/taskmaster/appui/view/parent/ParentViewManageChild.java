@@ -10,10 +10,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
+import com.taskmaster.appui.manager.entitymanager.QuestManager;
+import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
 
 public class ParentViewManageChild extends ParentView {
 
+    ChildManager childManager;
+    ImageView createChildButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,17 @@ public class ParentViewManageChild extends ParentView {
 
         initNavigationMenu(this, ParentViewManageChild.class);
 
+        childManager = new ChildManager(getApplicationContext());
+
+        // Initialize createChildButton
+        createChildButton = topBar.getCreateObjectButton();
+        createChildButton.setOnClickListener(v -> {
+            //System.out.println("I AM PRESSED IN PARENTVIEWMANAGECHILD");
+            Child c = ChildManager.createTestChild();
+            childManager.addChild(c);
+            TemporaryConnectionManager.startTempConnection(getApplicationContext());
+            TemporaryConnectionManager.uploadChild(c);
+        });
 
     }
 }
