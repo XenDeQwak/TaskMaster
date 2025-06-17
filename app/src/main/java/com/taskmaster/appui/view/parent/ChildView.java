@@ -16,7 +16,7 @@ public class ChildView extends AppCompatActivity {
     void initNavigationMenu(Activity activity, Class c) {
 
         topBar = findViewById(R.id.topBarParent);
-        topBar.setCreateButton(c);
+        topBar.initPageView(c);
         topBar.attachActivity(activity);
 
         goldAmount = topBar.getGoldAmount();

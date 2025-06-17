@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.manager.viewmanager.LogInManager;
+import com.taskmaster.appui.view.parent.ChildViewQuest;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
@@ -82,10 +83,9 @@ public class UserLogin extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Log-in Logic
-                //Toast.makeText(UserLogin.this, "HELLO WORLD", Toast.LENGTH_SHORT).show();
+                Class<?>[] destinations = {ParentViewQuest.class, ChildViewQuest.class};
                 LogInManager logInManager = new LogInManager();
-                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, ParentViewQuest.class);
+                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, destinations);
             }
         });
 

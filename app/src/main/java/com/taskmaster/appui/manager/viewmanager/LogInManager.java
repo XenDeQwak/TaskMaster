@@ -10,13 +10,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
+import com.taskmaster.appui.view.parent.ChildViewQuest;
+import com.taskmaster.appui.view.parent.ParentViewQuest;
+
+import java.util.Objects;
 
 public class LogInManager {
 
     AuthCredential credential;
 
-    public void attemptUserLogin (String email, String password, Activity origin, final Class<?> destination) {
-
+    public void attemptUserLogin (String email, String password, Activity origin, final Class<?>[] destination) {
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(origin, "Please enter all fields", Toast.LENGTH_SHORT).show();
@@ -27,14 +30,20 @@ public class LogInManager {
 
         try {
 
-            AuthManager.signInUser(credential, IsSignInSuccess -> {
-                if (IsSignInSuccess) {
+            AuthManager.signInUser(credential, signInResult -> {
+
+                Boolean signInSuccessful = (Boolean)signInResult[0];
+                String signInRole = (String)signInResult[1];
+
+                if (signInSuccessful) {
                     Toast.makeText(origin, "Login successful", Toast.LENGTH_SHORT).show();
                     User newUser = User.getInstance();
                     newUser.setUser(FirebaseAuth.getInstance().getCurrentUser());
-                    newUser.loadDocumentSnapshot(documentSnapshot -> {
-                        NavUtil.instantNavigation(origin, destination);
-                    });
+                    Class<?> dest = (Objects.equals(signInRole, "parent"))? ParentViewQuest.class : ChildViewQuest.class;
+//                    System.out.println(signInRole);
+//                    System.out.println((Objects.equals(signInRole, "parent")));
+//                    System.out.println(dest);
+                    newUser.loadDocumentSnapshot(documentSnapshot -> NavUtil.instantNavigation(origin, dest));
                 } else {
                     Toast.makeText(origin, "Login failed", Toast.LENGTH_SHORT).show();
                 }

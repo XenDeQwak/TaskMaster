@@ -8,18 +8,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.entity.Child;
-import com.taskmaster.appui.view.parent.ChildView;
+import com.taskmaster.appui.view.parent.ChildViewQuest;
 import com.taskmaster.appui.view.parent.ParentView;
 import com.taskmaster.appui.view.parent.ParentViewManageChild;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
-
-import org.w3c.dom.Text;
 
 public class TopBar extends FrameLayout {
 
@@ -72,14 +69,18 @@ public class TopBar extends FrameLayout {
         pageTitleTextView.setText(s);
     }
 
-    public <T extends ParentView> void setCreateButton (Class<T> parentView) {
-        if (parentView == ParentViewQuest.class) {
+    public <T extends AppCompatActivity> void initPageView(Class<T> view) {
+
+        if (view == ParentViewQuest.class) {
             createObjectButton.setImageResource(R.drawable.add_quest);
             setTitle("Quest Board");
-        } else if (parentView == ParentViewManageChild.class) {
+        } else if (view == ParentViewManageChild.class) {
             createObjectButton.setImageResource(R.drawable.add_adventurer);
             setTitle("Adventurers");
+        } else if (view == ChildViewQuest.class) {
+            setTitle("Quest Board");
         }
+
     }
 
     public TextView getGoldAmount () {

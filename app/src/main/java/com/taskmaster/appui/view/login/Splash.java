@@ -10,10 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+import com.taskmaster.appui.view.parent.ChildViewQuest;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
+
+import java.util.Objects;
 
 public class Splash extends AppCompatActivity {
 
@@ -45,12 +49,21 @@ public class Splash extends AppCompatActivity {
         logo.setAnimation(pop_out_Anim);
         logo_shadow.setAnimation(pop_out_Anim);
 
+        //FirebaseAuth.getInstance().signOut();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null){
             User newUser = User.getInstance();
             newUser.setUser(user);
             newUser.loadDocumentSnapshot(documentSnapshot -> {
-                NavUtil.instantNavigation(Splash.this, ParentViewQuest.class);
+                FirestoreManager.getFirestore().collection("Users").document(user.getUid()).get()
+                        .addOnCompleteListener(task -> {
+                            String role = (String) task.getResult().get("Role");
+                            Class<?> dest = (Objects.equals(role, "parent"))? ParentViewQuest.class : ChildViewQuest.class;
+//                            System.out.println(role);
+//                            System.out.println((Objects.equals(role, "parent")));
+//                            System.out.println(dest);
+                            NavUtil.instantNavigation(Splash.this, dest);
+                        });
             });
         }
         else{
