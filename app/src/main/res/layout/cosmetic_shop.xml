@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="1.0"
         app:layout_constraintHeight_percent="1.0"
-        app:srcCompat="@drawable/defaultbg_placeholder" />
+        app:srcCompat="@drawable/shopbg" />
 
     <!-- overlay rounded background -->
     <ImageView
