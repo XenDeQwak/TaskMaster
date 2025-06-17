@@ -5,6 +5,32 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.child.ChildViewQuest">
+    android:background="@drawable/background1"
+    tools:context=".view.parent.ChildViewQuest">
+
+    <ImageView
+        android:id="@+id/mainQuestContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <com.taskmaster.appui.view.uimodule.TopBar
+        android:id="@+id/topBarParent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
+        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

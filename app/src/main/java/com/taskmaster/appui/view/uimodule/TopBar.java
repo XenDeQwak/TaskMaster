@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,9 +13,13 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.view.parent.ChildView;
 import com.taskmaster.appui.view.parent.ParentView;
 import com.taskmaster.appui.view.parent.ParentViewManageChild;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
+
+import org.w3c.dom.Text;
 
 public class TopBar extends FrameLayout {
 
@@ -22,6 +27,7 @@ public class TopBar extends FrameLayout {
     DropdownNavMenu dropdownNavMenu;
     TextView pageTitleTextView;
     ImageView createObjectButton;
+    TextView goldAmount;
 
     // Constructor used when inflating from XML
     public TopBar(Context context, AttributeSet attrs) {
@@ -36,6 +42,7 @@ public class TopBar extends FrameLayout {
         dropdownNavMenu = findViewById(R.id.dropdownNavMenu);
         pageTitleTextView = findViewById(R.id.pageTitleTextView);
         createObjectButton = findViewById(R.id.createObjectButton);
+        goldAmount = findViewById(R.id.goldAmount);
 
         ConstraintLayout container = findViewById(R.id.topBarContainer);
         container.getBackground().setAlpha(100);
@@ -53,6 +60,8 @@ public class TopBar extends FrameLayout {
                 navMenu.setVisibility(GONE);
             }
         });
+
+        goldAmount.setVisibility(View.GONE);
     }
 
     public void attachActivity (Activity activity) {
@@ -71,6 +80,10 @@ public class TopBar extends FrameLayout {
             createObjectButton.setImageResource(R.drawable.add_adventurer);
             setTitle("Adventurers");
         }
+    }
+
+    public TextView getGoldAmount () {
+        return goldAmount;
     }
 
     public ImageView getCreateObjectButton () {
