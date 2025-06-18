@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="1.5dp"
+    android:padding="1.5dp">
+
+    <!-- Background rounded container -->
+    <ImageView
+        android:id="@+id/itemContainerBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.5"
+        app:srcCompat="@drawable/rectangle_rounded"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="1.0"
+        app:layout_constraintHeight_percent="1.0" />
+
+    <!-- Item image placeholder -->
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/placeholderavatar1"
+        app:layout_constraintTop_toTopOf="@id/itemContainerBackground"
+        app:layout_constraintStart_toStartOf="@id/itemContainerBackground"
+        app:layout_constraintBottom_toBottomOf="@id/itemContainerBackground"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Item name -->
+    <TextView
+        android:id="@+id/itemName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Item Name"
+        android:textColor="#3F3F3F"
+        android:textAlignment="viewStart"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="25sp"
+        app:autoSizeStepGranularity="1sp"
+        app:layout_constraintTop_toTopOf="@id/itemImage"
+        app:layout_constraintStart_toEndOf="@id/itemImage"
+        app:layout_constraintEnd_toEndOf="@id/itemContainerBackground"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp" />
+
+    <!-- Item price -->
+    <TextView
+        android:id="@+id/itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="0 G"
+        android:textColor="#3F3F3F"
+        android:textAlignment="center"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeStepGranularity="1sp"
+        app:layout_constraintTop_toBottomOf="@id/itemName"
+        app:layout_constraintStart_toStartOf="@id/itemName"
+        android:layout_marginTop="4dp" />
+
+    <!-- Currency icon next to price -->
+    <ImageView
+        android:id="@+id/itemCurrencyIcon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:srcCompat="@drawable/coin_sprite"
+        app:layout_constraintStart_toEndOf="@id/itemPrice"
+        app:layout_constraintTop_toTopOf="@id/itemPrice"
+        app:layout_constraintBottom_toBottomOf="@id/itemPrice"
+        android:layout_marginStart="4dp"
+        android:scaleType="centerInside" />
+
+    <!-- Subtitle or description below price -->
+    <TextView
+        android:id="@+id/itemSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:text="Short description or subtitle"
+        android:textColor="#3F3F3F"
+        android:textAlignment="viewStart"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeStepGranularity="1sp"
+        app:layout_constraintTop_toBottomOf="@id/itemPrice"
+        app:layout_constraintStart_toStartOf="@id/itemName"
+        app:layout_constraintEnd_toEndOf="@id/itemContainerBackground"
+        android:layout_marginTop="4dp" />
+
+    <!-- Click overlay for item -->
+    <View
+        android:id="@+id/itemClickOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
