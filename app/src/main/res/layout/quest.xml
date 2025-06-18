@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+            <ImageView
+                android:id="@+id/quest_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.5"
+                android:visibility="visible"
+                app:srcCompat="@drawable/rectangle_rounded" />
+
+            <ImageView
+                android:id="@+id/quest_name_frame"
+                android:layout_width="162dp"
+                android:layout_height="39dp"
+                android:layout_marginTop="191dp"
+                android:layout_marginBottom="7dp"
+                android:alpha="0.5"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/quest_frame"
+                app:layout_constraintEnd_toEndOf="@id/quest_frame"
+                app:layout_constraintStart_toStartOf="@id/quest_frame"
+                app:layout_constraintTop_toTopOf="@id/quest_frame"
+                app:srcCompat="@drawable/rectangle_rounded" />
+
+            <ImageView
+                android:id="@+id/quest_image"
+                android:layout_width="161dp"
+                android:layout_height="187dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="50dp"
+                android:alpha="0.5"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/quest_frame"
+                app:layout_constraintEnd_toEndOf="@id/quest_frame"
+                app:layout_constraintStart_toStartOf="@id/quest_frame"
+                app:layout_constraintTop_toTopOf="@id/quest_frame"
+                app:srcCompat="@drawable/rectangle_rounded" />
+
+            <ImageView
+                android:id="@+id/quest_image1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/quest_image"
+                app:layout_constraintEnd_toEndOf="@id/quest_image"
+                app:layout_constraintStart_toStartOf="@id/quest_image"
+                app:layout_constraintTop_toTopOf="@id/quest_image"
+                app:srcCompat="@drawable/icon_int_pending" />
+
+
+            <TextView
+                android:id="@+id/quest_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/eb_garamond_semibold"
+                android:text="Quest Name"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@id/quest_name_frame"
+                app:layout_constraintEnd_toEndOf="@id/quest_name_frame"
+                app:layout_constraintStart_toStartOf="@id/quest_name_frame"
+                app:layout_constraintTop_toTopOf="@id/quest_name_frame" />
+
+            <ImageButton
+                android:id="@+id/open_quest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:contentDescription="click img"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>

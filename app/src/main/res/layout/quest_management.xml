@@ -51,7 +51,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView7" />
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
+        android:contentDescription="drop down"
+        />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addQuestButton"
@@ -70,7 +72,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView7" />
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
+        android:contentDescription="Quest btn"
+        />
 
     <ImageView
         android:id="@+id/imageView19"
@@ -111,7 +115,7 @@
         android:layout_marginBottom="4dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:textColor="#3F3F3F"
-        android:text="Quest Board"
+        android:text="@string/quest_board"
         android:textAlignment="center"
         android:textSize="24sp"
         android:visibility="gone"
@@ -164,182 +168,26 @@
         android:layout_marginTop="75dp"
         android:layout_marginBottom="5dp"
         android:fillViewport="true"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
         app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        android:contentDescription="scroll quest"
+        >
 
         <GridLayout
             android:id="@+id/gridLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:columnCount="2"
-            android:rowCount="6">
-
-            <!--            <LinearLayout-->
-            <!--                android:id="@+id/group"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_gravity="center"-->
-            <!--                android:orientation="horizontal">-->
-
-            <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--                    android:layout_width="172dp"-->
-            <!--                    android:layout_height="245dp"-->
-            <!--                    android:layout_marginEnd="4dp">-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/quest_frame"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="match_parent"-->
-            <!--                        android:alpha="0.5"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/quest_name_frame"-->
-            <!--                        android:layout_width="162dp"-->
-            <!--                        android:layout_height="39dp"-->
-            <!--                        android:layout_marginTop="191dp"-->
-            <!--                        android:layout_marginBottom="7dp"-->
-            <!--                        android:alpha="0.5"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:layout_constraintBottom_toBottomOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintEnd_toEndOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintStart_toStartOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintTop_toTopOf="@id/quest_frame"-->
-            <!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/quest_image"-->
-            <!--                        android:layout_width="161dp"-->
-            <!--                        android:layout_height="187dp"-->
-            <!--                        android:layout_marginTop="7dp"-->
-            <!--                        android:layout_marginBottom="50dp"-->
-            <!--                        android:alpha="0.5"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:layout_constraintBottom_toBottomOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintEnd_toEndOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintStart_toStartOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintTop_toTopOf="@id/quest_frame"-->
-            <!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/quest_image1"-->
-            <!--                        android:layout_width="0dp"-->
-            <!--                        android:layout_height="0dp"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:layout_constraintBottom_toBottomOf="@id/quest_image"-->
-            <!--                        app:layout_constraintEnd_toEndOf="@id/quest_image"-->
-            <!--                        app:layout_constraintStart_toStartOf="@id/quest_image"-->
-            <!--                        app:layout_constraintTop_toTopOf="@id/quest_image"-->
-            <!--                        app:srcCompat="@drawable/icon_int_pending" />-->
-
-
-            <!--                    <TextView-->
-            <!--                        android:id="@+id/quest_name_text"-->
-            <!--                        android:layout_width="wrap_content"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_marginBottom="4dp"-->
-            <!--                        android:fontFamily="@font/eb_garamond_semibold"-->
-            <!--                        android:text="Quest Name"-->
-            <!--                        android:textAlignment="center"-->
-            <!--                        android:textSize="20sp"-->
-            <!--                        app:layout_constraintBottom_toBottomOf="@id/quest_name_frame"-->
-            <!--                        app:layout_constraintEnd_toEndOf="@id/quest_name_frame"-->
-            <!--                        app:layout_constraintStart_toStartOf="@id/quest_name_frame"-->
-            <!--                        app:layout_constraintTop_toTopOf="@id/quest_name_frame" />-->
-
-            <!--                    <ImageButton-->
-            <!--                        android:id="@+id/open_quest"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="match_parent"-->
-            <!--                        android:background="@null"/>-->
-
-            <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-            <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--                    android:layout_width="172dp"-->
-            <!--                    android:layout_height="285dp"-->
-            <!--                    android:layout_marginEnd="4dp">-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/quest_frame"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="match_parent"-->
-            <!--                        android:alpha="0.5"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/quest_name_frame"-->
-            <!--                        android:layout_width="162dp"-->
-            <!--                        android:layout_height="39dp"-->
-            <!--                        android:layout_marginTop="241dp"-->
-            <!--                        android:layout_marginBottom="7dp"-->
-            <!--                        android:alpha="0.5"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:layout_constraintBottom_toBottomOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintEnd_toEndOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintStart_toStartOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintTop_toTopOf="@id/quest_frame"-->
-            <!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/quest_image"-->
-            <!--                        android:layout_width="161dp"-->
-            <!--                        android:layout_height="227dp"-->
-            <!--                        android:layout_marginTop="7dp"-->
-            <!--                        android:layout_marginBottom="50dp"-->
-            <!--                        android:alpha="0.5"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:layout_constraintBottom_toBottomOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintEnd_toEndOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintStart_toStartOf="@id/quest_frame"-->
-            <!--                        app:layout_constraintTop_toTopOf="@id/quest_frame"-->
-            <!--                        app:srcCompat="@drawable/rectangle_rounded" />-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/quest_image1"-->
-            <!--                        android:layout_width="0dp"-->
-            <!--                        android:layout_height="0dp"-->
-            <!--                        android:visibility="visible"-->
-            <!--                        app:layout_constraintBottom_toBottomOf="@id/quest_image"-->
-            <!--                        app:layout_constraintEnd_toEndOf="@id/quest_image"-->
-            <!--                        app:layout_constraintStart_toStartOf="@id/quest_image"-->
-            <!--                        app:layout_constraintTop_toTopOf="@id/quest_image"-->
-            <!--                        app:srcCompat="@drawable/icon_str_pending" />-->
-
-
-            <!--                    <TextView-->
-            <!--                        android:id="@+id/quest_name_text"-->
-            <!--                        android:layout_width="wrap_content"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_marginBottom="4dp"-->
-            <!--                        android:fontFamily="@font/eb_garamond_semibold"-->
-            <!--                        android:text="Quest Name"-->
-            <!--                        android:textAlignment="center"-->
-            <!--                        android:textSize="20sp"-->
-            <!--                        app:layout_constraintBottom_toBottomOf="@id/quest_name_frame"-->
-            <!--                        app:layout_constraintEnd_toEndOf="@id/quest_name_frame"-->
-            <!--                        app:layout_constraintStart_toStartOf="@id/quest_name_frame"-->
-            <!--                        app:layout_constraintTop_toTopOf="@id/quest_name_frame" />-->
-
-            <!--                    <ImageButton-->
-            <!--                        android:id="@+id/open_quest"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="match_parent"-->
-            <!--                        android:background="@null"/>-->
-
-            <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-            <!--            </LinearLayout>-->
-
+            android:orientation="horizontal"
+            android:alignmentMode="alignMargins"
+            android:useDefaultMargins="true">
 
         </GridLayout>
     </ScrollView>
+
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/editQuestGroup"
@@ -715,9 +563,9 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/childBarName"
         android:layout_width="160dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginStart="192dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="115dp"
         android:background="@drawable/button_shadowed"
@@ -736,9 +584,9 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/childBarFloorCount"
         android:layout_width="160dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginStart="192dp"
-        android:layout_marginTop="69dp"
+        android:layout_marginTop="65dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="69dp"
         android:background="@drawable/button_shadowed"
@@ -757,7 +605,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/childBarStatsButton"
         android:layout_width="160dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginStart="192dp"
         android:layout_marginTop="115dp"
         android:layout_marginEnd="16dp"
