@@ -47,14 +47,18 @@ public class FirestoreHandler {
     }
 
     public static void getUserInformation (String UID, GenericCallback<DocumentSnapshot> callback) {
-        firestore.collection("Users").document(UID).get().addOnCompleteListener(
-                new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        callback.onCallback(task.getResult());
-                    }
-                }
-        );
+        firestore.collection("Users").document(UID).get().addOnSuccessListener(command -> {
+            if (command.exists()) {
+                Log.d("Debug", "Successfully loaded user document");
+                callback.onCallback(command);
+            } else {
+                firestore.collection("Childs").document(UID).get().addOnCompleteListener(task -> {
+                    callback.onCallback(task.getResult());
+                });
+            }
+        }).addOnFailureListener(command -> {
+            Log.d("Debug", "Failed to load user document");
+        });
     }
 
 
