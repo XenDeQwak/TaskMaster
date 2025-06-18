@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +14,7 @@ import com.taskmaster.appui.Page.Main.User;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.Services.CosmeticItemTemplate.CosmeticAdapter;
 import com.taskmaster.appui.Services.CosmeticItemTemplate.CosmeticItem;
+import com.taskmaster.appui.Services.NavUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,9 @@ public class CosmeticShop extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) { //For frontend, search for getAllItems method, there you will find where the items are stored
         //Setup
         super.onCreate(savedInstanceState);
+        NavUtil.hideSystemBars(this);
         setContentView(R.layout.cosmetic_shop);
+
         ImageView confirmationBox = findViewById(R.id.confirmationTextContainer);
         TextView confirmationText = findViewById(R.id.confirmationText);
         ImageView yesBox = findViewById(R.id.confirmationYesContainer);
@@ -42,6 +44,8 @@ public class CosmeticShop extends AppCompatActivity {
         View blurOverlay = findViewById(R.id.blurOverlay);
         currencyText = findViewById(R.id.currencyText);
         RecyclerView recycler = findViewById(R.id.recyclerView);
+        confirmationViews = new View[]{confirmationBox, confirmationText, yesBox, yesText, noBox, noText,blurOverlay};
+
 //        View rootLayout = findViewById(R.id.main);      Fam I'll just wait for gab's dropdown service
 //        DropdownService.dropdownSetup(this,rootLayout);
 
@@ -61,8 +65,7 @@ public class CosmeticShop extends AppCompatActivity {
         recycler.setLayoutManager(new LinearLayoutManager(this));
         recycler.setAdapter(adapter);
         //Popup
-        confirmationViews = new View[]{confirmationBox, confirmationText, yesBox, yesText, noBox, noText,blurOverlay};
-        setUpButtons(yesBox,noBox,yesText,noText,currencyText);
+        setUpButtons(yesBox,noBox,yesText,noText);
         currencyText.setText(gold +" G");
     }
 
@@ -75,7 +78,7 @@ public class CosmeticShop extends AppCompatActivity {
         return items;
     }
 
-    private void setUpButtons(ImageView yesBox, ImageView noBox, TextView yesText, TextView noText, TextView currencyText){
+    private void setUpButtons(ImageView yesBox, ImageView noBox, TextView yesText, TextView noText){
         yesBox.setOnClickListener(v -> {
             isConfirm(true);
         });
