@@ -193,7 +193,7 @@
         android:id="@+id/editQuestGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="editQuestGroupFrameShadow,assignNextBtn,assignPrevBtn,editQuestFrame,editQuestImage,editQuestName,editQuestTime,editQuestDesc,setRewardsButton,setDifficultyBG,setDifficultyRating,childAvatar,assignQuest,cancelQuestEditButton,saveQuestEditButton"
         tools:visibility="gone" />
 
@@ -527,7 +527,7 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:constraint_referenced_ids="childBarFrame, childBarAvatar, childBarName, childBarFloorCount, childBarStatsButton"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <ImageView
         android:id="@+id/childBarFrame"
@@ -628,7 +628,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="viewQuestGroupFrameShadow,viewQuestFrame,viewQuestImage,viewQuestName,viewQuestTime,viewQuestDesc,viewRewardsButton,viewQuestFrame,viewDifficultyBG,viewDifficultyRating" />
+        app:constraint_referenced_ids="viewQuestGroupFrameShadow,viewQuestFrame,viewQuestImage,viewQuestName,viewQuestTime,viewQuestDesc,viewRewardsButton,viewQuestFrame,viewDifficultyBG,viewDifficultyRating"
+        tools:visibility="gone" />
 
     <ImageView
         android:id="@+id/viewQuestGroupFrameShadow"
@@ -654,12 +655,13 @@
         android:alpha="0.8"
         android:elevation="1dp"
         android:translationZ="1dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
         app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:srcCompat="@drawable/rectangle_rounded" />
+        app:srcCompat="@drawable/rectangle_rounded"
+        tools:visibility="gone" />
 
     <ImageView
         android:id="@+id/viewQuestImage"

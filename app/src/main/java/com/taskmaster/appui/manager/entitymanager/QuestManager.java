@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.taskmaster.appui.entity.Quest;
+import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.entity.enums.Stats;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
@@ -73,6 +74,21 @@ public class QuestManager {
         qd.put("EndDate", 202536586399L);       // December 31, 2025, 23:59
         qd.put("RewardStat", Stats.STRENGTH);
         qd.put("RewardExtra", "test");
+
+        return QuestManager.parseQuestData(qd);
+    }
+
+    public static Quest createBlankQuest () {
+        User user = User.getInstance();
+        HashMap<String, Object> qd = new HashMap<>();
+        qd.put("Name", "");
+        qd.put("Description", "");
+        qd.put("CreatorUID", user.getDocumentSnapshot().getId());
+        qd.put("CreatorRef", user.getDocumentSnapshot().getReference());
+        qd.put("StartDate", 2025000000000L);    // January 1, 2025, 00:00
+        qd.put("EndDate", 202536586399L);       // December 31, 2025, 23:59
+        qd.put("RewardStat", null);
+        qd.put("RewardExtra", "");
 
         return QuestManager.parseQuestData(qd);
     }

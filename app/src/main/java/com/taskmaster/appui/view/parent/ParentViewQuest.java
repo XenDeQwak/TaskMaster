@@ -38,7 +38,7 @@ public class ParentViewQuest extends ParentView {
         createQuestButton = topBar.getCreateObjectButton();
         createQuestButton.setOnClickListener(v -> {
             //System.out.println("I AM PRESSED IN PARENTVIEWQUEST");
-            Quest q = QuestManager.createTestQuest();
+            Quest q = QuestManager.createBlankQuest();
             questManager.addQuest(q);
             FirestoreManager.uploadQuest(q);
         });
