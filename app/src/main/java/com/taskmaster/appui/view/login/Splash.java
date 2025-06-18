@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
-import com.taskmaster.appui.view.parent.ChildViewQuest;
+import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;

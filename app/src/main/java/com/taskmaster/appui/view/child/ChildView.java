@@ -1,4 +1,4 @@
-package com.taskmaster.appui.view.parent;
+package com.taskmaster.appui.view.child;
 
 import android.app.Activity;
 import android.widget.TextView;

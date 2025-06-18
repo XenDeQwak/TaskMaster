@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.manager.viewmanager.LogInManager;
-import com.taskmaster.appui.view.parent.ChildViewQuest;
+import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
@@ -39,7 +39,7 @@ public class UserLogin extends AppCompatActivity {
 
         NavUtil.hideSystemBars(this);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.statContainer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;

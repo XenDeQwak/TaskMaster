@@ -13,8 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.view.parent.ChildViewQuest;
-import com.taskmaster.appui.view.parent.ParentView;
+import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.parent.ParentViewManageChild;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 
@@ -46,18 +45,16 @@ public class TopBar extends FrameLayout {
 
         // Dropdown menu logic
         navBarButton.setOnClickListener(v -> {
-            //System.out.println("HELLO WORLD");
             FrameLayout navMenu = dropdownNavMenu.findViewById(R.id.dropdownContainer);
             if (navMenu.getVisibility() == GONE) {
-                //System.out.println("Now you see me");
                 navMenu.bringToFront();
                 navMenu.setVisibility(VISIBLE);
             } else {
-                //System.out.println("Now you don't");
                 navMenu.setVisibility(GONE);
             }
         });
 
+        createObjectButton.setImageDrawable(null);
         goldAmount.setVisibility(View.GONE);
     }
 
@@ -70,6 +67,8 @@ public class TopBar extends FrameLayout {
     }
 
     public <T extends AppCompatActivity> void initPageView(Class<T> view) {
+
+        System.out.println(view);
 
         if (view == ParentViewQuest.class) {
             createObjectButton.setImageResource(R.drawable.add_quest);

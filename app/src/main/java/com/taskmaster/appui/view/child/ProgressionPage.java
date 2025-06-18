@@ -150,7 +150,7 @@ public class ProgressionPage extends AppCompatActivity {
         loadAvatarPreset();
 
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.statContainer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -162,7 +162,7 @@ public class ProgressionPage extends AppCompatActivity {
         navManageAdv = findViewById(R.id.navManageAdv);
         navLogOut = findViewById(R.id.navLogOut);
         dropDownGroup = findViewById(R.id.dropdownGroup);
-        rootLayout = findViewById(R.id.main);
+        rootLayout = findViewById(R.id.statContainer);
 
         statGraph = findViewById(R.id.statGraph);
         childAvatarName = findViewById(R.id.childAvatarName);

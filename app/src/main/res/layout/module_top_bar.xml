@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/eb_garamond_semibold"
             android:text="0 G"
-            android:textSize="20sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/createObjectButton"
             app:layout_constraintEnd_toEndOf="@+id/createObjectButton"
             app:layout_constraintStart_toStartOf="@+id/createObjectButton"

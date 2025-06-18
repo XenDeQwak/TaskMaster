@@ -110,7 +110,7 @@ public class QuestManagement extends AppCompatActivity {
         // hooks
         addQuestButton = findViewById(R.id.addQuestButton);
         gridLayout = findViewById(R.id.gridLayout);
-        rootLayout = findViewById(R.id.main);
+        rootLayout = findViewById(R.id.statContainer);
         scrollView = findViewById(R.id.scrollView1);
         DropdownUtil.dropdownSetup(this,rootLayout);
 

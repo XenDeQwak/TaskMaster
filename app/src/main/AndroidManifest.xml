@@ -15,12 +15,6 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".view.parent.ChildViewQuest"
-            android:exported="false" />
-        <activity
-            android:name=".view.parent.MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.child.ChildViewQuest"
             android:exported="false" />
         <activity

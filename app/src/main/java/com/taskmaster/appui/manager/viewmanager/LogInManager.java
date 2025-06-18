@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
-import com.taskmaster.appui.view.parent.ChildViewQuest;
+import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 
 import java.util.Objects;

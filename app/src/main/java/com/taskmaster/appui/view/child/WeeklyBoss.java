@@ -3,12 +3,10 @@ package com.taskmaster.appui.view.child;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.os.CountDownTimer;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,15 +17,11 @@ import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.*;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +69,7 @@ public class WeeklyBoss extends AppCompatActivity {
         {
             dropDownGroup = findViewById(R.id.dropdownGroup);
             childBarStatsButton = findViewById(R.id.childBarStatsButton);
-            rootLayout = findViewById(R.id.main);
+            rootLayout = findViewById(R.id.statContainer);
             childBarName = findViewById(R.id.childBarName);
             childBarGroup = findViewById(R.id.childBarGroup);
             childBarAvatar = findViewById(R.id.childBarAvatar);
