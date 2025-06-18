@@ -47,11 +47,11 @@ public class SignUp extends AppCompatActivity {
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        emailbox = findViewById(R.id.emailSignUpBox);
-        usernamebox = findViewById(R.id.usernameSignUpBox);
-        passwordbox = findViewById(R.id.passwordSignUpBox);
-        firstnamebox = findViewById(R.id.firstnameSignUpBox);
-        lastnamebox = findViewById(R.id.lastnameSignUpBox);
+        emailbox = findViewById(R.id.childCreationEmail);
+        usernamebox = findViewById(R.id.childCreationUsername);
+        passwordbox = findViewById(R.id.childCreationPassword);
+        firstnamebox = findViewById(R.id.childCreationFirstname);
+        lastnamebox = findViewById(R.id.childCreationLastName);
         confirmButton = findViewById(R.id.confirmButton2);
 
         View[] signUpInformation = {emailbox, usernamebox, passwordbox, firstnamebox, lastnamebox};

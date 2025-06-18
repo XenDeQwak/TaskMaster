@@ -1,22 +1,33 @@
 package com.taskmaster.appui.view.parent;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
+import com.taskmaster.appui.view.uimodule.ChildCreation;
+
+import java.util.HashMap;
 
 public class ParentViewManageChild extends ParentView {
 
     ChildManager childManager;
     ImageView createChildButton;
+    ChildCreation childCreationPopUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +42,55 @@ public class ParentViewManageChild extends ParentView {
 
         initNavigationMenu(this, ParentViewManageChild.class);
 
+        childCreationPopUp = findViewById(R.id.childCreationPopUp);
+        ConstraintLayout childCreationContainer = findViewById(R.id.childCreationContainer);
+
         childManager = new ChildManager(getApplicationContext());
 
         // Initialize createChildButton
         createChildButton = topBar.getCreateObjectButton();
         createChildButton.setOnClickListener(v -> {
-            //System.out.println("I AM PRESSED IN PARENTVIEWMANAGECHILD");
-            Child c = ChildManager.createTestChild();
-            childManager.addChild(c);
-            TemporaryConnectionManager.startTempConnection(getApplicationContext());
-            TemporaryConnectionManager.uploadChild(c);
+//            //System.out.println("I AM PRESSED IN PARENTVIEWMANAGECHILD");
+//            Child c = ChildManager.createTestChild();
+//            childManager.addChild(c);
+//            TemporaryConnectionManager.startTempConnection(getApplicationContext());
+//            TemporaryConnectionManager.uploadChild(c);
+            if (childCreationContainer.getVisibility() == GONE) {
+                childCreationContainer.bringToFront();
+                childCreationContainer.setVisibility(VISIBLE);
+            } else {
+                childCreationContainer.setVisibility(GONE);
+            }
         });
+
+        childCreationPopUp.getChildCreationConfirmButton().setOnClickListener(v -> {
+            User user = User.getInstance();
+            childCreationContainer.setVisibility(GONE);
+            String username = childCreationPopUp.getChildCreationUsername().getText().toString();
+            String email = childCreationPopUp.getChildCreationEmail().getText().toString();
+            String password = childCreationPopUp.getChildCreationPassword().getText().toString();
+            String firstname = childCreationPopUp.getChildCreationFirstname().getText().toString();
+            String lastname = childCreationPopUp.getChildCreationLastName().getText().toString();
+
+            Child c = new Child(
+                    email,
+                    password,
+                    username,
+                    firstname,
+                    lastname,
+                    user.getDocumentSnapshot().getId(),
+                    user.getDocumentSnapshot().getReference()
+            );
+
+            childManager.addChild(c);
+            TemporaryConnectionManager.startTempConnection(this);
+            TemporaryConnectionManager.uploadChild(c)   ;
+        });
+
+        childCreationPopUp.getChildCreationExitButton().setOnClickListener(v -> {
+            childCreationContainer.setVisibility(GONE);
+        });
+
 
     }
 }

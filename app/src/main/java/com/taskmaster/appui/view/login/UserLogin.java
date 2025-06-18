@@ -48,8 +48,8 @@ public class UserLogin extends AppCompatActivity {
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        emailbox = findViewById(R.id.usernameSignUpBox);
-        passwordbox = findViewById(R.id.emailSignUpBox);
+        emailbox = findViewById(R.id.childCreationUsername);
+        passwordbox = findViewById(R.id.childCreationEmail);
         forgotPasswordTextView = findViewById(R.id.textView3);
         confirmButton = findViewById(R.id.confirmButton2);
         signUpTextView = findViewById(R.id.signupTextView);
