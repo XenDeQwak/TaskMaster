@@ -118,8 +118,8 @@ public class QuestManagement extends AppCompatActivity {
         editQuestName = findViewById(R.id.editQuestName);
         setRewardsButton = findViewById(R.id.setRewardsButton);
         assignQuestButton = findViewById(R.id.assignQuest);
-        cancelQuestEditButton = findViewById(R.id.cancelQuestEditButton);
-        saveQuestEditButton = findViewById(R.id.saveQuestEditButton);
+        cancelQuestEditButton = findViewById(R.id.editQuestCancel);
+        saveQuestEditButton = findViewById(R.id.editQuestSave);
         editQuestGroup = findViewById(R.id.editQuestGroup);
         setDifficultyRating = findViewById(R.id.setDifficultyRating);
 

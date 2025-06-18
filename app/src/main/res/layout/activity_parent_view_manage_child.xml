@@ -56,7 +56,7 @@
         app:layout_constraintStart_toStartOf="@+id/mainAdventurerContainer"
         app:layout_constraintTop_toTopOf="@+id/mainAdventurerContainer" />
 
-    <com.taskmaster.appui.view.uimodule.ChildCreation
+    <com.taskmaster.appui.view.uimodule.ChildCreationTab
         android:id="@+id/childCreationPopUp"
         android:layout_width="0dp"
         android:layout_height="0dp"

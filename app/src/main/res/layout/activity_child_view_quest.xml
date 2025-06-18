@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
         app:layout_constraintTop_toTopOf="@+id/mainQuestContainer" />
 
-    <com.taskmaster.appui.view.uimodule.ChildStats
+    <com.taskmaster.appui.view.uimodule.ChildStatsTab
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"

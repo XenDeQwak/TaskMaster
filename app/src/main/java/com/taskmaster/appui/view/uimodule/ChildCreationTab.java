@@ -13,19 +13,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
 
-public class ChildCreation extends FrameLayout {
+public class ChildCreationTab extends FrameLayout {
 
 
     EditText childCreationUsername, childCreationEmail, childCreationPassword, childCreationFirstname, childCreationLastName;
     Button childCreationConfirmButton, childCreationExitButton;
 
-    public ChildCreation(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ChildCreationTab(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
     private void init () {
-        LayoutInflater.from(getContext()).inflate(R.layout.module_child_creation, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.module_child_creation_tab, this);
 
         ConstraintLayout childCreationContainer = findViewById(R.id.childCreationContainer);
         childCreationContainer.getBackground().setAlpha(200);

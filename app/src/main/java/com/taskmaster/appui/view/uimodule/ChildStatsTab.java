@@ -10,24 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.taskmaster.appui.R;
 
-public class ChildStats extends FrameLayout {
+public class ChildStatsTab extends FrameLayout {
 
     ConstraintLayout statsContainer;
     ImageView childStatsAvatarImage;
     AppCompatButton childStatsName, childStatsFloor, childStatsMoreStatsButton;
 
 
-    public ChildStats(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ChildStatsTab(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
     private void init () {
-        LayoutInflater.from(getContext()).inflate(R.layout.module_child_stats, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.module_child_stats_tab, this);
 
         childStatsAvatarImage = findViewById(R.id.childStatsAvatarImage);
         childStatsName = findViewById(R.id.childStatsName);
