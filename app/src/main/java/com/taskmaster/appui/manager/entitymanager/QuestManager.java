@@ -1,5 +1,10 @@
 package com.taskmaster.appui.manager.entitymanager;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -8,6 +13,8 @@ import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.entity.enums.Stats;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+import com.taskmaster.appui.view.uimodule.EditQuestTab;
+import com.taskmaster.appui.view.uimodule.QuestBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,13 +104,23 @@ public class QuestManager {
 
     }
 
-    public void loadQuestsFromFirestore () {
+
+    public void loadQuestsFromFirestore (Context context, LinearLayout scrollContent, EditQuestTab editQuest) {
         questList.clear();
         FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
         FirestoreManager.fetchQuests(parent.getUid(), dsl -> {
             for (DocumentSnapshot ds : dsl) {
                 Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
                 questList.add(q);
+
+                QuestBox qb = new QuestBox(context, q);
+                qb.setMinimumHeight(200);
+                qb.setMinimumWidth(200);
+                scrollContent.addView(qb);
+
+                qb.getQuestContainer().setOnClickListener(v -> {
+                    editQuest.setVisibility(View.VISIBLE);
+                });
             }
         });
     }

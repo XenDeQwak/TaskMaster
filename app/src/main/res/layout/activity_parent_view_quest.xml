@@ -36,13 +36,14 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:alpha="0.8"
-        android:background="#D08A8A"
+        android:background="@drawable/rectangle_rounded"
         app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
         app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
         app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
         app:layout_constraintTop_toTopOf="@+id/mainQuestContainer">
 
         <LinearLayout
+            android:id="@+id/questScrollContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
@@ -55,5 +56,14 @@
         app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
         app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
         app:layout_constraintTop_toTopOf="@+id/mainQuestContainer" />
+
+    <com.taskmaster.appui.view.uimodule.EditQuestTab
+        android:id="@+id/editQuestTab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

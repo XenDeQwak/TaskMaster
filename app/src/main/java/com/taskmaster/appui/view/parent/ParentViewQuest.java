@@ -2,6 +2,8 @@ package com.taskmaster.appui.view.parent;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -12,11 +14,16 @@ import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+import com.taskmaster.appui.view.uimodule.EditQuestTab;
+import com.taskmaster.appui.view.uimodule.QuestBox;
 
 public class ParentViewQuest extends ParentView {
 
     QuestManager questManager;
     ImageView createQuestButton;
+    ScrollView questScrollView;
+    LinearLayout questScrollContent;
+    EditQuestTab editQuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +38,21 @@ public class ParentViewQuest extends ParentView {
 
         initNavigationMenu(this, ParentViewQuest.class);
 
+        questScrollView = findViewById(R.id.questScrollView);
+        questScrollContent = findViewById(R.id.questScrollContent);
+
+        editQuest = findViewById(R.id.editQuestTab);
+
         questManager = new QuestManager();
-        questManager.loadQuestsFromFirestore();
+        questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
 
         // Initialize createQuestButton
         createQuestButton = topBar.getCreateObjectButton();
         createQuestButton.setOnClickListener(v -> {
             //System.out.println("I AM PRESSED IN PARENTVIEWQUEST");
             Quest q = QuestManager.createBlankQuest();
-            questManager.addQuest(q);
             FirestoreManager.uploadQuest(q);
+            questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
         });
 
     }

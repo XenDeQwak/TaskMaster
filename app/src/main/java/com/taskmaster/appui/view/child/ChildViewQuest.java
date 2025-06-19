@@ -27,8 +27,8 @@ public class ChildViewQuest extends ChildView {
 
         initNavigationMenu(this, ChildViewQuest.class);
 
-        questManager = new QuestManager();
-        questManager.loadQuestsFromFirestore();
+        //questManager = new QuestManager();
+        //questManager.loadQuestsFromFirestore(this, null);
 
     }
 }
