@@ -95,6 +95,8 @@ public class FirestoreManager {
         //System.out.println(q.getCreatorReference());
         //System.out.println(q.getCreatorReference().getPath());
         String questID = Integer.toString(q.hashCode());
+        q.setQuestID(questID);
+        System.out.println(QuestManager.packQuestData(q));
         firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -116,6 +118,22 @@ public class FirestoreManager {
                     }
                 });
     }
+
+    public static void updateQuest (Quest q) {
+
+        String questID = q.getQuestID();
+        System.out.println(questID);
+        firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Debug", "Successfully created quest document");
+                    } else {
+                        Log.d("Debug", "Failed to create quest document");
+                    }
+                });
+
+    }
+
 
     public static void fetchQuests (String creatorUID, GenericCallback<List<DocumentSnapshot>> callback) {
         firestore.collection("Quests").whereEqualTo("CreatorUID", creatorUID).get()

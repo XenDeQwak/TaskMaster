@@ -1,25 +1,28 @@
 package com.taskmaster.appui.entity;
 
 import com.google.firebase.firestore.DocumentReference;
-import com.taskmaster.appui.entity.enums.Stats;
 
 public class Quest {
 
-    private String name, description, creatorUID;
+    private String questID;
+    private String name, description, creatorUID, assignedUID;
     private long startDate, endDate;
-    private Stats rewardStat;
+    private String rewardStat;
     private String rewardExtra;
     private DocumentReference creatorReference;
+    private DocumentReference assignedReference;
 
 
-    public Quest(String name,
+    public Quest(String questID,
+                 String name,
                  String description,
                  String creatorUID,
                  DocumentReference creatorReference,
                  long startDate,
                  long endDate,
-                 Stats rewardStat,
+                 String rewardStat,
                  String rewardExtra) {
+        this.questID = questID;
         this.name = name;
         this.description = description;
         this.creatorUID = creatorUID;
@@ -30,6 +33,13 @@ public class Quest {
         this.rewardExtra = rewardExtra;
     }
 
+    public String getQuestID() {
+        return questID;
+    }
+
+    public void setQuestID(String questID) {
+        this.questID = questID;
+    }
 
     public String getName() {
         return name;
@@ -71,11 +81,11 @@ public class Quest {
         this.endDate = endDate;
     }
 
-    public Stats getRewardStat() {
+    public String getRewardStat() {
         return rewardStat;
     }
 
-    public void setRewardStat(Stats rewardStat) {
+    public void setRewardStat(String rewardStat) {
         this.rewardStat = rewardStat;
     }
 
@@ -93,5 +103,21 @@ public class Quest {
 
     public void setCreatorReference(DocumentReference creatorReference) {
         this.creatorReference = creatorReference;
+    }
+
+    public String getAssignedUID() {
+        return assignedUID;
+    }
+
+    public void setAssignedUID(String assignedUID) {
+        this.assignedUID = assignedUID;
+    }
+
+    public DocumentReference getAssignedReference() {
+        return assignedReference;
+    }
+
+    public void setAssignedReference(DocumentReference assignedReference) {
+        this.assignedReference = assignedReference;
     }
 }

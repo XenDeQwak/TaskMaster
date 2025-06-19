@@ -13,7 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.type.DateTime;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.entity.Quest;
+import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+
+import java.util.Calendar;
 
 public class EditQuestTab extends FrameLayout {
 
@@ -21,6 +26,9 @@ public class EditQuestTab extends FrameLayout {
     Button setRewardsButton, editQuestSave, editQuestCancel, editQuestAssignNext, editQuestAssignPrev;
     ImageView editQuestChildAvatar;
     ConstraintLayout editQuestContainer;
+
+    Quest q;
+
 
 
     public EditQuestTab(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -48,11 +56,55 @@ public class EditQuestTab extends FrameLayout {
 
         editQuestSave.setOnClickListener(v -> {
             this.setVisibility(View.GONE);
+            saveQuest();
         });
 
         editQuestCancel.setOnClickListener(v -> {
             this.setVisibility(View.GONE);
         });
+    }
+
+    private void saveQuest () {
+        String name = editQuestName.getText().toString();
+//        int hour = Integer.parseInt(editQuestHour.getText().toString());
+//        int minute = Integer.parseInt(editQuestMinute.getText().toString());
+//        int second = Integer.parseInt(editQuestSecond.getText().toString());
+//        String description = editQuestDescription.getText().toString();
+
+//        Calendar c = Calendar.getInstance();
+//        int daynow = c.get(Calendar.DAY_OF_YEAR);
+//        int hournow = c.get(Calendar.HOUR_OF_DAY);
+//        int minutenow =  c.get(Calendar.MINUTE);
+//        int secondnow = c.get(Calendar.SECOND);
+//
+//        long startDate =
+//                (2025) * 100000000
+//                        + daynow * 100000
+//                        + hournow * 3600
+//                        + minutenow * 60
+//                        + secondnow;
+//
+//        long endDate =
+//                (2025) * 100000000
+//                        + (daynow + (int)(hour + hournow)/24) * 100000
+//                        + ((int)(hour + hournow)%24) * 3600
+//                        + ((int)(minute + minutenow)%60) * 60
+//                        + ((int)(second + secondnow)%60);
+
+        q.setName(name);
+//        q.setStartDate(startDate);
+//        q.setEndDate(endDate);
+        // Below Unimplemented
+        q.setRewardStat("DEFAULT");
+        q.setRewardExtra("Extra Rewards");
+        q.setAssignedUID("child");
+        q.setAssignedReference(FirestoreManager.getFirestore().document("Childs/child"));
+
+        FirestoreManager.updateQuest(q);
+    }
+
+    public void setQuest (Quest q) {
+        this.q = q;
     }
 
     public EditText getEditQuestName() {

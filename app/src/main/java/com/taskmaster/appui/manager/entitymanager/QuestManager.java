@@ -10,7 +10,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.User;
-import com.taskmaster.appui.entity.enums.Stats;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
@@ -46,19 +45,21 @@ public class QuestManager {
 
     public static Quest parseQuestData (HashMap<String, Object> qd) {
         return new Quest(
+                (String) qd.get("QuestID"),
                 (String) qd.get("Name"),
                 (String) qd.get("Description"),
                 (String) qd.get("CreatorUID"),
                 (DocumentReference) qd.get("CreatorRef"),
                 (Long) qd.get("StartDate"),
                 (Long) qd.get("EndDate"),
-                (Stats) qd.get("RewardStat"),
+                (String) qd.get("RewardStat"),
                 (String) qd.get("RewardExtra")
                 );
     }
 
     public static HashMap<String, Object> packQuestData (Quest q) {
         HashMap<String, Object> qd = new HashMap<>();
+        qd.put("QuestID", q.getQuestID());
         qd.put("Name", q.getName());
         qd.put("Description", q.getDescription());
         qd.put("CreatorUID", q.getCreatorUID());
@@ -79,7 +80,7 @@ public class QuestManager {
         qd.put("CreatorRef", FirestoreManager.getFirestore().collection("Users").document("user"));
         qd.put("StartDate", 2025000000000L);    // January 1, 2025, 00:00
         qd.put("EndDate", 202536586399L);       // December 31, 2025, 23:59
-        qd.put("RewardStat", Stats.STRENGTH);
+        qd.put("RewardStat", "DEFAULT");
         qd.put("RewardExtra", "test");
 
         return QuestManager.parseQuestData(qd);
@@ -94,7 +95,7 @@ public class QuestManager {
         qd.put("CreatorRef", user.getDocumentSnapshot().getReference());
         qd.put("StartDate", 2025000000000L);    // January 1, 2025, 00:00
         qd.put("EndDate", 202536586399L);       // December 31, 2025, 23:59
-        qd.put("RewardStat", null);
+        qd.put("RewardStat", "DEFAULT");
         qd.put("RewardExtra", "");
 
         return QuestManager.parseQuestData(qd);
@@ -107,6 +108,7 @@ public class QuestManager {
 
     public void loadQuestsFromFirestore (Context context, LinearLayout scrollContent, EditQuestTab editQuest) {
         questList.clear();
+        scrollContent.removeAllViews();
         FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
         FirestoreManager.fetchQuests(parent.getUid(), dsl -> {
             for (DocumentSnapshot ds : dsl) {
@@ -120,6 +122,7 @@ public class QuestManager {
 
                 qb.getQuestContainer().setOnClickListener(v -> {
                     editQuest.setVisibility(View.VISIBLE);
+                    editQuest.setQuest(q);
                 });
             }
         });
