@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/statContainer"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.login.SignUp">
@@ -117,7 +117,7 @@
         />
 
     <EditText
-        android:id="@+id/childCreationUsername"
+        android:id="@+id/usernameSignUpBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textbox_rounded"
@@ -140,7 +140,7 @@
         app:layout_constraintWidth_percent="0.6" />
 
     <EditText
-        android:id="@+id/childCreationEmail"
+        android:id="@+id/emailSignUpBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textbox_rounded"
@@ -158,12 +158,12 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/childCreationUsername"
+        app:layout_constraintTop_toBottomOf="@+id/usernameSignUpBox"
         app:layout_constraintVertical_bias="0.035"
         app:layout_constraintWidth_percent="0.6" />
 
     <EditText
-        android:id="@+id/childCreationPassword"
+        android:id="@+id/passwordSignUpBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textbox_rounded"
@@ -181,12 +181,12 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/childCreationEmail"
+        app:layout_constraintTop_toBottomOf="@+id/emailSignUpBox"
         app:layout_constraintVertical_bias="0.035"
         app:layout_constraintWidth_percent="0.6" />
 
     <EditText
-        android:id="@+id/childCreationFirstname"
+        android:id="@+id/firstnameSignUpBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textbox_rounded"
@@ -204,12 +204,12 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/childCreationPassword"
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox"
         app:layout_constraintVertical_bias="0.05"
         app:layout_constraintWidth_percent="0.6" />
 
     <EditText
-        android:id="@+id/childCreationLastName"
+        android:id="@+id/lastnameSignUpBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textbox_rounded"
@@ -227,7 +227,7 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/childCreationFirstname"
+        app:layout_constraintTop_toBottomOf="@+id/firstnameSignUpBox"
         app:layout_constraintVertical_bias="0.05"
         app:layout_constraintWidth_percent="0.6" />
 
@@ -250,7 +250,7 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@id/childCreationLastName"
+        app:layout_constraintTop_toBottomOf="@id/lastnameSignUpBox"
         app:layout_constraintVertical_bias="0.3"
         app:layout_constraintWidth_percent="0.6"
         app:strokeColor="@color/black"
