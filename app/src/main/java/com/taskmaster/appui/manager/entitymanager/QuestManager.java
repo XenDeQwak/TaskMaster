@@ -78,8 +78,8 @@ public class QuestManager {
         qd.put("Description", "I am a test quest");
         qd.put("CreatorUID", FirestoreManager.getFirestore().collection("Users").document("user").getId());
         qd.put("CreatorRef", FirestoreManager.getFirestore().collection("Users").document("user"));
-        qd.put("StartDate", 2025000000000L);    // January 1, 2025, 00:00
-        qd.put("EndDate", 202536586399L);       // December 31, 2025, 23:59
+        qd.put("StartDate", 1735689601L);    // January 1, 2025, 00:00
+        qd.put("EndDate", 1767225599L);       // December 31, 2025, 23:59
         qd.put("RewardStat", "DEFAULT");
         qd.put("RewardExtra", "test");
 
@@ -93,8 +93,8 @@ public class QuestManager {
         qd.put("Description", "");
         qd.put("CreatorUID", user.getDocumentSnapshot().getId());
         qd.put("CreatorRef", user.getDocumentSnapshot().getReference());
-        qd.put("StartDate", 2025000000000L);    // January 1, 2025, 00:00
-        qd.put("EndDate", 202536586399L);       // December 31, 2025, 23:59
+        qd.put("StartDate", 1735689601L);    // January 1, 2025, 00:00
+        qd.put("EndDate", 1767225599L);       // December 31, 2025, 23:59
         qd.put("RewardStat", "DEFAULT");
         qd.put("RewardExtra", "");
 
@@ -116,8 +116,8 @@ public class QuestManager {
                 questList.add(q);
 
                 QuestBox qb = new QuestBox(context, q);
-                qb.setMinimumHeight(200);
-                qb.setMinimumWidth(200);
+                //qb.setMinimumHeight(200);
+                //qb.setMinimumWidth(200);
                 scrollContent.addView(qb);
 
                 qb.getQuestContainer().setOnClickListener(v -> {

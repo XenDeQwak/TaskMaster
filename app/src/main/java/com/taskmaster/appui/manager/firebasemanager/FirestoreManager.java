@@ -122,13 +122,13 @@ public class FirestoreManager {
     public static void updateQuest (Quest q) {
 
         String questID = q.getQuestID();
-        System.out.println(questID);
+        //System.out.println(questID);
         firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Log.d("Debug", "Successfully created quest document");
+                        Log.d("Debug", "Successfully updated quest document");
                     } else {
-                        Log.d("Debug", "Failed to create quest document");
+                        Log.d("Debug", "Failed to update quest document");
                     }
                 });
 
