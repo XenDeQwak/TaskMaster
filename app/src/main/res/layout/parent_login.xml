@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/statContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Page.Login.UserLogin">
+    tools:context=".view.login.UserLogin">
 
     <ImageView
         android:id="@+id/imageView6"
@@ -132,7 +132,7 @@
         app:layout_constraintStart_toStartOf="@+id/imageView10" />
 
     <EditText
-        android:id="@+id/usernameSignUpBox"
+        android:id="@+id/childCreationUsername"
         android:layout_width="255dp"
         android:layout_height="55dp"
         android:layout_marginTop="24dp"
@@ -150,7 +150,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/emailSignUpBox"
+        android:id="@+id/childCreationEmail"
         android:layout_width="255dp"
         android:layout_height="55dp"
         android:layout_marginTop="24dp"
@@ -165,7 +165,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/usernameSignUpBox" />
+        app:layout_constraintTop_toBottomOf="@+id/childCreationUsername" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/confirmButton2"
@@ -182,7 +182,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/emailSignUpBox"
+        app:layout_constraintTop_toBottomOf="@+id/childCreationEmail"
         app:strokeColor="@color/black"
         app:strokeWidth="1dp" />
 

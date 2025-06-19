@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topBarRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBarContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/pageTitleContainer"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangle_rounded2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/createObjectButton"
+            app:layout_constraintStart_toEndOf="@+id/navBarButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/pageTitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/eb_garamond_semibold"
+            android:text="Lorem ipsum"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/pageTitleContainer"
+            app:layout_constraintEnd_toEndOf="@+id/pageTitleContainer"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/pageTitleContainer"
+            app:layout_constraintTop_toTopOf="@+id/pageTitleContainer"
+            app:layout_constraintVertical_bias="0.439" />
+
+        <ImageView
+            android:id="@+id/createObjectButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:alpha="0.8"
+            android:background="@drawable/rectangle_rounded2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/navBarButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:alpha="0.8"
+            android:background="@drawable/rectangle_rounded2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dropdown" />
+
+        <TextView
+            android:id="@+id/goldAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/eb_garamond_semibold"
+            android:text="0 G"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/createObjectButton"
+            app:layout_constraintEnd_toEndOf="@+id/createObjectButton"
+            app:layout_constraintStart_toStartOf="@+id/createObjectButton"
+            app:layout_constraintTop_toTopOf="@+id/createObjectButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.taskmaster.appui.view.uimodule.DropdownNavMenu
+        android:id="@+id/dropdownNavMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/topBarContainer"
+        app:layout_constraintTop_toBottomOf="@+id/topBarContainer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
