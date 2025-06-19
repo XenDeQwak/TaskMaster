@@ -18,7 +18,7 @@ public class CosmeticShop extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cosmetic_shop);
 
-        countdownBox = findViewById(R.id.cosmeticShopContainerItemContainerItemPictureText2);
+        //countdownBox = findViewById(R.id.cosmeticShopContainerItemContainerItemPictureText2);
         timeUtil = TimeUtil.getInstance();
         timeUtil.setupTimer();
         timeUtil.startTimer(new TimeUtil.TimerListener() {

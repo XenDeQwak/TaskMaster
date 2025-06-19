@@ -1,7 +1,5 @@
 package com.taskmaster.appui.view.login;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,7 +38,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.sign_up);
         NavUtil.hideSystemBars(this);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.statContainer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -49,11 +47,11 @@ public class SignUp extends AppCompatActivity {
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        emailbox = findViewById(R.id.emailSignUpBox);
-        usernamebox = findViewById(R.id.usernameSignUpBox);
-        passwordbox = findViewById(R.id.passwordSignUpBox);
-        firstnamebox = findViewById(R.id.firstnameSignUpBox);
-        lastnamebox = findViewById(R.id.lastnameSignUpBox);
+        emailbox = findViewById(R.id.childCreationEmail);
+        usernamebox = findViewById(R.id.childCreationUsername);
+        passwordbox = findViewById(R.id.childCreationPassword);
+        firstnamebox = findViewById(R.id.childCreationFirstname);
+        lastnamebox = findViewById(R.id.childCreationLastName);
         confirmButton = findViewById(R.id.confirmButton2);
 
         View[] signUpInformation = {emailbox, usernamebox, passwordbox, firstnamebox, lastnamebox};
@@ -79,9 +77,9 @@ public class SignUp extends AppCompatActivity {
                 if(hasSpecial){checkBoxes++;}
                 confirmButton.setEnabled(checkBoxes != 0);
 
-                if(checkBoxes==1){Toast.makeText(SignUp.this,"weak",Toast.LENGTH_SHORT).show();}
-                if(checkBoxes==2){Toast.makeText(SignUp.this,"med",Toast.LENGTH_SHORT).show();}
-                if(checkBoxes==3){Toast.makeText(SignUp.this,"str",Toast.LENGTH_SHORT).show();}
+                if(checkBoxes==1){Toast.makeText(SignUp.this,"Weak Password",Toast.LENGTH_SHORT).show();}
+                if(checkBoxes==2){Toast.makeText(SignUp.this,"Moderate Password",Toast.LENGTH_SHORT).show();}
+                if(checkBoxes==3){Toast.makeText(SignUp.this,"Strong Password",Toast.LENGTH_SHORT).show();}
             }
         });
         confirmButton.setOnClickListener(new View.OnClickListener() {

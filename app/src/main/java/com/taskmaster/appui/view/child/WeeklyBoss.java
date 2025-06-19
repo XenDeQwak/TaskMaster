@@ -3,12 +3,11 @@ package com.taskmaster.appui.view.child;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.os.CountDownTimer;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,15 +18,12 @@ import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.*;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.taskmaster.appui.Page.Main.User;
 import com.taskmaster.appui.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +35,7 @@ public class WeeklyBoss extends AppCompatActivity {
     Group dropDownGroup, popupMonsterMessage;
     ProgressBar monsterHealthBar;
     View rootLayout;
+    TextView timerTxtDays;
     int bossReq = 10;
     int childStr;
     int childInt;
@@ -73,9 +70,10 @@ public class WeeklyBoss extends AppCompatActivity {
 
         // hooks
         {
+            timerTxtDays=findViewById(R.id.TimerTxtDays);
             dropDownGroup = findViewById(R.id.dropdownGroup);
             childBarStatsButton = findViewById(R.id.childBarStatsButton);
-            rootLayout = findViewById(R.id.main);
+            rootLayout = findViewById(R.id.statContainer);
             childBarName = findViewById(R.id.childBarName);
             childBarGroup = findViewById(R.id.childBarGroup);
             childBarAvatar = findViewById(R.id.childBarAvatar);
@@ -109,19 +107,6 @@ public class WeeklyBoss extends AppCompatActivity {
                 setTime(timeRemaining);
             }
 
-            @Override
-            public void onFinish() {
-                //if(bossDefeated){
-                //    bossDefeated = false; goodjob or something floor advance
-                //}else{
-                //    popupMonsterMessageText.setText("Time's up! You lose!");
-                //        childRef.update("childStr", FieldValue.increment(-5));
-                //        childRef.update("childInt", FieldValue.increment(-5));
-                //}
-
-                timeUtil.setupTimer();
-            }
-        });
         // hide popup
         popupMonsterMessage.setVisibility(View.GONE);
 
@@ -131,9 +116,6 @@ public class WeeklyBoss extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         Map<String, Object> bossData = new HashMap<>();
-
-        User user = User.getInstance();
-        DocumentSnapshot documentSnapshot = user.getDocumentSnapshot();
 
 //        db.collection("users").document(userId).get()
 //                .addOnCompleteListener(task -> {
@@ -224,11 +206,42 @@ public class WeeklyBoss extends AppCompatActivity {
         monsterHealthBarText.setText(clampedProgress + "/100");
     }
     public void setTime(long ms){
-        Long hours = ms / 3600000;
+
+        Long days = ms / 86400000;
+        Long hours = (ms % 86400000) / 3600000;
         Long minutes = (ms % 3600000) / 60000;
-        Long seconds = ((ms % 3600000) % 60000) / 1000;
+        Long seconds = (ms % 60000) / 1000;
+
         String timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-        runOnUiThread(() -> timerTxt.setText(timeFormatted));
+        runOnUiThread(() -> {
+            timerTxtDays.setText(days + " Days");
+            timerTxt.setText(timeFormatted);
+        });
     }
 
+    private void startTimer(){
+        TimeUtil timeUtil = TimeUtil.getInstance();
+        timeUtil.startTimer(new TimeUtil.TimerListener() {
+            @Override
+            public void onTick(long timeRemaining) {
+                setTime(timeRemaining);
+            }
+
+            @Override
+            public void onFinish() {
+                //if(bossDefeated){
+                //    bossDefeated = false; goodjob or something floor advance
+                //}else{
+                //    popupMonsterMessageText.setText("Time's up! You lose!");
+                //        childRef.update("childStr", FieldValue.increment(-5));
+                //        childRef.update("childInt", FieldValue.increment(-5));
+                //}
+                Toast.makeText(getApplicationContext(), "Time's up! You lose!", Toast.LENGTH_SHORT).show();
+
+                timeUtil.setupTimer(callback->{
+                    startTimer();
+                });
+            }
+        });
+    }
 }

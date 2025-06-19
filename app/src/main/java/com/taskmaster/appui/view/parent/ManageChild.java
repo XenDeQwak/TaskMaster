@@ -32,8 +32,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.entity.Child;
-import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.util.DropdownUtil;
 import com.taskmaster.appui.util.NavUtil;
 
@@ -62,22 +60,22 @@ public class ManageChild extends AppCompatActivity {
         // hide status bar and nav bar
         NavUtil.hideSystemBars(this);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.statContainer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
         // hooks
-        addChildButton = findViewById(R.id.addChildButton);
-        popUpGroup = findViewById(R.id.pop_up_tavern_code);
-        copyButton = findViewById(R.id.copy_button);
-        exitButton = findViewById(R.id.exit_button);
-        codeText = findViewById(R.id.code_text);
-        gridLayout = findViewById(R.id.gridLayout);
-        rootLayout = findViewById(R.id.main);
-        gridLayout1 = findViewById(R.id.gridLayout1);
-        DropdownUtil.dropdownSetup(this,rootLayout);
+//        addChildButton = findViewById(R.id.addChildButton);
+//        popUpGroup = findViewById(R.id.pop_up_tavern_code);
+//        copyButton = findViewById(R.id.copy_button);
+//        exitButton = findViewById(R.id.exit_button);
+//        codeText = findViewById(R.id.code_text);
+//        gridLayout = findViewById(R.id.gridLayout);
+//        rootLayout = findViewById(R.id.statContainer);
+//        gridLayout1 = findViewById(R.id.gridLayout1);
+//        DropdownUtil.dropdownSetup(this,rootLayout);
 
         // hide dropdown group and initial icons
         db = FirebaseFirestore.getInstance();

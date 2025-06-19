@@ -110,7 +110,7 @@ public class QuestManagement extends AppCompatActivity {
         // hooks
         addQuestButton = findViewById(R.id.addQuestButton);
         gridLayout = findViewById(R.id.gridLayout);
-        rootLayout = findViewById(R.id.main);
+        rootLayout = findViewById(R.id.statContainer);
         scrollView = findViewById(R.id.scrollView1);
         DropdownUtil.dropdownSetup(this,rootLayout);
 
@@ -118,10 +118,10 @@ public class QuestManagement extends AppCompatActivity {
         editQuestName = findViewById(R.id.editQuestName);
         setRewardsButton = findViewById(R.id.setRewardsButton);
         assignQuestButton = findViewById(R.id.assignQuest);
-        cancelQuestEditButton = findViewById(R.id.cancelQuestEditButton);
-        saveQuestEditButton = findViewById(R.id.saveQuestEditButton);
+        cancelQuestEditButton = findViewById(R.id.editQuestCancel);
+        saveQuestEditButton = findViewById(R.id.editQuestSave);
         editQuestGroup = findViewById(R.id.editQuestGroup);
-        setDifficultyRating = findViewById(R.id.setDifficultyRating);
+        setDifficultyRating = findViewById(R.id.editQuestDifficulty);
 
         popupRewardsGroup = findViewById(R.id.popupRewardsGroup);
         popupRewardsFrameShadow = findViewById(R.id.popupRewardsFrameShadow);
@@ -870,7 +870,7 @@ public class QuestManagement extends AppCompatActivity {
             TextView questText = questTextViews.get(lastClickedQuestId); // Get the TextView using the questId
 
             EditText editQuestDesc = findViewById(R.id.editQuestDesc); // Ensure this is the correct ID
-            RatingBar setDifficultyRating = findViewById(R.id.setDifficultyRating);
+            RatingBar setDifficultyRating = findViewById(R.id.editQuestDifficulty);
             EditText editQuestRewardsOptional = findViewById(R.id.rewardsOptionalText); // Correct ID
             AppCompatButton rewardsDropdownButton = findViewById(R.id.rewardsDropdownButton);
             AppCompatButton viewRewardsDropdownButton = findViewById(R.id.viewRewardsDropdownButton);

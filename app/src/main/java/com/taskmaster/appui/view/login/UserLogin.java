@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.manager.viewmanager.LogInManager;
+import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
@@ -38,7 +39,7 @@ public class UserLogin extends AppCompatActivity {
 
         NavUtil.hideSystemBars(this);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.statContainer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -47,8 +48,8 @@ public class UserLogin extends AppCompatActivity {
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        emailbox = findViewById(R.id.usernameSignUpBox);
-        passwordbox = findViewById(R.id.emailSignUpBox);
+        emailbox = findViewById(R.id.childCreationUsername);
+        passwordbox = findViewById(R.id.childCreationEmail);
         forgotPasswordTextView = findViewById(R.id.textView3);
         confirmButton = findViewById(R.id.confirmButton2);
         signUpTextView = findViewById(R.id.signupTextView);
@@ -82,10 +83,9 @@ public class UserLogin extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Log-in Logic
-                //Toast.makeText(UserLogin.this, "HELLO WORLD", Toast.LENGTH_SHORT).show();
+                Class<?>[] destinations = {ParentViewQuest.class, ChildViewQuest.class};
                 LogInManager logInManager = new LogInManager();
-                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, ParentViewQuest.class);
+                logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, destinations);
             }
         });
 

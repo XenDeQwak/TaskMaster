@@ -68,12 +68,14 @@ public class TemporaryConnectionManager {
 
     private static void createChildData (Child c, FirebaseUser u) {
 
-        System.out.println(c.getParentRef());
-        System.out.println(c.getParentRef().getPath());
+        //System.out.println(c.getParentRef());
+        //System.out.println(c.getParentRef().getPath());
         c.setChildPassword("");
+        HashMap<String, Object> cd = (HashMap<String, Object>) ChildManager.packChildData(c);
+        cd.put("Role", "child");
         Task<Void> createChildAuth = FirestoreManager.getFirestore()
                 .collection("Childs")
-                .document(u.getUid()).set(ChildManager.packChildData(c))
+                .document(u.getUid()).set(cd)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Debug", "Successfully created child document");
