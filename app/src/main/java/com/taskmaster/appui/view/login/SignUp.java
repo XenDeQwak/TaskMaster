@@ -77,9 +77,9 @@ public class SignUp extends AppCompatActivity {
                 if(hasSpecial){checkBoxes++;}
                 confirmButton.setEnabled(checkBoxes != 0);
 
-                if(checkBoxes==1){Toast.makeText(SignUp.this,"weak",Toast.LENGTH_SHORT).show();}
-                if(checkBoxes==2){Toast.makeText(SignUp.this,"med",Toast.LENGTH_SHORT).show();}
-                if(checkBoxes==3){Toast.makeText(SignUp.this,"str",Toast.LENGTH_SHORT).show();}
+                if(checkBoxes==1){Toast.makeText(SignUp.this,"Weak Password",Toast.LENGTH_SHORT).show();}
+                if(checkBoxes==2){Toast.makeText(SignUp.this,"Moderate Password",Toast.LENGTH_SHORT).show();}
+                if(checkBoxes==3){Toast.makeText(SignUp.this,"Strong Password",Toast.LENGTH_SHORT).show();}
             }
         });
         confirmButton.setOnClickListener(new View.OnClickListener() {
