@@ -60,6 +60,11 @@ public class CosmeticAdapter extends RecyclerView.Adapter<CosmeticAdapter.ViewHo
         holder.itemSubtitle.setText(item.subtitle);
         holder.itemImage.setImageResource(item.imageResId);
     }
+    public void updateItems(List<CosmeticItem> newItems) {
+        this.items.clear();       // 'items' is the list you're displaying
+        this.items.addAll(newItems);
+        notifyDataSetChanged();   // tells RecyclerView to redraw the list
+    }
 
     @Override
     public int getItemCount() {

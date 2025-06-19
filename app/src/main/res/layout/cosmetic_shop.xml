@@ -156,7 +156,6 @@
         app:layout_constraintHeight_percent="0.75"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-    <!-- RecyclerView replacing static itemContainers -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -169,6 +168,137 @@
         app:layout_constraintEnd_toEndOf="@id/imageView20"
         tools:listitem="@layout/item_layout" />
 
+    <View
+        android:id="@+id/blurOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:background="#CC000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+    />
+<!--    Confirmation Popout-->
+    <ImageView
+        android:id="@+id/confirmationTextContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:alpha="1.0"
+        android:visibility="gone"
+        app:srcCompat="@drawable/rectangle_rounded"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+    <TextView
+        android:id="@+id/confirmationText"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textAlignment="center"
+        android:text="Are you sure you want to buy this item?"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="5sp"
+        app:autoSizeMaxTextSize="35sp"
+        app:autoSizeStepGranularity="1sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintEnd_toEndOf="@+id/confirmationTextContainer"
+        app:layout_constraintStart_toStartOf="@+id/confirmationTextContainer"
+        app:layout_constraintTop_toTopOf="@+id/confirmationTextContainer"
+        />
+
+    <ImageView
+        android:id="@+id/confirmationYesContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:alpha="0.5"
+        android:visibility="gone"
+        app:srcCompat="@drawable/rectangle_rounded"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintStart_toStartOf="@+id/confirmationTextContainer"
+        app:layout_constraintEnd_toEndOf="@+id/confirmationTextContainer"
+        app:layout_constraintTop_toTopOf="@id/confirmationTextContainer"
+        app:layout_constraintBottom_toBottomOf="@id/confirmationTextContainer"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <TextView
+        android:id="@+id/confirmationYesText"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:textAlignment="center"
+        android:text="Yes"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="5sp"
+        app:autoSizeMaxTextSize="30sp"
+        app:autoSizeStepGranularity="1sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintEnd_toEndOf="@+id/confirmationYesContainer"
+        app:layout_constraintStart_toStartOf="@+id/confirmationYesContainer"
+        app:layout_constraintTop_toTopOf="@+id/confirmationYesContainer"
+        app:layout_constraintBottom_toBottomOf="@id/confirmationYesContainer"
+        />
+
+    <ImageView
+        android:id="@+id/confirmationNoContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:alpha="0.5"
+        android:visibility="gone"
+        app:srcCompat="@drawable/rectangle_rounded"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintStart_toStartOf="@+id/confirmationTextContainer"
+        app:layout_constraintEnd_toEndOf="@+id/confirmationTextContainer"
+        app:layout_constraintTop_toTopOf="@id/confirmationTextContainer"
+        app:layout_constraintBottom_toBottomOf="@id/confirmationTextContainer"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <TextView
+        android:id="@+id/confirmationNoText"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:textAlignment="center"
+        android:text="No"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="5sp"
+        app:autoSizeMaxTextSize="30sp"
+        app:autoSizeStepGranularity="1sp"
+        android:textColor="#3F3F3F"
+        android:fontFamily="@font/eb_garamond_semibold"
+        app:layout_constraintEnd_toEndOf="@+id/confirmationNoContainer"
+        app:layout_constraintStart_toStartOf="@+id/confirmationNoContainer"
+        app:layout_constraintTop_toTopOf="@+id/confirmationNoContainer"
+        app:layout_constraintBottom_toBottomOf="@id/confirmationNoContainer"
+        />
 
 
     <!--
@@ -341,16 +471,16 @@
         app:srcCompat="@drawable/dropdown" /> -->
 
 
-    <!--    <ImageButton-->
-    <!--        android:id="@+id/imageButton3"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:background="@null"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/addChildButton"-->
-    <!--        app:layout_constraintEnd_toEndOf="@+id/addChildButton"-->
-    <!--        app:layout_constraintStart_toStartOf="@+id/addChildButton"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/addChildButton"-->
-    <!--        app:srcCompat="@null" />-->
+<!--        <ImageButton-->
+<!--            android:id="@+id/imageButton3"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:background="@null"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/addChildButton"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/addChildButton"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/addChildButton"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/addChildButton"-->
+<!--            app:srcCompat="@null" />-->
 
     <!--
     <ScrollView

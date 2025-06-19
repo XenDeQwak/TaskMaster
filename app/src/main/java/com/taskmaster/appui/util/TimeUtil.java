@@ -5,21 +5,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.taskmaster.appui.Page.Main.User;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
     private CountDownTimer countDownTimer;
     private static TimeUtil instance;
-    private static Date bossDate;
-    private Date timeSnapshot;
-
-    private long baseElapsed,msBossDate,msTimeSnapshot,duration;
+    private User user = User.getInstance();
+    private long baseElapsed,msTimeSnapshot,duration,timeSnapshot,bossTimer;
 
     public interface TimerCaller {
-        void onTimeReceived(Date receivedDate);
+        void onTimeReceived(Long receivedDate);
     }
     public static TimeUtil getInstance() {
         if (instance == null) {
@@ -30,7 +29,6 @@ public class TimeUtil {
 
     public interface TimerListener {
         void onTick(long timeRemaining);
-
         void onFinish();
     }
 
@@ -46,14 +44,14 @@ public class TimeUtil {
                 connection.connect();
                 long checkConnection = connection.getDate();
                 if (checkConnection > 0) { //0 means nothing was sent. TRUE means something was sent
-                    callback.onTimeReceived(new Date(checkConnection));
+                    callback.onTimeReceived(checkConnection);
                 } else { //Fallback on system current time (the one that can be cheated by changing time on phone)
                     Log.e("TimeUtil", "Failed to fetch time, using system time.");
-                    callback.onTimeReceived(new Date(System.currentTimeMillis()));
+                    callback.onTimeReceived(System.currentTimeMillis());
                 }
             } catch (Exception e) {
                 Log.e("TimeUtil", "Failed to fetch time, using system time.");
-                callback.onTimeReceived(new Date(System.currentTimeMillis()));
+                callback.onTimeReceived(System.currentTimeMillis());
             } finally { //Apparently this is good practice
                 if (connection != null) {
                     connection.disconnect();
@@ -62,9 +60,15 @@ public class TimeUtil {
         }).start();
     }
 
-    public void setupTimer() { //Call this onFinish
+    public void setupTimer(GenericCallback callback) { //Call this onFinish
         long weekMs = TimeUnit.DAYS.toMillis(7);
-        fetchTime(receivedDate -> {bossDate = new Date(receivedDate.getTime() + weekMs);});
+        fetchTime(receivedDate -> {
+            bossTimer = receivedDate + weekMs;
+            user.getDocumentSnapshot().getReference().update("bossTimer", bossTimer);
+            user.loadDocumentSnapshot(callback1->{
+                callback.onCallback(null);
+            });
+        });
     }
 
     public void startTimer(TimerListener tickListener) { //Called whenever WeeklyBoss is opened
@@ -75,9 +79,9 @@ public class TimeUtil {
             timeSnapshot = receivedDate;
 
             //just so getTime isn't called perTick
-            msBossDate = bossDate.getTime();
-            msTimeSnapshot = timeSnapshot.getTime();
-            duration = msBossDate - msTimeSnapshot;
+            bossTimer = user.getDocumentSnapshot().getLong("bossTimer");
+            msTimeSnapshot = timeSnapshot;
+            duration = bossTimer - msTimeSnapshot;
 
             if (duration <= 0) {
                 new Handler(Looper.getMainLooper()).post(tickListener::onFinish);
