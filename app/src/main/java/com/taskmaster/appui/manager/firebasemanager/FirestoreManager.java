@@ -149,6 +149,21 @@ public class FirestoreManager {
                 });
     }
 
+
+    public static void fetchAdventurers (String parentUID, GenericCallback<List<DocumentSnapshot>> callback) {
+        firestore.collection("Childs").whereEqualTo("ParentUID", parentUID).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Debug", "Successfully fetched adventurers");
+                        List<DocumentSnapshot> childDocs = task.getResult().getDocuments();
+                        callback.onCallback(childDocs);
+                    } else {
+                        task.getException().printStackTrace();
+                        Log.d("Debug", "Failed to fetch adventurers");
+                    }
+                });
+    }
+
     public static FirebaseFirestore getFirestore () {
         return firestore;
     }

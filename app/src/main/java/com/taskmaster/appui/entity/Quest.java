@@ -21,7 +21,10 @@ public class Quest {
                  long startDate,
                  long endDate,
                  String rewardStat,
-                 String rewardExtra) {
+                 String rewardExtra,
+                 String assignedUID,
+                 DocumentReference assignedReference
+    ) {
         this.questID = questID;
         this.name = name;
         this.description = description;
@@ -31,6 +34,8 @@ public class Quest {
         this.endDate = endDate;
         this.rewardStat = rewardStat;
         this.rewardExtra = rewardExtra;
+        this.assignedUID = assignedUID;
+        this.assignedReference = assignedReference;
     }
 
     public String getQuestID() {
@@ -63,6 +68,14 @@ public class Quest {
 
     public void setCreatorUID(String creatorUID) {
         this.creatorUID = creatorUID;
+    }
+
+    public String getAssignedUID() {
+        return assignedUID;
+    }
+
+    public void setAssignedUID(String assignedUID) {
+        this.assignedUID = assignedUID;
     }
 
     public long getStartDate() {
@@ -103,14 +116,6 @@ public class Quest {
 
     public void setCreatorReference(DocumentReference creatorReference) {
         this.creatorReference = creatorReference;
-    }
-
-    public String getAssignedUID() {
-        return assignedUID;
-    }
-
-    public void setAssignedUID(String assignedUID) {
-        this.assignedUID = assignedUID;
     }
 
     public DocumentReference getAssignedReference() {

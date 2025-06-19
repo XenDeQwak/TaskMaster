@@ -5,43 +5,53 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.Quest;
+import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import java.time.*;
 
 public class EditQuestTab extends FrameLayout {
 
-    EditText editQuestName, editQuestHour, editQuestMinute, editQuestSecond, editQuestDescription;
-    Button setRewardsButton, editQuestSave, editQuestCancel, editQuestAssignNext, editQuestAssignPrev;
+    EditText editQuestName, editQuestHour, editQuestMinute, editQuestSecond, editQuestDescription, editQuestRewardExtra;
+    Button editQuestSave, editQuestCancel;
+    Spinner editQuestRewardPicker, editQuestChildPicker;
     ImageView editQuestChildAvatar;
     ConstraintLayout editQuestContainer;
 
     Quest q;
-
-
 
     public EditQuestTab(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
+    @SuppressWarnings("newApi")
     private void init () {
         LayoutInflater.from(getContext()).inflate(R.layout.module_edit_quest_tab, this);
 
@@ -50,13 +60,35 @@ public class EditQuestTab extends FrameLayout {
         editQuestMinute = findViewById(R.id.editQuestMinute);
         editQuestSecond = findViewById(R.id.editQuestSecond);
         editQuestDescription = findViewById(R.id.editQuestDescription);
-        setRewardsButton = findViewById(R.id.setRewardsButton);
+        editQuestRewardPicker = findViewById(R.id.editQuestRewardPicker);
         editQuestSave = findViewById(R.id.editQuestSave);
         editQuestCancel = findViewById(R.id.editQuestCancel);
-        editQuestAssignNext = findViewById(R.id.editQuestAssignNext);
-        editQuestAssignPrev = findViewById(R.id.editQuestAssignPrev);
+        editQuestRewardExtra = findViewById(R.id.editQuestRewardExtra);
+        editQuestChildPicker = findViewById(R.id.editQuestChildPicker);
         editQuestChildAvatar = findViewById(R.id.editQuestChildAvatar);
         editQuestContainer = findViewById(R.id.editQuestContainer);
+
+        List<String> rewardStatList = new ArrayList<>();
+        rewardStatList.add("STRENGTH");
+        rewardStatList.add("INTELLIGENCE");
+        ArrayAdapter<String> rewardStatAdapter = new ArrayAdapter<>(
+                this.getContext(),
+                android.R.layout.simple_spinner_item,
+                rewardStatList
+        );
+        rewardStatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editQuestRewardPicker.setAdapter(rewardStatAdapter);
+
+        List<Child> childList = new ArrayList<>();
+        ChildManager.injectToList(childList, e -> {
+            ArrayAdapter<String> childAdapter = new ArrayAdapter<>(
+                    this.getContext(),
+                    android.R.layout.simple_spinner_item,
+                    childList.stream().map(Child::getChildEmail).toList()
+            );
+            childAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            editQuestChildPicker.setAdapter(childAdapter);
+        });
 
         editQuestCancel.getBackground().setAlpha(150);
 
@@ -70,6 +102,10 @@ public class EditQuestTab extends FrameLayout {
         });
     }
 
+    public void setQuest (Quest q) {
+        this.q = q;
+    }
+
     @SuppressWarnings("NewApi")
     private void saveQuest () {
 
@@ -79,6 +115,7 @@ public class EditQuestTab extends FrameLayout {
                 || editQuestMinute.getText().toString().equals("")
                 || editQuestSecond.getText().toString().equals("")
                 || editQuestDescription.getText().toString().equals("")
+                || editQuestRewardExtra.getText().toString().equals("")
         ) {
             Toast.makeText(getContext(), "Please fill up all fields!", Toast.LENGTH_SHORT).show();
             return;
@@ -89,6 +126,9 @@ public class EditQuestTab extends FrameLayout {
         int minute = Integer.parseInt(editQuestMinute.getText().toString());
         int second = Integer.parseInt(editQuestSecond.getText().toString());
         String description = editQuestDescription.getText().toString();
+        String rewardStat = editQuestRewardPicker.getSelectedItem().toString();
+        String rewardExtra = editQuestRewardExtra.getText().toString();
+        String assigneeEmail = editQuestChildPicker.getSelectedItem().toString();
 
 
         ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("UTC"));
@@ -100,17 +140,23 @@ public class EditQuestTab extends FrameLayout {
         q.setDescription(description);
         q.setStartDate(startDate);
         q.setEndDate(endDate);
-        //Below Unimplemented
-        q.setRewardStat("DEFAULT");
-        q.setRewardExtra("Extra Rewards");
-        q.setAssignedUID("child");
-        q.setAssignedReference(FirestoreManager.getFirestore().document("Childs/child"));
+        q.setRewardStat(rewardStat);
+        q.setRewardExtra(rewardExtra);
 
-        FirestoreManager.updateQuest(q);
-    }
+        Task<QuerySnapshot> fetchAssigneeDetails = FirestoreManager
+                .getFirestore()
+                .collection("Childs")
+                .whereEqualTo("Email", assigneeEmail)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(task -> {
+                    DocumentSnapshot c = task.getResult().getDocuments().get(0);
+                    q.setAssignedUID(c.getId());
+                    q.setAssignedReference(c.getReference());
 
-    public void setQuest (Quest q) {
-        this.q = q;
+                    FirestoreManager.updateQuest(q);
+                });
+
     }
 
     public EditText getEditQuestName() {
@@ -153,12 +199,12 @@ public class EditQuestTab extends FrameLayout {
         this.editQuestDescription = editQuestDescription;
     }
 
-    public Button getSetRewardsButton() {
-        return setRewardsButton;
+    public EditText getEditQuestRewardExtra() {
+        return editQuestRewardExtra;
     }
 
-    public void setSetRewardsButton(Button setRewardsButton) {
-        this.setRewardsButton = setRewardsButton;
+    public void setEditQuestRewardExtra(EditText editQuestRewardExtra) {
+        this.editQuestRewardExtra = editQuestRewardExtra;
     }
 
     public Button getEditQuestSave() {
@@ -177,20 +223,20 @@ public class EditQuestTab extends FrameLayout {
         this.editQuestCancel = editQuestCancel;
     }
 
-    public Button getEditQuestAssignNext() {
-        return editQuestAssignNext;
+    public Spinner getEditQuestRewardPicker() {
+        return editQuestRewardPicker;
     }
 
-    public void setEditQuestAssignNext(Button editQuestAssignNext) {
-        this.editQuestAssignNext = editQuestAssignNext;
+    public void setEditQuestRewardPicker(Spinner editQuestRewardPicker) {
+        this.editQuestRewardPicker = editQuestRewardPicker;
     }
 
-    public Button getEditQuestAssignPrev() {
-        return editQuestAssignPrev;
+    public Spinner getEditQuestChildPicker() {
+        return editQuestChildPicker;
     }
 
-    public void setEditQuestAssignPrev(Button editQuestAssignPrev) {
-        this.editQuestAssignPrev = editQuestAssignPrev;
+    public void setEditQuestChildPicker(Spinner editQuestChildPicker) {
+        this.editQuestChildPicker = editQuestChildPicker;
     }
 
     public ImageView getEditQuestChildAvatar() {
@@ -199,5 +245,13 @@ public class EditQuestTab extends FrameLayout {
 
     public void setEditQuestChildAvatar(ImageView editQuestChildAvatar) {
         this.editQuestChildAvatar = editQuestChildAvatar;
+    }
+
+    public ConstraintLayout getEditQuestContainer() {
+        return editQuestContainer;
+    }
+
+    public void setEditQuestContainer(ConstraintLayout editQuestContainer) {
+        this.editQuestContainer = editQuestContainer;
     }
 }

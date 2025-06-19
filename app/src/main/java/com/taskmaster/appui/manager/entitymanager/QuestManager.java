@@ -53,7 +53,9 @@ public class QuestManager {
                 (Long) qd.get("StartDate"),
                 (Long) qd.get("EndDate"),
                 (String) qd.get("RewardStat"),
-                (String) qd.get("RewardExtra")
+                (String) qd.get("RewardExtra"),
+                (String) qd.get("AssignedUID"),
+                (DocumentReference) qd.get("AssignedRef")
                 );
     }
 
@@ -68,6 +70,8 @@ public class QuestManager {
         qd.put("EndDate", q.getEndDate());
         qd.put("RewardStat", q.getRewardStat());
         qd.put("RewardExtra", q.getRewardExtra());
+        qd.put("AssignedUID", q.getAssignedUID());
+        qd.put("AssignedRef", q.getAssignedReference());
 
         return qd;
     }
@@ -82,6 +86,8 @@ public class QuestManager {
         qd.put("EndDate", 1767225599L);       // December 31, 2025, 23:59
         qd.put("RewardStat", "DEFAULT");
         qd.put("RewardExtra", "test");
+        qd.put("AssignedUID", "child");
+        qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
 
         return QuestManager.parseQuestData(qd);
     }
@@ -97,6 +103,8 @@ public class QuestManager {
         qd.put("EndDate", 1767225599L);       // December 31, 2025, 23:59
         qd.put("RewardStat", "DEFAULT");
         qd.put("RewardExtra", "");
+        qd.put("AssignedUID", "child");
+        qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
 
         return QuestManager.parseQuestData(qd);
     }

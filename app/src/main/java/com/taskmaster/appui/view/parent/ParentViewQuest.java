@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Quest;
+import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
@@ -20,6 +21,7 @@ import com.taskmaster.appui.view.uimodule.QuestBox;
 public class ParentViewQuest extends ParentView {
 
     QuestManager questManager;
+    ChildManager childManager;
     ImageView createQuestButton;
     ScrollView questScrollView;
     LinearLayout questScrollContent;
