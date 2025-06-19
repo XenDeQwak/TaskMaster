@@ -5,19 +5,21 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Page.ManageChild">
+    tools:context=".view.parent.ManageChild">
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="480dp"
-        android:layout_height="927dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintWidth_percent="1.2"
+        app:layout_constraintHeight_percent="1.2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@drawable/background1" />
 
     <ImageView
@@ -297,6 +299,7 @@
         app:srcCompat="@drawable/add_adventurer" />
 
 
+
 <!--    <ImageButton-->
 <!--        android:id="@+id/imageButton3"-->
 <!--        android:layout_width="0dp"-->
@@ -437,118 +440,5 @@
             android:textAllCaps="false"
             android:textColor="#3F3F3F"
             android:textSize="20sp" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/pop_up_tavern_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="pop_up_frame,copy_button,exit_button,notice_text,notice_shadow_overlay,code_text" />
-
-        <ImageView
-            android:id="@+id/notice_shadow_overlay"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:alpha="0.5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/shadow_overlay" />
-
-    <ImageView
-        android:id="@+id/pop_up_frame"
-        android:layout_width="296dp"
-        android:layout_height="223dp"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="189dp"
-        android:layout_marginEnd="58dp"
-        android:layout_marginBottom="500dp"
-        android:alpha="1"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rectangle_rounded" />
-
-        <TextView
-            android:id="@+id/notice_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="101dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="95dp"
-            android:layout_marginBottom="171dp"
-            android:fontFamily="@font/eb_garamond_semibold"
-            android:text="Notice!"
-            android:textAlignment="center"
-            android:textColor="#3F3F3F"
-            android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
-            app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
-            app:layout_constraintStart_toStartOf="@+id/pop_up_frame"
-            app:layout_constraintTop_toTopOf="@+id/pop_up_frame" />
-
-        <TextView
-            android:id="@+id/code_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="87dp"
-            android:layout_marginBottom="88dp"
-            android:fontFamily="@font/eb_garamond_semibold"
-            android:text="Tavern Code:"
-            android:textAlignment="center"
-            android:textColor="#3F3F3F"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
-            app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
-            app:layout_constraintStart_toStartOf="@+id/pop_up_frame"
-            app:layout_constraintTop_toTopOf="@+id/pop_up_frame" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/copy_button"
-            android:layout_width="109dp"
-            android:layout_height="53dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="154dp"
-            android:layout_marginEnd="175dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/button_shadowed_states"
-            android:fontFamily="@font/eb_garamond_semibold"
-            android:stateListAnimator="@null"
-            android:text="Copy"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="#3F3F3F"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
-            app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
-            app:layout_constraintStart_toStartOf="@+id/pop_up_frame"
-            app:layout_constraintTop_toTopOf="@+id/pop_up_frame"
-            app:srcCompat="@drawable/rectangle_rounded" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/exit_button"
-            android:layout_width="109dp"
-            android:layout_height="53dp"
-            android:layout_marginStart="175dp"
-            android:layout_marginTop="154dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/button_shadowed_states"
-            android:fontFamily="@font/eb_garamond_semibold"
-            android:stateListAnimator="@null"
-            android:text="Exit"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="#3F3F3F"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/pop_up_frame"
-            app:layout_constraintEnd_toEndOf="@+id/pop_up_frame"
-            app:layout_constraintStart_toStartOf="@+id/pop_up_frame"
-            app:layout_constraintTop_toTopOf="@+id/pop_up_frame"
-            app:srcCompat="@drawable/rectangle_rounded" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

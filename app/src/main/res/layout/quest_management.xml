@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:visibility="visible"
-    tools:context=".Page.Main.QuestManagement">
+    tools:context=".view.parent.QuestManagement">
 
     <ImageView
         android:id="@+id/imageView6"
@@ -345,7 +345,7 @@
         android:id="@+id/editQuestGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="editQuestGroupFrameShadow,assignNextBtn,assignPrevBtn,editQuestFrame,editQuestImage,editQuestName,editQuestTime,editQuestDesc,setRewardsButton,setDifficultyBG,setDifficultyRating,childAvatar,assignQuest,cancelQuestEditButton,saveQuestEditButton"
         tools:visibility="gone" />
 
@@ -1174,20 +1174,20 @@
         android:layout_height="63dp"
         android:layout_marginTop="186dp"
         android:layout_marginBottom="46dp"
-        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
-        app:layout_constraintEnd_toEndOf="@+id/navFrame"
-        app:layout_constraintStart_toStartOf="@+id/navFrame"
-        app:layout_constraintTop_toTopOf="@+id/navFrame"
         android:background="@drawable/button_shadowed_nostroke_states"
         android:fontFamily="@font/eb_garamond_semibold"
-        android:stateListAnimator="@null"
         android:gravity="center"
-        android:visibility="visible"
+        android:stateListAnimator="@null"
         android:text="Log Out"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#3F3F3F"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
+        app:layout_constraintEnd_toEndOf="@+id/navFrame"
+        app:layout_constraintStart_toStartOf="@+id/navFrame"
+        app:layout_constraintTop_toTopOf="@+id/navFrame" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/popupRewardsGroup"

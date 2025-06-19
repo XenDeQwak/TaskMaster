@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background1"
+    tools:context=".view.parent.ParentViewManageChild">
+
+    <ImageView
+        android:id="@+id/mainAdventurerContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/rectangle_rounded" />
+
+    <ScrollView
+        android:id="@+id/questScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0.8"
+        android:background="#8E99CA"
+        app:layout_constraintBottom_toBottomOf="@+id/mainAdventurerContainer"
+        app:layout_constraintEnd_toEndOf="@+id/mainAdventurerContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainAdventurerContainer"
+        app:layout_constraintTop_toTopOf="@+id/mainAdventurerContainer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <com.taskmaster.appui.view.uimodule.TopBar
+        android:id="@+id/topBarParent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/mainAdventurerContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainAdventurerContainer"
+        app:layout_constraintTop_toTopOf="@+id/mainAdventurerContainer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
