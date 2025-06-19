@@ -194,7 +194,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="editQuestGroupFrameShadow,assignNextBtn,assignPrevBtn,editQuestFrame,editQuestImage,editQuestName,editQuestTime,editQuestDesc,setRewardsButton,setDifficultyBG,setDifficultyRating,childAvatar,assignQuest,editQuestCancel,editQuestSave"
+        app:constraint_referenced_ids="editQuestGroupFrameShadow,assignNextBtn,assignPrevBtn,editQuestFrame,editQuestImage,editQuestName,editQuestTime,editQuestDesc,setRewardsButton,setDifficultyBG,editQuestDifficulty,childAvatar,assignQuest,editQuestCancel,editQuestSave"
         tools:visibility="visible" />
 
     <ImageView
@@ -419,7 +419,7 @@
         app:srcCompat="@drawable/stroked_rectangle" />
 
     <RatingBar
-        android:id="@+id/setDifficultyRating"
+        android:id="@+id/editQuestDifficulty"
         style="@style/CustomRatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

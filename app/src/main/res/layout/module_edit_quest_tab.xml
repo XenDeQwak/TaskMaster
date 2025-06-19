@@ -134,7 +134,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editQuestDescription">
 
         <RatingBar
-            android:id="@+id/setDifficultyRating"
+            android:id="@+id/editQuestDifficulty"
             style="@style/CustomRatingBar"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -161,7 +161,7 @@
             android:background="@drawable/stroked_rectangle"
             android:spinnerMode="dropdown"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/setDifficultyRating"
+            app:layout_constraintEnd_toStartOf="@+id/editQuestDifficulty"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -55,7 +55,8 @@ public class QuestManager {
                 (String) qd.get("RewardStat"),
                 (String) qd.get("RewardExtra"),
                 (String) qd.get("AssignedUID"),
-                (DocumentReference) qd.get("AssignedRef")
+                (DocumentReference) qd.get("AssignedRef"),
+                (Long) qd.get("Difficulty")
                 );
     }
 
@@ -72,6 +73,7 @@ public class QuestManager {
         qd.put("RewardExtra", q.getRewardExtra());
         qd.put("AssignedUID", q.getAssignedUID());
         qd.put("AssignedRef", q.getAssignedReference());
+        qd.put("Difficulty", q.getDifficulty());
 
         return qd;
     }
@@ -88,6 +90,7 @@ public class QuestManager {
         qd.put("RewardExtra", "test");
         qd.put("AssignedUID", "child");
         qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
+        qd.put("Difficulty", 0);
 
         return QuestManager.parseQuestData(qd);
     }
@@ -105,6 +108,7 @@ public class QuestManager {
         qd.put("RewardExtra", "");
         qd.put("AssignedUID", "child");
         qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
+        qd.put("Difficulty", 0);
 
         return QuestManager.parseQuestData(qd);
     }

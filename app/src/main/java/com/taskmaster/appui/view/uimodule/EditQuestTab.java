@@ -1,6 +1,5 @@
 package com.taskmaster.appui.view.uimodule;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.R;
@@ -27,12 +26,8 @@ import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 
-import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import java.time.*;
 
@@ -43,6 +38,7 @@ public class EditQuestTab extends FrameLayout {
     Spinner editQuestRewardPicker, editQuestChildPicker;
     ImageView editQuestChildAvatar;
     ConstraintLayout editQuestContainer;
+    RatingBar editQuestDifficulty;
 
     Quest q;
 
@@ -67,6 +63,7 @@ public class EditQuestTab extends FrameLayout {
         editQuestChildPicker = findViewById(R.id.editQuestChildPicker);
         editQuestChildAvatar = findViewById(R.id.editQuestChildAvatar);
         editQuestContainer = findViewById(R.id.editQuestContainer);
+        editQuestDifficulty = findViewById(R.id.editQuestDifficulty);
 
         List<String> rewardStatList = new ArrayList<>();
         rewardStatList.add("STRENGTH");
@@ -129,6 +126,7 @@ public class EditQuestTab extends FrameLayout {
         String rewardStat = editQuestRewardPicker.getSelectedItem().toString();
         String rewardExtra = editQuestRewardExtra.getText().toString();
         String assigneeEmail = editQuestChildPicker.getSelectedItem().toString();
+        int difficulty = (int) editQuestDifficulty.getRating();
 
 
         ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("UTC"));
@@ -142,6 +140,7 @@ public class EditQuestTab extends FrameLayout {
         q.setEndDate(endDate);
         q.setRewardStat(rewardStat);
         q.setRewardExtra(rewardExtra);
+        q.setDifficulty(difficulty);
 
         Task<QuerySnapshot> fetchAssigneeDetails = FirestoreManager
                 .getFirestore()

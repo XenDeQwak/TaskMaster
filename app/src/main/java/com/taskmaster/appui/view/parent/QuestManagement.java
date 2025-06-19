@@ -121,7 +121,7 @@ public class QuestManagement extends AppCompatActivity {
         cancelQuestEditButton = findViewById(R.id.editQuestCancel);
         saveQuestEditButton = findViewById(R.id.editQuestSave);
         editQuestGroup = findViewById(R.id.editQuestGroup);
-        setDifficultyRating = findViewById(R.id.setDifficultyRating);
+        setDifficultyRating = findViewById(R.id.editQuestDifficulty);
 
         popupRewardsGroup = findViewById(R.id.popupRewardsGroup);
         popupRewardsFrameShadow = findViewById(R.id.popupRewardsFrameShadow);
@@ -870,7 +870,7 @@ public class QuestManagement extends AppCompatActivity {
             TextView questText = questTextViews.get(lastClickedQuestId); // Get the TextView using the questId
 
             EditText editQuestDesc = findViewById(R.id.editQuestDesc); // Ensure this is the correct ID
-            RatingBar setDifficultyRating = findViewById(R.id.setDifficultyRating);
+            RatingBar setDifficultyRating = findViewById(R.id.editQuestDifficulty);
             EditText editQuestRewardsOptional = findViewById(R.id.rewardsOptionalText); // Correct ID
             AppCompatButton rewardsDropdownButton = findViewById(R.id.rewardsDropdownButton);
             AppCompatButton viewRewardsDropdownButton = findViewById(R.id.viewRewardsDropdownButton);
