@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FieldValue;
-import com.taskmaster.appui.Page.Main.User;
+import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.Services.CosmeticItemTemplate.CosmeticAdapter;
-import com.taskmaster.appui.Services.CosmeticItemTemplate.CosmeticItem;
-import com.taskmaster.appui.Services.NavUtil;
+import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticAdapter;
+import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticItem;
+import com.taskmaster.appui.util.NavUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,18 +79,10 @@ public class CosmeticShop extends AppCompatActivity {
     }
 
     private void setUpButtons(ImageView yesBox, ImageView noBox, TextView yesText, TextView noText){
-        yesBox.setOnClickListener(v -> {
-            isConfirm(true);
-        });
-        yesText.setOnClickListener(v -> {
-            isConfirm(true);
-        });
-        noBox.setOnClickListener(v -> {
-            isConfirm(false);
-        });
-        noText.setOnClickListener(v -> {
-            isConfirm(false);
-        });
+        yesBox.setOnClickListener(v -> isConfirm(true));
+        yesText.setOnClickListener(v -> isConfirm(true));
+        noBox.setOnClickListener(v -> isConfirm(false));
+        noText.setOnClickListener(v -> isConfirm(false));
     }
     private void isConfirm(boolean confirm) {
         if (confirm) {

@@ -1,4 +1,4 @@
-package com.taskmaster.appui.Services.CosmeticItemTemplate;
+package com.taskmaster.appui.view.uimodule.CosmeticItemTemplate;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.taskmaster.appui.R;
@@ -14,8 +15,8 @@ import java.util.List;
 
 public class CosmeticAdapter extends RecyclerView.Adapter<CosmeticAdapter.ViewHolder> {
 
-    private List<CosmeticItem> items;
-    private OnItemClickListener listener;
+    private final List<CosmeticItem> items;
+    private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -45,6 +46,7 @@ public class CosmeticAdapter extends RecyclerView.Adapter<CosmeticAdapter.ViewHo
         }
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
