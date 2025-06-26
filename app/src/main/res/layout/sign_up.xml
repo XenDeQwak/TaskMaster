@@ -170,7 +170,7 @@
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
         android:hint="Password"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:textAlignment="center"
         android:textColor="#3F3F3F"
         app:autoSizeMinTextSize="10sp"

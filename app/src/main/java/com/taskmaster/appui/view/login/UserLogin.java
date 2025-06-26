@@ -10,9 +10,6 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.manager.viewmanager.LogInManager;
 import com.taskmaster.appui.view.child.ChildViewQuest;
@@ -36,20 +33,13 @@ public class UserLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.parent_login);
-
         NavUtil.hideSystemBars(this);
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.statContainer), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
         fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
 
-        emailbox = findViewById(R.id.childCreationUsername);
-        passwordbox = findViewById(R.id.childCreationEmail);
+        emailbox = findViewById(R.id.usernameLogInBox);
+        passwordbox = findViewById(R.id.passwordLogInBox);
         forgotPasswordTextView = findViewById(R.id.textView3);
         confirmButton = findViewById(R.id.confirmButton2);
         signUpTextView = findViewById(R.id.signupTextView);

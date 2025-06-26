@@ -159,7 +159,7 @@
         />
 
     <EditText
-        android:id="@+id/usernameSignUpBox"
+        android:id="@+id/usernameLogInBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textbox_rounded"
@@ -182,7 +182,7 @@
         app:layout_constraintWidth_percent="0.6" />
 
     <EditText
-        android:id="@+id/passwordSignUpBox"
+        android:id="@+id/passwordLogInBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textbox_rounded"
@@ -200,7 +200,7 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintHeight_percent="0.06"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/usernameSignUpBox"
+        app:layout_constraintTop_toBottomOf="@+id/usernameLogInBox"
         app:layout_constraintVertical_bias="0.1"
         app:layout_constraintWidth_percent="0.6" />
 
@@ -223,7 +223,7 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLogInBox"
         app:layout_constraintVertical_bias="0.3"
         app:layout_constraintWidth_percent="0.6"
         app:strokeColor="@color/black"
