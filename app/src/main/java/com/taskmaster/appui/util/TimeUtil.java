@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.taskmaster.appui.Page.Main.User;
+import com.taskmaster.appui.entity.User;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -65,9 +65,7 @@ public class TimeUtil {
         fetchTime(receivedDate -> {
             bossTimer = receivedDate + weekMs;
             user.getDocumentSnapshot().getReference().update("bossTimer", bossTimer);
-            user.loadDocumentSnapshot(callback1->{
-                callback.onCallback(null);
-            });
+            user.loadDocumentSnapshot(callback1-> callback.onCallback(null));
         });
     }
 
