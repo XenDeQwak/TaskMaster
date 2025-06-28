@@ -472,7 +472,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="popupMonsterFrameShadow, popupMonsterFrame, popupMonsterName, popupMonsterMessageText, popupMonsterImage, popupMonsterButton" />
+        app:constraint_referenced_ids="popupMonsterFrameShadow, popupMonsterFrame, popupMonsterMessageText, popupMonsterImage, popupMonsterButton" />
 
     <ImageView
         android:id="@+id/popupMonsterFrameShadow"
@@ -504,23 +504,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/rectangle_rounded" />
-
-    <TextView
-        android:id="@+id/popupMonsterName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:textColor="#3F3F3F"
-        android:text="Monster Name"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:elevation="1dp"
-        android:translationZ="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/popupMonsterFrame"
-        app:layout_constraintEnd_toEndOf="@+id/popupMonsterFrame"
-        app:layout_constraintStart_toStartOf="@+id/popupMonsterFrame"
-        app:layout_constraintTop_toTopOf="@+id/popupMonsterFrame" />
 
     <TextView
         android:id="@+id/popupMonsterMessageText"
