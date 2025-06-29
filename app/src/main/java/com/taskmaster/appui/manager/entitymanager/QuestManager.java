@@ -108,7 +108,7 @@ public class QuestManager {
         qd.put("RewardExtra", "");
         qd.put("AssignedUID", "child");
         qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
-        qd.put("Difficulty", 0);
+        qd.put("Difficulty", 0L);
 
         return QuestManager.parseQuestData(qd);
     }

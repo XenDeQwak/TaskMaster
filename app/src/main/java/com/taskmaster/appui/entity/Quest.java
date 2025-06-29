@@ -11,7 +11,7 @@ public class Quest {
     private String rewardExtra;
     private DocumentReference creatorReference;
     private DocumentReference assignedReference;
-    private long difficulty;
+    private Long difficulty;
 
 
     public Quest(String questID,
@@ -25,7 +25,7 @@ public class Quest {
                  String rewardExtra,
                  String assignedUID,
                  DocumentReference assignedReference,
-                 long difficulty
+                 Long difficulty
     ) {
         this.questID = questID;
         this.name = name;
@@ -129,11 +129,11 @@ public class Quest {
         this.assignedReference = assignedReference;
     }
 
-    public long getDifficulty() {
+    public Long getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(long difficulty) {
+    public void setDifficulty(Long difficulty) {
         this.difficulty = difficulty;
     }
 }
