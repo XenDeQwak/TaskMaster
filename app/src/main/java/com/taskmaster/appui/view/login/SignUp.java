@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,14 +53,23 @@ public class SignUp extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 8) {confirmButton.setEnabled(true);}
-                if (s.toString().matches(".*[A-Z].*")) {hasUppercase=true;}
-                else{hasUppercase=false;}
-                if (s.toString().matches(".*[0-9].*")) {hasNumber=true;}
-                else{hasNumber=false;}
-                if (s.toString().matches(".*[@#$%^&+=].*")) {hasSpecial=true;}
-                else{hasSpecial=false;}
+                confirmButton.setEnabled(s.length() >= 8);
+
+                hasUppercase = s.toString().matches(".*[A-Z].*");
+                hasNumber = s.toString().matches(".*[0-9].*");
+                hasSpecial = s.toString().matches(".*[@#$%^&+=].*");
+
+                int checkBoxes = 0;
+                if (hasUppercase) checkBoxes++;
+                if (hasNumber) checkBoxes++;
+                if (hasSpecial) checkBoxes++;
+
+                FrameLayout passwordStrengthBarWeakFrame = findViewById(R.id.passwordStrengthBarWeakFrame);
+                FrameLayout passwordStrengthBarAverageFrame = findViewById(R.id.passwordStrengthBarAverageFrame);
+                FrameLayout passwordStrengthBarStrongFrame = findViewById(R.id.passwordStrengthBarStrongFrame);
+
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 int checkBoxes=0;

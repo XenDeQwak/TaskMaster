@@ -136,7 +136,7 @@
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.025"
+        app:layout_constraintVertical_bias="0.05"
         app:layout_constraintWidth_percent="0.6" />
 
     <EditText
@@ -159,8 +159,107 @@
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/usernameSignUpBox"
-        app:layout_constraintVertical_bias="0.035"
+        app:layout_constraintVertical_bias="0.065"
         app:layout_constraintWidth_percent="0.6" />
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/firstnameSignUpBox"
+        app:layout_constraintEnd_toEndOf="@+id/imageView10"
+        app:layout_constraintStart_toStartOf="@+id/imageView10"
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox"
+        app:layout_constraintWidth_percent="0.6">
+
+        <FrameLayout
+            android:id="@+id/passwordStrengthBarWeakFrame"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            >
+
+            <ProgressBar
+                android:id="@+id/passwordStrengthBarWeak"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:max="100"
+                android:progress="10"
+                android:progressDrawable="@drawable/password_strength_bar_weak" />
+
+            <TextView
+                android:id="@+id/passwordStrengthBarWeakText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Weak"
+                android:textColor="#3F3F3F"
+                android:textSize="12sp"
+                android:fontFamily="@font/eb_garamond_semibold"
+                android:textAlignment="center" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/passwordStrengthBarAverageFrame"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            >
+
+            <ProgressBar
+                android:id="@+id/passwordStrengthBarAverage"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:max="100"
+                android:progress="50"
+                android:progressDrawable="@drawable/password_strength_bar_average" />
+
+            <TextView
+                android:id="@+id/passwordStrengthBarAverageText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Average"
+                android:textColor="#3F3F3F"
+                android:textSize="12sp"
+                android:fontFamily="@font/eb_garamond_semibold"
+                android:textAlignment="center" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/passwordStrengthBarStrongFrame"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            >
+
+            <ProgressBar
+                android:id="@+id/passwordStrengthBarStrong"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:max="100"
+                android:progress="90"
+                android:progressDrawable="@drawable/password_strength_bar_strong" />
+
+            <TextView
+                android:id="@+id/passwordStrengthBarStrongText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Strong"
+                android:textColor="#3F3F3F"
+                android:textSize="12sp"
+                android:fontFamily="@font/eb_garamond_semibold"
+                android:textAlignment="center" />
+        </FrameLayout>
+
+
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/passwordSignUpBox"
@@ -179,10 +278,10 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
-        app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/emailSignUpBox"
-        app:layout_constraintVertical_bias="0.035"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintVertical_bias="0.075"
         app:layout_constraintWidth_percent="0.6" />
 
     <EditText
@@ -205,7 +304,7 @@
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox"
-        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintVertical_bias="0.1"
         app:layout_constraintWidth_percent="0.6" />
 
     <EditText
@@ -228,7 +327,7 @@
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/firstnameSignUpBox"
-        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintVertical_bias="0.1"
         app:layout_constraintWidth_percent="0.6" />
 
     <androidx.appcompat.widget.AppCompatButton
