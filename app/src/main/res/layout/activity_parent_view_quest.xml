@@ -13,34 +13,37 @@
         android:id="@+id/mainQuestContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
         android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/rectangle_rounded" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintWidth_percent="0.925"
+        app:layout_constraintHeight_percent="0.95"
+        app:srcCompat="@drawable/rectangle_rounded"/>
 
     <!--  Quest list  -->
     <ScrollView
         android:id="@+id/questScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:alpha="0.8"
         android:background="@drawable/rectangle_rounded"
         app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
         app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
         app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
-        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer">
+        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer"
+        app:layout_constraintHeight_percent="0.85"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintWidth_percent="0.85"
+        >
 
         <LinearLayout
             android:id="@+id/questScrollContent"
