@@ -87,8 +87,7 @@ public class TopBar extends FrameLayout {
             setTitle("Cosmetic Shop");
         } else if (view == WeeklyBoss.class) {
             setTitle("Weekly Boss");
-        }
-        else if (view == ProgressionPage.class) {
+        } else if (view == ProgressionPage.class) {
             setTitle("Progression");
         }
 

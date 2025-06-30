@@ -14,9 +14,6 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.manager.viewmanager.LogInManager;
@@ -46,7 +43,7 @@ public class SignUp extends AppCompatActivity {
         passwordbox = findViewById(R.id.passwordSignUpBox);
         firstnamebox = findViewById(R.id.firstnameSignUpBox);
         lastnamebox = findViewById(R.id.lastnameSignUpBox);
-        confirmButton = findViewById(R.id.confirmButton2);
+        confirmButton = findViewById(R.id.confirmButton);
 
         View[] signUpInformation = {emailbox, usernamebox, passwordbox, firstnamebox, lastnamebox};
 
@@ -79,38 +76,12 @@ public class SignUp extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("JIAHSIAHSIAJSIOAJSIOAJSIAJSIJSIO");
                 // Sign-up logic
                 // Yes Im also using LogInManager for SignUp because why not
                 LogInManager logInManager = new LogInManager();
                 logInManager.attemptUserSignUp(signUpInformation, SignUp.this);
             }
         });
-
-        // Lets be real now we dont need this
-        /*
-        pop_out_Anim = AnimationUtils.loadAnimation(this, R.anim.pop_out_animation);
-        fade_in_Anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
-        container1 = findViewById(R.id.imageView7);
-        container2 = findViewById(R.id.imageView9);
-        container3 = findViewById(R.id.imageView10);
-        logo = findViewById(R.id.imageView13);
-        logo_shadow = findViewById(R.id.imageView14);
-        bg = findViewById(R.id.imageView6);
-        logInTextView = findViewById(R.id.textView);
-        bg.setAnimation(fade_in_Anim);
-        logo.setAnimation(pop_out_Anim);
-        logo_shadow.setAnimation(pop_out_Anim);
-        emailbox.setAnimation(pop_out_Anim);
-        passwordbox.setAnimation(pop_out_Anim);
-        usernamebox.setAnimation(pop_out_Anim);
-        firstnamebox.setAnimation(pop_out_Anim);
-        lastnamebox.setAnimation(pop_out_Anim);
-        confirmButton.setAnimation(pop_out_Anim);
-        container1.setAnimation(pop_out_Anim);
-        container2.setAnimation(pop_out_Anim);
-        container3.setAnimation(pop_out_Anim);
-        logInTextView.setAnimation(pop_out_Anim);
-        */
-
     }
 }

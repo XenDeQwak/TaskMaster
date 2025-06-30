@@ -232,7 +232,7 @@
         app:layout_constraintWidth_percent="0.6" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/confirmButton2"
+        android:id="@+id/confirmButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/button_shadowed_states"
@@ -272,7 +272,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/confirmButton2"
+        app:layout_constraintTop_toBottomOf="@+id/confirmButton"
         app:layout_constraintWidth_percent="0.6"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintVertical_bias="0.1"

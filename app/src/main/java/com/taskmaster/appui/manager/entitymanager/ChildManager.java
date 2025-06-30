@@ -43,7 +43,14 @@ public class ChildManager {
                 (String) cd.get("Firstname"),
                 (String) cd.get("Lastname"),
                 (String) cd.get("ParentUID"),
-                (DocumentReference) cd.get("ParentRef")
+                (DocumentReference) cd.get("ParentRef"),
+                0,
+                0,
+                0,
+                (Double) cd.get("BossTimer"),
+                (Boolean) true,
+                1,
+                0
         );
     }
 
@@ -56,6 +63,13 @@ public class ChildManager {
         cd.put("Lastname", c.getChildLastname());
         cd.put("ParentUID", c.getParentUID());
         cd.put("ParentRef", c.getParentRef());
+        cd.put("Strength", c.getStrength());
+        cd.put("Intelligence", c.getIntelligence());
+        cd.put("Avatar", c.getAvatar());
+        cd.put("BossTimer", c.getBossTimer());
+        cd.put("BossAlive", c.getBossAlive());
+        cd.put("Floor", c.getFloor());
+        cd.put("Gold", c.getGold());
 
         return cd;
     }
@@ -69,7 +83,14 @@ public class ChildManager {
                 "test",
                 "child",
                 "user",
-                FirestoreManager.getFirestore().collection("Users").document("user")
+                FirestoreManager.getFirestore().collection("Users").document("user"),
+                0,
+                0,
+                0,
+                0D,
+                true,
+                1,
+                0
         );
     }
 

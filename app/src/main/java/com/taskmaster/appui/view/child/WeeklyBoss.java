@@ -85,7 +85,7 @@ public class WeeklyBoss extends ChildView {
         user = User.getInstance();
         childDocument = user.getDocumentSnapshot();
         TimeUtil timeUtil = TimeUtil.getInstance();
-        if(childDocument.getDouble("bossTimer") == 0){
+        if(childDocument.getDouble("BossTimer") == 0){
             timeUtil.setupTimer(callback -> startTimer());
         }else{
             startTimer();
@@ -121,7 +121,7 @@ public class WeeklyBoss extends ChildView {
                 user.loadDocumentSnapshot(callback->{
                     childDocument=user.getDocumentSnapshot();
                     timeUtil.setupTimer(callback1 -> {
-                        if(childDocument.getBoolean("bossAlive")){ //Fail
+                        if(childDocument.getBoolean("BossAlive")){ //Fail
                             childDocument.getReference().update(
                                 "Strength", FieldValue.increment(-5),
                                 "Intelligence", FieldValue.increment(-5)
@@ -132,7 +132,7 @@ public class WeeklyBoss extends ChildView {
 
                         }else{
                             childDocument.getReference().update(
-                                "bossAlive", true,
+                                "BossAlive", true,
                                 "Floor", FieldValue.increment(+1)
                             ).addOnCompleteListener(e->{
                                     attachRestartHandler();
@@ -179,7 +179,7 @@ public class WeeklyBoss extends ChildView {
         currBoss = bosses[index];
         statReqStr.setText("STR: " + floor);
         statReqInt.setText("INT: " + floor);
-        if(childDocument.getBoolean("bossAlive")){
+        if(childDocument.getBoolean("BossAlive")){
             updateProgressBar(0);
             monsterImage.setImageResource(currBoss.getUndamagedImageResId());
             int childStr = childDocument.getDouble("Strength").intValue();
@@ -202,7 +202,7 @@ public class WeeklyBoss extends ChildView {
     }
 
     private void showPopup(String message, String buttonText){
-        if(childDocument.getBoolean("bossAlive")){
+        if(childDocument.getBoolean("BossAlive")){
             popupMonsterImage.setImageResource(currBoss.getUndamagedImageResId());
         }else{
             popupMonsterImage.setImageResource(currBoss.getDamagedImageResId());

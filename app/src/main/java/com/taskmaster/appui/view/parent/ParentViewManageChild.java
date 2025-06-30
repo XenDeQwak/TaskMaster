@@ -39,7 +39,7 @@ public class ParentViewManageChild extends ParentView {
         initNavigationMenu(this, ParentViewManageChild.class);
 
         childCreationTabPopUp = findViewById(R.id.childCreationPopUp);
-        ConstraintLayout childCreationContainer = findViewById(R.id.childCreationContainer);
+        ChildCreationTab childCreationContainer = findViewById(R.id.childCreationPopUp);
 
         childManager = new ChildManager(getApplicationContext());
 
@@ -75,7 +75,14 @@ public class ParentViewManageChild extends ParentView {
                     firstname,
                     lastname,
                     user.getDocumentSnapshot().getId(),
-                    user.getDocumentSnapshot().getReference()
+                    user.getDocumentSnapshot().getReference(),
+                    0,
+                    0,
+                    0,
+                    0D,
+                    true,
+                    1,
+                    0
             );
 
             childManager.addChild(c);

@@ -1,6 +1,7 @@
 package com.taskmaster.appui.view.child;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -14,6 +15,7 @@ import com.taskmaster.appui.view.uimodule.ChildStatsTab;
 public class ChildViewQuest extends ChildView {
 
     QuestManager questManager;
+    LinearLayout questView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +33,11 @@ public class ChildViewQuest extends ChildView {
         ChildStatsTab stats = findViewById(R.id.ChildStatsTab);
         stats.setProgressionNav(this);
 
-        //questManager = new QuestManager();
-        //questManager.loadQuestsFromFirestore(this, null);
+        findViewById(R.id.questScrollViewChild).getBackground().setAlpha(150);
+
+        questView = findViewById(R.id.questViewChild);
+        questManager = new QuestManager();
+        questManager.loadQuestsFromFirestoreParent(this, questView, null);
 
     }
 }
