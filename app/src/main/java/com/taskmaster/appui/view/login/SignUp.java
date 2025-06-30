@@ -46,6 +46,10 @@ public class SignUp extends AppCompatActivity {
         lastnamebox = findViewById(R.id.lastnameSignUpBox);
         confirmButton = findViewById(R.id.confirmButton);
 
+        FrameLayout passwordStrengthBarWeakFrame = findViewById(R.id.passwordStrengthBarWeakFrame);
+        FrameLayout passwordStrengthBarAverageFrame = findViewById(R.id.passwordStrengthBarAverageFrame);
+        FrameLayout passwordStrengthBarStrongFrame = findViewById(R.id.passwordStrengthBarStrongFrame);
+
         View[] signUpInformation = {emailbox, usernamebox, passwordbox, firstnamebox, lastnamebox};
 
         passwordbox.addTextChangedListener(new TextWatcher() {
@@ -57,17 +61,7 @@ public class SignUp extends AppCompatActivity {
 
                 hasUppercase = s.toString().matches(".*[A-Z].*");
                 hasNumber = s.toString().matches(".*[0-9].*");
-                hasSpecial = s.toString().matches(".*[@#$%^&+=].*");
-
-                int checkBoxes = 0;
-                if (hasUppercase) checkBoxes++;
-                if (hasNumber) checkBoxes++;
-                if (hasSpecial) checkBoxes++;
-
-                FrameLayout passwordStrengthBarWeakFrame = findViewById(R.id.passwordStrengthBarWeakFrame);
-                FrameLayout passwordStrengthBarAverageFrame = findViewById(R.id.passwordStrengthBarAverageFrame);
-                FrameLayout passwordStrengthBarStrongFrame = findViewById(R.id.passwordStrengthBarStrongFrame);
-
+                hasSpecial = s.toString().matches(".*[!@#$%^&+=].*");
             }
 
             @Override
@@ -76,11 +70,21 @@ public class SignUp extends AppCompatActivity {
                 if(hasUppercase){checkBoxes++;}
                 if(hasNumber){checkBoxes++;}
                 if(hasSpecial){checkBoxes++;}
+                if(s.length()>=8) {checkBoxes++;}
                 confirmButton.setEnabled(checkBoxes != 0);
 
-                if(checkBoxes==1){Toast.makeText(SignUp.this,"Weak Password",Toast.LENGTH_SHORT).show();}
-                if(checkBoxes==2){Toast.makeText(SignUp.this,"Moderate Password",Toast.LENGTH_SHORT).show();}
-                if(checkBoxes==3){Toast.makeText(SignUp.this,"Strong Password",Toast.LENGTH_SHORT).show();}
+                if (checkBoxes == 1||checkBoxes==0) {
+                    passwordStrengthBarWeakFrame.setVisibility(View.VISIBLE);
+                }else passwordStrengthBarWeakFrame.setVisibility(View.GONE);
+                if (checkBoxes == 2) {
+                    passwordStrengthBarAverageFrame.setVisibility(View.VISIBLE);
+                } else passwordStrengthBarAverageFrame.setVisibility(View.GONE);
+                if (checkBoxes >= 3) {
+                    passwordStrengthBarStrongFrame.setVisibility(View.VISIBLE);
+                } else passwordStrengthBarStrongFrame.setVisibility(View.GONE);
+
+
+
             }
         });
         confirmButton.setOnClickListener(new View.OnClickListener() {
