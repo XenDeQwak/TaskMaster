@@ -1,5 +1,6 @@
 package com.taskmaster.appui.view.uimodule;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,6 +13,9 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.util.NavUtil;
+import com.taskmaster.appui.view.child.ChildViewQuest;
+import com.taskmaster.appui.view.child.ProgressionPage;
 
 public class ChildStatsTab extends FrameLayout {
 
@@ -36,6 +40,12 @@ public class ChildStatsTab extends FrameLayout {
         statsContainer = findViewById(R.id.statContainer);
         statsContainer.getBackground().setAlpha(150);
 
+    }
+
+    public void setProgressionNav (Activity activity) {
+        childStatsMoreStatsButton.setOnClickListener(e -> {
+            NavUtil.instantNavigation(activity, ProgressionPage.class);
+        });
     }
 
 

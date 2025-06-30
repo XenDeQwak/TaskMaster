@@ -43,7 +43,7 @@ import com.taskmaster.appui.util.NavUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgressionPage extends AppCompatActivity {
+public class ProgressionPage extends ChildView {
     ImageButton chartButton;
     AppCompatButton childAvatarName, dropdownNavButton, navQuestPage, navManageAdv, navLogOut, childAvatarPresetName, childAvatarPresetNextButton, childAvatarPresetPrevButton, statFloorNum, statQuestDoneNum, popupLargerChartExitButton;
     ImageView statGraph, childAvatarImage;
@@ -72,6 +72,8 @@ public class ProgressionPage extends AppCompatActivity {
         // hide status bar and nav bar
         NavUtil.hideSystemBars(this);
 
+        initNavigationMenu(this, ProgressionPage.class);
+
         avatarImages = new ArrayList<>();
         avatarImages.add(R.drawable.placeholderavatar1_framed);
         avatarImages.add(R.drawable.placeholderavatar2_framed);
@@ -80,6 +82,7 @@ public class ProgressionPage extends AppCompatActivity {
         childAvatarPresetNextButton = findViewById(R.id.childAvatarPresetNextButton);
         childAvatarPresetPrevButton = findViewById(R.id.childAvatarPresetPrevButton);
 
+        chartButton = findViewById(R.id.chartButton);
 
         avatarNames = new ArrayList<>();
         avatarNames.add("None");
@@ -157,7 +160,7 @@ public class ProgressionPage extends AppCompatActivity {
         });
 
         // hooks
-        dropdownNavButton = findViewById(R.id.dropdownNavButton);
+        //dropdownNavButton = findViewById(R.id.dropdownNavButton);
         navQuestPage = findViewById(R.id.navQuestPage);
         navManageAdv = findViewById(R.id.navManageAdv);
         navLogOut = findViewById(R.id.navLogOut);
@@ -176,7 +179,7 @@ public class ProgressionPage extends AppCompatActivity {
         popupLargerChartExitButton = findViewById(R.id.popupLargerChartExitButton);
         popupLargerChart = findViewById(R.id.popupLargerChart);
 
-        chartButton = findViewById(R.id.chartButton);
+        //chartButton = findViewById(R.id.chartButton);
 
         strCount = findViewById(R.id.strCount);
         intCount = findViewById(R.id.intCount);
@@ -215,16 +218,16 @@ public class ProgressionPage extends AppCompatActivity {
         dropDownGroup.setVisibility(View.GONE);
 
         // view dropdown group
-        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dropDownGroup.getVisibility() == View.VISIBLE) {
-                    dropDownGroup.setVisibility(View.GONE);
-                } else {
-                    dropDownGroup.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+//        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (dropDownGroup.getVisibility() == View.VISIBLE) {
+//                    dropDownGroup.setVisibility(View.GONE);
+//                } else {
+//                    dropDownGroup.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
 
         navManageAdv.setOnClickListener(new View.OnClickListener() {
             @Override

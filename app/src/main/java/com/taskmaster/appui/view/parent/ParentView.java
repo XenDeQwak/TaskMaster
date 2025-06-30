@@ -13,7 +13,8 @@ public class ParentView extends AppCompatActivity {
 
     void initNavigationMenu(Activity activity, Class c) {
 
-        topBar = findViewById(R.id.topBarParent);
+        topBar = findViewById(R.id.topBarChild);
+        topBar.init(true);
         topBar.initPageView(c);
         topBar.attachActivity(activity);
 

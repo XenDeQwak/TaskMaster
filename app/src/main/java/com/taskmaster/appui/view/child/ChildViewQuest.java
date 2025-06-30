@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
+import com.taskmaster.appui.view.uimodule.ChildStatsTab;
 
 public class ChildViewQuest extends ChildView {
 
@@ -26,6 +27,9 @@ public class ChildViewQuest extends ChildView {
         });
 
         initNavigationMenu(this, ChildViewQuest.class);
+
+        ChildStatsTab stats = findViewById(R.id.ChildStatsTab);
+        stats.setProgressionNav(this);
 
         //questManager = new QuestManager();
         //questManager.loadQuestsFromFirestore(this, null);

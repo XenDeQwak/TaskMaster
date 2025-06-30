@@ -38,108 +38,8 @@
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <!-- Top navigation/buttons, unchanged -->
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/dropdownNavButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/button_shadowed_nostroke_states"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:stateListAnimator="@null"
-        android:gravity="center"
-        android:alpha="0.5"
-        app:layout_constraintStart_toStartOf="@+id/imageView20"
-        app:layout_constraintEnd_toEndOf="@+id/imageView20"
-        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerTopTextContainer"
-        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerTopTextContainer"
-        app:layout_constraintWidth_percent="0.125"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <ImageView
-        android:id="@+id/dropdownNavImg"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clickable="false"
-        android:focusable="false"
-        app:layout_constraintTop_toTopOf="@id/dropdownNavButton"
-        app:layout_constraintBottom_toBottomOf="@id/dropdownNavButton"
-        app:layout_constraintStart_toStartOf="@id/dropdownNavButton"
-        app:layout_constraintEnd_toEndOf="@id/dropdownNavButton"
-        app:srcCompat="@drawable/dropdown" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/currencyBox"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/button_shadowed_nostroke_states"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:stateListAnimator="@null"
-        android:gravity="center"
-        android:alpha="0.5"
-        app:layout_constraintBottom_toBottomOf="@+id/cosmeticShopContainerTopTextContainer"
-        app:layout_constraintTop_toTopOf="@+id/cosmeticShopContainerTopTextContainer"
-        app:layout_constraintStart_toStartOf="@+id/imageView20"
-        app:layout_constraintEnd_toEndOf="@+id/imageView20"
-        app:layout_constraintWidth_percent="0.125"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <TextView
-        android:id="@+id/currencyText"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="1 G"
-        android:textAlignment="center"
-        android:textColor="#3F3F3F"
-        android:visibility="visible"
-        app:autoSizeMaxTextSize="30sp"
-        app:autoSizeMinTextSize="10sp"
-        app:autoSizeStepGranularity="1sp"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/currencyBox"
-        app:layout_constraintTop_toTopOf="@+id/currencyBox"
-        app:layout_constraintStart_toStartOf="@+id/currencyBox"
-        app:layout_constraintEnd_toEndOf="@+id/currencyBox"
-        app:layout_constraintWidth_percent="0.25"
-        app:layout_constraintHeight_percent="0.04" />
 
     <!-- Header container -->
-    <ImageView
-        android:id="@+id/cosmeticShopContainerTopTextContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:alpha="0.5"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintEnd_toEndOf="@+id/imageView7"
-        app:layout_constraintWidth_percent="0.45"
-        app:layout_constraintHeight_percent="0.075"
-        app:srcCompat="@drawable/rectangle_rounded" />
-
-    <TextView
-        android:id="@+id/cosmeticShopContainerTopTextContainerText"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Cosmetics"
-        android:textColor="#3F3F3F"
-        android:textAlignment="center"
-        app:autoSizeMinTextSize="10sp"
-        app:autoSizeMaxTextSize="30sp"
-        app:autoSizeStepGranularity="0.1sp"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintTop_toTopOf="@id/cosmeticShopContainerTopTextContainer"
-        app:layout_constraintBottom_toBottomOf="@id/cosmeticShopContainerTopTextContainer"
-        app:layout_constraintStart_toStartOf="@id/cosmeticShopContainerTopTextContainer"
-        app:layout_constraintEnd_toEndOf="@id/cosmeticShopContainerTopTextContainer"
-        app:layout_constraintWidth_percent="0.25"
-        app:layout_constraintHeight_percent="0.04" />
 
     <!-- Main shop container -->
     <ImageView
@@ -299,6 +199,14 @@
         app:layout_constraintTop_toTopOf="@+id/confirmationNoContainer"
         app:layout_constraintBottom_toBottomOf="@id/confirmationNoContainer"
         />
+
+    <com.taskmaster.appui.view.uimodule.TopBar
+        android:id="@+id/topBarChild"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView7" />
 
 
     <!--

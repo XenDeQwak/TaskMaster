@@ -26,7 +26,7 @@
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <com.taskmaster.appui.view.uimodule.TopBar
-        android:id="@+id/topBarParent"
+        android:id="@+id/topBarChild"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
@@ -34,6 +34,7 @@
         app:layout_constraintTop_toTopOf="@+id/mainQuestContainer" />
 
     <com.taskmaster.appui.view.uimodule.ChildStatsTab
+        android:id="@+id/ChildStatsTab"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"

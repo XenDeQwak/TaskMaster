@@ -14,6 +14,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.view.child.ChildViewQuest;
+import com.taskmaster.appui.view.child.CosmeticShop;
+import com.taskmaster.appui.view.child.ProgressionPage;
+import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.view.parent.ParentViewManageChild;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 
@@ -28,11 +31,10 @@ public class TopBar extends FrameLayout {
     // Constructor used when inflating from XML
     public TopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
         //Toast.makeText(context, "HELLO WORLD AUTOMATICALLY MADE", Toast.LENGTH_LONG).show();
     }
 
-    private void init () {
+    public void init (boolean isParent) {
         LayoutInflater.from(getContext()).inflate(R.layout.module_top_bar, this);
         navBarButton = findViewById(R.id.navBarButton);
         dropdownNavMenu = findViewById(R.id.dropdownNavMenu);
@@ -40,11 +42,14 @@ public class TopBar extends FrameLayout {
         createObjectButton = findViewById(R.id.createObjectButton);
         goldAmount = findViewById(R.id.goldAmount);
 
+        dropdownNavMenu.init(isParent);
+
         ConstraintLayout container = findViewById(R.id.topBarContainer);
         container.getBackground().setAlpha(100);
 
         // Dropdown menu logic
         navBarButton.setOnClickListener(v -> {
+            System.out.println("I got clicked");
             FrameLayout navMenu = dropdownNavMenu.findViewById(R.id.dropdownContainer);
             if (navMenu.getVisibility() == GONE) {
                 navMenu.bringToFront();
@@ -78,6 +83,13 @@ public class TopBar extends FrameLayout {
             setTitle("Adventurers");
         } else if (view == ChildViewQuest.class) {
             setTitle("Quest Board");
+        } else if (view == CosmeticShop.class) {
+            setTitle("Cosmetic Shop");
+        } else if (view == WeeklyBoss.class) {
+            setTitle("Weekly Boss");
+        }
+        else if (view == ProgressionPage.class) {
+            setTitle("Progression");
         }
 
     }

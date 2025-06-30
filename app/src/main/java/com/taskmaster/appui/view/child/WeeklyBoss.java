@@ -22,7 +22,7 @@ import com.taskmaster.appui.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeeklyBoss extends AppCompatActivity {
+public class WeeklyBoss extends ChildView {
     AppCompatButton fightButton, statReqStr, statReqInt, monsterName, childBarStatsButton, popupMonsterButton, childBarFloorCount;
     ImageView popupMonsterImage;
     TextView popupMonsterMessageText, monsterHealthBarText;
@@ -52,6 +52,8 @@ public class WeeklyBoss extends AppCompatActivity {
         // hide status bar and nav bar
         NavUtil.hideSystemBars(this);
 
+        initNavigationMenu(this, WeeklyBoss.class);
+
         // hooks
         {
             timerTxtDays = findViewById(R.id.TimerTxtDays);
@@ -77,6 +79,7 @@ public class WeeklyBoss extends AppCompatActivity {
             childBarFloorCount = findViewById(R.id.childBarFloorCount);
             fightButton = findViewById(R.id.fightButton);
         }
+
         DropdownUtil.dropdownSetup(this, rootLayout);
         NavUtil.setNavigation(this, childBarStatsButton, ProgressionPage.class);
         user = User.getInstance();

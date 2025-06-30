@@ -19,7 +19,7 @@ import com.taskmaster.appui.util.NavUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CosmeticShop extends AppCompatActivity {
+public class CosmeticShop extends ChildView {
     private View[] confirmationViews;
     private CosmeticItem clicked;
     private User user;
@@ -35,6 +35,8 @@ public class CosmeticShop extends AppCompatActivity {
         NavUtil.hideSystemBars(this);
         setContentView(R.layout.cosmetic_shop);
 
+        initNavigationMenu(this, CosmeticShop.class);
+
         ImageView confirmationBox = findViewById(R.id.confirmationTextContainer);
         TextView confirmationText = findViewById(R.id.confirmationText);
         ImageView yesBox = findViewById(R.id.confirmationYesContainer);
@@ -42,7 +44,7 @@ public class CosmeticShop extends AppCompatActivity {
         ImageView noBox = findViewById(R.id.confirmationNoContainer);
         TextView noText = findViewById(R.id.confirmationNoText);
         View blurOverlay = findViewById(R.id.blurOverlay);
-        currencyText = findViewById(R.id.currencyText);
+        //currencyText = findViewById(R.id.currencyText);
         RecyclerView recycler = findViewById(R.id.recyclerView);
         confirmationViews = new View[]{confirmationBox, confirmationText, yesBox, yesText, noBox, noText,blurOverlay};
 
@@ -66,7 +68,8 @@ public class CosmeticShop extends AppCompatActivity {
         recycler.setAdapter(adapter);
         //Popup
         setUpButtons(yesBox,noBox,yesText,noText);
-        currencyText.setText(gold +" G");
+        //currencyText.setText(gold +" G");
+        topBar.getGoldAmount().setText(gold +" G");
     }
 
     private List<CosmeticItem> getAllItems() { //Our log of all available items
@@ -99,7 +102,8 @@ public class CosmeticShop extends AppCompatActivity {
                             setVisibility(View.GONE);
                         });
                     });
-            currencyText.setText(gold +" G");
+            //currencyText.setText(gold +" G");
+            topBar.getGoldAmount().setText(gold +" G");
         } else {
             setVisibility(View.GONE);
         }

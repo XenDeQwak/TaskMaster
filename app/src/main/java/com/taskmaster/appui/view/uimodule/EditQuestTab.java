@@ -126,7 +126,7 @@ public class EditQuestTab extends FrameLayout {
         String rewardStat = editQuestRewardPicker.getSelectedItem().toString();
         String rewardExtra = editQuestRewardExtra.getText().toString();
         String assigneeEmail = editQuestChildPicker.getSelectedItem().toString();
-        int difficulty = (int) editQuestDifficulty.getRating();
+        Long difficulty = (long) editQuestDifficulty.getRating();
 
 
         ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("UTC"));
