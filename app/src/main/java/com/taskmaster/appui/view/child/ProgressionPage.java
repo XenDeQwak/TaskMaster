@@ -35,6 +35,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.view.login.Splash;
 import com.taskmaster.appui.view.parent.QuestManagement;
 import com.taskmaster.appui.R;
@@ -62,6 +63,9 @@ public class ProgressionPage extends ChildView {
     int childInt, childStr;
     int floorCount;
     FirebaseAuth auth;
+    User user;
+    DocumentSnapshot childDocument;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,248 +76,42 @@ public class ProgressionPage extends ChildView {
         // hide status bar and nav bar
         NavUtil.hideSystemBars(this);
 
-        initNavigationMenu(this, ProgressionPage.class);
-
-        avatarImages = new ArrayList<>();
-        avatarImages.add(R.drawable.placeholderavatar1_framed);
-        avatarImages.add(R.drawable.placeholderavatar2_framed);
-        avatarImages.add(R.drawable.rectangle_rounded);
-
-        childAvatarPresetNextButton = findViewById(R.id.childAvatarPresetNextButton);
-        childAvatarPresetPrevButton = findViewById(R.id.childAvatarPresetPrevButton);
-
-        chartButton = findViewById(R.id.chartButton);
-
-        avatarNames = new ArrayList<>();
-        avatarNames.add("None");
-        avatarNames.add("Avatar 1");
-        avatarNames.add("Avatar 2");
-        avatarNames.add("Avatar 3");
-        avatarNames.add("Avatar 4");
-
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        String userId = user.getUid();
-
-        db.collection("users").document(userId).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot childDocument = task.getResult();
-                        if (childDocument.exists()) {
-                            username = childDocument.getString("username");
-                            questCount = childDocument.getLong("questCount").intValue();
-                            childAvatar = childDocument.getLong("childAvatar").intValue();
-
-                            childInt = childDocument.getLong("childInt").intValue();
-                            childStr = childDocument.getLong("childStr").intValue();
-                            childAvatarName.setText(childDocument.getString("username"));
-                            floorCount = childDocument.getLong("floor").intValue();
-
-
-                            barGraph(childInt, childStr);
-                            // Set the initial image
-                            childAvatarImage.setImageResource(avatarImages.get(childAvatar));
-                            currentImageIndex = childAvatar;
-
-                            childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
-
-                            statQuestDoneNum.setText(String.valueOf(questCount));
-                            statFloorNum.setText(String.valueOf(floorCount));
-
-                            childAvatarPresetNextButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    currentImageIndex++;
-                                    if (currentImageIndex >= avatarImages.size()) {
-                                        currentImageIndex = 0;
-                                    }
-                                    updateAvatarUIAndFirebase();
-                                }
-                            });
-
-                            childAvatarPresetPrevButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    currentImageIndex--;
-                                    if (currentImageIndex < 0) {
-                                        currentImageIndex = avatarImages.size() - 1;
-                                    }
-                                    updateAvatarUIAndFirebase();
-                                }
-                            });
-                        } else {
-                            Log.d("DEBUG", "PARENT DOCUMENT DOES NOT EXIST");
-                        }
-                    } else {
-                        Log.d("DEBUG", "Error getting parent document", task.getException());
-                    }
-                });
-
-        loadAvatarPreset();
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.statContainer), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        // hooks
-        //dropdownNavButton = findViewById(R.id.dropdownNavButton);
-        navQuestPage = findViewById(R.id.navQuestPage);
-        navManageAdv = findViewById(R.id.navManageAdv);
-        navLogOut = findViewById(R.id.navLogOut);
-        dropDownGroup = findViewById(R.id.dropdownGroup);
-        rootLayout = findViewById(R.id.statContainer);
-
-        statGraph = findViewById(R.id.statGraph);
-        childAvatarName = findViewById(R.id.childAvatarName);
-        childAvatarPresetName = findViewById(R.id.childAvatarPresetName);
-        childAvatarPresetNextButton = findViewById(R.id.childAvatarPresetNextButton);
-        childAvatarPresetPrevButton = findViewById(R.id.childAvatarPresetPrevButton);
         childAvatarImage = findViewById(R.id.childAvatarImage);
+        childAvatarPresetName = findViewById(R.id.childAvatarPresetName);
+        childAvatarName = findViewById(R.id.childAvatarName);
+        intCount = findViewById(R.id.intCount);
+        strCount = findViewById(R.id.strCount);
         statFloorNum = findViewById(R.id.statFloorNum);
         statQuestDoneNum = findViewById(R.id.statQuestDoneNum);
 
-        popupLargerChartExitButton = findViewById(R.id.popupLargerChartExitButton);
-        popupLargerChart = findViewById(R.id.popupLargerChart);
 
-        //chartButton = findViewById(R.id.chartButton);
+        initNavigationMenu(this, ProgressionPage.class);
+        user = User.getInstance();
+        childDocument = user.getDocumentSnapshot();
+        setUpAvatar();
+        List<String> ownedItems = (List<String>) childDocument.get("ownedItems");
+        username = childDocument.getString("Username");
+//        questCount = childDocument.getLong("questCount").intValue();
+        childAvatar = childDocument.getLong("Avatar").intValue();
+        childStr = childDocument.getDouble("Strength").intValue();
+        childInt = childDocument.getDouble("Intelligence").intValue();
+        floorCount = childDocument.getDouble("Floor").intValue();
+        barGraph(childInt, childStr);
+        statFloorNum.setText(Integer.toString(floorCount));
+        statQuestDoneNum.setText(Integer.toString(questCount));
+        //loadAvatarPreset();
+    }
 
-        strCount = findViewById(R.id.strCount);
-        intCount = findViewById(R.id.intCount);
-
-        // image list
-        avatarImages = new ArrayList<>();
-        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
+    private void setUpAvatar(){
+        List<Integer> avatarImages = new ArrayList<>();
         avatarImages.add(R.drawable.placeholderavatar1_framed_round);
         avatarImages.add(R.drawable.placeholderavatar2_framed_round);
         avatarImages.add(R.drawable.placeholderavatar3_framed_round);
         avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-
-        // name list
-        avatarNames = new ArrayList<>();
-        avatarNames.add("None");
-        avatarNames.add("Avatar 1");
-        avatarNames.add("Avatar 2");
-        avatarNames.add("Avatar 3");
-        avatarNames.add("Avatar 4");
-
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String username = prefs.getString("username", "");
-
-        // change text based on child here
-//        childAvatarName.setText(username);
-
-        statQuestDoneNum.setText("11");
-
-
-        // exclude elems within dropdown
-        View[] dropDownElements = {
-                findViewById(R.id.navFrame)
-        };
-
-        // hide dropdown group
-        dropDownGroup.setVisibility(View.GONE);
-
-        // view dropdown group
-//        dropdownNavButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (dropDownGroup.getVisibility() == View.VISIBLE) {
-//                    dropDownGroup.setVisibility(View.GONE);
-//                } else {
-//                    dropDownGroup.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
-
-        navManageAdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProgressionPage.this, "Move", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ProgressionPage.this, WeeklyBoss.class);
-                startActivity(intent);
-            }
-        });
-
-        navQuestPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProgressionPage.this, "Move", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ProgressionPage.this, QuestManagement.class);
-                startActivity(intent);
-            }
-        });
-
-        navLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProgressionPage.this, "Log Out", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ProgressionPage.this, Splash.class);
-                startActivity(intent);
-            }
-        });
-
-        // exit dropdown & popup group
-        rootLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    boolean isInsideDropdown = false;
-
-                    for (View element : dropDownElements) {
-                        if (isViewTouched(element, event)) {
-                            isInsideDropdown = true;
-                            break;
-                        }
-                    }
-
-                    if (!isInsideDropdown) {
-                        dropDownGroup.setVisibility(View.GONE);
-                    }
-                }
-                return false;
-            }
-        });
-
-        childAvatarPresetNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentImageIndex++;
-                if (currentImageIndex >= avatarImages.size()) {
-                    currentImageIndex = 0;
-                }
-                childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
-                childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
-            }
-        });
-
-        childAvatarPresetPrevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentImageIndex--;
-                if (currentImageIndex < 0) {
-                    currentImageIndex = avatarImages.size() - 1;
-                }
-                childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
-            }
-        });
-
-        popupLargerChartExitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupLargerChart.setVisibility(View.GONE);
-            }
-        });
-
-        chartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupLargerChart.setVisibility(View.VISIBLE);
-            }
-        });
+        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
+        childAvatarImage.setImageResource(avatarImages.get(childDocument.getDouble("Avatar").intValue()));
+        childAvatarPresetName.setText(childDocument.getString("Username"));
+        childAvatarName.setText(childDocument.getString("Username"));
     }
 
     private void barGraph(int childInt, int childStr) {
@@ -414,33 +212,33 @@ public class ProgressionPage extends ChildView {
         barChartLarge.invalidate();
     }
 
-    private void loadAvatarPreset() {
-        db.collection("users").whereEqualTo("username", username)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot document = task.getResult();
-                        if (document != null && !document.isEmpty()) {
-                            DocumentReference childRef = document.getDocuments().get(0).getReference();
-                            DocumentSnapshot documents = childRef.get().getResult();
-                            String presetStr = documents.getString("childAvatar");
-
-                            if (presetStr != null) {
-                                try {
-                                    currentImageIndex = Integer.parseInt(presetStr);
-                                } catch (NumberFormatException e) {
-                                    currentImageIndex = 0;
-                                }
-                            }
-                            childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
-                            childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
-                        }
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("Avatar", "Error loading presetAvatar", e);
-                });
-    }
+//    private void loadAvatarPreset() {
+//        db.collection("users").whereEqualTo("username", username)
+//                .get()
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        QuerySnapshot document = task.getResult();
+//                        if (document != null && !document.isEmpty()) {
+//                            DocumentReference childRef = document.getDocuments().get(0).getReference();
+//                            DocumentSnapshot documents = childRef.get().getResult();
+//                            String presetStr = documents.getString("childAvatar");
+//
+//                            if (presetStr != null) {
+//                                try {
+//                                    currentImageIndex = Integer.parseInt(presetStr);
+//                                } catch (NumberFormatException e) {
+//                                    currentImageIndex = 0;
+//                                }
+//                            }
+//                            childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
+//                            childAvatarPresetName.setText(avatarNames.get(currentImageIndex));
+//                        }
+//                    }
+//                })
+//                .addOnFailureListener(e -> {
+//                    Log.e("Avatar", "Error loading presetAvatar", e);
+//                });
+//    }
 
     private void updateAvatarUIAndFirebase() {
         childAvatarImage.setImageResource(avatarImages.get(currentImageIndex));
