@@ -4,10 +4,10 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,12 +24,14 @@ public class ParentViewManageChild extends ParentView {
     ChildManager childManager;
     ImageView createChildButton;
     ChildCreationTab childCreationTabPopUp;
+    View childCreationBackdrop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_parent_view_manage_child);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.statContainer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -39,29 +41,29 @@ public class ParentViewManageChild extends ParentView {
         initNavigationMenu(this, ParentViewManageChild.class);
 
         childCreationTabPopUp = findViewById(R.id.childCreationPopUp);
-        ConstraintLayout childCreationContainer = findViewById(R.id.childCreationContainer);
+        childCreationBackdrop = findViewById(R.id.childCreationBackdrop);
+        createChildButton = topBar.getCreateObjectButton();
 
         childManager = new ChildManager(getApplicationContext());
 
-        // Initialize createChildButton
-        createChildButton = topBar.getCreateObjectButton();
+        // Toggle popup and backdrop when create button is clicked
         createChildButton.setOnClickListener(v -> {
-//            //System.out.println("I AM PRESSED IN PARENTVIEWMANAGECHILD");
+            //System.out.println("I AM PRESSED IN PARENTVIEWMANAGECHILD");
 //            Child c = ChildManager.createTestChild();
 //            childManager.addChild(c);
 //            TemporaryConnectionManager.startTempConnection(getApplicationContext());
 //            TemporaryConnectionManager.uploadChild(c);
-            if (childCreationContainer.getVisibility() == GONE) {
-                childCreationContainer.bringToFront();
-                childCreationContainer.setVisibility(VISIBLE);
-            } else {
-                childCreationContainer.setVisibility(GONE);
-            }
+            boolean shouldShow = childCreationTabPopUp.getVisibility() == GONE;
+            childCreationTabPopUp.setVisibility(shouldShow ? VISIBLE : GONE);
+            childCreationBackdrop.setVisibility(shouldShow ? VISIBLE : GONE);
         });
 
+
         childCreationTabPopUp.getChildCreationConfirmButton().setOnClickListener(v -> {
+            childCreationTabPopUp.setVisibility(GONE);
+            childCreationBackdrop.setVisibility(GONE);
+
             User user = User.getInstance();
-            childCreationContainer.setVisibility(GONE);
             String username = childCreationTabPopUp.getChildCreationUsername().getText().toString();
             String email = childCreationTabPopUp.getChildCreationEmail().getText().toString();
             String password = childCreationTabPopUp.getChildCreationPassword().getText().toString();
@@ -80,13 +82,18 @@ public class ParentViewManageChild extends ParentView {
 
             childManager.addChild(c);
             TemporaryConnectionManager.startTempConnection(this);
-            TemporaryConnectionManager.uploadChild(c)   ;
+            TemporaryConnectionManager.uploadChild(c);
         });
 
         childCreationTabPopUp.getChildCreationExitButton().setOnClickListener(v -> {
-            childCreationContainer.setVisibility(GONE);
+            childCreationTabPopUp.setVisibility(GONE);
+            childCreationBackdrop.setVisibility(GONE);
         });
 
-
+        //Click backdrop also closes popup
+        childCreationBackdrop.setOnClickListener(v -> {
+            childCreationTabPopUp.setVisibility(GONE);
+            childCreationBackdrop.setVisibility(GONE);
+        });
     }
 }
