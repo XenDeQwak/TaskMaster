@@ -28,27 +28,27 @@ public class AuthManager {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Debug", "Successful Sign In");
+                        firestore
+                                .collection("Users")
+                                .document(task.getResult().getUser().getUid())
+                                .get()
+                                .addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful()) {
+                                        Log.d("Debug", "Successful retrieved user role");
+                                        String role = (String) task2.getResult().get("Role");
+                                        callback.onCallback(new Object[]{
+                                                task.isSuccessful(),
+                                                role
+                                        });
+                                    } else {
+                                        Log.d("Debug", "Unsuccessful Sign In");
+                                        Log.d("Error", task2.getException().toString());
+                                    }
+                                });
                     } else {
                         Log.d("Debug", "Unsuccessful Sign In");
                         Log.d("Error", task.getException().toString());
                     }
-                    firestore
-                            .collection("Users")
-                            .document(task.getResult().getUser().getUid())
-                            .get()
-                            .addOnCompleteListener(task2 -> {
-                                if (task2.isSuccessful()) {
-                                    Log.d("Debug", "Successful retrieved user role");
-                                    String role = (String) task2.getResult().get("Role");
-                                    callback.onCallback(new Object[]{
-                                            task.isSuccessful(),
-                                            role
-                                    });
-                                } else {
-                                    Log.d("Debug", "Unsuccessful Sign In");
-                                    Log.d("Error", task2.getException().toString());
-                                }
-                            });
                 });
     }
 

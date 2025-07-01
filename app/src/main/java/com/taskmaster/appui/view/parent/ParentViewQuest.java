@@ -16,7 +16,6 @@ import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
-import com.taskmaster.appui.view.uimodule.QuestBox;
 
 public class ParentViewQuest extends ParentView {
 
@@ -46,7 +45,7 @@ public class ParentViewQuest extends ParentView {
         editQuest = findViewById(R.id.editQuestTab);
 
         questManager = new QuestManager();
-        questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
+        questManager.loadQuestsFromFirestoreParent(this, questScrollContent, editQuest);
 
         // Initialize createQuestButton
         createQuestButton = topBar.getCreateObjectButton();
@@ -54,7 +53,7 @@ public class ParentViewQuest extends ParentView {
             //System.out.println("I AM PRESSED IN PARENTVIEWQUEST");
             Quest q = QuestManager.createBlankQuest();
             FirestoreManager.uploadQuest(q);
-            questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
+            questManager.loadQuestsFromFirestoreParent(this, questScrollContent, editQuest);
         });
 
     }

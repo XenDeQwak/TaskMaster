@@ -3,7 +3,6 @@ package com.taskmaster.appui.manager.entitymanager;
 import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -118,7 +117,7 @@ public class QuestManager {
     }
 
 
-    public void loadQuestsFromFirestore (Context context, LinearLayout scrollContent, EditQuestTab editQuest) {
+    public void loadQuestsFromFirestoreParent(Context context, LinearLayout scrollContent, EditQuestTab editQuest) {
         questList.clear();
         scrollContent.removeAllViews();
         FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
@@ -132,10 +131,29 @@ public class QuestManager {
                 //qb.setMinimumWidth(200);
                 scrollContent.addView(qb);
 
-                qb.getQuestContainer().setOnClickListener(v -> {
-                    editQuest.setVisibility(View.VISIBLE);
-                    editQuest.setQuest(q);
-                });
+                if (editQuest != null) {
+                    qb.getQuestContainer().setOnClickListener(v -> {
+                        editQuest.setVisibility(View.VISIBLE);
+                        editQuest.setQuest(q);
+                    });
+                }
+            }
+        });
+    }
+
+    public void loadQuestsFromFirestoreChild (Context context, LinearLayout scrollContent) {
+        questList.clear();
+        scrollContent.removeAllViews();
+        FirebaseUser child = AuthManager.getAuth().getCurrentUser();
+        FirestoreManager.fetchQuestsAssignee(child.getUid(), dsl -> {
+            for (DocumentSnapshot ds : dsl) {
+                Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
+                questList.add(q);
+
+                QuestBox qb = new QuestBox(context, q);
+                //qb.setMinimumHeight(200);
+                //qb.setMinimumWidth(200);
+                scrollContent.addView(qb);
             }
         });
     }

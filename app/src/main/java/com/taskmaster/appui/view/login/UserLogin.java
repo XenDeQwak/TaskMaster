@@ -41,7 +41,7 @@ public class UserLogin extends AppCompatActivity {
         emailbox = findViewById(R.id.usernameLogInBox);
         passwordbox = findViewById(R.id.passwordLogInBox);
         forgotPasswordTextView = findViewById(R.id.textView3);
-        confirmButton = findViewById(R.id.confirmButton2);
+        confirmButton = findViewById(R.id.confirmButton);
         signUpTextView = findViewById(R.id.signupTextView);
 
         // Lets be real now we dont need this

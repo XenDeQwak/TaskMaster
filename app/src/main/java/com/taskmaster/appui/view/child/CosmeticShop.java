@@ -52,12 +52,12 @@ public class CosmeticShop extends ChildView {
 //        DropdownService.dropdownSetup(this,rootLayout);
 
         user = User.getInstance();
-        List<String> ownedItems =  (List<String>) user.getDocumentSnapshot().get("ownedItems");
+        List<String> OwnedItems =  (List<String>) user.getDocumentSnapshot().get("OwnedItems");
 
         gold = user.getDocumentSnapshot().getDouble("Gold").intValue();
 
         //Filter out items that are already owned
-        displayItems = filterItems(getAllItems(),ownedItems);
+        displayItems = filterItems(getAllItems(),OwnedItems);
 
         adapter = new CosmeticAdapter(displayItems, pos -> {
             // handle click
@@ -93,11 +93,11 @@ public class CosmeticShop extends ChildView {
             gold -= clicked.price;
 
             user.getDocumentSnapshot().getReference().update("Gold", gold);
-            user.getDocumentSnapshot().getReference().update("ownedItems", FieldValue.arrayUnion(clicked.name))
+            user.getDocumentSnapshot().getReference().update("OwnedItems", FieldValue.arrayUnion(clicked.name))
                     .addOnSuccessListener(callback->{
                         user.loadDocumentSnapshot(callback2->{
-                            List<String> ownedItems =  (List<String>) user.getDocumentSnapshot().get("ownedItems");
-                            displayItems=filterItems(getAllItems(),ownedItems);
+                            List<String> OwnedItems =  (List<String>) user.getDocumentSnapshot().get("OwnedItems");
+                            displayItems=filterItems(getAllItems(),OwnedItems);
                             adapter.updateItems(displayItems);
                             setVisibility(View.GONE);
                         });
@@ -116,14 +116,14 @@ public class CosmeticShop extends ChildView {
         }
         return true;
     }
-    private List<CosmeticItem> filterItems(List<CosmeticItem> allItems, List<String> ownedItems){
-        List<CosmeticItem> unownedItems = new ArrayList<>();
+    private List<CosmeticItem> filterItems(List<CosmeticItem> allItems, List<String> OwnedItems){
+        List<CosmeticItem> unOwnedItems = new ArrayList<>();
         for (CosmeticItem item : allItems) {
-            if (!ownedItems.contains(item.name)) {
-                unownedItems.add(item);
+            if (!OwnedItems.contains(item.name)) {
+                unOwnedItems.add(item);
             }
         }
-        return unownedItems;
+        return unOwnedItems;
     }
     private void setVisibility(int visibility) {
         for (View v : confirmationViews) {

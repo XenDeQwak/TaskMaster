@@ -22,6 +22,7 @@ public class DropdownNavMenu extends FrameLayout {
 
     Button navQueueButton, navAdventurersButton, navLogOutButton;
     Button navQueueButton2, navShopButton, navBossButton, navLogoutButton2;
+
     boolean isParent;
 
     // Constructor used when inflating from XML
@@ -47,7 +48,7 @@ public class DropdownNavMenu extends FrameLayout {
             navLogoutButton2 = findViewById(R.id.navLogoutButton2);
         }
 
-
+        FrameLayout dropdownContainer = findViewById(R.id.dropdownContainer);
         LinearLayout container = findViewById(R.id.dropdownLinearView);
         container.getBackground().setAlpha(160);
     }
