@@ -37,13 +37,12 @@
         android:background="@drawable/rectangle_rounded"
         app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
         app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
         app:layout_constraintTop_toTopOf="@+id/mainQuestContainer"
-        app:layout_constraintHeight_percent="0.85"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.8"
-        app:layout_constraintWidth_percent="0.85"
-        >
+        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintWidth_percent="0.85">
 
         <LinearLayout
             android:id="@+id/questScrollContent"
