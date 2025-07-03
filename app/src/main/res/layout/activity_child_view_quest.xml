@@ -46,15 +46,16 @@
         android:id="@+id/questScrollViewChild"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:alpha="0.8"
         android:background="@drawable/rectangle_rounded"
         app:layout_constraintBottom_toTopOf="@+id/ChildStatsTab"
         app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintHeight_percent="0.60"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
-        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer">
+        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintWidth_percent="0.85">
 
         <LinearLayout
             android:id="@+id/questViewChild"
@@ -71,6 +72,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
 
     <com.taskmaster.appui.view.uimodule.TopBar
         android:id="@+id/topBarChild"
