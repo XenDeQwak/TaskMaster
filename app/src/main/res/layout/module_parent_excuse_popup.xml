@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/editQuestContainer"
+    android:id="@+id/excuseQuestConfirmation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rectangle_rounded">
 
     <ImageView
-        android:id="@+id/editQuestImage"
+        android:id="@+id/confirmExcuseImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:elevation="1dp"
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/editQuestName"
+        app:layout_constraintBottom_toTopOf="@+id/editExcuseTitle"
         app:srcCompat="@drawable/rectangle_rounded"
         app:layout_constraintHeight_percent="0.2"
         app:layout_constraintHorizontal_bias="0.5"
@@ -26,7 +26,7 @@
         />
 
     <EditText
-        android:id="@+id/editQuestName"
+        android:id="@+id/confirmExcuseTitle"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textbox_rounded"
@@ -34,7 +34,7 @@
         android:elevation="1dp"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
-        android:hint="Set Name"
+        android:hint="Title"
         android:inputType="textCapWords"
         android:padding="8dp"
         android:textAlignment="center"
@@ -47,12 +47,12 @@
         app:layout_constraintVertical_bias="0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editQuestImage"
-        app:layout_constraintBottom_toTopOf="@+id/editQuestDescription"
+        app:layout_constraintTop_toBottomOf="@id/confirmExcuseImage"
+        app:layout_constraintBottom_toTopOf="@+id/confirmExcuseDescription"
         />
 
     <EditText
-        android:id="@+id/editQuestDescription"
+        android:id="@+id/confirmExcuseDescription"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -60,7 +60,7 @@
         android:elevation="1dp"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
-        android:hint="Set Description"
+        android:hint="Reason"
         android:inputType="textMultiLine"
         android:padding="10dp"
         android:textAlignment="center"
@@ -73,46 +73,45 @@
         app:layout_constraintVertical_bias="0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editQuestName"
-        app:layout_constraintBottom_toTopOf="@+id/editQuestButtonContainer"/>
+        app:layout_constraintTop_toBottomOf="@+id/confirmExcuseTitle"
+        app:layout_constraintBottom_toTopOf="@+id/confirmExcuseButtonContainer"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/editQuestButtonContainer"
+        android:id="@+id/confirmExcuseButtonContainer"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHeight_percent="0.3"
-        app:layout_constraintTop_toBottomOf="@+id/editQuestDescription">
+        app:layout_constraintTop_toBottomOf="@+id/confirmExcuseDescription"
+        >
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/editQuestAccept"
+            android:id="@+id/confirmExcuseAccept"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/button_shadowed_states"
             android:elevation="1dp"
             android:fontFamily="@font/eb_garamond_semibold"
             android:stateListAnimator="@null"
-            android:text="Accept"
+            android:text="Submit"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="#3F3F3F"
             android:textSize="20sp"
             android:translationZ="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/editQuestCancel"
+            app:layout_constraintEnd_toEndOf="@+id/confirmExcuseCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.25"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintVertical_bias="0"
             />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/editQuestDeny"
+            android:id="@+id/confirmExcuseDeny"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/button_shadowed_states"
@@ -126,18 +125,17 @@
             android:textSize="20sp"
             android:translationZ="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/editQuestCancel"
+            app:layout_constraintEnd_toEndOf="@+id/confirmExcuseCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.25"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0"
             />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/editQuestCancel"
+            android:id="@+id/confirmExcuseCancel"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@drawable/button_shadowed_states"
             android:elevation="1dp"
             android:fontFamily="@font/eb_garamond_semibold"
@@ -154,31 +152,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.25"
             app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintVertical_bias="0"
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/editQuestExempt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_shadowed_states"
-            android:elevation="1dp"
-            android:fontFamily="@font/eb_garamond_semibold"
-            android:stateListAnimator="@null"
-            android:text="Exempt"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="#3F3F3F"
-            android:textSize="20sp"
-            android:layout_marginTop="64dp"
-            android:translationZ="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/editQuestCancel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.25"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

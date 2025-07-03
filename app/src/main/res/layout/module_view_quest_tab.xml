@@ -110,6 +110,28 @@
             />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/editQuestExcuse"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shadowed_states"
+            android:elevation="1dp"
+            android:fontFamily="@font/eb_garamond_semibold"
+            android:stateListAnimator="@null"
+            android:text="Excuse"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="#3F3F3F"
+            android:textSize="20sp"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/editQuestCancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25"
+            app:layout_constraintHorizontal_bias="0.5"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/editQuestCancel"
             android:layout_width="0dp"
             android:layout_height="0dp"
