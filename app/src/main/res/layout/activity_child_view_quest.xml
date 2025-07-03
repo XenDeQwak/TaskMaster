@@ -27,34 +27,19 @@
         app:layout_constraintHeight_percent="0.95"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-    <com.taskmaster.appui.view.uimodule.ChildStatsTab
-        android:id="@+id/ChildStatsTab"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
-        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
-        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
-        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer"
-        app:layout_constraintVertical_bias="0.975"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintHeight_percent="0.25"
-        />
-
     <ScrollView
         android:id="@+id/questScrollViewChild"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:alpha="0.8"
+        android:layout_marginTop="72dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/rectangle_rounded"
         app:layout_constraintBottom_toTopOf="@+id/ChildStatsTab"
         app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
-        app:layout_constraintHeight_percent="0.60"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
         app:layout_constraintTop_toTopOf="@+id/mainQuestContainer"
-        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintVertical_bias="0.06999999"
         app:layout_constraintWidth_percent="0.85">
 
         <LinearLayout
@@ -84,5 +69,19 @@
         app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
         app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
         app:layout_constraintTop_toTopOf="@+id/mainQuestContainer" />
+
+    <com.taskmaster.appui.view.uimodule.ChildStatsTab
+        android:id="@+id/ChildStatsTab"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
+        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
+        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

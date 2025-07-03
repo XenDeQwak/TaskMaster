@@ -13,13 +13,13 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout3"
         app:layout_constraintEnd_toStartOf="@+id/constraintLayout3"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout3"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/coin_sprite" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toEndOf="@+id/viewQuestAvatar"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -37,6 +37,7 @@
             android:id="@+id/viewQuestName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Quest Name"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,6 +70,7 @@
             android:id="@+id/viewQuestDeadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Due: MM/DD/YYYY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -117,45 +119,54 @@
             app:layout_constraintTop_toBottomOf="@+id/viewQuestRewardStat" />
 
         <Button
-            android:id="@+id/viewQuestButtonB"
-            android:layout_width="wrap_content"
+            android:id="@+id/viewQuestButtonC"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/stroked_rectangle"
             android:backgroundTint="#FFE8B3"
             android:text="Edit"
-            android:textSize="12sp"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/viewQuestButtonB"
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestButtonA" />
+
+        <Button
+            android:id="@+id/viewQuestButtonB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/stroked_rectangle"
+            android:backgroundTint="#FFDADA"
+            android:padding="0dp"
+            android:text="Cancel"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/viewQuestButtonC"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/viewQuestButtonA"
-            app:layout_constraintTop_toBottomOf="@+id/viewQuestRewardExtra" />
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestButtonA" />
 
         <Button
             android:id="@+id/viewQuestButtonA"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/stroked_rectangle"
-            android:backgroundTint="#FFDADA"
-            android:text="Cancel"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/viewQuestButtonB"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewQuestRewardExtra" />
-
-        <Button
-            android:id="@+id/viewQuestButtonC"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@drawable/stroked_rectangle"
             android:backgroundTint="#D2F0AE"
+            android:padding="0dp"
             android:text="Complete"
-            android:textSize="12sp"
+            android:textSize="10sp"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/viewQuestButtonB"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewQuestRewardExtra" />
 
         <TextView

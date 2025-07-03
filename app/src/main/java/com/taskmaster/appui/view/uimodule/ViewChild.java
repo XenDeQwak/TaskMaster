@@ -77,5 +77,6 @@ public class ViewChild extends FrameLayout {
         viewChildAvatar.setImageResource(avatarImages.get(c.getAvatar()));
 
         childViewCont.getBackground().setAlpha(160);
+
     }
 }

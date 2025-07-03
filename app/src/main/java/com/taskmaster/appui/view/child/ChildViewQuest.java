@@ -21,7 +21,7 @@ import java.util.List;
 public class ChildViewQuest extends ChildView {
 
     QuestManager questManager;
-    LinearLayout questView;
+    LinearLayout questViewChild;
     ViewQuestTab editQuestTab;
 
     List<Integer> avatarImages = new ArrayList<>();
@@ -59,10 +59,12 @@ public class ChildViewQuest extends ChildView {
 
         findViewById(R.id.questScrollViewChild).getBackground().setAlpha(150);
         editQuestTab = findViewById(R.id.editQuestTab);
-        
-        questView = findViewById(R.id.questViewChild);
+
+        questViewChild = findViewById(R.id.questViewChild);
         questManager = new QuestManager();
-        questManager.loadQuestsFromFirestoreChild(this, questView, editQuestTab);
+        questManager.loadQuestsFromFirestoreChild(this, questViewChild);
+
+        findViewById(R.id.questScrollViewChild).getBackground().setAlpha(160);
 
     }
 }

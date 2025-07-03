@@ -1,12 +1,17 @@
 package com.taskmaster.appui.manager.entitymanager;
 
+import static android.view.View.GONE;
+
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
@@ -101,18 +106,18 @@ public class QuestManager {
     public static Quest createBlankQuest () {
         User user = User.getInstance();
         HashMap<String, Object> qd = new HashMap<>();
-        qd.put("Name", "");
-        qd.put("Description", "");
+        qd.put("Name", "Unconfigured");
+        qd.put("Description", "No Description");
         qd.put("CreatorUID", user.getDocumentSnapshot().getId());
         qd.put("CreatorRef", user.getDocumentSnapshot().getReference());
         qd.put("StartDate", 1735689601L);    // January 1, 2025, 00:00
         qd.put("EndDate", 1767225599L);       // December 31, 2025, 23:59
-        qd.put("RewardStat", "DEFAULT");
-        qd.put("RewardExtra", "");
+        qd.put("RewardStat", "None");
+        qd.put("RewardExtra", "None");
         qd.put("AssignedUID", "child");
         qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
         qd.put("Difficulty", 0L);
-        qd.put("Status", "Ongoing");
+        qd.put("Status", "Awaiting Configuration");
 
         return QuestManager.parseQuestData(qd);
     }
@@ -131,22 +136,56 @@ public class QuestManager {
                 Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
                 questList.add(q);
 
-                ViewQuest qb = new ViewQuest(context, q);
-                //qb.setMinimumHeight(200);
-                //qb.setMinimumWidth(200);
+                ViewQuest qb = new ViewQuest(context, q, true);
                 scrollContent.addView(qb);
 
-//                if (editQuest != null) {
-//                    qb.getQuestContainer().setOnClickListener(v -> {
-//                        editQuest.setVisibility(View.VISIBLE);
-//                        editQuest.setQuest(q);
-//                    });
-//                }
+                if (editQuest != null) {
+                    qb.getViewQuestButtonC().setOnClickListener(v -> {
+                        editQuest.setVisibility(View.VISIBLE);
+                        editQuest.setQuest(q);
+                    });
+                }
+
+                qb.getViewQuestButtonB().setOnClickListener(v -> {
+                    qb.setVisibility(GONE);
+                    q.setStatus("Deleted");
+                    FirestoreManager.getFirestore().collection("Quests")
+                            .document(q.getQuestID())
+                            .update("Status", "Deleted")
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d("Debug", "Successfully deleted quest");
+                                } else {
+                                    Log.d("Debug", "Failed to deleted quest");
+                                }
+                            });
+                });
+
+                if (q.getStatus().equalsIgnoreCase("Awaiting Verification")) {
+                    qb.getViewQuestButtonA().setOnClickListener(v -> {
+                        qb.setVisibility(GONE);
+                        q.setStatus("Completed");
+                        FirestoreManager.getFirestore().collection("Quests")
+                                .document(q.getQuestID())
+                                .update("Status", "Completed")
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Log.d("Debug", "Successfully completed quest verification");
+                                    } else {
+                                        Log.d("Debug", "Failed to complete quest verification");
+                                    }
+                                });
+                    });
+                } else { // "#ADADADFF"
+                    qb.getViewQuestButtonA().setBackgroundTintList(context.getResources().getColorStateList(R.color.unavailable));
+                }
+
+
             }
         });
     }
 
-    public void loadQuestsFromFirestoreChild (Context context, LinearLayout scrollContent, ViewQuestTab editQuest) {
+    public void loadQuestsFromFirestoreChild (Context context, LinearLayout scrollContent) {
         questList.clear();
         scrollContent.removeAllViews();
         FirebaseUser child = AuthManager.getAuth().getCurrentUser();
@@ -155,17 +194,27 @@ public class QuestManager {
                 Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
                 questList.add(q);
 
-                ViewQuest qb = new ViewQuest(context, q);
-                //qb.setMinimumHeight(200);
-                //qb.setMinimumWidth(200);
+                ViewQuest qb = new ViewQuest(context, q, false);
                 scrollContent.addView(qb);
 
-//                if (editQuest != null) {
-//                    qb.getQuestContainer().setOnClickListener(v -> {
-//                        editQuest.setVisibility(View.VISIBLE);
-//                        editQuest.setQuest(q);
-//                    });
-//                }
+                if (q.getStatus().equalsIgnoreCase("Ongoing")) {
+                    qb.getViewQuestButtonA().setOnClickListener(v -> {
+                        q.setStatus("Awaiting Verification");
+                        FirestoreManager.getFirestore().collection("Quests")
+                                .document(q.getQuestID())
+                                .update("Status", "Awaiting Verification")
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Log.d("Debug", "Successfully submitted quest for verification");
+                                    } else {
+                                        Log.d("Debug", "Failed to submit quest for verification");
+                                    }
+                                });
+                    });
+                } else { // "#ADADADFF"
+                    qb.getViewQuestButtonA().setText("Awaiting Verification...");
+                    qb.getViewQuestButtonA().setBackgroundTintList(context.getResources().getColorStateList(R.color.unavailable));
+                }
             }
         });
     }

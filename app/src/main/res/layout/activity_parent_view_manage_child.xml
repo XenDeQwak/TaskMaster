@@ -28,7 +28,7 @@
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <ScrollView
-        android:id="@+id/questScrollView"
+        android:id="@+id/questListContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0.8"

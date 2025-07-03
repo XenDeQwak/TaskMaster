@@ -39,7 +39,6 @@ public class ParentViewQuest extends ParentView {
 
         initNavigationMenu(this, ParentViewQuest.class);
 
-        questScrollView = findViewById(R.id.questScrollView);
         questScrollContent = findViewById(R.id.questScrollContent);
 
         editQuest = findViewById(R.id.editQuestTab);
@@ -55,6 +54,8 @@ public class ParentViewQuest extends ParentView {
             FirestoreManager.uploadQuest(q);
             questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
         });
+
+        findViewById(R.id.questListContainer).getBackground().setAlpha(150);
 
     }
 }

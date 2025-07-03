@@ -14,16 +14,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Quest;
-import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class ViewQuest extends FrameLayout {
     Quest q;
+    Boolean isParent;
 
     public ViewQuest(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -35,9 +33,10 @@ public class ViewQuest extends FrameLayout {
         init();
     }
 
-    public ViewQuest(@NonNull Context context, Quest q) {
+    public ViewQuest(@NonNull Context context, Quest q, boolean isParent) {
         super(context);
         setQuest(q);
+        this.isParent = isParent;
         init();
     }
 
@@ -85,7 +84,11 @@ public class ViewQuest extends FrameLayout {
         viewQuestContainer.getBackground().setAlpha(150);
 
         q.getAssignedReference().get().addOnCompleteListener(task -> {
-            viewQuestAdventurer.setText(task.getResult().get("Username").toString());
+            if (task.isSuccessful() && task.getResult().get("Username") != null) {
+                viewQuestAdventurer.setText(task.getResult().get("Username").toString());
+            } else {
+                viewQuestAdventurer.setText("None");
+            }
         });
 
         Number endDate = q.getEndDate();
@@ -97,7 +100,7 @@ public class ViewQuest extends FrameLayout {
         Number diff = q.getDifficulty();
 
         viewQuestName.setText(q.getName());
-        viewQuestDifficulty.setText("Difficulty" + "☆".repeat(diff.intValue()));
+        viewQuestDifficulty.setText("Difficulty: " + "★".repeat(diff.intValue()));
         viewQuestAdventurer.setText("Assigned: .....");
         viewQuestDescription.setText(q.getDescription());
         viewQuestRewardStat.setText("Reward: " + q.getRewardStat());
@@ -107,11 +110,35 @@ public class ViewQuest extends FrameLayout {
         viewQuestStatus.setText(q.getStatus());
 
         String rewardStat = q.getRewardStat();
-        if (rewardStat.equals("strength")) {
+        if (rewardStat.equalsIgnoreCase("strength")) {
             viewQuestAvatar.setImageResource(R.drawable.icon_str);
-        } else if (rewardStat.equals("intelligence")) {
+        } else if (rewardStat.equalsIgnoreCase("intelligence")) {
             viewQuestAvatar.setImageResource(R.drawable.icon_int);
+        } else {
+            viewQuestAvatar.setImageResource(R.drawable.coin_sprite);
         }
 
+        if (isParent) {
+            viewQuestButtonA.setText("Complete");
+            viewQuestButtonB.setText("Delete");
+            viewQuestButtonC.setText("Edit");
+        } else {
+            viewQuestButtonA.setText("Submit For Verification");
+            viewQuestButtonB.setVisibility(GONE);
+            viewQuestButtonC.setVisibility(GONE);
+        }
+
+    }
+
+    public Button getViewQuestButtonA () {
+        return viewQuestButtonA;
+    }
+
+    public Button getViewQuestButtonB () {
+        return viewQuestButtonB;
+    }
+
+    public Button getViewQuestButtonC () {
+        return viewQuestButtonC;
     }
 }

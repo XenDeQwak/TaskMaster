@@ -122,19 +122,19 @@
         android:text="Forgot Password?"
         android:textAlignment="center"
         android:textColor="#3F3F3F"
+        android:visibility="gone"
         app:autoSizeMaxTextSize="25sp"
         app:autoSizeMinTextSize="10sp"
         app:autoSizeStepGranularity="1sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
+        app:layout_constraintHeight_percent="0.025"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/confirmButton"
         app:layout_constraintVertical_bias="0"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintWidth_percent="0.4"
-        app:layout_constraintHeight_percent="0.025"
-        />
+        app:layout_constraintWidth_percent="0.4" />
 
     <TextView
         android:id="@+id/signupTextView"
