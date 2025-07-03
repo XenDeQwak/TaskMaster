@@ -52,14 +52,6 @@
             android:orientation="vertical" />
     </ScrollView>
 
-    <com.taskmaster.appui.view.uimodule.TopBar
-        android:id="@+id/topBarChild"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
-        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
-        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer" />
-
     <com.taskmaster.appui.view.uimodule.EditQuestTab
         android:id="@+id/editQuestTab"
         android:layout_width="0dp"
@@ -68,5 +60,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.taskmaster.appui.view.uimodule.TopBar
+        android:id="@+id/topBarChild"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
+        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,9 +50,9 @@ public class TopBar extends FrameLayout {
         // Dropdown menu logic
         navBarButton.setOnClickListener(v -> {
             System.out.println("I got clicked");
-            FrameLayout navMenu = dropdownNavMenu.findViewById(R.id.dropdownContainer);
+            FrameLayout navMenu = findViewById(R.id.dropdownNavMenu);
+            navMenu.bringToFront();
             if (navMenu.getVisibility() == GONE) {
-                navMenu.bringToFront();
                 navMenu.setVisibility(VISIBLE);
             } else {
                 navMenu.setVisibility(GONE);

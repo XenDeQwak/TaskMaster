@@ -45,7 +45,7 @@ public class ParentViewQuest extends ParentView {
         editQuest = findViewById(R.id.editQuestTab);
 
         questManager = new QuestManager();
-        questManager.loadQuestsFromFirestoreParent(this, questScrollContent, editQuest);
+        questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
 
         // Initialize createQuestButton
         createQuestButton = topBar.getCreateObjectButton();
@@ -53,7 +53,7 @@ public class ParentViewQuest extends ParentView {
             //System.out.println("I AM PRESSED IN PARENTVIEWQUEST");
             Quest q = QuestManager.createBlankQuest();
             FirestoreManager.uploadQuest(q);
-            questManager.loadQuestsFromFirestoreParent(this, questScrollContent, editQuest);
+            questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
         });
 
     }

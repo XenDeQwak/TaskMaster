@@ -32,6 +32,7 @@ public class DropdownNavMenu extends FrameLayout {
 
 
     public void init (boolean isParent) {
+
         this.isParent = isParent;
         if (isParent) {
             LayoutInflater.from(getContext()).inflate(R.layout.module_nav_menu_parent, this);
@@ -48,7 +49,6 @@ public class DropdownNavMenu extends FrameLayout {
             navLogoutButton2 = findViewById(R.id.navLogoutButton2);
         }
 
-        FrameLayout dropdownContainer = findViewById(R.id.dropdownContainer);
         LinearLayout container = findViewById(R.id.dropdownLinearView);
         container.getBackground().setAlpha(160);
     }

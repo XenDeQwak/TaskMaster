@@ -44,7 +44,12 @@ public class QuestBox extends FrameLayout {
         questImage = findViewById(R.id.questImage);
         questNameText = findViewById(R.id.questNameText);
 
-        //questImage.setImageResource(R.drawable.blank_icon);
+        if (q.getRewardStat().equalsIgnoreCase("strength")) {
+            questImage.setImageResource(R.drawable.icon_str);
+        } else if (q.getRewardStat().equalsIgnoreCase("intelligence")) {
+            questImage.setImageResource(R.drawable.icon_int);
+        }
+
         questNameText.setText(q.getName().equals("")? "Configure Quest.." : q.getName());
     }
 

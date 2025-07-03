@@ -48,6 +48,15 @@ public class ChildStatsTab extends FrameLayout {
         });
     }
 
+    public AppCompatButton getChildStatsName() {
+        return childStatsName;
+    }
 
+    public AppCompatButton getChildStatsFloor() {
+        return childStatsFloor;
+    }
 
+    public ImageView getChildStatsAvatarImage() {
+        return childStatsAvatarImage;
+    }
 }

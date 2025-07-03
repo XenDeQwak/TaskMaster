@@ -13,6 +13,7 @@ import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
 import com.taskmaster.appui.view.uimodule.QuestBox;
+import com.taskmaster.appui.view.uimodule.ViewQuestTab;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,7 +118,7 @@ public class QuestManager {
     }
 
 
-    public void loadQuestsFromFirestoreParent(Context context, LinearLayout scrollContent, EditQuestTab editQuest) {
+    public void loadQuestsFromFirestore(Context context, LinearLayout scrollContent, EditQuestTab editQuest) {
         questList.clear();
         scrollContent.removeAllViews();
         FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
@@ -141,7 +142,7 @@ public class QuestManager {
         });
     }
 
-    public void loadQuestsFromFirestoreChild (Context context, LinearLayout scrollContent) {
+    public void loadQuestsFromFirestoreChild (Context context, LinearLayout scrollContent, ViewQuestTab editQuest) {
         questList.clear();
         scrollContent.removeAllViews();
         FirebaseUser child = AuthManager.getAuth().getCurrentUser();
@@ -154,6 +155,13 @@ public class QuestManager {
                 //qb.setMinimumHeight(200);
                 //qb.setMinimumWidth(200);
                 scrollContent.addView(qb);
+
+                if (editQuest != null) {
+                    qb.getQuestContainer().setOnClickListener(v -> {
+                        editQuest.setVisibility(View.VISIBLE);
+                        editQuest.setQuest(q);
+                    });
+                }
             }
         });
     }

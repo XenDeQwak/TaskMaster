@@ -125,7 +125,7 @@ public class WeeklyBoss extends ChildView {
                             childDocument.getReference().update(
                                 "Strength", FieldValue.increment(-5),
                                 "Intelligence", FieldValue.increment(-5)
-                            ).addOnCompleteListener(e->{
+                            ).addOnCompleteListener( e-> {
                                     attachRestartHandler();
                                     showPopup("Time's up! You lose!","Aww");
                             });

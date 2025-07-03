@@ -63,6 +63,15 @@
             android:orientation="vertical" />
     </ScrollView>
 
+    <com.taskmaster.appui.view.uimodule.ViewQuestTab
+        android:id="@+id/editQuestTab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.taskmaster.appui.view.uimodule.TopBar
         android:id="@+id/topBarChild"
         android:layout_width="0dp"

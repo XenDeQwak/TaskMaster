@@ -5,6 +5,7 @@ import static android.view.View.VISIBLE;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -24,6 +25,7 @@ public class ParentViewManageChild extends ParentView {
     ChildManager childManager;
     ImageView createChildButton;
     ChildCreationTab childCreationTabPopUp;
+    LinearLayout childCont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,7 @@ public class ParentViewManageChild extends ParentView {
                     0,
                     0,
                     0,
-                    0D,
+                    0L,
                     true,
                     1,
                     0
@@ -94,6 +96,7 @@ public class ParentViewManageChild extends ParentView {
             childCreationContainer.setVisibility(GONE);
         });
 
-
+        childCont = findViewById(R.id.childCont);
+        childManager.loadChildrenFromFirestore(childCont);
     }
 }

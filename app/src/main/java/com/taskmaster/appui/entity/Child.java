@@ -2,8 +2,6 @@ package com.taskmaster.appui.entity;
 
 import com.google.firebase.firestore.DocumentReference;
 
-import org.w3c.dom.Document;
-
 public class Child {
 
     String childEmail;
@@ -13,14 +11,14 @@ public class Child {
     String childLastname;
     String parentUID;
     DocumentReference parentRef;
-    Integer strength, intelligence;
-    Integer avatar;
-    Double bossTimer;
+    int strength, intelligence;
+    int avatar;
+    long bossTimer;
     Boolean bossAlive;
-    Integer floor;
-    Integer gold;
+    int floor;
+    int gold;
 
-    public Child(String childEmail, String childPassword, String childUsername, String childFirstname, String childLastname, String parentUID, DocumentReference parentRef, Integer strength, Integer intelligence, Integer avatar, Double bossTimer, Boolean bossAlive, Integer floor, Integer gold) {
+    public Child(String childEmail, String childPassword, String childUsername, String childFirstname, String childLastname, String parentUID, DocumentReference parentRef, Integer strength, Integer intelligence, Integer avatar, long bossTimer, Boolean bossAlive, Integer floor, Integer gold) {
         this.childEmail = childEmail;
         this.childPassword = childPassword;
         this.childUsername = childUsername;
@@ -93,35 +91,35 @@ public class Child {
         this.parentRef = parentRef;
     }
 
-    public Integer getStrength() {
+    public int getStrength() {
         return strength;
     }
 
-    public void setStrength(Integer strength) {
+    public void setStrength(int strength) {
         this.strength = strength;
     }
 
-    public Integer getIntelligence() {
+    public int getIntelligence() {
         return intelligence;
     }
 
-    public void setIntelligence(Integer intelligence) {
+    public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
     }
 
-    public Integer getAvatar() {
+    public int getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Integer avatar) {
+    public void setAvatar(int avatar) {
         this.avatar = avatar;
     }
 
-    public Double getBossTimer() {
+    public long getBossTimer() {
         return bossTimer;
     }
 
-    public void setBossTimer(Double bossTimer) {
+    public void setBossTimer(long bossTimer) {
         this.bossTimer = bossTimer;
     }
 
