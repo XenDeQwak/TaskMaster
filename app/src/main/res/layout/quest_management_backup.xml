@@ -690,30 +690,30 @@
         app:layout_constraintStart_toStartOf="@+id/viewQuestImage"
         app:layout_constraintTop_toTopOf="@+id/viewQuestImage" />
 
-    <EditText
-        android:id="@+id/viewQuestName"
-        android:layout_width="173dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="258dp"
-        android:layout_marginEnd="161dp"
-        android:layout_marginBottom="296dp"
-        android:elevation="1dp"
-        android:translationZ="1dp"
-        android:background="@drawable/textbox_rounded"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:inputType="textCapWords"
-        android:padding="10dp"
-        android:textAlignment="center"
-        android:textColor="#3F3F3F"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"
-        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"
-        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"
-        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame" />
+<!--    <EditText-->
+<!--        android:id="@+id/viewQuestName"-->
+<!--        android:layout_width="173dp"-->
+<!--        android:layout_height="39dp"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginTop="258dp"-->
+<!--        android:layout_marginEnd="161dp"-->
+<!--        android:layout_marginBottom="296dp"-->
+<!--        android:elevation="1dp"-->
+<!--        android:translationZ="1dp"-->
+<!--        android:background="@drawable/textbox_rounded"-->
+<!--        android:ems="10"-->
+<!--        android:focusable="false"-->
+<!--        android:focusableInTouchMode="false"-->
+<!--        android:fontFamily="@font/eb_garamond_semibold"-->
+<!--        android:inputType="textCapWords"-->
+<!--        android:padding="10dp"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#3F3F3F"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/viewQuestFrame"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/viewQuestFrame"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/viewQuestFrame"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/viewQuestFrame" />-->
 
     <EditText
         android:id="@+id/viewQuestTime"

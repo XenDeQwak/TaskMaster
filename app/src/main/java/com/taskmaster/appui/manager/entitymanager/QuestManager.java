@@ -12,7 +12,7 @@ import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
-import com.taskmaster.appui.view.uimodule.QuestBox;
+import com.taskmaster.appui.view.uimodule.ViewQuest;
 import com.taskmaster.appui.view.uimodule.ViewQuestTab;
 
 import java.util.ArrayList;
@@ -49,14 +49,15 @@ public class QuestManager {
                 (String) qd.get("Name"),
                 (String) qd.get("Description"),
                 (String) qd.get("CreatorUID"),
-                (DocumentReference) qd.get("CreatorRef"),
+                (String) qd.get("AssignedUID"),
                 (Long) qd.get("StartDate"),
                 (Long) qd.get("EndDate"),
                 (String) qd.get("RewardStat"),
                 (String) qd.get("RewardExtra"),
-                (String) qd.get("AssignedUID"),
+                (DocumentReference) qd.get("CreatorRef"),
                 (DocumentReference) qd.get("AssignedRef"),
-                (Long) qd.get("Difficulty")
+                (Long) qd.get("Difficulty"),
+                (String) qd.get("Status")
                 );
     }
 
@@ -66,14 +67,15 @@ public class QuestManager {
         qd.put("Name", q.getName());
         qd.put("Description", q.getDescription());
         qd.put("CreatorUID", q.getCreatorUID());
-        qd.put("CreatorRef", q.getCreatorReference());
+        qd.put("AssignedUID", q.getAssignedUID());
         qd.put("StartDate", q.getStartDate());
         qd.put("EndDate", q.getEndDate());
         qd.put("RewardStat", q.getRewardStat());
         qd.put("RewardExtra", q.getRewardExtra());
-        qd.put("AssignedUID", q.getAssignedUID());
+        qd.put("CreatorRef", q.getCreatorReference());
         qd.put("AssignedRef", q.getAssignedReference());
         qd.put("Difficulty", q.getDifficulty());
+        qd.put("Status", q.getStatus());
 
         return qd;
     }
@@ -91,6 +93,7 @@ public class QuestManager {
         qd.put("AssignedUID", "child");
         qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
         qd.put("Difficulty", 0);
+        qd.put("Status", "Ongoing");
 
         return QuestManager.parseQuestData(qd);
     }
@@ -109,6 +112,7 @@ public class QuestManager {
         qd.put("AssignedUID", "child");
         qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
         qd.put("Difficulty", 0L);
+        qd.put("Status", "Ongoing");
 
         return QuestManager.parseQuestData(qd);
     }
@@ -127,17 +131,17 @@ public class QuestManager {
                 Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
                 questList.add(q);
 
-                QuestBox qb = new QuestBox(context, q);
+                ViewQuest qb = new ViewQuest(context, q);
                 //qb.setMinimumHeight(200);
                 //qb.setMinimumWidth(200);
                 scrollContent.addView(qb);
 
-                if (editQuest != null) {
-                    qb.getQuestContainer().setOnClickListener(v -> {
-                        editQuest.setVisibility(View.VISIBLE);
-                        editQuest.setQuest(q);
-                    });
-                }
+//                if (editQuest != null) {
+//                    qb.getQuestContainer().setOnClickListener(v -> {
+//                        editQuest.setVisibility(View.VISIBLE);
+//                        editQuest.setQuest(q);
+//                    });
+//                }
             }
         });
     }
@@ -151,17 +155,17 @@ public class QuestManager {
                 Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
                 questList.add(q);
 
-                QuestBox qb = new QuestBox(context, q);
+                ViewQuest qb = new ViewQuest(context, q);
                 //qb.setMinimumHeight(200);
                 //qb.setMinimumWidth(200);
                 scrollContent.addView(qb);
 
-                if (editQuest != null) {
-                    qb.getQuestContainer().setOnClickListener(v -> {
-                        editQuest.setVisibility(View.VISIBLE);
-                        editQuest.setQuest(q);
-                    });
-                }
+//                if (editQuest != null) {
+//                    qb.getQuestContainer().setOnClickListener(v -> {
+//                        editQuest.setVisibility(View.VISIBLE);
+//                        editQuest.setQuest(q);
+//                    });
+//                }
             }
         });
     }

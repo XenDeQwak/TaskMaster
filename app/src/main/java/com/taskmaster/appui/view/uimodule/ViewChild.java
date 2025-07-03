@@ -17,21 +17,21 @@ import com.taskmaster.appui.entity.Child;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChildBox extends FrameLayout {
+public class ViewChild extends FrameLayout {
 
     Child c;
 
-    public ChildBox(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ViewChild(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ChildBox(@NonNull Context context) {
+    public ViewChild(@NonNull Context context) {
         super(context);
         init();
     }
 
-    public ChildBox(@NonNull Context context, @Nullable Child c) {
+    public ViewChild(@NonNull Context context, @Nullable Child c) {
         super(context);
         setChild(c);
         init();
@@ -57,7 +57,7 @@ public class ChildBox extends FrameLayout {
     ConstraintLayout childViewCont;
 
     private void init () {
-        LayoutInflater.from(getContext()).inflate(R.layout.module_child_view_tab, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.module_child_view, this);
 
         viewChildName = findViewById(R.id.viewChildName);
         viewChildEmail = findViewById(R.id.viewChildEmail);
@@ -65,7 +65,7 @@ public class ChildBox extends FrameLayout {
         vewChildIntelligence = findViewById(R.id.vewChildIntelligence);
         viewChildFloor = findViewById(R.id.viewChildFloor);
         viewChildAvatar = findViewById(R.id.viewChildAvatar);
-        childViewCont = findViewById(R.id.childViewCont);
+        childViewCont = findViewById(R.id.viewChildContainer);
 
         viewChildName.setText(c.getChildUsername());
         viewChildEmail.setText(c.getChildEmail());
