@@ -21,8 +21,7 @@ public class Child {
     int gold;
     List<String> ownedItems;
 
-
-    public Child(String childEmail, String childPassword, String childUsername, String childFirstname, String childLastname, String parentUID, DocumentReference parentRef, Integer strength, Integer intelligence, Integer avatar, long bossTimer, Boolean bossAlive, Integer floor, Integer gold, List<String> ownedItems) {
+    public Child(String childEmail, String childPassword, String childUsername, String childFirstname, String childLastname, String parentUID, DocumentReference parentRef, int strength, int intelligence, int avatar, long bossTimer, Boolean bossAlive, int floor, int gold, List<String> ownedItems) {
         this.childEmail = childEmail;
         this.childPassword = childPassword;
         this.childUsername = childUsername;
@@ -38,10 +37,6 @@ public class Child {
         this.floor = floor;
         this.gold = gold;
         this.ownedItems = ownedItems;
-    }
-
-    public List<String> getOwnedItems() {
-        return ownedItems;
     }
 
     public String getChildEmail() {
@@ -140,19 +135,27 @@ public class Child {
         this.bossAlive = bossAlive;
     }
 
-    public Integer getFloor() {
+    public int getFloor() {
         return floor;
     }
 
-    public void setFloor(Integer floor) {
+    public void setFloor(int floor) {
         this.floor = floor;
     }
 
-    public Integer getGold() {
+    public int getGold() {
         return gold;
     }
 
-    public void setGold(Integer gold) {
+    public void setGold(int gold) {
         this.gold = gold;
+    }
+
+    public List<String> getOwnedItems() {
+        return ownedItems;
+    }
+
+    public void setOwnedItems(List<String> ownedItems) {
+        this.ownedItems = ownedItems;
     }
 }

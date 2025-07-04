@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class ChildManager {
 
@@ -92,25 +93,25 @@ public class ChildManager {
         return cd;
     }
 
-//    public static Child createTestChild() {
-//        Random r = new Random();
-//        return new Child(
-//                "testchild" + r.nextInt(100) + "@email.com",
-//                "testchild",
-//                "testchild",
-//                "test",
-//                "child",
-//                "user",
-//                FirestoreManager.getFirestore().collection("Users").document("user"),
-//                0,
-//                0,
-//                0,
-//                0L,
-//                true,
-//                1,
-//                0,
-//                OwnedItems);
-//    }
+    public static Child createTestChild() {
+        Random r = new Random();
+        return new Child(
+                "testchild" + r.nextInt(100) + "@email.com",
+                "testchild",
+                "testchild",
+                "test",
+                "child",
+                "user",
+                FirestoreManager.getFirestore().collection("Users").document("user"),
+                0,
+                0,
+                0,
+                0L,
+                true,
+                1,
+                0,
+                new ArrayList<>());
+    }
 
     public void addChild(Child c) {
         childList.add(c);
