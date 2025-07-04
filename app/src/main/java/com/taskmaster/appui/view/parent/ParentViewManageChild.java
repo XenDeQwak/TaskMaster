@@ -18,7 +18,7 @@ import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
 import com.taskmaster.appui.view.uimodule.ChildCreationTab;
-import java.util.ArrayList;
+import java.util.List;
 
 public class ParentViewManageChild extends ParentView {
 
@@ -85,7 +85,8 @@ public class ParentViewManageChild extends ParentView {
                     true,
                     1,
                     0,
-                    new ArrayList<>());
+                    List.of("Armorless")
+                    );
 
             childManager.addChild(c);
             TemporaryConnectionManager.startTempConnection(this);

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class ChildManager {
 
@@ -42,6 +41,8 @@ public class ChildManager {
         Number inte = (Number) cd.get("Intelligence");
         Number avat = (Number) cd.get("Avatar");
         Number btime = (Number) cd.get("BossTimer");
+        Number floor = (Number) cd.get("Floor");
+        Number gold = (Number) cd.get("Gold");
 
         if (btime instanceof Long) {
             btime = ((Long) btime).doubleValue();
@@ -64,9 +65,9 @@ public class ChildManager {
                 inte.intValue(),
                 avat.intValue(),
                 btime.longValue(),
-                true,
-                1,
-                0,
+                (Boolean) cd.get("BossAlive"),
+                floor.intValue(),
+                gold.intValue(),
                 OwnedItems
         );
     }
@@ -88,7 +89,6 @@ public class ChildManager {
         cd.put("Floor", c.getFloor());
         cd.put("Gold", c.getGold());
         cd.put("OwnedItems", c.getOwnedItems());
-
         return cd;
     }
 
