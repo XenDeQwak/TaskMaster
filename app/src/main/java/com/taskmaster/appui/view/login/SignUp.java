@@ -8,6 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,8 @@ public class SignUp extends AppCompatActivity {
         firstnamebox = findViewById(R.id.firstnameSignUpBox);
         lastnamebox = findViewById(R.id.lastnameSignUpBox);
         confirmButton = findViewById(R.id.confirmButton);
+        TextView returnText = findViewById(R.id.loginTextView);
+        NavUtil.setNavigation(this, returnText, UserLogin.class);
 
         passwordStrength = new FrameLayout[] {
                 findViewById(R.id.passwordStrengthBarWeakFrame),
