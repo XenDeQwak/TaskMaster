@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +23,6 @@ public class CosmeticShop extends ChildView {
     private CosmeticItem clicked;
     private User user;
     private int gold;
-    private TextView currencyText;
     private CosmeticAdapter adapter;
     private List<CosmeticItem> displayItems;
 
@@ -44,12 +42,8 @@ public class CosmeticShop extends ChildView {
         ImageView noBox = findViewById(R.id.confirmationNoContainer);
         TextView noText = findViewById(R.id.confirmationNoText);
         View blurOverlay = findViewById(R.id.blurOverlay);
-        //currencyText = findViewById(R.id.currencyText);
         RecyclerView recycler = findViewById(R.id.recyclerView);
         confirmationViews = new View[]{confirmationBox, confirmationText, yesBox, yesText, noBox, noText,blurOverlay};
-
-//        View rootLayout = findViewById(R.id.main);      Fam I'll just wait for gab's dropdown service
-//        DropdownService.dropdownSetup(this,rootLayout);
 
         user = User.getInstance();
         List<String> OwnedItems =  (List<String>) user.getDocumentSnapshot().get("OwnedItems");
@@ -68,16 +62,15 @@ public class CosmeticShop extends ChildView {
         recycler.setAdapter(adapter);
         //Popup
         setUpButtons(yesBox,noBox,yesText,noText);
-        //currencyText.setText(gold +" G");
         topBar.getGoldAmount().setText(gold +" G");
     }
 
     private List<CosmeticItem> getAllItems() { //Our log of all available items
         List<CosmeticItem> items = new ArrayList<>();
-        items.add(new CosmeticItem("Silver Armor", "High-level protection", 2, R.drawable.placeholderavatar1));
-        items.add(new CosmeticItem("Red Armor", "High-level protection", 3, R.drawable.placeholderavatar2));
-        items.add(new CosmeticItem("Crusader Armor", "High-level protection", 4, R.drawable.placeholderavatar3));
-        items.add(new CosmeticItem("Copper Crusader Armor", "High-level protection", 5, R.drawable.placeholderavatar4));
+        items.add(new CosmeticItem(1,"Silver Armor", "High-level protection", 2, R.drawable.placeholderavatar1));
+        items.add(new CosmeticItem(2,"Red Armor", "High-level protection", 3, R.drawable.placeholderavatar2));
+        items.add(new CosmeticItem(3,"Crusader Armor", "High-level protection", 4, R.drawable.placeholderavatar3));
+        items.add(new CosmeticItem(4,"Copper Crusader Armor", "High-level protection", 5, R.drawable.placeholderavatar4));
         return items;
     }
 
@@ -91,9 +84,8 @@ public class CosmeticShop extends ChildView {
         if (confirm) {
             if(!hasEnoughGold()) {return;}
             gold -= clicked.price;
-
             user.getDocumentSnapshot().getReference().update("Gold", gold);
-            user.getDocumentSnapshot().getReference().update("OwnedItems", FieldValue.arrayUnion(clicked.name))
+            user.getDocumentSnapshot().getReference().update("OwnedItems", FieldValue.arrayUnion(clicked.getName()))
                     .addOnSuccessListener(callback->{
                         user.loadDocumentSnapshot(callback2->{
                             List<String> OwnedItems =  (List<String>) user.getDocumentSnapshot().get("OwnedItems");
@@ -102,7 +94,6 @@ public class CosmeticShop extends ChildView {
                             setVisibility(View.GONE);
                         });
                     });
-            //currencyText.setText(gold +" G");
             topBar.getGoldAmount().setText(gold +" G");
         } else {
             setVisibility(View.GONE);
@@ -119,7 +110,7 @@ public class CosmeticShop extends ChildView {
     private List<CosmeticItem> filterItems(List<CosmeticItem> allItems, List<String> OwnedItems){
         List<CosmeticItem> unOwnedItems = new ArrayList<>();
         for (CosmeticItem item : allItems) {
-            if (!OwnedItems.contains(item.name)) {
+            if (!OwnedItems.contains(item.getName())) {
                 unOwnedItems.add(item);
             }
         }

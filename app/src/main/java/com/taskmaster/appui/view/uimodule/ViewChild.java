@@ -43,11 +43,11 @@ public class ViewChild extends FrameLayout {
 
     List<Integer> avatarImages = new ArrayList<>();
     private void setUpAvatar() {
+        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
         avatarImages.add(R.drawable.placeholderavatar1_framed_round);
         avatarImages.add(R.drawable.placeholderavatar2_framed_round);
         avatarImages.add(R.drawable.placeholderavatar3_framed_round);
         avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
 //        childBarName.setText(childDocument.getString("Username"));
 //        childBarAvatar.setImageResource(avatarImages.get(childDocument.getDouble("Avatar").intValue()));
     }

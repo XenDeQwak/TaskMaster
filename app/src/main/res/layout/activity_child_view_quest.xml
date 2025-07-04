@@ -58,10 +58,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-
-
-
-
     <com.taskmaster.appui.view.uimodule.TopBar
         android:id="@+id/topBarChild"
         android:layout_width="0dp"

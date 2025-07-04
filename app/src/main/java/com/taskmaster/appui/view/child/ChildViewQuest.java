@@ -12,7 +12,6 @@ import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.view.uimodule.ChildStatsTab;
-import com.taskmaster.appui.view.uimodule.EditQuestTab;
 import com.taskmaster.appui.view.uimodule.ViewQuestTab;
 
 import java.util.ArrayList;
@@ -27,12 +26,11 @@ public class ChildViewQuest extends ChildView {
     List<Integer> avatarImages = new ArrayList<>();
 
     private void setUpAvatar(){
+        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
         avatarImages.add(R.drawable.placeholderavatar1_framed_round);
         avatarImages.add(R.drawable.placeholderavatar2_framed_round);
         avatarImages.add(R.drawable.placeholderavatar3_framed_round);
         avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
-        //avatarImages.get(childDocument.getDouble("Avatar").intValue())
     }
 
     @Override

@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/background1" />
+        app:srcCompat="@drawable/backgroundforest"/>
 
     <ImageView
         android:id="@+id/baseFrame"
@@ -33,29 +33,19 @@
         app:layout_constraintVertical_bias="0.3"
         />
 
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.0"-->
-<!--        app:srcCompat="@drawable/rectangle_rounded" />-->
-
     <ImageView
         android:id="@+id/baseInnerFrame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="72dp"
         android:alpha="0.5"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/childBarFrame"
-        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
         app:layout_constraintHeight_percent="0.6"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="@+id/baseFrame"
-        app:layout_constraintTop_toTopOf="@+id/baseFrame"
-        app:layout_constraintVertical_bias="0.21"
         app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintVertical_bias="0.25"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/baseFrame"
+        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
+        app:layout_constraintTop_toTopOf="@+id/baseFrame"
+        app:layout_constraintBottom_toBottomOf="@+id/baseFrame"
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <ImageView
@@ -65,7 +55,6 @@
         app:layout_constraintWidth_percent="0.6"
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintVertical_bias="0.2"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/baseInnerFrame"
         app:layout_constraintStart_toStartOf="@+id/baseInnerFrame"
         app:layout_constraintTop_toTopOf="@id/baseInnerFrame"
@@ -81,9 +70,11 @@
         android:textAlignment="center"
         android:textColor="#578FCA"
         android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/monsterImage"
-        app:layout_constraintEnd_toEndOf="@+id/monsterImage"
-        app:layout_constraintStart_toStartOf="@+id/monsterImage"
+        app:layout_constraintTop_toTopOf="@+id/baseInnerFrame"
+        app:layout_constraintBottom_toBottomOf="@+id/baseInnerFrame"
+        app:layout_constraintStart_toStartOf="@+id/baseInnerFrame"
+        app:layout_constraintEnd_toEndOf="@+id/baseInnerFrame"
+        app:layout_constraintVertical_bias="0.05"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <TextView
@@ -95,12 +86,12 @@
         android:textAlignment="center"
         android:textColor="#3F3F3F"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/monsterImage"
-        app:layout_constraintEnd_toEndOf="@+id/monsterImage"
-        app:layout_constraintStart_toStartOf="@+id/monsterImage"
+        app:layout_constraintTop_toTopOf="@+id/baseInnerFrame"
+        app:layout_constraintBottom_toBottomOf="@+id/baseInnerFrame"
+        app:layout_constraintStart_toStartOf="@+id/baseInnerFrame"
+        app:layout_constraintEnd_toEndOf="@+id/baseInnerFrame"
+        app:layout_constraintVertical_bias="0.125"
         tools:ignore="HardcodedText,MissingConstraints" />
-
-
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/monsterName"
@@ -225,14 +216,13 @@
         android:id="@+id/childBarGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
         app:constraint_referenced_ids="childBarFrame, childBarAvatar, childBarName, childBarFloorCount, childBarStatsButton" />
 
     <ImageView
         android:id="@+id/childBarFrame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintHeight_percent="0.24"
         app:layout_constraintWidth_percent="0.8"
         android:alpha="0.5"
         app:layout_constraintVertical_bias="0.98"
@@ -249,7 +239,6 @@
         app:layout_constraintWidth_percent="0.35"
         app:layout_constraintHeight_percent="0.2"
         app:layout_constraintHorizontal_bias="0.05"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/childBarFrame"
         app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
         app:layout_constraintStart_toStartOf="@+id/childBarFrame"
@@ -320,92 +309,6 @@
         android:stateListAnimator="@null" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/dropdownGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="2dp"
-        android:translationZ="2dp"
-        android:visibility="gone"
-        app:constraint_referenced_ids="navFrame,navQuestPage,navManageAdv,navLogOut" />
-
-    <ImageView
-        android:id="@+id/navFrame"
-        android:layout_width="173dp"
-        android:layout_height="295dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="190dp"
-        android:layout_marginBottom="464dp"
-        android:alpha="0.7"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/baseFrame"
-        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
-        app:layout_constraintStart_toStartOf="@+id/baseFrame"
-        app:srcCompat="@drawable/rectangle_rounded" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/navQuestPage"
-        android:layout_width="161dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginBottom="205dp"
-        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
-        app:layout_constraintEnd_toEndOf="@+id/navFrame"
-        app:layout_constraintStart_toStartOf="@+id/navFrame"
-        app:layout_constraintTop_toTopOf="@+id/navFrame"
-        android:background="@drawable/button_shadowed_nostroke_states"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:stateListAnimator="@null"
-        android:gravity="center"
-        android:visibility="visible"
-        android:text="Quest Board"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#3F3F3F"
-        android:textSize="20sp" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/navManageAdv"
-        android:layout_width="161dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="107dp"
-        android:layout_marginBottom="125dp"
-        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
-        app:layout_constraintEnd_toEndOf="@+id/navFrame"
-        app:layout_constraintStart_toStartOf="@+id/navFrame"
-        app:layout_constraintTop_toTopOf="@+id/navFrame"
-        android:background="@drawable/button_shadowed_nostroke_states"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:stateListAnimator="@null"
-        android:gravity="center"
-        android:visibility="visible"
-        android:text="Weekly Boss"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#3F3F3F"
-        android:textSize="20sp" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/navLogOut"
-        android:layout_width="161dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="186dp"
-        android:layout_marginBottom="46dp"
-        app:layout_constraintBottom_toBottomOf="@+id/navFrame"
-        app:layout_constraintEnd_toEndOf="@+id/navFrame"
-        app:layout_constraintStart_toStartOf="@+id/navFrame"
-        app:layout_constraintTop_toTopOf="@+id/navFrame"
-        android:background="@drawable/button_shadowed_nostroke_states"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:stateListAnimator="@null"
-        android:gravity="center"
-        android:visibility="visible"
-        android:text="Log Out"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#3F3F3F"
-        android:textSize="20sp" />
-
-    <androidx.constraintlayout.widget.Group
         android:id="@+id/popupMonsterMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -436,7 +339,6 @@
         android:alpha="1"
         android:elevation="1dp"
         android:translationZ="1dp"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -467,7 +369,6 @@
         android:layout_height="200dp"
         android:layout_marginTop="11dp"
         android:layout_marginBottom="277dp"
-        android:visibility="visible"
         android:elevation="1dp"
         android:translationZ="1dp"
         app:layout_constraintBottom_toBottomOf="@+id/popupMonsterFrame"

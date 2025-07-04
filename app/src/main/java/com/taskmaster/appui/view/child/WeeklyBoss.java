@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
 
@@ -26,24 +24,17 @@ public class WeeklyBoss extends ChildView {
     AppCompatButton fightButton, statReqStr, statReqInt, monsterName, childBarStatsButton, popupMonsterButton, childBarFloorCount;
     ImageView popupMonsterImage;
     TextView popupMonsterMessageText, monsterHealthBarText;
-    Group dropDownGroup, popupMonsterMessage;
+    Group popupMonsterMessage;
     ProgressBar monsterHealthBar;
-    View rootLayout;
     TextView timerTxtDays;
     private final Handler handler = new Handler(Looper.getMainLooper());
-
     TextView childBarName;
-    Group childBarGroup;
     ImageView childBarAvatar;
     DocumentSnapshot childDocument;
     User user;
-
     ImageView monsterImage;
-
     TextView timerTxt;
-
     private Boss currBoss;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +42,14 @@ public class WeeklyBoss extends ChildView {
         setContentView(R.layout.weekly_boss);
         // hide status bar and nav bar
         NavUtil.hideSystemBars(this);
-
         initNavigationMenu(this, WeeklyBoss.class);
 
         // hooks
         {
             timerTxtDays = findViewById(R.id.TimerTxtDays);
             timerTxt = findViewById(R.id.TimerTxt);
-            dropDownGroup = findViewById(R.id.dropdownGroup);
             childBarStatsButton = findViewById(R.id.childBarStatsButton);
-            rootLayout = findViewById(R.id.statContainer);
             childBarName = findViewById(R.id.childBarName);
-            childBarGroup = findViewById(R.id.childBarGroup);
             childBarAvatar = findViewById(R.id.childBarAvatar);
             fightButton = findViewById(R.id.fightButton);
             popupMonsterButton = findViewById(R.id.popupMonsterButton);
@@ -76,11 +63,8 @@ public class WeeklyBoss extends ChildView {
             statReqStr = findViewById(R.id.statReqStr);
             statReqInt = findViewById(R.id.statReqInt);
             monsterImage = findViewById(R.id.monsterImage);
-            childBarFloorCount = findViewById(R.id.childBarFloorCount);
-            fightButton = findViewById(R.id.fightButton);
         }
 
-        DropdownUtil.dropdownSetup(this, rootLayout);
         NavUtil.setNavigation(this, childBarStatsButton, ProgressionPage.class);
         user = User.getInstance();
         childDocument = user.getDocumentSnapshot();
@@ -90,7 +74,6 @@ public class WeeklyBoss extends ChildView {
         }else{
             startTimer();
         }
-
         setUpBoss();
         setUpAvatar();
         popupMonsterButton.setOnClickListener(v -> popupMonsterMessage.setVisibility(View.GONE));
@@ -129,7 +112,6 @@ public class WeeklyBoss extends ChildView {
                                     attachRestartHandler();
                                     showPopup("Time's up! You lose!","Aww");
                             });
-
                         }else{
                             childDocument.getReference().update(
                                 "BossAlive", true,
@@ -146,7 +128,6 @@ public class WeeklyBoss extends ChildView {
     }
     private void attachRestartHandler() {
         popupMonsterButton.setOnClickListener(v -> {
-            // one last fresh fetch to be extra safe
             user.loadDocumentSnapshot(callback ->{
                 childDocument = user.getDocumentSnapshot();
                 NavUtil.instantNavigation(this,this.getClass());
@@ -156,11 +137,11 @@ public class WeeklyBoss extends ChildView {
     }
     private void setUpAvatar(){
         List<Integer> avatarImages = new ArrayList<>();
+        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
         avatarImages.add(R.drawable.placeholderavatar1_framed_round);
         avatarImages.add(R.drawable.placeholderavatar2_framed_round);
         avatarImages.add(R.drawable.placeholderavatar3_framed_round);
         avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
         childBarName.setText(childDocument.getString("Username"));
         childBarAvatar.setImageResource(avatarImages.get(childDocument.getDouble("Avatar").intValue()));
     }
