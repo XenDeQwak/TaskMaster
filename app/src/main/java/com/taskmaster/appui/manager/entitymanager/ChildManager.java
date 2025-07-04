@@ -39,20 +39,7 @@ public class ChildManager {
     }
 
     public static Child parseChildData(Map<String, Object> cd) {
-        Number stre = (Number) cd.get("Strength") ;
-        Number inte = (Number) cd.get("Intelligence");
-        Number avat = (Number) cd.get("Avatar");
-        Number btime = (Number) cd.get("BossTimer");
-        Number floor = (Number) cd.get("Floor");
-        Number gold = (Number) cd.get("Gold");
 
-        if (btime instanceof Long) {
-            btime = ((Long) btime).doubleValue();
-        } else if (btime instanceof Double) {
-            btime = (Double) btime;
-        } else {
-            btime = null;
-        }
         List<String> OwnedItems = (List<String>) cd.get("OwnedItems");
 
         return new Child(
@@ -63,14 +50,15 @@ public class ChildManager {
                 (String) cd.get("Lastname"),
                 (String) cd.get("ParentUID"),
                 (DocumentReference) cd.get("ParentRef"),
-                stre.intValue(),
-                inte.intValue(),
-                avat.intValue(),
-                btime.longValue(),
+                ((Number) cd.get("Strength")).intValue(),
+                ((Number) cd.get("Intelligence")).intValue(),
+                ((Number) cd.get("Avatar")).intValue(),
+                (Number) cd.get("BossTimer"),
                 (Boolean) cd.get("BossAlive"),
-                floor.intValue(),
-                gold.intValue(),
-                OwnedItems
+                (Number) cd.get("Floor"),
+                (Number) cd.get("Gold"),
+                (Number) cd.get("QuestCompleted"),
+                (List<String>) cd.get("OwnedItems")
         );
     }
 
@@ -90,6 +78,7 @@ public class ChildManager {
         cd.put("BossAlive", c.getBossAlive());
         cd.put("Floor", c.getFloor());
         cd.put("Gold", c.getGold());
+        cd.put("QuestCompleted", c.getQuestCompleted());
         cd.put("OwnedItems", c.getOwnedItems());
         return cd;
     }
@@ -110,6 +99,7 @@ public class ChildManager {
                 0L,
                 true,
                 1,
+                0,
                 0,
                 List.of("Armorless"));
     }

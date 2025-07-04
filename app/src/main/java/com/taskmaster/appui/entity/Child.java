@@ -15,13 +15,14 @@ public class Child {
     DocumentReference parentRef;
     int strength, intelligence;
     int avatar;
-    long bossTimer;
+    Number bossTimer;
     Boolean bossAlive;
-    int floor;
-    int gold;
+    Number floor;
+    Number gold;
+    Number questCompleted;
     List<String> ownedItems;
 
-    public Child(String childEmail, String childPassword, String childUsername, String childFirstname, String childLastname, String parentUID, DocumentReference parentRef, int strength, int intelligence, int avatar, long bossTimer, Boolean bossAlive, int floor, int gold, List<String> ownedItems) {
+    public Child(String childEmail, String childPassword, String childUsername, String childFirstname, String childLastname, String parentUID, DocumentReference parentRef, int strength, int intelligence, int avatar, Number bossTimer, Boolean bossAlive, Number floor, Number gold, Number questCompleted, List<String> ownedItems) {
         this.childEmail = childEmail;
         this.childPassword = childPassword;
         this.childUsername = childUsername;
@@ -36,6 +37,7 @@ public class Child {
         this.bossAlive = bossAlive;
         this.floor = floor;
         this.gold = gold;
+        this.questCompleted = questCompleted;
         this.ownedItems = ownedItems;
     }
 
@@ -119,11 +121,11 @@ public class Child {
         this.avatar = avatar;
     }
 
-    public long getBossTimer() {
+    public Number getBossTimer() {
         return bossTimer;
     }
 
-    public void setBossTimer(long bossTimer) {
+    public void setBossTimer(Number bossTimer) {
         this.bossTimer = bossTimer;
     }
 
@@ -135,20 +137,28 @@ public class Child {
         this.bossAlive = bossAlive;
     }
 
-    public int getFloor() {
+    public Number getFloor() {
         return floor;
     }
 
-    public void setFloor(int floor) {
+    public void setFloor(Number floor) {
         this.floor = floor;
     }
 
-    public int getGold() {
+    public Number getGold() {
         return gold;
     }
 
-    public void setGold(int gold) {
+    public void setGold(Number gold) {
         this.gold = gold;
+    }
+
+    public Number getQuestCompleted() {
+        return questCompleted;
+    }
+
+    public void setQuestCompleted(Number questCompleted) {
+        this.questCompleted = questCompleted;
     }
 
     public List<String> getOwnedItems() {
