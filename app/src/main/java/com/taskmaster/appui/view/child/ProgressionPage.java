@@ -2,21 +2,14 @@ package com.taskmaster.appui.view.child;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.widget.AppCompatButton;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.R;
@@ -29,8 +22,6 @@ public class ProgressionPage extends ChildView {
     private AppCompatButton childAvatarName;
     private AppCompatButton childArmorName;
     private ImageView childAvatarImage;
-    private BarChart barChart, barChartLarge;
-    private TextView strCount, intCount;
     private int[] currIndex = new int[1];
     private User user;
     private DocumentSnapshot childDocument;
@@ -49,8 +40,6 @@ public class ProgressionPage extends ChildView {
         childAvatarImage = findViewById(R.id.childAvatarImage);
         childArmorName = findViewById(R.id.childArmorName);
         childAvatarName = findViewById(R.id.childAvatarName);
-        intCount = findViewById(R.id.intCount);
-        strCount = findViewById(R.id.strCount);
         AppCompatButton statFloorNum = findViewById(R.id.statFloorNum);
         AppCompatButton statQuestDoneNum = findViewById(R.id.statQuestDoneNum);
         Button nextButton = findViewById(R.id.nextButton);
@@ -64,7 +53,7 @@ public class ProgressionPage extends ChildView {
         int childStr = childDocument.getDouble("Strength").intValue();
         currIndex[0] = childDocument.getDouble("Avatar").intValue();
         setUpAvatar();
-        barGraph(childInt, childStr);
+        pieGraph(childInt, childStr);
 
         prevButton.setOnClickListener(e -> {
             currIndex[0]--;
@@ -115,107 +104,37 @@ public class ProgressionPage extends ChildView {
         childAvatarName.setText(childDocument.getString("Username"));
     }
 
-    private void barGraph(int childInt, int childStr) {
-        barChart = findViewById(R.id.chart);
-        barChartLarge = findViewById(R.id.chartLarge);
+    private void pieGraph(int childInt, int childStr) {
+        PieChart pieChart = findViewById(R.id.chart);
 
-// Create entries for the bars
-        List<BarEntry> entries1 = new ArrayList<>();
-        entries1.add(new BarEntry(0f, (float) childStr)); // Strength
-        entries1.add(new BarEntry(1f, (float) childInt)); // Intelligence
+        // Create entries for the pie chart
+        List<PieEntry> entries = new ArrayList<>();
+        entries.add(new PieEntry(childStr, "Strength"));
+        entries.add(new PieEntry(childInt, "Intelligence"));
 
-        BarDataSet dataSet1 = new BarDataSet(entries1, "");
-
+        // Setup colors
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.RED); // Strength
-        colors.add(Color.GREEN); // Intelligence
+        colors.add(Color.RED);     // Strength
+        colors.add(Color.BLUE);   // Intelligence
 
-        dataSet1.setColors(colors);
+        // Create dataset
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setColors(colors);
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
 
-        List<IBarDataSet> dataSets = new ArrayList<>();
-        dataSets.add(dataSet1);
+        // Create PieData
+        PieData data = new PieData(dataSet);
+        data.setValueTextSize(20f);
+        data.setValueTextColor(Color.WHITE);
 
-        BarData data = new BarData(dataSets);
-        data.setValueTextSize(10f);
-        data.setDrawValues(false);
-
-        barChart.setData(data);
-
-        barChart.getDescription().setEnabled(false);
-
-        YAxis yAxis = barChart.getAxisLeft(); // Use getAxisLeft() for BarChart
-        yAxis.setDrawLabels(true);
-        yAxis.setAxisMinimum(0f); // Set the minimum value to 0
-        barChart.getAxisRight().setEnabled(false); // Disable the right Y-axis
-
-        Legend legend = barChart.getLegend();
-        legend.setEnabled(false); // Disable the legend
-
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setDrawLabels(false); // Disable drawing the labels
-//xAxis.setCenterAxisLabels(true); // Remove this line
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // Set the position of the labels to the bottom
-        xAxis.setGranularity(1f); // Set the granularity to 1
-        xAxis.setXOffset(-25f); // Adjust the X offset to move labels to the left
-        xAxis.setAxisMinimum(-0.5f); // Adjust the minimum value of the X-axis
-
-        List<String> labels = new ArrayList<>();
-        labels.add("Strength");
-        labels.add("Intelligence`");
-
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        barChart.setTouchEnabled(false);
-
-        barChart.invalidate();
-
-// Copy the chart to the large chart
-// Create a new BarDataSet for the large chart
-        BarDataSet dataSetLarge = new BarDataSet(entries1, "");
-        dataSetLarge.setColors(colors);
-
-        List<IBarDataSet> dataSetsLarge = new ArrayList<>();
-        dataSetsLarge.add(dataSetLarge);
-
-        BarData dataLarge = new BarData(dataSetsLarge);
-        dataLarge.setValueTextSize(10f);
-        dataLarge.setDrawValues(true); // Enable values for the large chart
-
-        barChartLarge.setData(dataLarge);
-        barChartLarge.getDescription().setEnabled(false);
-
-        YAxis yAxisLarge = barChartLarge.getAxisLeft();
-        yAxisLarge.setDrawLabels(true); // Enable drawing the numbers
-        yAxisLarge.setAxisMinimum(0f);
-        barChartLarge.getAxisRight().setEnabled(false);
-
-        Legend legendLarge = barChartLarge.getLegend();
-        legendLarge.setEnabled(false);
-
-        XAxis xAxisLarge = barChartLarge.getXAxis();
-        xAxisLarge.setDrawLabels(true); // Enable drawing the labels
-//xAxisLarge.setCenterAxisLabels(true); // Remove this line
-        xAxisLarge.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxisLarge.setGranularity(1f); // Set the granularity to 1
-        xAxisLarge.setXOffset(-25f); // Adjust the X offset to move labels to the left
-        xAxisLarge.setAxisMinimum(-0.5f); // Adjust the minimum value of the X-axis
-        xAxisLarge.setValueFormatter(new IndexAxisValueFormatter(labels));
-        barChartLarge.setTouchEnabled(false);
-
-        if (childInt == 0) {
-            intCount.setVisibility(View.GONE);
-        }
-        if (childStr == 0) {
-            strCount.setVisibility(View.GONE);
-        }
-        strCount.setText(String.valueOf(childStr));
-        intCount.setText(String.valueOf(childInt));
-
-        barChartLarge.invalidate();
+        // Apply data to pieChart
+        pieChart.setData(data);
+        pieChart.setUsePercentValues(false);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setEntryLabelColor(Color.WHITE);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.getLegend().setEnabled(false);
+        pieChart.invalidate();
     }
-
-
-
-
-
-
 }

@@ -48,7 +48,7 @@
         app:layout_constraintVertical_bias="0.15"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-    <com.github.mikephil.charting.charts.BarChart
+    <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chart"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -56,38 +56,6 @@
         app:layout_constraintEnd_toEndOf="@+id/chart_background"
         app:layout_constraintStart_toStartOf="@+id/chart_background"
         app:layout_constraintTop_toTopOf="@+id/chart_background" />
-
-    <TextView
-        android:id="@+id/strCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="00"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/chart_background"
-        app:layout_constraintEnd_toEndOf="@+id/chart_background"
-        app:layout_constraintStart_toStartOf="@+id/chart_background"
-        app:layout_constraintTop_toTopOf="@+id/chart_background"
-        app:layout_constraintHorizontal_bias="0.65"
-        app:layout_constraintVertical_bias="0.75"/>
-
-    <TextView
-        android:id="@+id/intCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="00"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/chart_background"
-        app:layout_constraintEnd_toEndOf="@+id/chart_background"
-        app:layout_constraintStart_toStartOf="@+id/chart_background"
-        app:layout_constraintTop_toTopOf="@+id/chart_background"
-        app:layout_constraintHorizontal_bias="0.35"
-        app:layout_constraintVertical_bias="0.75"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/statFloorNum"
@@ -282,78 +250,5 @@
         app:layout_constraintStart_toStartOf="@+id/baseFrame"
         app:layout_constraintTop_toTopOf="@+id/baseFrame"
         app:layout_constraintBottom_toBottomOf="@+id/baseFrame"/>
-
-<!--    idk what these are-->
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/popupLargerChart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="popupLargerChartFrameShadow,popupLargerChartFrame,popupLargerChartExitButton, chartLarge" />
-
-    <ImageView
-        android:id="@+id/popupLargerChartFrameShadow"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.5"
-        android:elevation="1dp"
-        android:translationZ="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/shadow_overlay" />
-
-    <ImageView
-        android:id="@+id/popupLargerChartFrame"
-        android:layout_width="336dp"
-        android:layout_height="465dp"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="162dp"
-        android:layout_marginEnd="58dp"
-        android:layout_marginBottom="320dp"
-        android:alpha="1"
-        android:elevation="1dp"
-        android:translationZ="1dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rectangle_rounded" />
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/chartLarge"
-        android:layout_width="320dp"
-        android:layout_height="380dp"
-        android:layout_marginBottom="90dp"
-        android:elevation="1dp"
-        android:translationZ="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/popupLargerChartFrame"
-        app:layout_constraintEnd_toEndOf="@+id/popupLargerChartFrame"
-        app:layout_constraintStart_toStartOf="@+id/popupLargerChartFrame"
-        app:layout_constraintTop_toTopOf="@+id/popupLargerChartFrame" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/popupLargerChartExitButton"
-        android:layout_width="109dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="390dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/button_shadowed"
-        android:elevation="1dp"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Okay"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#3F3F3F"
-        android:textSize="20sp"
-        android:translationZ="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/popupLargerChartFrame"
-        app:layout_constraintEnd_toEndOf="@+id/popupLargerChartFrame"
-        app:layout_constraintStart_toStartOf="@+id/popupLargerChartFrame"
-        app:layout_constraintTop_toTopOf="@+id/popupLargerChartFrame" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
