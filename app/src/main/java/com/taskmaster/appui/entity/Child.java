@@ -2,6 +2,8 @@ package com.taskmaster.appui.entity;
 
 import com.google.firebase.firestore.DocumentReference;
 
+import java.util.List;
+
 public class Child {
 
     String childEmail;
@@ -17,8 +19,10 @@ public class Child {
     Boolean bossAlive;
     int floor;
     int gold;
+    List<String> ownedItems;
 
-    public Child(String childEmail, String childPassword, String childUsername, String childFirstname, String childLastname, String parentUID, DocumentReference parentRef, Integer strength, Integer intelligence, Integer avatar, long bossTimer, Boolean bossAlive, Integer floor, Integer gold) {
+
+    public Child(String childEmail, String childPassword, String childUsername, String childFirstname, String childLastname, String parentUID, DocumentReference parentRef, Integer strength, Integer intelligence, Integer avatar, long bossTimer, Boolean bossAlive, Integer floor, Integer gold, List<String> ownedItems) {
         this.childEmail = childEmail;
         this.childPassword = childPassword;
         this.childUsername = childUsername;
@@ -33,6 +37,11 @@ public class Child {
         this.bossAlive = bossAlive;
         this.floor = floor;
         this.gold = gold;
+        this.ownedItems = ownedItems;
+    }
+
+    public List<String> getOwnedItems() {
+        return ownedItems;
     }
 
     public String getChildEmail() {

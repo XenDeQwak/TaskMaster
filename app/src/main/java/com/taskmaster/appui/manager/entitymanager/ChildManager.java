@@ -38,7 +38,7 @@ public class ChildManager {
     }
 
     public static Child parseChildData(Map<String, Object> cd) {
-        Number stre = (Number) (cd.get("Strength")) ;
+        Number stre = (Number) cd.get("Strength") ;
         Number inte = (Number) cd.get("Intelligence");
         Number avat = (Number) cd.get("Avatar");
         Number btime = (Number) cd.get("BossTimer");
@@ -50,6 +50,7 @@ public class ChildManager {
         } else {
             btime = null;
         }
+        List<String> OwnedItems = (List<String>) cd.get("OwnedItems");
 
         return new Child(
                 (String) cd.get("Email"),
@@ -65,7 +66,8 @@ public class ChildManager {
                 btime.longValue(),
                 true,
                 1,
-                0
+                0,
+                OwnedItems
         );
     }
 
@@ -85,29 +87,30 @@ public class ChildManager {
         cd.put("BossAlive", c.getBossAlive());
         cd.put("Floor", c.getFloor());
         cd.put("Gold", c.getGold());
+        cd.put("OwnedItems", c.getOwnedItems());
 
         return cd;
     }
 
-    public static Child createTestChild() {
-        Random r = new Random();
-        return new Child(
-                "testchild" + r.nextInt(100) + "@email.com",
-                "testchild",
-                "testchild",
-                "test",
-                "child",
-                "user",
-                FirestoreManager.getFirestore().collection("Users").document("user"),
-                0,
-                0,
-                0,
-                0L,
-                true,
-                1,
-                0
-        );
-    }
+//    public static Child createTestChild() {
+//        Random r = new Random();
+//        return new Child(
+//                "testchild" + r.nextInt(100) + "@email.com",
+//                "testchild",
+//                "testchild",
+//                "test",
+//                "child",
+//                "user",
+//                FirestoreManager.getFirestore().collection("Users").document("user"),
+//                0,
+//                0,
+//                0,
+//                0L,
+//                true,
+//                1,
+//                0,
+//                OwnedItems);
+//    }
 
     public void addChild(Child c) {
         childList.add(c);

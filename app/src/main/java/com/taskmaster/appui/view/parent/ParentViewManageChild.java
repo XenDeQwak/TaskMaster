@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -19,6 +18,7 @@ import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
 import com.taskmaster.appui.view.uimodule.ChildCreationTab;
+import java.util.ArrayList;
 
 public class ParentViewManageChild extends ParentView {
 
@@ -84,8 +84,8 @@ public class ParentViewManageChild extends ParentView {
                     0L,
                     true,
                     1,
-                    0
-            );
+                    0,
+                    new ArrayList<>());
 
             childManager.addChild(c);
             TemporaryConnectionManager.startTempConnection(this);
