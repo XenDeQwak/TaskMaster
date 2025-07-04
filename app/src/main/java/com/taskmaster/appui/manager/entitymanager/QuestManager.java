@@ -3,7 +3,6 @@ package com.taskmaster.appui.manager.entitymanager;
 import static android.view.View.GONE;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,6 +10,7 @@ import android.widget.LinearLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.User;
@@ -18,7 +18,6 @@ import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
 import com.taskmaster.appui.view.uimodule.ViewQuest;
-import com.taskmaster.appui.view.uimodule.ViewQuestTab;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +60,7 @@ public class QuestManager {
                 (String) qd.get("RewardExtra"),
                 (DocumentReference) qd.get("CreatorRef"),
                 (DocumentReference) qd.get("AssignedRef"),
-                (Long) qd.get("Difficulty"),
+                (Number) qd.get("Difficulty"),
                 (String) qd.get("Status")
                 );
     }
@@ -171,6 +170,15 @@ public class QuestManager {
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         Log.d("Debug", "Successfully completed quest verification");
+                                        DocumentReference child = q.getAssignedReference();
+                                        if (q.getRewardStat().equalsIgnoreCase("strength")) {
+                                            child.update("Strength", FieldValue.increment(1));
+                                        } else if (q.getRewardStat().equalsIgnoreCase("intelligence")) {
+                                            child.update("Intelligence", FieldValue.increment(1));
+                                        }
+                                        child.update("Gold", FieldValue.increment(q.getDifficulty().intValue()));
+                                        Log.d("Debug", "Awareed " + q.getRewardStat() + " stat to child");
+                                        Log.d("Debug", "Awareed " + q.getDifficulty().intValue() + " gold to child");
                                     } else {
                                         Log.d("Debug", "Failed to complete quest verification");
                                     }

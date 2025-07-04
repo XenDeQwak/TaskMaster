@@ -11,11 +11,11 @@ public class Quest {
     private String rewardExtra;
     private DocumentReference creatorReference;
     private DocumentReference assignedReference;
-    private Long difficulty;
+    private Number difficulty;
     private String status;
 
 
-    public Quest(String questID, String name, String description, String creatorUID, String assignedUID, long startDate, long endDate, String rewardStat, String rewardExtra, DocumentReference creatorReference, DocumentReference assignedReference, Long difficulty, String status) {
+    public Quest(String questID, String name, String description, String creatorUID, String assignedUID, long startDate, long endDate, String rewardStat, String rewardExtra, DocumentReference creatorReference, DocumentReference assignedReference, Number difficulty, String status) {
         this.questID = questID;
         this.name = name;
         this.description = description;
@@ -119,7 +119,7 @@ public class Quest {
         this.assignedReference = assignedReference;
     }
 
-    public Long getDifficulty() {
+    public Number getDifficulty() {
         return difficulty;
     }
 

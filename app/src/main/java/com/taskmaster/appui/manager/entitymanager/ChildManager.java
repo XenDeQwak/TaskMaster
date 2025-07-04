@@ -15,6 +15,7 @@ import com.taskmaster.appui.util.GenericCallback;
 import com.taskmaster.appui.view.uimodule.ViewChild;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,7 +111,7 @@ public class ChildManager {
                 true,
                 1,
                 0,
-                new ArrayList<>());
+                List.of("Armorless"));
     }
 
     public void addChild(Child c) {
@@ -140,6 +141,10 @@ public class ChildManager {
             }
             callback.onCallback(null);
         });
+    }
+
+    public static void grantReward (Child c) {
+
     }
 
 }
