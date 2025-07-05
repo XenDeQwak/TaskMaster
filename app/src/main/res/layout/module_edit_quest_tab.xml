@@ -188,7 +188,7 @@
             android:elevation="1dp"
             android:ems="10"
             android:fontFamily="@font/eb_garamond_semibold"
-            android:hint="Set Description"
+            android:hint="Set Extra Rewards"
             android:inputType="textMultiLine"
             android:padding="10dp"
             android:textAlignment="center"

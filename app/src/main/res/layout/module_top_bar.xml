@@ -10,7 +10,6 @@
         android:id="@+id/topBarContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_rounded"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -82,7 +81,7 @@
         android:id="@+id/dropdownNavMenu"
         android:layout_width="300dp"
         android:layout_height="350dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/topBarContainer"
         app:layout_constraintTop_toBottomOf="@+id/topBarContainer" />
 

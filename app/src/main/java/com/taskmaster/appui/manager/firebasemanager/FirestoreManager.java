@@ -17,6 +17,7 @@ import com.taskmaster.appui.util.GenericCallback;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +122,9 @@ public class FirestoreManager {
 
     public static void updateQuest (Quest q) {
 
+        if (q.getStatus().equalsIgnoreCase("Awaiting Configuration")) {
+            q.setStatus("Ongoing");
+        }
         String questID = q.getQuestID();
         //System.out.println(questID);
         firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
@@ -136,7 +140,13 @@ public class FirestoreManager {
 
 
     public static void fetchQuests (String creatorUID, GenericCallback<List<DocumentSnapshot>> callback) {
-        firestore.collection("Quests").whereEqualTo("CreatorUID", creatorUID).get()
+        firestore.collection("Quests")
+                .whereEqualTo("CreatorUID", creatorUID)
+                //.whereNotEqualTo("Status", "Completed")
+                //.whereNotEqualTo("Status", "Failed")
+                //.whereNotEqualTo("Status", "Deleted")
+                .whereIn("Status", Arrays.asList("Ongoing", "Awaiting Configuration", "Awaiting Verification"))
+                .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Debug", "Successfully fetched quests");
@@ -150,7 +160,10 @@ public class FirestoreManager {
     }
 
     public static void fetchQuestsAssignee (String creatorUID, GenericCallback<List<DocumentSnapshot>> callback) {
-        firestore.collection("Quests").whereEqualTo("AssignedUID", creatorUID).get()
+        firestore.collection("Quests")
+                .whereEqualTo("AssignedUID", creatorUID)
+                .whereIn("Status", Arrays.asList("Ongoing","Awaiting Verification"))
+                .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Debug", "Successfully fetched quests");

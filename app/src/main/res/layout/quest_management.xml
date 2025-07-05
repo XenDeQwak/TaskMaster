@@ -359,7 +359,7 @@
         app:layout_constraintTop_toTopOf="@+id/viewQuestImage" />
 
     <EditText
-        android:id="@+id/viewQuestName"
+
         android:layout_width="173dp"
         android:layout_height="39dp"
         android:layout_marginStart="20dp"

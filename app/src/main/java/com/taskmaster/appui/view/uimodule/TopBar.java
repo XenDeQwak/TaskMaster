@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.child.CosmeticShop;
@@ -44,18 +42,17 @@ public class TopBar extends FrameLayout {
 
         dropdownNavMenu.init(isParent);
 
-        ConstraintLayout container = findViewById(R.id.topBarContainer);
-        container.getBackground().setAlpha(100);
+//        ConstraintLayout container = findViewById(R.id.topBarContainer);
+//        container.getBackground().setAlpha(100);
 
         // Dropdown menu logic
         navBarButton.setOnClickListener(v -> {
             System.out.println("I got clicked");
-            FrameLayout navMenu = dropdownNavMenu.findViewById(R.id.dropdownContainer);
-            if (navMenu.getVisibility() == GONE) {
-                navMenu.bringToFront();
-                navMenu.setVisibility(VISIBLE);
+            dropdownNavMenu.bringToFront();
+            if (dropdownNavMenu.getVisibility() == GONE) {
+                dropdownNavMenu.setVisibility(VISIBLE);
             } else {
-                navMenu.setVisibility(GONE);
+                dropdownNavMenu.setVisibility(GONE);
             }
         });
 

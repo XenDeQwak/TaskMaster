@@ -12,33 +12,23 @@ public class Quest {
     private DocumentReference creatorReference;
     private DocumentReference assignedReference;
     private Long difficulty;
+    private String status;
 
 
-    public Quest(String questID,
-                 String name,
-                 String description,
-                 String creatorUID,
-                 DocumentReference creatorReference,
-                 long startDate,
-                 long endDate,
-                 String rewardStat,
-                 String rewardExtra,
-                 String assignedUID,
-                 DocumentReference assignedReference,
-                 Long difficulty
-    ) {
+    public Quest(String questID, String name, String description, String creatorUID, String assignedUID, long startDate, long endDate, String rewardStat, String rewardExtra, DocumentReference creatorReference, DocumentReference assignedReference, Long difficulty, String status) {
         this.questID = questID;
         this.name = name;
         this.description = description;
         this.creatorUID = creatorUID;
-        this.creatorReference = creatorReference;
+        this.assignedUID = assignedUID;
         this.startDate = startDate;
         this.endDate = endDate;
         this.rewardStat = rewardStat;
         this.rewardExtra = rewardExtra;
-        this.assignedUID = assignedUID;
+        this.creatorReference = creatorReference;
         this.assignedReference = assignedReference;
         this.difficulty = difficulty;
+        this.status = status;
     }
 
     public String getQuestID() {
@@ -135,5 +125,13 @@ public class Quest {
 
     public void setDifficulty(Long difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

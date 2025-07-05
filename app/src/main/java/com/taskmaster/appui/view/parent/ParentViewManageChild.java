@@ -5,9 +5,9 @@ import static android.view.View.VISIBLE;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -18,12 +18,14 @@ import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
 import com.taskmaster.appui.view.uimodule.ChildCreationTab;
+import java.util.List;
 
 public class ParentViewManageChild extends ParentView {
 
     ChildManager childManager;
     ImageView createChildButton;
     ChildCreationTab childCreationTabPopUp;
+    LinearLayout childCont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class ParentViewManageChild extends ParentView {
         initNavigationMenu(this, ParentViewManageChild.class);
 
         childCreationTabPopUp = findViewById(R.id.childCreationPopUp);
-        ConstraintLayout childCreationContainer = findViewById(R.id.childCreationContainer);
+        ChildCreationTab childCreationContainer = findViewById(R.id.childCreationPopUp);
 
         childManager = new ChildManager(getApplicationContext());
 
@@ -75,8 +77,16 @@ public class ParentViewManageChild extends ParentView {
                     firstname,
                     lastname,
                     user.getDocumentSnapshot().getId(),
-                    user.getDocumentSnapshot().getReference()
-            );
+                    user.getDocumentSnapshot().getReference(),
+                    0,
+                    0,
+                    0,
+                    0L,
+                    true,
+                    1,
+                    0,
+                    List.of("Armorless")
+                    );
 
             childManager.addChild(c);
             TemporaryConnectionManager.startTempConnection(this);
@@ -87,6 +97,7 @@ public class ParentViewManageChild extends ParentView {
             childCreationContainer.setVisibility(GONE);
         });
 
-
+        childCont = findViewById(R.id.childCont);
+        childManager.loadChildrenFromFirestore(childCont);
     }
 }

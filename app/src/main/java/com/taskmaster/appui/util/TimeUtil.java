@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class TimeUtil {
     private CountDownTimer countDownTimer;
     private static TimeUtil instance;
-    private User user = User.getInstance();
+    private final User user = User.getInstance();
     private long baseElapsed,msTimeSnapshot,duration,timeSnapshot,bossTimer;
 
     public interface TimerCaller {
@@ -64,7 +64,7 @@ public class TimeUtil {
         long weekMs = TimeUnit.DAYS.toMillis(7);
         fetchTime(receivedDate -> {
             bossTimer = receivedDate + weekMs;
-            user.getDocumentSnapshot().getReference().update("bossTimer", bossTimer);
+            user.getDocumentSnapshot().getReference().update("BossTimer", bossTimer);
             user.loadDocumentSnapshot(callback1-> callback.onCallback(null));
         });
     }
@@ -77,7 +77,7 @@ public class TimeUtil {
             timeSnapshot = receivedDate;
 
             //just so getTime isn't called perTick
-            bossTimer = user.getDocumentSnapshot().getLong("bossTimer");
+            bossTimer = user.getDocumentSnapshot().getLong("BossTimer");
             msTimeSnapshot = timeSnapshot;
             duration = bossTimer - msTimeSnapshot;
 

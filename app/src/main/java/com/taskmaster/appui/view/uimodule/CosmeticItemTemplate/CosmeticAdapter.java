@@ -57,7 +57,7 @@ public class CosmeticAdapter extends RecyclerView.Adapter<CosmeticAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         CosmeticItem item = items.get(position);
-        holder.itemName.setText(item.name);
+        holder.itemName.setText(item.getName());
         holder.itemPrice.setText(String.valueOf(item.price));
         holder.itemSubtitle.setText(item.subtitle);
         holder.itemImage.setImageResource(item.imageResId);

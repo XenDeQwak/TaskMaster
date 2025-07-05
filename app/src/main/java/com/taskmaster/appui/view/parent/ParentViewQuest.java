@@ -39,13 +39,12 @@ public class ParentViewQuest extends ParentView {
 
         initNavigationMenu(this, ParentViewQuest.class);
 
-        questScrollView = findViewById(R.id.questScrollView);
         questScrollContent = findViewById(R.id.questScrollContent);
 
         editQuest = findViewById(R.id.editQuestTab);
 
         questManager = new QuestManager();
-        questManager.loadQuestsFromFirestoreParent(this, questScrollContent, editQuest);
+        questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
 
         // Initialize createQuestButton
         createQuestButton = topBar.getCreateObjectButton();
@@ -53,8 +52,10 @@ public class ParentViewQuest extends ParentView {
             //System.out.println("I AM PRESSED IN PARENTVIEWQUEST");
             Quest q = QuestManager.createBlankQuest();
             FirestoreManager.uploadQuest(q);
-            questManager.loadQuestsFromFirestoreParent(this, questScrollContent, editQuest);
+            questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
         });
+
+        findViewById(R.id.questListContainer).getBackground().setAlpha(150);
 
     }
 }

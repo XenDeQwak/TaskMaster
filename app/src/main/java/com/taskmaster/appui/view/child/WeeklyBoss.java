@@ -7,43 +7,33 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
-
 import com.google.firebase.firestore.FieldValue;
 import com.taskmaster.appui.entity.Boss;
 import com.taskmaster.appui.util.*;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class WeeklyBoss extends ChildView {
-    AppCompatButton fightButton, statReqStr, statReqInt, monsterName, childBarStatsButton, popupMonsterButton, childBarFloorCount;
-    ImageView popupMonsterImage;
-    TextView popupMonsterMessageText, monsterHealthBarText;
-    Group dropDownGroup, popupMonsterMessage;
-    ProgressBar monsterHealthBar;
-    View rootLayout;
-    TextView timerTxtDays;
+    private AppCompatButton fightButton;
+    private AppCompatButton statReqStr;
+    private AppCompatButton statReqInt;
+    private AppCompatButton monsterName;
+    private AppCompatButton popupMonsterButton;
+    private AppCompatButton childBarFloorCount;
+    private ImageView popupMonsterImage,childBarAvatar,monsterImage;
+    private Group popupMonsterMessage;
+    private ProgressBar monsterHealthBar;
     private final Handler handler = new Handler(Looper.getMainLooper());
-
-    TextView childBarName;
-    Group childBarGroup;
-    ImageView childBarAvatar;
-    DocumentSnapshot childDocument;
-    User user;
-
-    ImageView monsterImage;
-
-    TextView timerTxt;
-
+    private TextView childBarName,timerTxt,timerTxtDays,popupMonsterMessageText, monsterHealthBarText;
+    private DocumentSnapshot childDocument;
+    private User user;
     private Boss currBoss;
-
+    private int penalty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,36 +41,26 @@ public class WeeklyBoss extends ChildView {
         setContentView(R.layout.weekly_boss);
         // hide status bar and nav bar
         NavUtil.hideSystemBars(this);
-
         initNavigationMenu(this, WeeklyBoss.class);
 
-        // hooks
-        {
-            timerTxtDays = findViewById(R.id.TimerTxtDays);
-            timerTxt = findViewById(R.id.TimerTxt);
-            dropDownGroup = findViewById(R.id.dropdownGroup);
-            childBarStatsButton = findViewById(R.id.childBarStatsButton);
-            rootLayout = findViewById(R.id.statContainer);
-            childBarName = findViewById(R.id.childBarName);
-            childBarGroup = findViewById(R.id.childBarGroup);
-            childBarAvatar = findViewById(R.id.childBarAvatar);
-            fightButton = findViewById(R.id.fightButton);
-            popupMonsterButton = findViewById(R.id.popupMonsterButton);
-            popupMonsterMessage = findViewById(R.id.popupMonsterMessage);
-            popupMonsterMessageText = findViewById(R.id.popupMonsterMessageText);
-            popupMonsterImage = findViewById(R.id.popupMonsterImage);
-            monsterHealthBar = findViewById(R.id.monsterHealthBar);
-            monsterHealthBarText = findViewById(R.id.monsterHealthBarText);
-            childBarFloorCount = findViewById(R.id.childBarFloorCount);
-            monsterName = findViewById(R.id.monsterName);
-            statReqStr = findViewById(R.id.statReqStr);
-            statReqInt = findViewById(R.id.statReqInt);
-            monsterImage = findViewById(R.id.monsterImage);
-            childBarFloorCount = findViewById(R.id.childBarFloorCount);
-            fightButton = findViewById(R.id.fightButton);
-        }
+        timerTxtDays = findViewById(R.id.TimerTxtDays);
+        timerTxt = findViewById(R.id.TimerTxt);
+        AppCompatButton childBarStatsButton = findViewById(R.id.childBarStatsButton);
+        childBarName = findViewById(R.id.childBarName);
+        childBarAvatar = findViewById(R.id.childBarAvatar);
+        fightButton = findViewById(R.id.fightButton);
+        popupMonsterButton = findViewById(R.id.popupMonsterButton);
+        popupMonsterMessage = findViewById(R.id.popupMonsterMessage);
+        popupMonsterMessageText = findViewById(R.id.popupMonsterMessageText);
+        popupMonsterImage = findViewById(R.id.popupMonsterImage);
+        monsterHealthBar = findViewById(R.id.monsterHealthBar);
+        monsterHealthBarText = findViewById(R.id.monsterHealthBarText);
+        childBarFloorCount = findViewById(R.id.childBarFloorCount);
+        monsterName = findViewById(R.id.monsterName);
+        statReqStr = findViewById(R.id.statReqStr);
+        statReqInt = findViewById(R.id.statReqInt);
+        monsterImage = findViewById(R.id.monsterImage);
 
-        DropdownUtil.dropdownSetup(this, rootLayout);
         NavUtil.setNavigation(this, childBarStatsButton, ProgressionPage.class);
         user = User.getInstance();
         childDocument = user.getDocumentSnapshot();
@@ -90,7 +70,6 @@ public class WeeklyBoss extends ChildView {
         }else{
             startTimer();
         }
-
         setUpBoss();
         setUpAvatar();
         popupMonsterButton.setOnClickListener(v -> popupMonsterMessage.setVisibility(View.GONE));
@@ -123,13 +102,12 @@ public class WeeklyBoss extends ChildView {
                     timeUtil.setupTimer(callback1 -> {
                         if(childDocument.getBoolean("BossAlive")){ //Fail
                             childDocument.getReference().update(
-                                "Strength", FieldValue.increment(-5),
-                                "Intelligence", FieldValue.increment(-5)
-                            ).addOnCompleteListener(e->{
+                                "Strength", FieldValue.increment(-penalty),
+                                "Intelligence", FieldValue.increment(-penalty)
+                            ).addOnCompleteListener( e-> {
                                     attachRestartHandler();
                                     showPopup("Time's up! You lose!","Aww");
                             });
-
                         }else{
                             childDocument.getReference().update(
                                 "BossAlive", true,
@@ -137,7 +115,7 @@ public class WeeklyBoss extends ChildView {
                             ).addOnCompleteListener(e->{
                                     attachRestartHandler();
                                     showPopup("Congratulations, You Move Up a Floor", "Next Floor");
-                                });
+                            });
                         }
                     });
                 });
@@ -146,7 +124,6 @@ public class WeeklyBoss extends ChildView {
     }
     private void attachRestartHandler() {
         popupMonsterButton.setOnClickListener(v -> {
-            // one last fresh fetch to be extra safe
             user.loadDocumentSnapshot(callback ->{
                 childDocument = user.getDocumentSnapshot();
                 NavUtil.instantNavigation(this,this.getClass());
@@ -156,11 +133,11 @@ public class WeeklyBoss extends ChildView {
     }
     private void setUpAvatar(){
         List<Integer> avatarImages = new ArrayList<>();
+        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
         avatarImages.add(R.drawable.placeholderavatar1_framed_round);
         avatarImages.add(R.drawable.placeholderavatar2_framed_round);
         avatarImages.add(R.drawable.placeholderavatar3_framed_round);
         avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
         childBarName.setText(childDocument.getString("Username"));
         childBarAvatar.setImageResource(avatarImages.get(childDocument.getDouble("Avatar").intValue()));
     }
@@ -179,6 +156,11 @@ public class WeeklyBoss extends ChildView {
         currBoss = bosses[index];
         statReqStr.setText("STR: " + floor);
         statReqInt.setText("INT: " + floor);
+        double Strength = childDocument.getDouble("Strength");
+        double Intelligence = childDocument.getDouble("Intelligence");
+        double childStats = (Strength+Intelligence)/2;
+        penalty = (int) Math.max((childStats*0.1),1); //10% of stats
+
         if(childDocument.getBoolean("BossAlive")){
             updateProgressBar(0);
             monsterImage.setImageResource(currBoss.getUndamagedImageResId());

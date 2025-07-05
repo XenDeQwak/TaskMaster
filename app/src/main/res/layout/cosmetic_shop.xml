@@ -37,10 +37,6 @@
         app:layout_constraintHeight_percent="0.95"
         app:srcCompat="@drawable/rectangle_rounded" />
 
-    <!-- Top navigation/buttons, unchanged -->
-
-    <!-- Header container -->
-
     <!-- Main shop container -->
     <ImageView
         android:id="@+id/imageView20"
@@ -79,7 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
     />
-<!--    Confirmation Popout-->
+
     <ImageView
         android:id="@+id/confirmationTextContainer"
         android:layout_width="0dp"

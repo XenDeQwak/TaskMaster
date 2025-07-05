@@ -28,10 +28,10 @@
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <ScrollView
-        android:id="@+id/questScrollView"
+        android:id="@+id/questListContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:alpha="0.5"
+        android:alpha="0.8"
         android:background="@drawable/rectangle_rounded"
         app:layout_constraintBottom_toBottomOf="@+id/mainAdventurerContainer"
         app:layout_constraintEnd_toEndOf="@+id/mainAdventurerContainer"
@@ -43,10 +43,27 @@
         app:layout_constraintWidth_percent="0.85">
 
         <LinearLayout
+            android:id="@+id/childCont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:divider="@drawable/add_quest"
             android:orientation="vertical" />
     </ScrollView>
+
+    <com.taskmaster.appui.view.uimodule.ChildCreationTab
+        android:id="@+id/childCreationPopUp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="-16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintWidth="1" />
 
     <com.taskmaster.appui.view.uimodule.TopBar
         android:id="@+id/topBarChild"
@@ -55,39 +72,5 @@
         app:layout_constraintEnd_toEndOf="@+id/mainAdventurerContainer"
         app:layout_constraintStart_toStartOf="@+id/mainAdventurerContainer"
         app:layout_constraintTop_toTopOf="@+id/mainAdventurerContainer" />
-
-    <View
-        android:id="@+id/childCreationBackdrop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000"
-        android:alpha="0.6"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.8"
-        app:layout_constraintWidth_percent="1"
-        app:layout_constraintVertical_bias="1"
-        app:layout_constraintHorizontal_bias="0"/>
-
-        <com.taskmaster.appui.view.uimodule.ChildCreationTab
-            android:id="@+id/childCreationPopUp"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="-16dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHeight_percent="0.8"
-            app:layout_constraintWidth="1"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintVertical_bias="1"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
