@@ -122,9 +122,6 @@ public class FirestoreManager {
 
     public static void updateQuest (Quest q) {
 
-        if (q.getStatus().equalsIgnoreCase("Awaiting Configuration")) {
-            q.setStatus("Ongoing");
-        }
         String questID = q.getQuestID();
         //System.out.println(questID);
         firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))

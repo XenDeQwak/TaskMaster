@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.util.DateTimeUtil;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.child.CosmeticShop;
@@ -17,6 +18,8 @@ import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.view.login.Splash;
 import com.taskmaster.appui.view.parent.ParentViewManageChild;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
+
+import java.util.Arrays;
 
 public class DropdownNavMenu extends FrameLayout {
 
@@ -32,8 +35,8 @@ public class DropdownNavMenu extends FrameLayout {
 
 
     public void init (boolean isParent) {
-
         this.isParent = isParent;
+
         if (isParent) {
             LayoutInflater.from(getContext()).inflate(R.layout.module_nav_menu_parent, this);
 
@@ -47,6 +50,13 @@ public class DropdownNavMenu extends FrameLayout {
             navShopButton = findViewById(R.id.navShopButton);
             navBossButton = findViewById(R.id.navBossButton);
             navLogoutButton2 = findViewById(R.id.navLogoutButton2);
+        }
+
+        for (Button b : Arrays.asList(navQueueButton, navAdventurersButton, navLogOutButton, navQueueButton2, navShopButton, navBossButton, navLogoutButton2)) {
+            if (b ==  null) continue;
+            b.setOnClickListener(v -> {
+                DateTimeUtil.clearTimerList();
+            });
         }
 
         LinearLayout container = findViewById(R.id.dropdownLinearView);

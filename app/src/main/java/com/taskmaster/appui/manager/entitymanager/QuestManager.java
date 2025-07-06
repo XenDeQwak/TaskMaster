@@ -140,6 +140,7 @@ public class QuestManager {
 
                 if (editQuest != null) {
                     qb.getViewQuestButtonC().setOnClickListener(v -> {
+                        scrollContent.removeView(qb);
                         editQuest.setVisibility(View.VISIBLE);
                         editQuest.setQuest(q);
                     });

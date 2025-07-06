@@ -14,14 +14,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Quest;
+import com.taskmaster.appui.entity.RemainingTimer;
+import com.taskmaster.appui.util.DateTimeUtil;
 
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ViewQuest extends FrameLayout {
     Quest q;
     Boolean isParent;
+    RemainingTimer rTimer;
 
     public ViewQuest(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -85,24 +90,26 @@ public class ViewQuest extends FrameLayout {
 
         q.getAssignedReference().get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult().get("Username") != null) {
-                viewQuestAdventurer.setText(task.getResult().get("Username").toString());
+                viewQuestAdventurer.setText("Assigned: " + task.getResult().get("Username").toString());
             } else {
                 viewQuestAdventurer.setText("None");
             }
         });
 
         Number endDate = q.getEndDate();
-        Instant instant = Instant.ofEpochSecond(endDate.longValue());
-        ZoneId zoneId = ZoneId.systemDefault();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        String dueDate = instant.atZone(zoneId).format(formatter);
+        ZonedDateTime zdt = DateTimeUtil.getDateTimeFromEpochSecond(endDate.longValue());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mma");
+        String dueDate = zdt.format(formatter);
 
         Number diff = q.getDifficulty();
+
+        rTimer = new RemainingTimer(viewQuestTimeRemaining, zdt);
+        DateTimeUtil.addTimer(rTimer);
 
         viewQuestName.setText(q.getName());
         viewQuestDifficulty.setText("Difficulty: " + "★".repeat(diff.intValue()));
         viewQuestAdventurer.setText("Assigned: .....");
-        viewQuestDescription.setText(q.getDescription());
+        viewQuestDescription.setText("Description:\n"+q.getDescription());
         viewQuestRewardStat.setText("Reward: " + q.getRewardStat());
         viewQuestRewardExtra.setText("More Rewards:\n" + q.getRewardExtra());
         viewQuestDeadline.setText("Due: " + dueDate);

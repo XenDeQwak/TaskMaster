@@ -35,16 +35,17 @@
 
         <TextView
             android:id="@+id/viewQuestName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/eb_garamond_semibold"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:textColor="@color/black"
             android:text="Quest Name"
-            android:fontFamily="@font/eb_garamond_semibold"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,61 +54,61 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Description"
             android:paddingBottom="5dp"
+            android:text="Description"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewQuestAdventurer" />
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestDifficulty" />
 
         <TextView
             android:id="@+id/viewQuestDifficulty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Difficulty: "
             android:paddingBottom="5dp"
+            android:text="Difficulty: "
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewQuestName" />
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestStatus" />
 
         <TextView
             android:id="@+id/viewQuestDeadline"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Due: MM/DD/YYYY"
             android:paddingBottom="5dp"
+            android:text="Due: MM/DD/YYYY hh/mmAM"
+            android:textAlignment="center"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestName" />
+
+        <TextView
+            android:id="@+id/viewQuestAdventurer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="Assigned: "
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestDeadline" />
 
         <TextView
             android:id="@+id/viewQuestTimeRemaining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
             android:text="00:00:00"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewQuestDeadline" />
-
-        <TextView
-            android:id="@+id/viewQuestAdventurer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Assigned: "
-            android:textColor="@color/black"
-            android:paddingBottom="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewQuestDifficulty" />
 
         <TextView
             android:id="@+id/viewQuestRewardStat"
@@ -179,7 +180,6 @@
             android:padding="0dp"
             android:text="Complete"
             android:textSize="10sp"
-            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewQuestRewardExtra" />
@@ -188,12 +188,13 @@
             android:id="@+id/viewQuestStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:text="Status"
             android:textColor="@color/black"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewQuestDifficulty" />
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestAdventurer" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

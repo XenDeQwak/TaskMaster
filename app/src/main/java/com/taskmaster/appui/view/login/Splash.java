@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+import com.taskmaster.appui.util.DateTimeUtil;
 import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 import com.taskmaster.appui.entity.User;
@@ -48,6 +49,9 @@ public class Splash extends AppCompatActivity {
         bg.setAnimation(fade_in_Anim);
         logo.setAnimation(pop_out_Anim);
         logo_shadow.setAnimation(pop_out_Anim);
+
+        // Quest Timer
+        DateTimeUtil.startTimer();
 
         //FirebaseAuth.getInstance().signOut();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

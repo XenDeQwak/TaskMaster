@@ -25,11 +25,10 @@ import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+import com.taskmaster.appui.util.DateTimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.time.*;
 
 public class EditQuestTab extends FrameLayout {
 
@@ -41,6 +40,7 @@ public class EditQuestTab extends FrameLayout {
     RatingBar editQuestDifficulty;
 
     Quest q;
+    ViewQuest qv;
 
     public EditQuestTab(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -99,6 +99,11 @@ public class EditQuestTab extends FrameLayout {
         });
     }
 
+    public void setQuest (Quest q, ViewQuest qv) {
+        this.q = q;
+        this.qv = qv;
+    }
+
     public void setQuest (Quest q) {
         this.q = q;
     }
@@ -112,7 +117,7 @@ public class EditQuestTab extends FrameLayout {
                 || editQuestMinute.getText().toString().equals("")
                 || editQuestSecond.getText().toString().equals("")
                 || editQuestDescription.getText().toString().equals("")
-                || editQuestRewardExtra.getText().toString().equals("")
+                || editQuestDifficulty.getRating() < 1
         ) {
             Toast.makeText(getContext(), "Please fill up all fields!", Toast.LENGTH_SHORT).show();
             return;
@@ -129,10 +134,8 @@ public class EditQuestTab extends FrameLayout {
         Long difficulty = (long) editQuestDifficulty.getRating();
 
 
-        ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("UTC"));
-        System.out.println(zdt);
-        long startDate = zdt.toEpochSecond();
-        long endDate = zdt.plusHours(hour).plusMinutes(minute).plusSeconds(second).toEpochSecond();
+        long startDate = DateTimeUtil.getDateTimeNow().toEpochSecond();
+        long endDate = DateTimeUtil.getDateTimeFromNow(hour, minute, second).toEpochSecond();
 
         q.setName(name);
         q.setDescription(description);
@@ -142,8 +145,7 @@ public class EditQuestTab extends FrameLayout {
         q.setRewardExtra(rewardExtra);
         q.setDifficulty(difficulty);
 
-        Task<QuerySnapshot> fetchAssigneeDetails = FirestoreManager
-                .getFirestore()
+        FirestoreManager.getFirestore()
                 .collection("Childs")
                 .whereEqualTo("Email", assigneeEmail)
                 .limit(1)
@@ -152,7 +154,7 @@ public class EditQuestTab extends FrameLayout {
                     DocumentSnapshot c = task.getResult().getDocuments().get(0);
                     q.setAssignedUID(c.getId());
                     q.setAssignedReference(c.getReference());
-
+                    q.setStatus("Ongoing");
                     FirestoreManager.updateQuest(q);
                 });
     }
