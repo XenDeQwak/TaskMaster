@@ -177,8 +177,13 @@ public class QuestManager {
                                             child.update("Intelligence", FieldValue.increment(1));
                                         }
                                         child.update("Gold", FieldValue.increment(q.getDifficulty().intValue()));
+                                        child.update("QuestCompleted", FieldValue.increment(1));
                                         Log.d("Debug", "Awareed " + q.getRewardStat() + " stat to child");
                                         Log.d("Debug", "Awareed " + q.getDifficulty().intValue() + " gold to child");
+                                        HashMap<String, Object> map = new HashMap<>();
+                                        // Store a reference for all completed quests
+                                        map.put("QuestReference", FirestoreManager.getFirestore().document("Quests/"+q.getQuestID()));
+                                        q.getAssignedReference().collection("CompletedQuests").document(q.getQuestID()).set(map);
                                     } else {
                                         Log.d("Debug", "Failed to complete quest verification");
                                     }

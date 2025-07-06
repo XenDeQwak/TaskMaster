@@ -85,6 +85,7 @@ public class ParentViewManageChild extends ParentView {
                     true,
                     1,
                     0,
+                    0,
                     List.of("Armorless")
                     );
 
