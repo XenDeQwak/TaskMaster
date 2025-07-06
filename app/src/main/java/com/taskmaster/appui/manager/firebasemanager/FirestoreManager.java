@@ -173,6 +173,40 @@ public class FirestoreManager {
                 });
     }
 
+    public static void fetchCreatedQuestsWhereStatus (String id, List<String> statusList, GenericCallback<List<DocumentSnapshot>> callback) {
+        firestore.collection("Quests")
+                .whereEqualTo("CreatorUID", id)
+                .whereIn("Status", statusList)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Debug", "Successfully fetched quests");
+                        List<DocumentSnapshot> questDocs = task.getResult().getDocuments();
+                        callback.onCallback(questDocs);
+                    } else {
+                        task.getException().printStackTrace();
+                        Log.d("Debug", "Failed to fetch quests");
+                    }
+                });
+    }
+
+    public static void fetchAssignedQuestsWhereStatus (String id, List<String> statusList, GenericCallback<List<DocumentSnapshot>> callback) {
+        firestore.collection("Quests")
+                .whereEqualTo("AssignedUID", id)
+                .whereIn("Status", statusList)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Debug", "Successfully fetched quests");
+                        List<DocumentSnapshot> questDocs = task.getResult().getDocuments();
+                        callback.onCallback(questDocs);
+                    } else {
+                        task.getException().printStackTrace();
+                        Log.d("Debug", "Failed to fetch quests");
+                    }
+                });
+    }
+
 
     public static void fetchAdventurers (String parentUID, GenericCallback<List<DocumentSnapshot>> callback) {
         firestore.collection("Childs").whereEqualTo("ParentUID", parentUID).get()

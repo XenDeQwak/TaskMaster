@@ -1,15 +1,11 @@
 package com.taskmaster.appui.manager.entitymanager;
 
 import static android.view.View.GONE;
-
-import static com.google.android.material.internal.ContextUtils.getActivity;
-import static java.security.AccessController.getContext;
+import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -22,10 +18,12 @@ import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.DateTimeUtil;
+import com.taskmaster.appui.view.uimodule.ChildExemptionTab;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
 import com.taskmaster.appui.view.uimodule.ViewQuest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,7 +66,8 @@ public class QuestManager {
                 (DocumentReference) qd.get("CreatorRef"),
                 (DocumentReference) qd.get("AssignedRef"),
                 (Number) qd.get("Difficulty"),
-                (String) qd.get("Status")
+                (String) qd.get("Status"),
+                (String) qd.get("Reason")
                 );
     }
 
@@ -88,6 +87,7 @@ public class QuestManager {
         qd.put("AssignedRef", q.getAssignedReference());
         qd.put("Difficulty", q.getDifficulty());
         qd.put("Status", q.getStatus());
+        qd.put("Reason", q.getReason());
 
         return qd;
     }
@@ -95,7 +95,7 @@ public class QuestManager {
     public static Quest createTestQuest () {
         HashMap<String, Object> qd = new HashMap<>();
         qd.put("Name", "testquest");
-        qd.put("Description", "I am a test quest");
+        qd.put("Description", "I am a test quest.");
         qd.put("CreatorUID", FirestoreManager.getFirestore().collection("Users").document("user").getId());
         qd.put("CreatorRef", FirestoreManager.getFirestore().collection("Users").document("user"));
         qd.put("StartDate", 1735689601L);
@@ -107,6 +107,7 @@ public class QuestManager {
         qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
         qd.put("Difficulty", 0);
         qd.put("Status", "Ongoing");
+        qd.put("Reason", "This is a reason.");
 
         return QuestManager.parseQuestData(qd);
     }
@@ -127,6 +128,7 @@ public class QuestManager {
         qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
         qd.put("Difficulty", 0L);
         qd.put("Status", "Awaiting Configuration");
+        qd.put("Reason", "None");
 
         return QuestManager.parseQuestData(qd);
     }
@@ -140,22 +142,22 @@ public class QuestManager {
     }
 
 
-    public void loadQuestsFromFirestore(Context context, LinearLayout scrollContent, EditQuestTab editQuest) {
+    public void loadCreatedQuestWhereStatus(LinearLayout scrollContent, EditQuestTab editQuest, String... status) {
         questList.clear();
         scrollContent.removeAllViews();
         FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
-        FirestoreManager.fetchQuests(parent.getUid(), dsl -> {
+        FirestoreManager.fetchCreatedQuestsWhereStatus(parent.getUid(), Arrays.asList(status), dsl -> {
             for (DocumentSnapshot ds : dsl) {
                 Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
                 questList.add(q);
 
-                ViewQuest qb = new ViewQuest(context, q, true);
+                ViewQuest qb = new ViewQuest(scrollContent.getContext(), q, true);
                 scrollContent.addView(qb);
                 q.setQb(qb);
 
                 if (editQuest != null) {
                     qb.getViewQuestButtonC().setOnClickListener(v -> {
-                        editQuest.setVisibility(View.VISIBLE);
+                        editQuest.setVisibility(VISIBLE);
                         editQuest.setQuest(q);
                     });
                 }
@@ -205,16 +207,15 @@ public class QuestManager {
                                 });
                     });
                 } else { // "#ADADADFF"
-                    qb.getViewQuestButtonA().setBackgroundTintList(context.getResources().getColorStateList(R.color.unavailable));
+                    qb.getViewQuestButtonA().setBackgroundTintList(scrollContent.getContext().getResources().getColorStateList(R.color.unavailable));
                 }
-
 
             }
         });
     }
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForColorStateLists"})
-    public void loadQuestsFromFirestoreChild (Context context, LinearLayout scrollContent) {
+    public void loadQuestsFromFirestoreChild (LinearLayout scrollContent) {
         questList.clear();
         scrollContent.removeAllViews();
         FirebaseUser child = AuthManager.getAuth().getCurrentUser();
@@ -223,7 +224,7 @@ public class QuestManager {
                 Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
                 questList.add(q);
 
-                ViewQuest qb = new ViewQuest(context, q, false);
+                ViewQuest qb = new ViewQuest(scrollContent.getContext(), q, false);
                 scrollContent.addView(qb);
                 q.setQb(qb);
 
@@ -244,7 +245,45 @@ public class QuestManager {
                     });
                 } else { // "#ADADADFF"
                     qb.getViewQuestButtonA().setText("Awaiting Verification...");
-                    qb.getViewQuestButtonA().setBackgroundTintList(context.getResources().getColorStateList(R.color.unavailable));
+                    qb.getViewQuestButtonA().setBackgroundTintList(scrollContent.getContext().getResources().getColorStateList(R.color.unavailable));
+                }
+            }
+        });
+    }
+
+    public void loadAssignedQuestHistoryWhereStatus(LinearLayout scrollContent, ChildExemptionTab childExemption, String... status) {
+        questList.clear();
+        scrollContent.removeAllViews();
+        FirebaseUser child = AuthManager.getAuth().getCurrentUser();
+        FirestoreManager.fetchAssignedQuestsWhereStatus(child.getUid(), Arrays.asList(status),dsl -> {
+            for (DocumentSnapshot ds : dsl) {
+                Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
+                questList.add(q);
+
+                ViewQuest qb = new ViewQuest(scrollContent.getContext(), q, false);
+                scrollContent.addView(qb);
+                //q.setQb(qb);
+
+                String questStatus = q.getStatus();
+                if (questStatus.equalsIgnoreCase("completed")) {
+                    qb.getViewQuestButtonA().setVisibility(GONE);
+                    qb.getViewQuestButtonB().setVisibility(GONE);
+                    qb.getViewQuestButtonC().setVisibility(GONE);
+                } else if (questStatus.equalsIgnoreCase("failed")) {
+                    qb.getViewQuestButtonA().setText("Request Exemption");
+                    qb.getViewQuestButtonB().setVisibility(GONE);
+                    qb.getViewQuestButtonC().setVisibility(GONE);
+
+                    qb.getViewQuestButtonA().setOnClickListener(v -> {
+                        childExemption.setVisibility(VISIBLE);
+                        childExemption.setQuest(q, e -> {
+                            loadAssignedQuestHistoryWhereStatus(scrollContent, childExemption, status);
+                        });
+                    });
+                } else if (questStatus.equalsIgnoreCase("awaiting exemption")) {
+                    qb.getViewQuestButtonA().setText("Awaiting Exemption");
+                    qb.getViewQuestButtonB().setVisibility(GONE);
+                    qb.getViewQuestButtonC().setVisibility(GONE);
                 }
             }
         });

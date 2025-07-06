@@ -1,6 +1,7 @@
 package com.taskmaster.appui.view.parent;
 
 import android.os.Bundle;
+import android.widget.ScrollView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.taskmaster.appui.R;
 
 public class ParentViewQuestHistory extends ParentView {
+
+    ScrollView pvqh_scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,8 @@ public class ParentViewQuestHistory extends ParentView {
 
         initNavigationMenu(this, ParentViewQuestHistory.class);
 
-
+        pvqh_scrollView = findViewById(R.id.pvqh_scrollView);
+        pvqh_scrollView.getBackground().setAlpha(150);
 
     }
 }

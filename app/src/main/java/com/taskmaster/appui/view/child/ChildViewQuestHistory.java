@@ -1,17 +1,27 @@
 package com.taskmaster.appui.view.child;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.manager.entitymanager.QuestManager;
+import com.taskmaster.appui.view.uimodule.ChildExemptionTab;
 
 public class ChildViewQuestHistory extends ChildView {
 
+    QuestManager questManager;
+    ScrollView cvqh_scrollView;
+    LinearLayout cvqh_scrollContent;
+    ChildExemptionTab cvqh_childExemptionTab;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +33,16 @@ public class ChildViewQuestHistory extends ChildView {
             return insets;
         });
 
+        questManager = new QuestManager();
+
         initNavigationMenu(this, ChildViewQuestHistory.class);
+
+        cvqh_scrollView = findViewById(R.id.cvqh_scrollView);
+        cvqh_scrollView.getBackground().setAlpha(150);
+
+        cvqh_scrollContent = findViewById(R.id.cvqh_scrollContent);
+        cvqh_childExemptionTab = findViewById(R.id.cvqh_childExemptionTab);
+        String[] status = {"Completed", "Failed", "Awaiting Exemption"};
+        questManager.loadAssignedQuestHistoryWhereStatus(cvqh_scrollContent, cvqh_childExemptionTab, status);
     }
 }

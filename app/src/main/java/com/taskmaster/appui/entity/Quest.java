@@ -15,10 +15,11 @@ public class Quest {
     private Number difficulty;
     private String status;
 
+    private String reason;
     private ViewQuest qb;
 
 
-    public Quest(String questID, String name, String description, String creatorUID, String assignedUID, long startDate, long endDate, long completedDate, String rewardStat, String rewardExtra, DocumentReference creatorReference, DocumentReference assignedReference, Number difficulty, String status) {
+    public Quest(String questID, String name, String description, String creatorUID, String assignedUID, long startDate, long endDate, long completedDate, String rewardStat, String rewardExtra, DocumentReference creatorReference, DocumentReference assignedReference, Number difficulty, String status, String reason) {
         this.questID = questID;
         this.name = name;
         this.description = description;
@@ -33,6 +34,7 @@ public class Quest {
         this.assignedReference = assignedReference;
         this.difficulty = difficulty;
         this.status = status;
+        this.reason = reason;
     }
 
     public String getQuestID() {
@@ -145,6 +147,14 @@ public class Quest {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public ViewQuest getQb() {

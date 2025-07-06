@@ -60,7 +60,7 @@ public class ChildViewQuest extends ChildView {
 
         questViewChild = findViewById(R.id.questViewChild);
         questManager = new QuestManager();
-        questManager.loadQuestsFromFirestoreChild(this, questViewChild);
+        questManager.loadQuestsFromFirestoreChild(questViewChild);
 
         findViewById(R.id.questScrollViewChild).getBackground().setAlpha(160);
 
