@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="unavailable">#7A7A7A</color>
+    <color name="Intelligence">#ABC9FF</color>
+    <color name="Strength">#EB4747</color>
 </resources>

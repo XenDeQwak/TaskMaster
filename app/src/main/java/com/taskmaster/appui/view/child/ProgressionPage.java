@@ -1,11 +1,14 @@
 package com.taskmaster.appui.view.child;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -114,8 +117,8 @@ public class ProgressionPage extends ChildView {
 
         // Setup colors
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.RED);     // Strength
-        colors.add(Color.BLUE);   // Intelligence
+        colors.add(ContextCompat.getColor(this, R.color.Strength));  // Strength
+        colors.add(ContextCompat.getColor(this, R.color.Intelligence));    // Intelligence
 
         // Create dataset
         PieDataSet dataSet = new PieDataSet(entries, "");
@@ -126,13 +129,13 @@ public class ProgressionPage extends ChildView {
         // Create PieData
         PieData data = new PieData(dataSet);
         data.setValueTextSize(20f);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
 
         // Apply data to pieChart
         pieChart.setData(data);
         pieChart.setUsePercentValues(false);
         pieChart.setDrawHoleEnabled(false);
-        pieChart.setEntryLabelColor(Color.WHITE);
+        pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.getDescription().setEnabled(false);
         pieChart.getLegend().setEnabled(false);
         pieChart.invalidate();

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -41,7 +42,7 @@ public class ParentViewManageChild extends ParentView {
         initNavigationMenu(this, ParentViewManageChild.class);
 
         childCreationTabPopUp = findViewById(R.id.childCreationPopUp);
-        ChildCreationTab childCreationContainer = findViewById(R.id.childCreationPopUp);
+        ConstraintLayout childCreationContainer = findViewById(R.id.childCreationPopUp);
 
         childManager = new ChildManager(getApplicationContext());
 
