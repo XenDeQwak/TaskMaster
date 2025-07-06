@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,6 +51,11 @@ public class EditQuestTab extends FrameLayout {
         init();
     }
 
+    public EditQuestTab(@NonNull Context context) {
+        super(context);
+        init();
+    }
+
     @SuppressWarnings("newApi")
     private void init () {
         LayoutInflater.from(getContext()).inflate(R.layout.module_edit_quest_tab, this);
@@ -90,15 +96,13 @@ public class EditQuestTab extends FrameLayout {
             editQuestChildPicker.setAdapter(childAdapter);
         });
 
-        editQuestCancel.getBackground().setAlpha(150);
-
         editQuestSave.setOnClickListener(v -> {
             saveQuest();
         });
 
         editQuestCancel.setOnClickListener(v -> {
-            this.setVisibility(View.GONE);
-            clearFields();
+            ViewGroup parent = (ViewGroup) this.getParent();
+            parent.removeView(this);
         });
     }
 
@@ -174,8 +178,8 @@ public class EditQuestTab extends FrameLayout {
                     FirestoreManager.updateQuest(q);
                 });
 
-        this.setVisibility(View.GONE);
-        clearFields();
+        ViewGroup parent = (ViewGroup) this.getParent();
+        parent.removeView(this);
     }
 
     private void clearFields () {

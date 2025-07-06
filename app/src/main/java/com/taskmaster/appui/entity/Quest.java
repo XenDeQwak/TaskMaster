@@ -1,7 +1,7 @@
 package com.taskmaster.appui.entity;
 
 import com.google.firebase.firestore.DocumentReference;
-import com.taskmaster.appui.view.uimodule.ViewQuest;
+import com.taskmaster.appui.view.uimodule.QuestView;
 
 public class Quest {
 
@@ -16,7 +16,7 @@ public class Quest {
     private String status;
 
     private String reason;
-    private ViewQuest qb;
+    private QuestView qb;
 
 
     public Quest(String questID, String name, String description, String creatorUID, String assignedUID, long startDate, long endDate, long completedDate, String rewardStat, String rewardExtra, DocumentReference creatorReference, DocumentReference assignedReference, Number difficulty, String status, String reason) {
@@ -157,11 +157,11 @@ public class Quest {
         this.reason = reason;
     }
 
-    public ViewQuest getQb() {
+    public QuestView getQb() {
         return qb;
     }
 
-    public void setQb(ViewQuest qb) {
+    public void setQb(QuestView qb) {
         this.qb = qb;
     }
 }

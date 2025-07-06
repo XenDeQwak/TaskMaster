@@ -12,10 +12,9 @@ import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
 import com.taskmaster.appui.util.GenericCallback;
-import com.taskmaster.appui.view.uimodule.ViewChild;
+import com.taskmaster.appui.view.uimodule.ChildView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +115,7 @@ public class ChildManager {
                 Child c = ChildManager.parseChildData((HashMap<String, Object>) ds.getData());
                 childList.add(c);
 
-                ViewChild cb = new ViewChild(context ,c);
+                ChildView cb = new ChildView(context ,c);
                 childCont.addView(cb);
             }
         });

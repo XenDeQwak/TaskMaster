@@ -17,21 +17,21 @@ import com.taskmaster.appui.entity.Child;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewChild extends FrameLayout {
+public class ChildView extends FrameLayout {
 
     Child c;
 
-    public ViewChild(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ChildView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ViewChild(@NonNull Context context) {
+    public ChildView(@NonNull Context context) {
         super(context);
         init();
     }
 
-    public ViewChild(@NonNull Context context, @Nullable Child c) {
+    public ChildView(@NonNull Context context, @Nullable Child c) {
         super(context);
         setChild(c);
         init();
