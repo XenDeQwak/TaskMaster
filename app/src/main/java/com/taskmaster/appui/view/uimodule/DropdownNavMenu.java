@@ -6,11 +6,12 @@ import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.util.DateTimeUtil;
+import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.child.CosmeticShop;
@@ -19,66 +20,55 @@ import com.taskmaster.appui.view.login.Splash;
 import com.taskmaster.appui.view.parent.ParentViewManageChild;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
 
-import java.util.Arrays;
-
 public class DropdownNavMenu extends FrameLayout {
 
-    Button navQueueButton, navAdventurersButton, navLogOutButton;
-    Button navQueueButton2, navShopButton, navBossButton, navLogoutButton2;
+    ConstraintLayout navMenuContainer;
 
-    boolean isParent;
+    Button navMenuQuestButton, navMenuAdventurerButton, navMenuShopButton, navMenuBossButton, navMenuQuestHistoryButton, navMenuLogoutButton;
 
-    // Constructor used when inflating from XML
     public DropdownNavMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
 
-    public void init (boolean isParent) {
-        this.isParent = isParent;
+    private void init () {
+        LayoutInflater.from(getContext()).inflate(R.layout.module_nav_menu, this);
 
-        if (isParent) {
-            LayoutInflater.from(getContext()).inflate(R.layout.module_nav_menu_parent, this);
+        navMenuContainer = findViewById(R.id.navMenuContainer);
 
-            navQueueButton  = findViewById(R.id.navQueueButton2);
-            navAdventurersButton = findViewById(R.id.navAdventurersButton);
-            navLogOutButton = findViewById(R.id.navLogOutButton);
-        } else {
-            LayoutInflater.from(getContext()).inflate(R.layout.module_nav_menu_child, this);
+        navMenuQuestButton = findViewById(R.id.navMenuQuestButton);
+        navMenuAdventurerButton = findViewById(R.id.navMenuAdventurerButton);
+        navMenuShopButton = findViewById(R.id.navMenuShopButton);
+        navMenuBossButton = findViewById(R.id.navMenuBossButton);
+        navMenuQuestHistoryButton = findViewById(R.id.navMenuQuestHistoryButton);
+        navMenuLogoutButton = findViewById(R.id.navMenuLogoutButton);
 
-            navQueueButton2  = findViewById(R.id.navQueueButton2);
-            navShopButton = findViewById(R.id.navShopButton);
-            navBossButton = findViewById(R.id.navBossButton);
-            navLogoutButton2 = findViewById(R.id.navLogoutButton2);
-        }
-
-        for (Button b : Arrays.asList(navQueueButton, navAdventurersButton, navLogOutButton, navQueueButton2, navShopButton, navBossButton, navLogoutButton2)) {
-            if (b ==  null) continue;
-            b.setOnClickListener(v -> {
-                DateTimeUtil.clearTimerList();
-            });
-        }
-
-        LinearLayout container = findViewById(R.id.dropdownLinearView);
-        container.getBackground().setAlpha(160);
+        navMenuContainer.getBackground().setAlpha(150);
     }
 
-    public void attachActivity (Activity activity) {
-        if (isParent) {
-            NavUtil.setNavigation(activity, navQueueButton, ParentViewQuest.class);
-            NavUtil.setNavigation(activity, navAdventurersButton, ParentViewManageChild.class);
-            navLogOutButton.setOnClickListener(v -> {
-                FirebaseAuth.getInstance().signOut();
-                NavUtil.instantNavigation(activity, Splash.class);
-            });
-        } else {
-            NavUtil.setNavigation(activity, navQueueButton2, ChildViewQuest.class);
-            NavUtil.setNavigation(activity, navShopButton, CosmeticShop.class);
-            NavUtil.setNavigation(activity, navBossButton, WeeklyBoss.class);
-            navLogoutButton2.setOnClickListener(v -> {
-                FirebaseAuth.getInstance().signOut();
-                NavUtil.instantNavigation(activity, Splash.class);
-            });
-        }
+    public void initNavButtonsParent (Activity activity) {
+        NavUtil.setNavigation(activity, navMenuQuestButton, ParentViewQuest.class);
+        NavUtil.setNavigation(activity, navMenuAdventurerButton, ParentViewManageChild.class);
+        //NavUtil.setNavigation(activity, navMenuQuestHistoryButton, null);
+
+        navMenuShopButton.setVisibility(GONE);
+        navMenuBossButton.setVisibility(GONE);
+    }
+
+    public void initNavButtonsChild (Activity activity) {
+        NavUtil.setNavigation(activity, navMenuQuestButton, ChildViewQuest.class);
+        NavUtil.setNavigation(activity, navMenuShopButton, CosmeticShop.class);
+        NavUtil.setNavigation(activity, navMenuBossButton, WeeklyBoss.class);
+        //NavUtil.setNavigation(activity, navMenuQuestHistoryButton, null);
+
+        navMenuAdventurerButton.setVisibility(GONE);
+    }
+
+    public void initLogoutButton (Activity activity) {
+        navMenuLogoutButton.setOnClickListener(v -> {
+            AuthManager.getAuth().signOut();
+            NavUtil.instantNavigation(activity, Splash.class);
+        });
     }
 }

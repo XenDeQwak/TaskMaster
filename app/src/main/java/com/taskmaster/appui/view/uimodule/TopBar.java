@@ -1,6 +1,5 @@
 package com.taskmaster.appui.view.uimodule;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -26,10 +25,8 @@ public class TopBar extends FrameLayout {
     ImageView createObjectButton;
     TextView goldAmount;
 
-    // Constructor used when inflating from XML
     public TopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        //Toast.makeText(context, "HELLO WORLD AUTOMATICALLY MADE", Toast.LENGTH_LONG).show();
     }
 
     public void init (boolean isParent) {
@@ -40,14 +37,8 @@ public class TopBar extends FrameLayout {
         createObjectButton = findViewById(R.id.createObjectButton);
         goldAmount = findViewById(R.id.goldAmount);
 
-        dropdownNavMenu.init(isParent);
-
-//        ConstraintLayout container = findViewById(R.id.topBarContainer);
-//        container.getBackground().setAlpha(100);
-
         // Dropdown menu logic
         navBarButton.setOnClickListener(v -> {
-            System.out.println("I got clicked");
             dropdownNavMenu.bringToFront();
             if (dropdownNavMenu.getVisibility() == GONE) {
                 dropdownNavMenu.setVisibility(VISIBLE);
@@ -60,17 +51,11 @@ public class TopBar extends FrameLayout {
         goldAmount.setVisibility(View.GONE);
     }
 
-    public void attachActivity (Activity activity) {
-        dropdownNavMenu.attachActivity(activity);
-    }
-
     public void setTitle (String s) {
         pageTitleTextView.setText(s);
     }
 
-    public <T extends AppCompatActivity> void initPageView(Class<T> view) {
-
-        System.out.println(view);
+    public <T extends AppCompatActivity> void setPageTitle(Class<T> view) {
 
         if (view == ParentViewQuest.class) {
             createObjectButton.setImageResource(R.drawable.add_quest);
@@ -96,6 +81,10 @@ public class TopBar extends FrameLayout {
 
     public ImageView getCreateObjectButton () {
         return createObjectButton;
+    }
+
+    public DropdownNavMenu getDropdownNavMenu () {
+        return dropdownNavMenu;
     }
 
 }

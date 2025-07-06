@@ -15,8 +15,9 @@ public class ParentView extends AppCompatActivity {
 
         topBar = findViewById(R.id.topBarChild);
         topBar.init(true);
-        topBar.initPageView(c);
-        topBar.attachActivity(activity);
+        topBar.setPageTitle(c);
+        topBar.getDropdownNavMenu().initNavButtonsParent(activity);
+        topBar.getDropdownNavMenu().initLogoutButton(activity);
 
     }
 

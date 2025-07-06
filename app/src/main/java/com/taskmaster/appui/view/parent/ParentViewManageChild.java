@@ -42,29 +42,23 @@ public class ParentViewManageChild extends ParentView {
         initNavigationMenu(this, ParentViewManageChild.class);
 
         childCreationTabPopUp = findViewById(R.id.childCreationPopUp);
-        ConstraintLayout childCreationContainer = findViewById(R.id.childCreationPopUp);
 
         childManager = new ChildManager(getApplicationContext());
 
         // Initialize createChildButton
         createChildButton = topBar.getCreateObjectButton();
         createChildButton.setOnClickListener(v -> {
-//            //System.out.println("I AM PRESSED IN PARENTVIEWMANAGECHILD");
-//            Child c = ChildManager.createTestChild();
-//            childManager.addChild(c);
-//            TemporaryConnectionManager.startTempConnection(getApplicationContext());
-//            TemporaryConnectionManager.uploadChild(c);
-            if (childCreationContainer.getVisibility() == GONE) {
-                childCreationContainer.bringToFront();
-                childCreationContainer.setVisibility(VISIBLE);
+            if (childCreationTabPopUp.getVisibility() == GONE) {
+                childCreationTabPopUp.bringToFront();
+                childCreationTabPopUp.setVisibility(VISIBLE);
             } else {
-                childCreationContainer.setVisibility(GONE);
+                childCreationTabPopUp.setVisibility(GONE);
             }
         });
 
         childCreationTabPopUp.getChildCreationConfirmButton().setOnClickListener(v -> {
             User user = User.getInstance();
-            childCreationContainer.setVisibility(GONE);
+            childCreationTabPopUp.setVisibility(GONE);
             String username = childCreationTabPopUp.getChildCreationUsername().getText().toString();
             String email = childCreationTabPopUp.getChildCreationEmail().getText().toString();
             String password = childCreationTabPopUp.getChildCreationPassword().getText().toString();
@@ -96,7 +90,7 @@ public class ParentViewManageChild extends ParentView {
         });
 
         childCreationTabPopUp.getChildCreationExitButton().setOnClickListener(v -> {
-            childCreationContainer.setVisibility(GONE);
+            childCreationTabPopUp.setVisibility(GONE);
         });
 
         childCont = findViewById(R.id.childCont);

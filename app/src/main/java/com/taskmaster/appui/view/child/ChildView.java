@@ -17,8 +17,9 @@ public class ChildView extends AppCompatActivity {
 
         topBar = findViewById(R.id.topBarChild);
         topBar.init(false);
-        topBar.initPageView(c);
-        topBar.attachActivity(activity);
+        topBar.setPageTitle(c);
+        topBar.getDropdownNavMenu().initNavButtonsChild(activity);
+        topBar.getDropdownNavMenu().initLogoutButton(activity);
 
         goldAmount = topBar.getGoldAmount();
         if (c == CosmeticShop.class) {
