@@ -24,6 +24,7 @@ import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
+import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.DateTimeUtil;
 
@@ -40,7 +41,9 @@ public class EditQuestTab extends FrameLayout {
     RatingBar editQuestDifficulty;
 
     Quest q;
-    ViewQuest qv;
+
+    List<String> rewardStatList;
+    List<Child> childList;
 
     public EditQuestTab(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -65,7 +68,7 @@ public class EditQuestTab extends FrameLayout {
         editQuestContainer = findViewById(R.id.editQuestContainer);
         editQuestDifficulty = findViewById(R.id.editQuestDifficulty);
 
-        List<String> rewardStatList = new ArrayList<>();
+        rewardStatList = new ArrayList<>();
         rewardStatList.add("STRENGTH");
         rewardStatList.add("INTELLIGENCE");
         ArrayAdapter<String> rewardStatAdapter = new ArrayAdapter<>(
@@ -76,7 +79,7 @@ public class EditQuestTab extends FrameLayout {
         rewardStatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editQuestRewardPicker.setAdapter(rewardStatAdapter);
 
-        List<Child> childList = new ArrayList<>();
+        childList = new ArrayList<>();
         ChildManager.injectToList(childList, e -> {
             ArrayAdapter<String> childAdapter = new ArrayAdapter<>(
                     this.getContext(),
@@ -90,22 +93,34 @@ public class EditQuestTab extends FrameLayout {
         editQuestCancel.getBackground().setAlpha(150);
 
         editQuestSave.setOnClickListener(v -> {
-            this.setVisibility(View.GONE);
             saveQuest();
         });
 
         editQuestCancel.setOnClickListener(v -> {
             this.setVisibility(View.GONE);
+            clearFields();
         });
     }
 
-    public void setQuest (Quest q, ViewQuest qv) {
-        this.q = q;
-        this.qv = qv;
-    }
-
+    @SuppressWarnings("newApi")
     public void setQuest (Quest q) {
         this.q = q;
+        if (q.getStatus().equalsIgnoreCase("Awaiting Configuration")) return;
+
+        editQuestName.setText(q.getName());
+        editQuestDescription.setText(q.getDescription());
+        editQuestRewardPicker.setSelection(rewardStatList.indexOf(q.getRewardStat().toUpperCase()));
+        editQuestRewardExtra.setText(q.getRewardExtra());
+        editQuestDifficulty.setRating(q.getDifficulty().intValue());
+
+        q.getAssignedReference().get().addOnCompleteListener(task -> {
+            Object email = task.getResult().get("Email");
+            if (email == null) return;
+            editQuestChildPicker.setSelection(
+                    childList.stream().map(Child::getChildEmail).toList().indexOf(email.toString())
+            );
+        });
+
     }
 
     @SuppressWarnings("NewApi")
@@ -155,7 +170,23 @@ public class EditQuestTab extends FrameLayout {
                     q.setAssignedUID(c.getId());
                     q.setAssignedReference(c.getReference());
                     q.setStatus("Ongoing");
+
                     FirestoreManager.updateQuest(q);
                 });
+
+        this.setVisibility(View.GONE);
+        clearFields();
+    }
+
+    private void clearFields () {
+        editQuestName.setText("");
+        editQuestHour.setText("");
+        editQuestMinute.setText("");
+        editQuestSecond.setText("");
+        editQuestDescription.setText("");
+        editQuestRewardPicker.setSelection(0);
+        editQuestRewardExtra.setText("");
+        editQuestChildPicker.setSelection(0);
+        editQuestDifficulty.setRating(0);
     }
 }
