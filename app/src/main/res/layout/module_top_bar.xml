@@ -77,7 +77,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.taskmaster.appui.view.uimodule.DropdownNavMenu
+    <com.taskmaster.appui.view.uimodule.NavigationMenu
         android:id="@+id/dropdownNavMenu"
         android:layout_width="300dp"
         android:layout_height="350dp"

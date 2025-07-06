@@ -1,5 +1,8 @@
 package com.taskmaster.appui.view.child;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.app.Activity;
 import android.widget.TextView;
 
@@ -15,7 +18,7 @@ public class ChildView extends AppCompatActivity {
 
     void initNavigationMenu(Activity activity, Class c) {
 
-        topBar = findViewById(R.id.topBarChild);
+        topBar = findViewById(R.id.glb_topbar);
         topBar.init(false);
         topBar.setPageTitle(c);
         topBar.getDropdownNavMenu().initNavButtonsChild(activity);
@@ -23,9 +26,11 @@ public class ChildView extends AppCompatActivity {
 
         goldAmount = topBar.getGoldAmount();
         if (c == CosmeticShop.class) {
-            goldAmount.setVisibility(TextView.VISIBLE);
+            goldAmount.setVisibility(VISIBLE);
+            topBar.getCreateObjectButton().setVisibility(VISIBLE);
         } else {
-            goldAmount.setVisibility(TextView.GONE);
+            goldAmount.setVisibility(GONE);
+            topBar.getCreateObjectButton().setVisibility(GONE);
         }
 
     }

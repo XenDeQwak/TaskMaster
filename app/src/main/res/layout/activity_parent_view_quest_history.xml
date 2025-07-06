@@ -2,35 +2,29 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/statContainer"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
-    tools:context=".view.parent.ParentViewQuest">
+    tools:context=".view.parent.ParentViewQuestHistory">
 
-    <!--  Main  -->
     <ImageView
-        android:id="@+id/pvq_container"
+        android:id="@+id/pvqh_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
         android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.95"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintVertical_bias="0.5"
         app:layout_constraintWidth_percent="0.925"
-        app:layout_constraintHeight_percent="0.95"
-        app:srcCompat="@drawable/rectangle_rounded"/>
+        app:srcCompat="@drawable/rectangle_rounded" />
 
-    <!--  Quest list  -->
     <ScrollView
-        android:id="@+id/pvq_scrollView"
+        android:id="@+id/pvqh_scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -38,34 +32,24 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rectangle_rounded"
-        app:layout_constraintBottom_toBottomOf="@+id/pvq_container"
-        app:layout_constraintEnd_toEndOf="@+id/pvq_container"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/pvq_container"
-        app:layout_constraintTop_toTopOf="@+id/pvq_container">
+        app:layout_constraintBottom_toBottomOf="@+id/pvqh_container"
+        app:layout_constraintEnd_toEndOf="@+id/pvqh_container"
+        app:layout_constraintStart_toStartOf="@+id/pvqh_container"
+        app:layout_constraintTop_toTopOf="@+id/pvqh_container">
 
         <LinearLayout
-            android:id="@+id/pvq_scrollContent"
+            android:id="@+id/pvqh_scrollContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
 
-    <com.taskmaster.appui.view.uimodule.EditQuestTab
-        android:id="@+id/pvq_editTab"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <com.taskmaster.appui.view.uimodule.TopBar
         android:id="@+id/glb_topbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/pvq_container"
-        app:layout_constraintStart_toStartOf="@+id/pvq_container"
-        app:layout_constraintTop_toTopOf="@+id/pvq_container" />
+        app:layout_constraintEnd_toEndOf="@+id/pvqh_container"
+        app:layout_constraintStart_toStartOf="@+id/pvqh_container"
+        app:layout_constraintTop_toTopOf="@+id/pvqh_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

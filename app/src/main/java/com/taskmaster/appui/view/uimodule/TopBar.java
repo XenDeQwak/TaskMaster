@@ -11,16 +11,18 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.view.child.ChildViewQuest;
+import com.taskmaster.appui.view.child.ChildViewQuestHistory;
 import com.taskmaster.appui.view.child.CosmeticShop;
 import com.taskmaster.appui.view.child.ProgressionPage;
 import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.view.parent.ParentViewManageChild;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
+import com.taskmaster.appui.view.parent.ParentViewQuestHistory;
 
 public class TopBar extends FrameLayout {
 
     ImageView navBarButton;
-    DropdownNavMenu dropdownNavMenu;
+    NavigationMenu navigationMenu;
     TextView pageTitleTextView;
     ImageView createObjectButton;
     TextView goldAmount;
@@ -32,23 +34,24 @@ public class TopBar extends FrameLayout {
     public void init (boolean isParent) {
         LayoutInflater.from(getContext()).inflate(R.layout.module_top_bar, this);
         navBarButton = findViewById(R.id.navBarButton);
-        dropdownNavMenu = findViewById(R.id.dropdownNavMenu);
+        navigationMenu = findViewById(R.id.dropdownNavMenu);
         pageTitleTextView = findViewById(R.id.pageTitleTextView);
         createObjectButton = findViewById(R.id.createObjectButton);
         goldAmount = findViewById(R.id.goldAmount);
 
         // Dropdown menu logic
         navBarButton.setOnClickListener(v -> {
-            dropdownNavMenu.bringToFront();
-            if (dropdownNavMenu.getVisibility() == GONE) {
-                dropdownNavMenu.setVisibility(VISIBLE);
+            navigationMenu.bringToFront();
+            if (navigationMenu.getVisibility() == GONE) {
+                navigationMenu.setVisibility(VISIBLE);
             } else {
-                dropdownNavMenu.setVisibility(GONE);
+                navigationMenu.setVisibility(GONE);
             }
         });
 
         createObjectButton.setImageDrawable(null);
         goldAmount.setVisibility(View.GONE);
+
     }
 
     public void setTitle (String s) {
@@ -71,6 +74,8 @@ public class TopBar extends FrameLayout {
             setTitle("Weekly Boss");
         } else if (view == ProgressionPage.class) {
             setTitle("Progression");
+        } else if (view == ParentViewQuestHistory.class || view == ChildViewQuestHistory.class) {
+            setTitle("Quest History");
         }
 
     }
@@ -83,8 +88,8 @@ public class TopBar extends FrameLayout {
         return createObjectButton;
     }
 
-    public DropdownNavMenu getDropdownNavMenu () {
-        return dropdownNavMenu;
+    public NavigationMenu getDropdownNavMenu () {
+        return navigationMenu;
     }
 
 }

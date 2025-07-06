@@ -28,7 +28,7 @@
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <ScrollView
-        android:id="@+id/questListContainer"
+        android:id="@+id/pvq_scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0.8"
@@ -66,7 +66,7 @@
         app:layout_constraintWidth="1" />
 
     <com.taskmaster.appui.view.uimodule.TopBar
-        android:id="@+id/topBarChild"
+        android:id="@+id/glb_topbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/mainAdventurerContainer"

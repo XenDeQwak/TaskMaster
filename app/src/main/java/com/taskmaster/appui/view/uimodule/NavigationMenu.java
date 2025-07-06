@@ -9,24 +9,25 @@ import android.util.AttributeSet;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.child.ChildViewQuest;
+import com.taskmaster.appui.view.child.ChildViewQuestHistory;
 import com.taskmaster.appui.view.child.CosmeticShop;
 import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.view.login.Splash;
 import com.taskmaster.appui.view.parent.ParentViewManageChild;
 import com.taskmaster.appui.view.parent.ParentViewQuest;
+import com.taskmaster.appui.view.parent.ParentViewQuestHistory;
 
-public class DropdownNavMenu extends FrameLayout {
+public class NavigationMenu extends FrameLayout {
 
     ConstraintLayout navMenuContainer;
 
     Button navMenuQuestButton, navMenuAdventurerButton, navMenuShopButton, navMenuBossButton, navMenuQuestHistoryButton, navMenuLogoutButton;
 
-    public DropdownNavMenu(Context context, AttributeSet attrs) {
+    public NavigationMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -50,7 +51,7 @@ public class DropdownNavMenu extends FrameLayout {
     public void initNavButtonsParent (Activity activity) {
         NavUtil.setNavigation(activity, navMenuQuestButton, ParentViewQuest.class);
         NavUtil.setNavigation(activity, navMenuAdventurerButton, ParentViewManageChild.class);
-        //NavUtil.setNavigation(activity, navMenuQuestHistoryButton, null);
+        NavUtil.setNavigation(activity, navMenuQuestHistoryButton, ParentViewQuestHistory.class);
 
         navMenuShopButton.setVisibility(GONE);
         navMenuBossButton.setVisibility(GONE);
@@ -60,7 +61,7 @@ public class DropdownNavMenu extends FrameLayout {
         NavUtil.setNavigation(activity, navMenuQuestButton, ChildViewQuest.class);
         NavUtil.setNavigation(activity, navMenuShopButton, CosmeticShop.class);
         NavUtil.setNavigation(activity, navMenuBossButton, WeeklyBoss.class);
-        //NavUtil.setNavigation(activity, navMenuQuestHistoryButton, null);
+        NavUtil.setNavigation(activity, navMenuQuestHistoryButton, ChildViewQuestHistory.class);
 
         navMenuAdventurerButton.setVisibility(GONE);
     }

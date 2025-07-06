@@ -9,7 +9,7 @@
     tools:context=".view.child.ChildViewQuest">
 
     <ImageView
-        android:id="@+id/mainQuestContainer"
+        android:id="@+id/pvq_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="0dp"
@@ -35,10 +35,10 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/rectangle_rounded"
         app:layout_constraintBottom_toTopOf="@+id/ChildStatsTab"
-        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintEnd_toEndOf="@+id/pvq_container"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
-        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer"
+        app:layout_constraintStart_toStartOf="@+id/pvq_container"
+        app:layout_constraintTop_toTopOf="@+id/pvq_container"
         app:layout_constraintVertical_bias="0.06999999"
         app:layout_constraintWidth_percent="0.85">
 
@@ -50,7 +50,7 @@
     </ScrollView>
 
     <com.taskmaster.appui.view.uimodule.ViewQuestTab
-        android:id="@+id/editQuestTab"
+        android:id="@+id/pvq_editTab"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -59,12 +59,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.taskmaster.appui.view.uimodule.TopBar
-        android:id="@+id/topBarChild"
+        android:id="@+id/glb_topbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
-        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
-        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer" />
+        app:layout_constraintEnd_toEndOf="@+id/pvq_container"
+        app:layout_constraintStart_toStartOf="@+id/pvq_container"
+        app:layout_constraintTop_toTopOf="@+id/pvq_container" />
 
     <com.taskmaster.appui.view.uimodule.ChildStatsTab
         android:id="@+id/ChildStatsTab"
@@ -73,11 +73,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/mainQuestContainer"
-        app:layout_constraintEnd_toEndOf="@+id/mainQuestContainer"
+        app:layout_constraintBottom_toBottomOf="@+id/pvq_container"
+        app:layout_constraintEnd_toEndOf="@+id/pvq_container"
         app:layout_constraintHeight_percent="0.25"
-        app:layout_constraintStart_toStartOf="@+id/mainQuestContainer"
-        app:layout_constraintTop_toTopOf="@+id/mainQuestContainer"
+        app:layout_constraintStart_toStartOf="@+id/pvq_container"
+        app:layout_constraintTop_toTopOf="@+id/pvq_container"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

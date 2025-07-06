@@ -242,7 +242,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.taskmaster.appui.view.uimodule.TopBar
-        android:id="@+id/topBarChild"
+        android:id="@+id/glb_topbar"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.9"
         app:layout_constraintVertical_bias="0.025"

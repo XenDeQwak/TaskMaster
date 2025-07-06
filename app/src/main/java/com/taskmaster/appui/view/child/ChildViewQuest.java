@@ -56,7 +56,7 @@ public class ChildViewQuest extends ChildView {
         stats.setProgressionNav(this);
 
         findViewById(R.id.questScrollViewChild).getBackground().setAlpha(150);
-        editQuestTab = findViewById(R.id.editQuestTab);
+        editQuestTab = findViewById(R.id.pvq_editTab);
 
         questViewChild = findViewById(R.id.questViewChild);
         questManager = new QuestManager();

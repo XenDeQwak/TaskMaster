@@ -39,9 +39,9 @@ public class ParentViewQuest extends ParentView {
 
         initNavigationMenu(this, ParentViewQuest.class);
 
-        questScrollContent = findViewById(R.id.questScrollContent);
+        questScrollContent = findViewById(R.id.pvq_scrollContent);
 
-        editQuest = findViewById(R.id.editQuestTab);
+        editQuest = findViewById(R.id.pvq_editTab);
 
         questManager = new QuestManager();
         questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
@@ -55,7 +55,7 @@ public class ParentViewQuest extends ParentView {
             questManager.loadQuestsFromFirestore(this, questScrollContent, editQuest);
         });
 
-        findViewById(R.id.questListContainer).getBackground().setAlpha(150);
+        findViewById(R.id.pvq_scrollView).getBackground().setAlpha(150);
 
     }
 }
