@@ -2,6 +2,11 @@ package com.taskmaster.appui.manager.entitymanager;
 
 import static android.view.View.GONE;
 
+import static com.google.android.material.internal.ContextUtils.getActivity;
+import static java.security.AccessController.getContext;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +21,7 @@ import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
+import com.taskmaster.appui.util.DateTimeUtil;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
 import com.taskmaster.appui.view.uimodule.ViewQuest;
 
@@ -56,6 +62,7 @@ public class QuestManager {
                 (String) qd.get("AssignedUID"),
                 (Long) qd.get("StartDate"),
                 (Long) qd.get("EndDate"),
+                (Long) qd.get("CompletedDate"),
                 (String) qd.get("RewardStat"),
                 (String) qd.get("RewardExtra"),
                 (DocumentReference) qd.get("CreatorRef"),
@@ -74,6 +81,7 @@ public class QuestManager {
         qd.put("AssignedUID", q.getAssignedUID());
         qd.put("StartDate", q.getStartDate());
         qd.put("EndDate", q.getEndDate());
+        qd.put("CompletedDate", q.getCompletedDate());
         qd.put("RewardStat", q.getRewardStat());
         qd.put("RewardExtra", q.getRewardExtra());
         qd.put("CreatorRef", q.getCreatorReference());
@@ -90,8 +98,9 @@ public class QuestManager {
         qd.put("Description", "I am a test quest");
         qd.put("CreatorUID", FirestoreManager.getFirestore().collection("Users").document("user").getId());
         qd.put("CreatorRef", FirestoreManager.getFirestore().collection("Users").document("user"));
-        qd.put("StartDate", 1735689601L);    // January 1, 2025, 00:00
-        qd.put("EndDate", 1767225599L);       // December 31, 2025, 23:59
+        qd.put("StartDate", 1735689601L);
+        qd.put("EndDate", 1767225599L);
+        qd.put("CompletedDate", 1735689601L);
         qd.put("RewardStat", "DEFAULT");
         qd.put("RewardExtra", "test");
         qd.put("AssignedUID", "child");
@@ -105,12 +114,13 @@ public class QuestManager {
     public static Quest createBlankQuest () {
         User user = User.getInstance();
         HashMap<String, Object> qd = new HashMap<>();
-        qd.put("Name", "Unconfigured");
+        qd.put("Name", "Blank Quest");
         qd.put("Description", "No Description");
         qd.put("CreatorUID", user.getDocumentSnapshot().getId());
         qd.put("CreatorRef", user.getDocumentSnapshot().getReference());
-        qd.put("StartDate", 1735689601L);    // January 1, 2025, 00:00
-        qd.put("EndDate", 1767225599L);       // December 31, 2025, 23:59
+        qd.put("StartDate", 1735689601L);
+        qd.put("EndDate", 1767225599L);
+        qd.put("CompletedDate", 1735689601L);
         qd.put("RewardStat", "None");
         qd.put("RewardExtra", "None");
         qd.put("AssignedUID", "child");
@@ -121,8 +131,12 @@ public class QuestManager {
         return QuestManager.parseQuestData(qd);
     }
 
-    public static void updateQuest () {
-
+    @SuppressLint("RestrictedApi")
+    public static void failQuest (Quest q) {
+        q.setStatus("Failed");
+        FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
+                .set(QuestManager.packQuestData(q));
+        ((Activity)q.getQb().getContext()).runOnUiThread(() -> q.getQb().setVisibility(GONE));
     }
 
 
@@ -137,6 +151,7 @@ public class QuestManager {
 
                 ViewQuest qb = new ViewQuest(context, q, true);
                 scrollContent.addView(qb);
+                q.setQb(qb);
 
                 if (editQuest != null) {
                     qb.getViewQuestButtonC().setOnClickListener(v -> {
@@ -198,6 +213,7 @@ public class QuestManager {
         });
     }
 
+    @SuppressLint({"SetTextI18n", "UseCompatLoadingForColorStateLists"})
     public void loadQuestsFromFirestoreChild (Context context, LinearLayout scrollContent) {
         questList.clear();
         scrollContent.removeAllViews();
@@ -209,13 +225,15 @@ public class QuestManager {
 
                 ViewQuest qb = new ViewQuest(context, q, false);
                 scrollContent.addView(qb);
+                q.setQb(qb);
 
                 if (q.getStatus().equalsIgnoreCase("Ongoing")) {
                     qb.getViewQuestButtonA().setOnClickListener(v -> {
                         q.setStatus("Awaiting Verification");
+                        q.setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
                         FirestoreManager.getFirestore().collection("Quests")
                                 .document(q.getQuestID())
-                                .update("Status", "Awaiting Verification")
+                                .set(QuestManager.packQuestData(q))
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         Log.d("Debug", "Successfully submitted quest for verification");

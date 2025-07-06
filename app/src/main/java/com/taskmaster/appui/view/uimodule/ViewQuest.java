@@ -103,7 +103,7 @@ public class ViewQuest extends FrameLayout {
 
         Number diff = q.getDifficulty();
 
-        rTimer = new RemainingTimer(viewQuestTimeRemaining, zdt);
+        rTimer = new RemainingTimer(viewQuestTimeRemaining, zdt, q);
         DateTimeUtil.addTimer(rTimer);
 
         viewQuestName.setText(q.getName());
@@ -126,11 +126,11 @@ public class ViewQuest extends FrameLayout {
         }
 
         if (isParent) {
-            viewQuestButtonA.setText("Complete");
+            viewQuestButtonA.setText("Verify");
             viewQuestButtonB.setText("Delete");
             viewQuestButtonC.setText("Edit");
         } else {
-            viewQuestButtonA.setText("Submit For Verification");
+            viewQuestButtonA.setText("Complete");
             viewQuestButtonB.setVisibility(GONE);
             viewQuestButtonC.setVisibility(GONE);
         }

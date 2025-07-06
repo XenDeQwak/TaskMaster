@@ -1,12 +1,13 @@
 package com.taskmaster.appui.entity;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.taskmaster.appui.view.uimodule.ViewQuest;
 
 public class Quest {
 
     private String questID;
     private String name, description, creatorUID, assignedUID;
-    private long startDate, endDate;
+    private long startDate, endDate, completedDate;
     private String rewardStat;
     private String rewardExtra;
     private DocumentReference creatorReference;
@@ -14,8 +15,10 @@ public class Quest {
     private Number difficulty;
     private String status;
 
+    private ViewQuest qb;
 
-    public Quest(String questID, String name, String description, String creatorUID, String assignedUID, long startDate, long endDate, String rewardStat, String rewardExtra, DocumentReference creatorReference, DocumentReference assignedReference, Number difficulty, String status) {
+
+    public Quest(String questID, String name, String description, String creatorUID, String assignedUID, long startDate, long endDate, long completedDate, String rewardStat, String rewardExtra, DocumentReference creatorReference, DocumentReference assignedReference, Number difficulty, String status) {
         this.questID = questID;
         this.name = name;
         this.description = description;
@@ -23,6 +26,7 @@ public class Quest {
         this.assignedUID = assignedUID;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.completedDate = completedDate;
         this.rewardStat = rewardStat;
         this.rewardExtra = rewardExtra;
         this.creatorReference = creatorReference;
@@ -87,6 +91,14 @@ public class Quest {
         this.endDate = endDate;
     }
 
+    public long getCompletedDate() {
+        return completedDate;
+    }
+
+    public void setCompletedDate(long completedDate) {
+        this.completedDate = completedDate;
+    }
+
     public String getRewardStat() {
         return rewardStat;
     }
@@ -123,7 +135,7 @@ public class Quest {
         return difficulty;
     }
 
-    public void setDifficulty(Long difficulty) {
+    public void setDifficulty(Number difficulty) {
         this.difficulty = difficulty;
     }
 
@@ -133,5 +145,13 @@ public class Quest {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public ViewQuest getQb() {
+        return qb;
+    }
+
+    public void setQb(ViewQuest qb) {
+        this.qb = qb;
     }
 }
