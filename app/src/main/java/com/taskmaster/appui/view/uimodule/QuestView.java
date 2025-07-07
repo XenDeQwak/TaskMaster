@@ -213,7 +213,7 @@ public class QuestView extends FrameLayout {
                 break;
             }
 
-            case "failed": {
+            case "awaiting reason": {
                 // Only shown in ChildViewQuest
                 viewQuestButtonA.setText("Submit Reason");
                 viewQuestButtonA.setOnClickListener(v -> {
