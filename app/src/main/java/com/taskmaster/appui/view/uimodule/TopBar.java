@@ -68,10 +68,12 @@ public class TopBar extends FrameLayout {
             setTitle("Adventurers");
         } else if (view == ChildViewQuest.class) {
             setTitle("Quest Board");
+            createObjectButton.setVisibility(View.GONE);
         } else if (view == CosmeticShop.class) {
             setTitle("Cosmetic Shop");
         } else if (view == WeeklyBoss.class) {
             setTitle("Weekly Boss");
+            createObjectButton.setVisibility(View.GONE);
         } else if (view == ProgressionPage.class) {
             setTitle("Progression");
         } else if (view == ParentViewQuestHistory.class || view == ChildViewQuestHistory.class) {
