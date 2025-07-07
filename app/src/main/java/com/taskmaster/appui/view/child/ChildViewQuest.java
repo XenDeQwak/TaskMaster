@@ -60,7 +60,8 @@ public class ChildViewQuest extends ChildView {
 
         questViewChild = findViewById(R.id.questViewChild);
         questManager = new QuestManager();
-        questManager.loadQuestsFromFirestoreChild(questViewChild);
+        String[] status = {"Ongoing", "Failed"};
+        questManager.loadAssignedQuestsWhereStatus(questViewChild, status);
 
         findViewById(R.id.questScrollViewChild).getBackground().setAlpha(160);
 

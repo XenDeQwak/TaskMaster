@@ -53,7 +53,9 @@ public class QuestViewPreview extends FrameLayout {
         this.setOnClickListener(v -> {
             qv = new QuestView(getContext(), isParent);
             qv.setQuest(q, this);
-            qv.setTimer(DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
+            if (q.getStatus().equalsIgnoreCase("ongoing")) {
+                qv.setTimer(DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
+            }
 
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -100,11 +102,13 @@ public class QuestViewPreview extends FrameLayout {
             }
         });
 
-        setTimer(deadline);
+        if (!q.getStatus().equalsIgnoreCase("failed")) {
+            setTimer(deadline);
+        }
     }
 
     public void setTimer (ZonedDateTime deadline) {
-        RemainingTimer rTimer = new RemainingTimer(previewQuestTimeRemaining, deadline, q);
+        RemainingTimer rTimer = new RemainingTimer(previewQuestTimeRemaining, deadline, q, this);
         DateTimeUtil.addTimer(rTimer);
     }
 

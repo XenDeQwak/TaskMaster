@@ -1,6 +1,10 @@
 package com.taskmaster.appui.entity;
 
+import static android.view.View.GONE;
+
 import android.app.Activity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
@@ -11,6 +15,7 @@ import java.time.ZonedDateTime;
 
 public class RemainingTimer {
 
+    View container;
     Quest q;
     long hour, minute, second;
     TextView timeTextView;
@@ -18,10 +23,11 @@ public class RemainingTimer {
 
     Boolean pastDue = false;
 
-    public RemainingTimer(TextView timeTextView, ZonedDateTime due, Quest q) {
+    public RemainingTimer(TextView timeTextView, ZonedDateTime due, Quest q, View container) {
         this.timeTextView = timeTextView;
         this.due = due;
         this.q = q;
+        this.container = container;
     }
 
     public String getRemainingTime () {
@@ -33,6 +39,11 @@ public class RemainingTimer {
             rem = 0;
             pastDue = true;
             QuestManager.failQuest(q);
+            ViewGroup parent = (ViewGroup) container.getParent();
+            ((Activity)parent.getContext()).runOnUiThread(() -> {
+                container.setVisibility(GONE);
+                parent.removeView(container);
+            });
         }
 
         this.second = rem % 60;

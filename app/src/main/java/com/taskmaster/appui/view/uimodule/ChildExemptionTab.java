@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -23,6 +24,11 @@ public class ChildExemptionTab extends FrameLayout {
     EditText excuseTabDescription;
     Button excuseTabCancel, excuseTabSubmit;
 
+    public ChildExemptionTab(@NonNull Context context) {
+        super(context);
+        init();
+    }
+
     public ChildExemptionTab(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -36,7 +42,7 @@ public class ChildExemptionTab extends FrameLayout {
         excuseTabSubmit = findViewById(R.id.excuseTabSubmit);
     }
 
-    public void setQuest (Quest q, GenericCallback callback) {
+    public void setQuest (Quest q) {
         excuseTabDescription.setText("");
         this.q = q;
 
@@ -54,8 +60,8 @@ public class ChildExemptionTab extends FrameLayout {
                             Log.d("Debug", "Failed to submit exemption reason");
                         }
                     });
-            this.setVisibility(GONE);
-            callback.onCallback(null);
+            ViewGroup parent = (ViewGroup) this.getParent();
+            parent.removeView(this);
         });
     }
 }

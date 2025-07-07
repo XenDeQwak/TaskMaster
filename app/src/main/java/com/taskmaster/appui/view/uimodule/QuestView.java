@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.RemainingTimer;
@@ -20,6 +22,7 @@ import com.taskmaster.appui.util.DateTimeUtil;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 public class QuestView extends FrameLayout {
     Quest q;
@@ -44,7 +47,8 @@ public class QuestView extends FrameLayout {
             viewQuestRewardExtra,
             viewQuestDeadline,
             viewQuestTimeRemaining,
-            viewQuestStatus;
+            viewQuestStatus,
+            viewQuestReason;
 
     Button viewQuestButtonA, viewQuestButtonB, viewQuestButtonC, viewQuestButtonD;
 
@@ -64,6 +68,7 @@ public class QuestView extends FrameLayout {
         viewQuestDeadline = findViewById(R.id.viewQuestDeadline);
         viewQuestTimeRemaining = findViewById(R.id.viewQuestTimeRemaining);
         viewQuestStatus = findViewById(R.id.viewQuestStatus);
+        viewQuestReason = findViewById(R.id.viewQuestReason);
 
         viewQuestButtonA = findViewById(R.id.viewQuestButtonA);
         viewQuestButtonB = findViewById(R.id.viewQuestButtonB);
@@ -133,10 +138,10 @@ public class QuestView extends FrameLayout {
             case "awaiting configuration" : {
                 viewQuestButtonA.setVisibility(GONE);
                 viewQuestButtonB.setOnClickListener(v -> {
-                    //Create Temporary EditQuestTab
+                    // Create Temporary EditQuestTab
                     EditQuestTab eqt = new EditQuestTab(getContext());
                     eqt.setQuest(q);
-
+                    // Set LayoutParams
                     ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                             ConstraintLayout.LayoutParams.MATCH_PARENT,
                             ConstraintLayout.LayoutParams.WRAP_CONTENT
@@ -145,11 +150,12 @@ public class QuestView extends FrameLayout {
                     params.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
                     params.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
                     params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-                    params.setMargins(16,16,16,16);
+                    params.setMargins(32,16,32,16);
                     eqt.setLayoutParams(params);
-
+                    // Show
                     ViewGroup parent = (ViewGroup) this.getParent();
                     parent.addView(eqt);
+                    close();
                 });
                 ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) viewQuestButtonC.getLayoutParams();
                 params.topToBottom = viewQuestButtonB.getId();
@@ -182,6 +188,15 @@ public class QuestView extends FrameLayout {
                         q.setStatus("Completed");
                         FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
                                 .set(QuestManager.packQuestData(q));
+                        // Grant rewards
+                        DocumentReference child = q.getAssignedReference();
+                        child.update(((q.getStatus().equalsIgnoreCase("strength"))?"Strength":"Intelligence"), FieldValue.increment(1));
+                        child.update("Gold", q.getDifficulty().intValue());
+                        child.update("QuestCompleted", FieldValue.increment(1));
+                        // Store a reference for all completed quests
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("QuestReference", FirestoreManager.getFirestore().document("Quests/"+q.getQuestID()));
+                        q.getAssignedReference().collection("CompletedQuests").document(q.getQuestID()).set(map);
                         close();
                     });
                     viewQuestButtonB.setText("Reject");
@@ -198,12 +213,60 @@ public class QuestView extends FrameLayout {
                 break;
             }
 
+            case "failed": {
+                // Only shown in ChildViewQuest
+                viewQuestButtonA.setText("Submit Reason");
+                viewQuestButtonA.setOnClickListener(v -> {
+                    ChildExemptionTab cet = new ChildExemptionTab(getContext());
+                    // Set LayoutParams
+                    ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                            ConstraintLayout.LayoutParams.MATCH_PARENT,
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.setMargins(32,16,32,16);
+                    cet.setLayoutParams(params);
+                    // Show
+                    ViewGroup parent = (ViewGroup) this.getParent();
+                    parent.addView(cet);
+                    cet.setQuest(q);
+                    close();
+                });
+                viewQuestButtonB.setVisibility(GONE);
+                break;
+            }
+
+            case "awaiting exemption": {
+                viewQuestRewardStat.setVisibility(GONE);
+                viewQuestRewardExtra.setVisibility(GONE);
+                viewQuestReason.setVisibility(VISIBLE);
+                viewQuestReason.setText("Reason For Failure:\n" + q.getReason());
+                viewQuestButtonA.setText("Accept");
+                viewQuestButtonA.setOnClickListener(v -> {
+                    q.setStatus("Exempted");
+                    FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
+                            .set(QuestManager.packQuestData(q));
+                    close();
+                });
+                viewQuestButtonB.setText("Reject");
+                viewQuestButtonB.setOnClickListener(v -> {
+                    q.setStatus("Failed");
+                    FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
+                            .set(QuestManager.packQuestData(q));
+                    close();
+                });
+                break;
+            }
+
         }
 
     }
 
     public void setTimer (ZonedDateTime deadline) {
-        RemainingTimer rTimer = new RemainingTimer(viewQuestTimeRemaining, deadline, q);
+        RemainingTimer rTimer = new RemainingTimer(viewQuestTimeRemaining, deadline, q, this);
         DateTimeUtil.addTimer(rTimer);
     }
 
@@ -212,19 +275,4 @@ public class QuestView extends FrameLayout {
         parent.removeView(this);
     }
 
-//    public Button getViewQuestButtonA () {
-//        return viewQuestButtonA;
-//    }
-//
-//    public Button getViewQuestButtonB () {
-//        return viewQuestButtonB;
-//    }
-//
-//    public Button getViewQuestButtonC () {
-//        return viewQuestButtonC;
-//    }
-//
-//    public Button getViewQuestButtonD () {
-//        return viewQuestButtonD;
-//    }
 }

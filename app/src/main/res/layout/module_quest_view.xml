@@ -127,6 +127,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewQuestRewardStat" />
 
+        <TextView
+            android:id="@+id/viewQuestReason"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Reason For Failure:"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestRewardExtra" />
+
         <Button
             android:id="@+id/viewQuestButtonB"
             android:layout_width="0dp"
@@ -141,7 +154,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/viewQuestButtonA"
-            app:layout_constraintTop_toBottomOf="@+id/viewQuestRewardExtra" />
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestReason" />
 
         <Button
             android:id="@+id/viewQuestButtonA"
@@ -160,7 +173,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewQuestRewardExtra" />
+            app:layout_constraintTop_toBottomOf="@+id/viewQuestReason" />
 
         <Button
             android:id="@+id/viewQuestButtonC"
