@@ -5,7 +5,7 @@
     android:id="@+id/statContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1"
+    android:background="@drawable/background3"
     tools:context=".view.parent.ParentViewQuest">
 
     <!--  Main  -->
@@ -27,6 +27,7 @@
         app:layout_constraintWidth_percent="0.925"
         app:layout_constraintHeight_percent="0.95"
         app:srcCompat="@drawable/rectangle_rounded"/>
+
 
     <!--  Quest list  -->
     <ScrollView
@@ -67,5 +68,17 @@
         app:layout_constraintEnd_toEndOf="@+id/pvq_container"
         app:layout_constraintStart_toStartOf="@+id/pvq_container"
         app:layout_constraintTop_toTopOf="@+id/pvq_container" />
+
+    <View
+        android:id="@+id/blurOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:background="#CC000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

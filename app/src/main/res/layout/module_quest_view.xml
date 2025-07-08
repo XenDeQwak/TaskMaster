@@ -5,9 +5,10 @@
     android:id="@+id/viewQuestContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rectangle_rounded"
+    android:background="@drawable/paper"
     android:paddingTop="16dp"
     android:paddingBottom="16dp">
+
 
     <ImageView
         android:id="@+id/viewQuestAvatar"
@@ -25,6 +26,23 @@
         app:layout_constraintVertical_weight="1"
         tools:srcCompat="@drawable/coin_sprite" />
 
+    <ImageView
+        android:id="@+id/baseAvatarFrame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/stroked_rectangle"
+        android:padding="16dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="@id/constraintLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewQuestName"
+        app:layout_constraintVertical_weight="5" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
         android:layout_width="0dp"
@@ -32,7 +50,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/stroked_rectangle"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +57,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewQuestName"
         app:layout_constraintVertical_weight="5">
+
+
+
 
         <TextView
             android:id="@+id/viewQuestDescription"
@@ -76,7 +96,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewQuestName" />
+            app:layout_constraintTop_toBottomOf="@+id/Questname"
+            tools:ignore="UnknownId" />
 
         <TextView
             android:id="@+id/viewQuestAdventurer"

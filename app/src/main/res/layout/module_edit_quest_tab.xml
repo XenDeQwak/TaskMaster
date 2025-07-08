@@ -5,7 +5,7 @@
     android:id="@+id/editQuestContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rectangle_rounded"
+    android:background="@drawable/paper"
     android:padding="8dp"
     android:paddingTop="16dp"
     android:paddingBottom="16dp">
