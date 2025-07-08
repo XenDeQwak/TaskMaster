@@ -56,7 +56,6 @@ public class ParentViewQuest extends ParentView {
             questManager.loadCreatedQuestWhereStatus(questScrollContent, editQuest, status);
         });
 
-        findViewById(R.id.pvq_scrollView).getBackground().setAlpha(150);
 
     }
 }
