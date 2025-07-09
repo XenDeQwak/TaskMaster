@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="8dp"
-    android:background="@drawable/stroked_rectangle">
+    android:alpha="1"
+    android:background="@drawable/parchment"
+    >
 
     <ImageView
         android:id="@+id/previewQuestAvatar"
@@ -54,6 +56,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/eb_garamond_semibold"
+            android:textAlignment="center"
+            android:textColor="#3F3F3F"
+            android:textSize="20sp"
             android:text="Due: MM/DD/YYYY hh/mmAM"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -66,6 +72,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="00:00:00 Left"
+            android:fontFamily="@font/eb_garamond_semibold"
+            android:textAlignment="center"
+            android:textColor="#3F3F3F"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -80,6 +90,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:text="Assigned:"
+            android:fontFamily="@font/eb_garamond_semibold"
+            android:textAlignment="center"
+            android:textColor="#3F3F3F"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
