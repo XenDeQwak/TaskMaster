@@ -37,7 +37,7 @@ public class TemporaryConnectionManager {
 
     public static void uploadChild (Child c) {
         Log.d("Debug", "Starting Temporary Connection");
-        tempFB = FirebaseApp.initializeApp(context, options, "Temp");
+        tempFB = FirebaseApp.initializeApp(context, options, c.hashCode()+"");
         tempAuth = FirebaseAuth.getInstance(tempFB);
         tempFirestore = FirebaseFirestore.getInstance(tempFB);
 

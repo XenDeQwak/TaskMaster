@@ -12,7 +12,7 @@ import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
 import com.taskmaster.appui.util.GenericCallback;
-import com.taskmaster.appui.view.uimodule.ChildView;
+import com.taskmaster.appui.view.uimodule.ChildViewPreview;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,15 +115,14 @@ public class ChildManager {
                 Child c = ChildManager.parseChildData((HashMap<String, Object>) ds.getData());
                 childList.add(c);
 
-                ChildView cb = new ChildView(context ,c);
+                ChildViewPreview cb = new ChildViewPreview(context ,c);
                 childCont.addView(cb);
             }
         });
     }
 
-    public static void injectToList(List<Child> list, GenericCallback<?> callback) {
-        FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
-        FirestoreManager.fetchAdventurers(parent.getUid(), dsl -> {
+    public static void injectToList(String id, List<Child> list, GenericCallback<?> callback) {
+        FirestoreManager.fetchAdventurers(id, dsl -> {
             for (DocumentSnapshot ds : dsl) {
                 Child c = ChildManager.parseChildData((HashMap<String, Object>) ds.getData());
                 list.add(c);

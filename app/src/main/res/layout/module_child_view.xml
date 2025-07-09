@@ -56,25 +56,35 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/vewChildStrength"
+            android:id="@+id/viewChildStrength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Strength:"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewChildQuestCompleted" />
+
+        <TextView
+            android:id="@+id/viewChildQuestCompleted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Strength:"
+            android:text="Quest Completed:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewChildName" />
 
         <TextView
-            android:id="@+id/vewChildIntelligence"
+            android:id="@+id/viewChildIntelligence"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Intelligence:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vewChildStrength" />
+            app:layout_constraintTop_toBottomOf="@+id/viewChildStrength" />
 
         <TextView
             android:id="@+id/viewChildFloor"
@@ -84,7 +94,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vewChildIntelligence" />
+            app:layout_constraintTop_toBottomOf="@+id/viewChildIntelligence" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
