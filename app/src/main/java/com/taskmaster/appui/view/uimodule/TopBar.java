@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.view.child.ChildViewLeaderboard;
 import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.child.ChildViewQuestHistory;
 import com.taskmaster.appui.view.child.CosmeticShop;
@@ -76,6 +77,8 @@ public class TopBar extends FrameLayout {
             createObjectButton.setVisibility(View.GONE);
         } else if (view == ProgressionPage.class) {
             setTitle("Progression");
+        }  else if (view == ChildViewLeaderboard.class) {
+            setTitle("Leaderboard");
         } else if (view == ParentViewQuestHistory.class || view == ChildViewQuestHistory.class) {
             setTitle("Quest History");
         }

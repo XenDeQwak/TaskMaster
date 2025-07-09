@@ -38,12 +38,6 @@ public class RemainingTimer {
         if (rem < 0) {
             rem = 0;
             pastDue = true;
-            QuestManager.failQuest(q);
-            ViewGroup parent = (ViewGroup) container.getParent();
-            ((Activity)parent.getContext()).runOnUiThread(() -> {
-                container.setVisibility(GONE);
-                parent.removeView(container);
-            });
         }
 
         this.second = rem % 60;

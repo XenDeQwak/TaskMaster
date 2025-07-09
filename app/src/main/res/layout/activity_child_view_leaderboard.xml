@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvlb_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background2"
+    tools:context=".view.child.WeeklyBoss">
+
+    <!-- Background ImageView for Rank Section -->
+
+    <ImageView
+        android:id="@+id/baseFrame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/rectanglerounded4" />
+
+    <ScrollView
+        android:id="@+id/cvlb_scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rectangle_rounded"
+        app:layout_constraintBottom_toBottomOf="@+id/baseFrame"
+        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/baseFrame"
+        app:layout_constraintTop_toBottomOf="@+id/pedestal3"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:id="@+id/cvlb_scrollContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/pedestal1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
+        app:layout_constraintStart_toStartOf="@+id/baseFrame"
+        app:layout_constraintTop_toTopOf="@+id/baseFrame"
+        app:srcCompat="@drawable/rank_one" />
+
+    <ImageView
+        android:id="@+id/pedestal2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/pedestal3"
+        app:layout_constraintTop_toBottomOf="@+id/pedestal1"
+        app:srcCompat="@drawable/rank_three" />
+
+    <ImageView
+        android:id="@+id/pedestal3"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/pedestal2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/baseFrame"
+        app:layout_constraintTop_toBottomOf="@+id/pedestal1"
+        app:srcCompat="@drawable/rank_two" />
+
+    <TextView
+        android:id="@+id/goldUsername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20"
+        android:text="username"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/pedestal1"
+        app:layout_constraintEnd_toEndOf="@+id/pedestal1"
+        app:layout_constraintStart_toStartOf="@+id/pedestal1"
+        app:layout_constraintTop_toTopOf="@+id/pedestal1"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <TextView
+        android:id="@+id/firstplaceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20"
+        android:text="First Place"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/pedestal1"
+        app:layout_constraintStart_toStartOf="@+id/pedestal1"
+        app:layout_constraintTop_toBottomOf="@+id/goldUsername" />
+
+    <TextView
+        android:id="@+id/silverUsername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20"
+        android:text="username"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/pedestal3"
+        app:layout_constraintEnd_toEndOf="@+id/pedestal3"
+        app:layout_constraintStart_toStartOf="@+id/pedestal3"
+        app:layout_constraintTop_toTopOf="@+id/pedestal3"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <TextView
+        android:id="@+id/secondplaceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20"
+        android:text="Second Place"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/pedestal3"
+        app:layout_constraintStart_toStartOf="@+id/pedestal3"
+        app:layout_constraintTop_toBottomOf="@+id/silverUsername" />
+
+    <TextView
+        android:id="@+id/bronzeUsername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20"
+        android:text="username"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/pedestal2"
+        app:layout_constraintEnd_toEndOf="@+id/pedestal2"
+        app:layout_constraintStart_toStartOf="@+id/pedestal2"
+        app:layout_constraintTop_toTopOf="@+id/pedestal2"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <TextView
+        android:id="@+id/bronzeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/eb_garamond_semibold"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20"
+        android:text="Third Place"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/pedestal2"
+        app:layout_constraintStart_toStartOf="@+id/pedestal2"
+        app:layout_constraintTop_toBottomOf="@+id/bronzeUsername" />
+
+    <com.taskmaster.appui.view.uimodule.TopBar
+        android:id="@+id/glb_topbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/baseFrame"
+        app:layout_constraintTop_toTopOf="@+id/baseFrame" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

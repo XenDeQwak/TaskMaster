@@ -130,14 +130,6 @@ public class QuestManager {
         return QuestManager.parseQuestData(qd);
     }
 
-    @SuppressLint("RestrictedApi")
-    public static void failQuest (Quest q) {
-        q.setStatus("Failed");
-        FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
-                .set(QuestManager.packQuestData(q));
-
-    }
-
 
     public void loadCreatedQuestWhereStatus(LinearLayout scrollContent, EditQuestTab editQuest, String... status) {
         questList.clear();
@@ -159,6 +151,7 @@ public class QuestManager {
         });
     }
 
+
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForColorStateLists"})
     public void loadAssignedQuestsWhereStatus(LinearLayout scrollContent, String... status) {
         questList.clear();
@@ -179,6 +172,7 @@ public class QuestManager {
             }
         });
     }
+
 
     public void loadAssignedQuestHistoryWhereStatus(LinearLayout scrollContent, ChildExemptionTab childExemption, String... status) {
         questList.clear();

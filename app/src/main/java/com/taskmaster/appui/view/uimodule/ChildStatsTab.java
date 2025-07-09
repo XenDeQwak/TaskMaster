@@ -14,7 +14,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.util.NavUtil;
-import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.child.ProgressionPage;
 
 public class ChildStatsTab extends FrameLayout {
@@ -37,7 +36,7 @@ public class ChildStatsTab extends FrameLayout {
         childStatsFloor = findViewById(R.id.childStatsFloor);
         childStatsMoreStatsButton = findViewById(R.id.childStatsMoreStatsButton);
 
-        statsContainer = findViewById(R.id.statContainer);
+        statsContainer = findViewById(R.id.cvlb_container);
         statsContainer.getBackground().setAlpha(150);
 
     }
