@@ -57,7 +57,6 @@ public class ChildViewQuest extends ChildView {
         ChildStatsTab stats = findViewById(R.id.ChildStatsTab);
         stats.setProgressionNav(this);
 
-        findViewById(R.id.questScrollViewChild).getBackground().setAlpha(150);
         editQuestTab = findViewById(R.id.pvq_editTab);
 
         questViewChild = findViewById(R.id.questViewChild);
@@ -65,7 +64,6 @@ public class ChildViewQuest extends ChildView {
         String[] status = {"Ongoing", "Awaiting Reason", "Awaiting Exemption"};
         questManager.loadAssignedQuestsWhereStatus(questViewChild, status);
 
-        findViewById(R.id.questScrollViewChild).getBackground().setAlpha(160);
 
     }
 }
