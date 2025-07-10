@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.util.NavUtil;
+import com.taskmaster.appui.view.child.ChildViewLeaderboard;
 import com.taskmaster.appui.view.child.ChildViewQuest;
 import com.taskmaster.appui.view.child.ChildViewQuestHistory;
 import com.taskmaster.appui.view.child.CosmeticShop;
@@ -25,7 +26,7 @@ public class NavigationMenu extends FrameLayout {
 
     ConstraintLayout navMenuContainer;
 
-    Button navMenuQuestButton, navMenuAdventurerButton, navMenuShopButton, navMenuBossButton, navMenuQuestHistoryButton, navMenuLogoutButton;
+    Button navMenuQuestButton, navMenuAdventurerButton, navMenuShopButton, navMenuBossButton, navMenuLeaderboardButton, navMenuQuestHistoryButton, navMenuLogoutButton;
 
     public NavigationMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -42,6 +43,7 @@ public class NavigationMenu extends FrameLayout {
         navMenuAdventurerButton = findViewById(R.id.navMenuAdventurerButton);
         navMenuShopButton = findViewById(R.id.navMenuShopButton);
         navMenuBossButton = findViewById(R.id.navMenuBossButton);
+        navMenuLeaderboardButton = findViewById(R.id.navMenuLeaderboardButton);
         navMenuQuestHistoryButton = findViewById(R.id.navMenuQuestHistoryButton);
         navMenuLogoutButton = findViewById(R.id.navMenuLogoutButton);
 
@@ -61,6 +63,7 @@ public class NavigationMenu extends FrameLayout {
         NavUtil.setNavigation(activity, navMenuQuestButton, ChildViewQuest.class);
         NavUtil.setNavigation(activity, navMenuShopButton, CosmeticShop.class);
         NavUtil.setNavigation(activity, navMenuBossButton, WeeklyBoss.class);
+        NavUtil.setNavigation(activity, navMenuLeaderboardButton, ChildViewLeaderboard.class);
         NavUtil.setNavigation(activity, navMenuQuestHistoryButton, ChildViewQuestHistory.class);
 
         navMenuAdventurerButton.setVisibility(GONE);

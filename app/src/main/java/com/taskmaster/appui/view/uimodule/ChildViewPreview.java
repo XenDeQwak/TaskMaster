@@ -17,21 +17,21 @@ import com.taskmaster.appui.entity.Child;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChildView extends FrameLayout {
+public class ChildViewPreview extends FrameLayout {
 
     Child c;
 
-    public ChildView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ChildViewPreview(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ChildView(@NonNull Context context) {
+    public ChildViewPreview(@NonNull Context context) {
         super(context);
         init();
     }
 
-    public ChildView(@NonNull Context context, @Nullable Child c) {
+    public ChildViewPreview(@NonNull Context context, @Nullable Child c) {
         super(context);
         setChild(c);
         init();
@@ -52,7 +52,7 @@ public class ChildView extends FrameLayout {
 //        childBarAvatar.setImageResource(avatarImages.get(childDocument.getDouble("Avatar").intValue()));
     }
 
-    TextView viewChildName, viewChildEmail, vewChildStrength, vewChildIntelligence, viewChildFloor;
+    TextView viewChildName, viewChildEmail, vewChildStrength, vewChildIntelligence, viewChildFloor, viewChildQuestCompleted;
     ImageView viewChildAvatar;
     ConstraintLayout childViewCont;
 
@@ -61,9 +61,10 @@ public class ChildView extends FrameLayout {
 
         viewChildName = findViewById(R.id.viewChildName);
         viewChildEmail = findViewById(R.id.viewChildEmail);
-        vewChildStrength = findViewById(R.id.vewChildStrength);
-        vewChildIntelligence = findViewById(R.id.vewChildIntelligence);
+        vewChildStrength = findViewById(R.id.viewChildStrength);
+        vewChildIntelligence = findViewById(R.id.viewChildIntelligence);
         viewChildFloor = findViewById(R.id.viewChildFloor);
+        viewChildQuestCompleted = findViewById(R.id.viewChildQuestCompleted);
         viewChildAvatar = findViewById(R.id.viewChildAvatar);
         childViewCont = findViewById(R.id.viewChildContainer);
 
@@ -72,6 +73,7 @@ public class ChildView extends FrameLayout {
         vewChildStrength.setText("Strength: " + c.getStrength());
         vewChildIntelligence.setText("Intelligence: " + c.getIntelligence());
         viewChildFloor.setText("Floor: " + c.getFloor());
+        viewChildQuestCompleted.setText("Quest Completed: " + c.getQuestCompleted());
 
         setUpAvatar();
         viewChildAvatar.setImageResource(avatarImages.get(c.getAvatar()));

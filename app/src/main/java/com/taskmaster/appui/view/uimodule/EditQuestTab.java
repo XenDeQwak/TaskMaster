@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.R;
@@ -26,6 +27,7 @@ import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
+import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.DateTimeUtil;
 
@@ -86,7 +88,8 @@ public class EditQuestTab extends FrameLayout {
         editQuestRewardPicker.setAdapter(rewardStatAdapter);
 
         childList = new ArrayList<>();
-        ChildManager.injectToList(childList, e -> {
+        FirebaseUser user = AuthManager.getAuth().getCurrentUser();
+        ChildManager.injectToList(user.getUid(), childList, e -> {
             ArrayAdapter<String> childAdapter = new ArrayAdapter<>(
                     this.getContext(),
                     android.R.layout.simple_spinner_item,
