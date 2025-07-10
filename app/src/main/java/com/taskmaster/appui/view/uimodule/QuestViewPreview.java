@@ -78,8 +78,14 @@ public class QuestViewPreview extends FrameLayout {
         String rewardStat = q.getRewardStat();
         if (rewardStat.equalsIgnoreCase("strength")) {
             previewQuestAvatar.setImageResource(R.drawable.icon_str);
+            if (q.getStatus().equalsIgnoreCase("awaiting verification")) {
+                previewQuestAvatar.setImageResource(R.drawable.icon_str_pending);
+            }
         } else if (rewardStat.equalsIgnoreCase("intelligence")) {
             previewQuestAvatar.setImageResource(R.drawable.icon_int);
+            if (q.getStatus().equalsIgnoreCase("awaiting verification")) {
+                previewQuestAvatar.setImageResource(R.drawable.icon_int_pending);
+            }
         } else {
             previewQuestAvatar.setImageResource(R.drawable.coin_sprite);
         }
