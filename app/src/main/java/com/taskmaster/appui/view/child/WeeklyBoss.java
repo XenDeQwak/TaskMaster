@@ -144,7 +144,7 @@ public class WeeklyBoss extends ChildView {
 
     private void setUpBoss(){
         int floor = childDocument.getDouble("Floor").intValue();
-        childBarFloorCount.setText("Floor " + floor);
+        childBarFloorCount.setText("Floor: " + floor);
         Boss[] bosses = new Boss[]{
                 new Boss("Buckler", R.drawable.bucklerbossundamaged_sprite, R.drawable.bucklerbossdamaged_sprite),
                 new Boss("Book", R.drawable.bookbossundamaged_sprite, R.drawable.bookbossdamaged_sprite),
