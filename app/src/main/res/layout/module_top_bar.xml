@@ -18,9 +18,9 @@
             android:id="@+id/pageTitleContainer"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/rectangle_rounded2"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/signboard"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/createObjectButton"
             app:layout_constraintStart_toEndOf="@+id/navBarButton"
@@ -30,11 +30,11 @@
             android:id="@+id/pageTitleTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/eb_garamond_semibold"
-            android:text="Lorem ipsum"
+            android:fontFamily="@font/silkscreen"
+            android:text="Quest Board"
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textColor="#FFCDAB"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/pageTitleContainer"
             app:layout_constraintEnd_toEndOf="@+id/pageTitleContainer"
             app:layout_constraintHorizontal_bias="1.0"
@@ -46,8 +46,8 @@
             android:id="@+id/createObjectButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:alpha="0.8"
-            android:background="@drawable/rectangle_rounded2"
+            android:alpha="1"
+            android:background="@drawable/coin_sprite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -56,8 +56,8 @@
             android:id="@+id/navBarButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:alpha="0.8"
-            android:background="@drawable/rectangle_rounded2"
+            android:alpha="1"
+            android:background="@drawable/miniboard"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -67,20 +67,22 @@
             android:id="@+id/goldAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/eb_garamond_semibold"
-            android:text="0 G"
-            android:textSize="24sp"
+            android:fontFamily="@font/silkscreen"
+            android:text="1"
+            android:textColor="@color/black"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/createObjectButton"
             app:layout_constraintEnd_toEndOf="@+id/createObjectButton"
             app:layout_constraintStart_toStartOf="@+id/createObjectButton"
             app:layout_constraintTop_toTopOf="@+id/createObjectButton" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.taskmaster.appui.view.uimodule.NavigationMenu
         android:id="@+id/dropdownNavMenu"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="185dp"
+        android:layout_height="775dp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/topBarContainer"
         app:layout_constraintTop_toBottomOf="@+id/topBarContainer" />
@@ -92,5 +94,4 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBarContainer" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
