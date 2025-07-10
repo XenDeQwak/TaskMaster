@@ -146,7 +146,7 @@
             android:background="@drawable/stroked_rectangle"
             android:elevation="1dp"
             android:numStars="5"
-            android:padding="12dp"
+            android:padding="7dp"
             android:rating="0"
             android:stepSize="1"
             android:translationZ="1dp"
@@ -154,7 +154,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/editQuestRewardPicker"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Spinner
             android:id="@+id/editQuestRewardPicker"
