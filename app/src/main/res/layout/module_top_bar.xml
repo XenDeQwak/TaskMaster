@@ -87,4 +87,11 @@
         app:layout_constraintStart_toStartOf="@+id/topBarContainer"
         app:layout_constraintTop_toBottomOf="@+id/topBarContainer" />
 
+    <com.taskmaster.appui.view.uimodule.LeaderboardSortMenu
+        android:id="@+id/dropdownSortMenu"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBarContainer" />
 </androidx.constraintlayout.widget.ConstraintLayout>
