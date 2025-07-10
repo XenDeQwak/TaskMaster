@@ -207,7 +207,7 @@ public class WeeklyBoss extends ChildView {
                         updateProgressBar(damage[0]);
                         handler.postDelayed(this, 500);
                     } else {
-                        childDocument.getReference().update("bossAlive", false);
+                        childDocument.getReference().update("BossAlive", false);
                         monsterImage.setImageResource(currBoss.getDamagedImageResId());
                         showPopup("You have defeated me!","Great!");
                     }
