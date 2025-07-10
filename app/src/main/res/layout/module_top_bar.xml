@@ -81,15 +81,9 @@
 
     <com.taskmaster.appui.view.uimodule.NavigationMenu
         android:id="@+id/dropdownNavMenu"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="185dp"
+        android:layout_height="775dp"
         android:visibility="gone"
-        app:layout_constraintHeight_percent="0.9"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintWidth_percent="0.4"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/topBarContainer"
         app:layout_constraintTop_toBottomOf="@+id/topBarContainer" />
 
