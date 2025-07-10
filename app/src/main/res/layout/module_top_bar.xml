@@ -47,7 +47,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:alpha="1"
-            android:background="@drawable/coin_sprite"
+            android:background="@drawable/miniboard"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/silkscreen"
             android:text="1"
-            android:textColor="@color/black"
+            android:textColor="#F0CB00"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/createObjectButton"
             app:layout_constraintEnd_toEndOf="@+id/createObjectButton"
@@ -81,9 +81,15 @@
 
     <com.taskmaster.appui.view.uimodule.NavigationMenu
         android:id="@+id/dropdownNavMenu"
-        android:layout_width="185dp"
-        android:layout_height="775dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone"
+        app:layout_constraintHeight_percent="0.9"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/topBarContainer"
         app:layout_constraintTop_toBottomOf="@+id/topBarContainer" />
 
