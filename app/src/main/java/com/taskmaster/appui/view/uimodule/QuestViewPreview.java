@@ -51,29 +51,45 @@ public class QuestViewPreview extends FrameLayout {
         this.q = q;
 
         this.setOnClickListener(v -> {
-            qv = new QuestView(getContext(), isParent);
+
+            ViewGroup parent = (ViewGroup) this.getParent().getParent().getParent(); // Don't ask okay
+
+            Overlay ov = new Overlay(getContext());
+            ConstraintLayout.LayoutParams ovParams = new ConstraintLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+                    ConstraintLayout.LayoutParams.MATCH_PARENT
+            );
+            ovParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+            ovParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+            ovParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+            ovParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+            ov.setLayoutParams(ovParams);
+            ov.setClickable(true);
+            parent.addView(ov);
+
+
+            qv = new QuestView(getContext(), isParent, ov);
             qv.setQuest(q, this);
             if (q.getStatus().equalsIgnoreCase("ongoing")) {
                 qv.setTimer(DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
             }
 
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams qvParams = new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.MATCH_PARENT,
                     ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
-            params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-            params.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
-            params.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
-            params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-            params.setMargins(16,16,16,16);
-            qv.setLayoutParams(params);
+            qvParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+            qvParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+            qvParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+            qvParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+            qvParams.setMargins(16,16,16,16);
+            qv.setLayoutParams(qvParams);
             qv.setClickable(true);
 
-            ViewGroup parent = (ViewGroup) this.getParent().getParent().getParent(); // Don't ask okay
             parent.addView(qv);
         });
 
-        previewQuestContainer.getBackground().setAlpha(150);
+        //previewQuestContainer.getBackground().setAlpha(150);
 
         String rewardStat = q.getRewardStat();
         if (rewardStat.equalsIgnoreCase("strength")) {

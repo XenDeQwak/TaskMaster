@@ -28,10 +28,12 @@ public class QuestView extends FrameLayout {
     Quest q;
     QuestViewPreview qvp;
     Boolean isParent;
+    Overlay ov;
 
-    public QuestView(@NonNull Context context, boolean isParent) {
+    public QuestView(@NonNull Context context, boolean isParent, Overlay ov) {
         super(context);
         this.isParent = isParent;
+        this.ov = ov;
         init();
     }
 
@@ -273,6 +275,7 @@ public class QuestView extends FrameLayout {
     private void close () {
         ViewGroup parent = (ViewGroup) this.getParent();
         parent.removeView(this);
+        parent.removeView(ov);
     }
 
 }
