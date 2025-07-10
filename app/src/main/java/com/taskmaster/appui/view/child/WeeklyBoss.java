@@ -210,6 +210,7 @@ public class WeeklyBoss extends ChildView {
                         childDocument.getReference().update("BossAlive", false);
                         monsterImage.setImageResource(currBoss.getDamagedImageResId());
                         showPopup("You have defeated me!","Great!");
+                        attachRestartHandler();
                     }
                 }
             };
