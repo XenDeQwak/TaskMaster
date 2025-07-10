@@ -23,10 +23,13 @@ public class ParentView extends AppCompatActivity {
         topBar.getDropdownNavMenu().initNavButtonsParent(activity);
         topBar.getDropdownNavMenu().initLogoutButton(activity);
 
-        if (c == ParentViewQuestHistory.class) {
+        topBar.getCreateObjectButton().setVisibility(VISIBLE);
+        if (c == ParentViewQuest.class) {
+            topBar.getCreateObjectButton().setImageResource(R.drawable.add_quest);
+        } else if (c == ParentViewManageChild.class) {
+            topBar.getCreateObjectButton().setImageResource(R.drawable.add_adventurer);
+        } else if (c == ParentViewQuestHistory.class) {
             topBar.getCreateObjectButton().setVisibility(GONE);
-        } else {
-            topBar.getCreateObjectButton().setVisibility(VISIBLE);
         }
 
     }

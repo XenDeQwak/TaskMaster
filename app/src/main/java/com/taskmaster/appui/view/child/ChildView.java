@@ -25,12 +25,14 @@ public class ChildView extends AppCompatActivity {
         topBar.getDropdownNavMenu().initLogoutButton(activity);
 
         goldAmount = topBar.getGoldAmount();
+        goldAmount.setVisibility(GONE);
+        topBar.getCreateObjectButton().setVisibility(GONE);
         if (c == CosmeticShop.class) {
             goldAmount.setVisibility(VISIBLE);
             topBar.getCreateObjectButton().setVisibility(VISIBLE);
-        } else {
-            goldAmount.setVisibility(GONE);
-            topBar.getCreateObjectButton().setVisibility(GONE);
+        } else if (c == ChildViewLeaderboard.class) {
+            topBar.getCreateObjectButton().setVisibility(VISIBLE);
+            topBar.getCreateObjectButton().setImageResource(R.drawable.sortby_leaderboard);
         }
 
     }
