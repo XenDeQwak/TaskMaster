@@ -5,14 +5,14 @@
     android:id="@+id/cvlb_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background3"
+    android:background="@drawable/background1"
     tools:context=".view.child.ChildViewQuest">
 
     <ImageView
         android:id="@+id/pvq_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:alpha="0.5"
+        android:background="@drawable/background3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.95"
