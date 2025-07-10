@@ -1,5 +1,7 @@
 package com.taskmaster.appui.view.child;
 
+import static java.security.AccessController.getContext;
+
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,11 +10,13 @@ import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.R;
@@ -109,6 +113,8 @@ public class ProgressionPage extends ChildView {
 
     private void pieGraph(int childInt, int childStr) {
         PieChart pieChart = findViewById(R.id.chart);
+        Typeface font = ResourcesCompat.getFont(this, R.font.silkscreen);
+        pieChart.setEntryLabelTypeface(font);
 
         // Create entries for the pie chart
         List<PieEntry> entries = new ArrayList<>();
@@ -126,10 +132,19 @@ public class ProgressionPage extends ChildView {
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
 
+
         // Create PieData
         PieData data = new PieData(dataSet);
         data.setValueTextSize(20f);
+        data.setValueTypeface(font);
+
         data.setValueTextColor(Color.BLACK);
+        data.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.valueOf((int) value);
+            }
+        });
 
         // Apply data to pieChart
         pieChart.setData(data);
