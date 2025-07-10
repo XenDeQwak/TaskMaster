@@ -57,6 +57,7 @@ public class NavigationMenu extends FrameLayout {
 
         navMenuShopButton.setVisibility(GONE);
         navMenuBossButton.setVisibility(GONE);
+        navMenuLeaderboardButton.setVisibility(GONE);
     }
 
     public void initNavButtonsChild (Activity activity) {

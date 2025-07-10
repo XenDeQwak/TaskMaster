@@ -1,5 +1,6 @@
 package com.taskmaster.appui.view.child;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
@@ -33,6 +34,7 @@ public class ChildViewQuest extends ChildView {
         avatarImages.add(R.drawable.placeholderavatar4_framed_round);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,7 @@ public class ChildViewQuest extends ChildView {
         setUpAvatar();
         User u = User.getInstance();
         ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsName().setText((String)u.getDocumentSnapshot().get("Username"));
-        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsFloor().setText(u.getDocumentSnapshot().get("Floor").toString());
+        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsFloor().setText("Floor: " + u.getDocumentSnapshot().get("Floor").toString());
         ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsAvatarImage().setImageResource(avatarImages.get(u.getDocumentSnapshot().getDouble("Avatar").intValue()));
 
         ChildStatsTab stats = findViewById(R.id.ChildStatsTab);

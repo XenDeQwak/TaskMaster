@@ -23,7 +23,8 @@ import com.taskmaster.appui.view.parent.ParentViewQuestHistory;
 public class TopBar extends FrameLayout {
 
     ImageView navBarButton;
-    NavigationMenu navigationMenu;
+    NavigationMenu dropdownNavMenu;
+    LeaderboardSortMenu dropdownSortMenu;
     TextView pageTitleTextView;
     ImageView createObjectButton;
     TextView goldAmount;
@@ -34,23 +35,26 @@ public class TopBar extends FrameLayout {
 
     public void init (boolean isParent) {
         LayoutInflater.from(getContext()).inflate(R.layout.module_top_bar, this);
+
         navBarButton = findViewById(R.id.navBarButton);
-        navigationMenu = findViewById(R.id.dropdownNavMenu);
+        dropdownNavMenu = findViewById(R.id.dropdownNavMenu);
+        dropdownSortMenu = findViewById(R.id.dropdownSortMenu);
         pageTitleTextView = findViewById(R.id.pageTitleTextView);
         createObjectButton = findViewById(R.id.createObjectButton);
         goldAmount = findViewById(R.id.goldAmount);
 
         // Dropdown menu logic
         navBarButton.setOnClickListener(v -> {
-            navigationMenu.bringToFront();
-            if (navigationMenu.getVisibility() == GONE) {
-                navigationMenu.setVisibility(VISIBLE);
+            dropdownNavMenu.bringToFront();
+            if (dropdownNavMenu.getVisibility() == GONE) {
+                dropdownNavMenu.setVisibility(VISIBLE);
+                dropdownSortMenu.setVisibility(GONE);
             } else {
-                navigationMenu.setVisibility(GONE);
+                dropdownNavMenu.setVisibility(GONE);
             }
         });
 
-        createObjectButton.setImageDrawable(null);
+        //createObjectButton.setImageDrawable(null);
         goldAmount.setVisibility(View.GONE);
 
     }
@@ -62,19 +66,15 @@ public class TopBar extends FrameLayout {
     public <T extends AppCompatActivity> void setPageTitle(Class<T> view) {
 
         if (view == ParentViewQuest.class) {
-            createObjectButton.setImageResource(R.drawable.add_quest);
             setTitle("Quest Board");
         } else if (view == ParentViewManageChild.class) {
-            createObjectButton.setImageResource(R.drawable.add_adventurer);
             setTitle("Adventurers");
         } else if (view == ChildViewQuest.class) {
             setTitle("Quest Board");
-            createObjectButton.setVisibility(View.GONE);
         } else if (view == CosmeticShop.class) {
             setTitle("Cosmetic Shop");
         } else if (view == WeeklyBoss.class) {
             setTitle("Weekly Boss");
-            createObjectButton.setVisibility(View.GONE);
         } else if (view == ProgressionPage.class) {
             setTitle("Progression");
         }  else if (view == ChildViewLeaderboard.class) {
@@ -94,7 +94,11 @@ public class TopBar extends FrameLayout {
     }
 
     public NavigationMenu getDropdownNavMenu () {
-        return navigationMenu;
+        return dropdownNavMenu;
+    }
+
+    public LeaderboardSortMenu getDropdownSortMenu () {
+        return dropdownSortMenu;
     }
 
 }

@@ -28,10 +28,12 @@ public class QuestView extends FrameLayout {
     Quest q;
     QuestViewPreview qvp;
     Boolean isParent;
+    Overlay ov;
 
-    public QuestView(@NonNull Context context, boolean isParent) {
+    public QuestView(@NonNull Context context, boolean isParent, Overlay ov) {
         super(context);
         this.isParent = isParent;
+        this.ov = ov;
         init();
     }
 
@@ -125,8 +127,14 @@ public class QuestView extends FrameLayout {
         String rewardStat = q.getRewardStat();
         if (rewardStat.equalsIgnoreCase("strength")) {
             viewQuestAvatar.setImageResource(R.drawable.icon_str);
+            if (q.getStatus().equalsIgnoreCase("awaiting verification")) {
+                viewQuestAvatar.setImageResource(R.drawable.icon_str_pending);
+            }
         } else if (rewardStat.equalsIgnoreCase("intelligence")) {
             viewQuestAvatar.setImageResource(R.drawable.icon_int);
+            if (q.getStatus().equalsIgnoreCase("awaiting verification")) {
+                viewQuestAvatar.setImageResource(R.drawable.icon_int_pending);
+            }
         } else {
             viewQuestAvatar.setImageResource(R.drawable.coin_sprite);
         }
@@ -273,6 +281,7 @@ public class QuestView extends FrameLayout {
     private void close () {
         ViewGroup parent = (ViewGroup) this.getParent();
         parent.removeView(this);
+        parent.removeView(ov);
     }
 
 }

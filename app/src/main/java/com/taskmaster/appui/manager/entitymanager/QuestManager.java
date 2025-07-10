@@ -175,19 +175,19 @@ public class QuestManager {
 
 
     public void loadAssignedQuestHistoryWhereStatus(LinearLayout scrollContent, ChildExemptionTab childExemption, String... status) {
-        questList.clear();
-        scrollContent.removeAllViews();
-        FirebaseUser child = AuthManager.getAuth().getCurrentUser();
-        FirestoreManager.fetchAssignedQuestsWhereStatus(child.getUid(), Arrays.asList(status),dsl -> {
-            for (DocumentSnapshot ds : dsl) {
-                Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
-                questList.add(q);
-
-                QuestView qb = new QuestView(scrollContent.getContext(), false);
-                scrollContent.addView(qb);
-
-            }
-        });
+//        questList.clear();
+//        scrollContent.removeAllViews();
+//        FirebaseUser child = AuthManager.getAuth().getCurrentUser();
+//        FirestoreManager.fetchAssignedQuestsWhereStatus(child.getUid(), Arrays.asList(status),dsl -> {
+//            for (DocumentSnapshot ds : dsl) {
+//                Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
+//                questList.add(q);
+//
+//                QuestView qb = new QuestView(scrollContent.getContext(), false, null);
+//                scrollContent.addView(qb);
+//
+//            }
+//        });
     }
 
 }
