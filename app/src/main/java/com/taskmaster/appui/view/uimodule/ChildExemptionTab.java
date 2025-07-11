@@ -1,5 +1,6 @@
 package com.taskmaster.appui.view.uimodule;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -46,22 +47,30 @@ public class ChildExemptionTab extends FrameLayout {
         excuseTabDescription.setText("");
         this.q = q;
 
-        excuseTabCancel.setOnClickListener(v -> this.setVisibility(GONE));
+        excuseTabCancel.setOnClickListener(v -> {
+            ((Activity)getContext()).runOnUiThread(() -> {
+                ViewGroup parent = (ViewGroup) this.getParent();
+                parent.removeView(this);
+            });
+        });
 
         excuseTabSubmit.setOnClickListener(v -> {
-            q.setStatus("Awaiting Exemption");
-            q.setReason(excuseTabDescription.getText().toString());
-            FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
-                    .set(QuestManager.packQuestData(q))
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Log.d("Debug", "Successfully submitted exemption reason");
-                        } else {
-                            Log.d("Debug", "Failed to submit exemption reason");
-                        }
-                    });
-            ViewGroup parent = (ViewGroup) this.getParent();
-            parent.removeView(this);
+            //q.setStatus("Awaiting Exemption");
+            //q.setReason(excuseTabDescription.getText().toString());
+//            FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
+//                    .set(QuestManager.packQuestData(q))
+//                    .addOnCompleteListener(task -> {
+//                        if (task.isSuccessful()) {
+//                            Log.d("Debug", "Successfully submitted exemption reason");
+//                        } else {
+//                            Log.d("Debug", "Failed to submit exemption reason");
+//                        }
+//                    });
+
+            ((Activity)getContext()).runOnUiThread(() -> {
+                ViewGroup parent = (ViewGroup) this.getParent();
+                parent.removeView(this);
+            });
         });
     }
 }

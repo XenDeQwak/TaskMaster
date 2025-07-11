@@ -20,7 +20,7 @@ import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
 import com.taskmaster.appui.view.uimodule.ChildCreationTab;
 import java.util.List;
 
-public class ParentViewManageChild extends ParentView {
+public class ParentPageManageChild extends ParentPage {
 
     ChildManager childManager;
     ImageView createChildButton;
@@ -38,7 +38,7 @@ public class ParentViewManageChild extends ParentView {
             return insets;
         });
 
-        initNavigationMenu(this, ParentViewManageChild.class);
+        initNavigationMenu(this, ParentPageManageChild.class);
 
         childCreationTabPopUp = findViewById(R.id.childCreationPopUp);
 

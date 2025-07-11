@@ -10,15 +10,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.view.child.ChildViewLeaderboard;
-import com.taskmaster.appui.view.child.ChildViewQuest;
-import com.taskmaster.appui.view.child.ChildViewQuestHistory;
+import com.taskmaster.appui.view.child.ChildPageLeaderboard;
+import com.taskmaster.appui.view.child.ChildPageQuestBoard;
+import com.taskmaster.appui.view.child.ChildPageQuestHistory;
 import com.taskmaster.appui.view.child.CosmeticShop;
 import com.taskmaster.appui.view.child.ProgressionPage;
 import com.taskmaster.appui.view.child.WeeklyBoss;
-import com.taskmaster.appui.view.parent.ParentViewManageChild;
-import com.taskmaster.appui.view.parent.ParentViewQuest;
-import com.taskmaster.appui.view.parent.ParentViewQuestHistory;
+import com.taskmaster.appui.view.parent.ParentPageManageChild;
+import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
+import com.taskmaster.appui.view.parent.ParentPageQuestHistory;
 
 public class TopBar extends FrameLayout {
 
@@ -65,11 +65,11 @@ public class TopBar extends FrameLayout {
 
     public <T extends AppCompatActivity> void setPageTitle(Class<T> view) {
 
-        if (view == ParentViewQuest.class) {
+        if (view == ParentPageQuestBoard.class) {
             setTitle("Quest Board");
-        } else if (view == ParentViewManageChild.class) {
+        } else if (view == ParentPageManageChild.class) {
             setTitle("Adventurers");
-        } else if (view == ChildViewQuest.class) {
+        } else if (view == ChildPageQuestBoard.class) {
             setTitle("Quest Board");
         } else if (view == CosmeticShop.class) {
             setTitle("Cosmetic Shop");
@@ -77,9 +77,9 @@ public class TopBar extends FrameLayout {
             setTitle("Weekly Boss");
         } else if (view == ProgressionPage.class) {
             setTitle("Progression");
-        }  else if (view == ChildViewLeaderboard.class) {
+        }  else if (view == ChildPageLeaderboard.class) {
             setTitle("Leaderboard");
-        } else if (view == ParentViewQuestHistory.class || view == ChildViewQuestHistory.class) {
+        } else if (view == ParentPageQuestHistory.class || view == ChildPageQuestHistory.class) {
             setTitle("Quest History");
         }
 

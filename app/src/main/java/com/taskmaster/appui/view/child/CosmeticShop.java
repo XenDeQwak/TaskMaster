@@ -18,7 +18,7 @@ import com.taskmaster.appui.util.NavUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CosmeticShop extends ChildView {
+public class CosmeticShop extends ChildPage {
     private View[] confirmationViews;
     private CosmeticItem clicked;
     private User user;

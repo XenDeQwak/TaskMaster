@@ -1,8 +1,6 @@
 package com.taskmaster.appui.view.uimodule;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -10,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
@@ -18,19 +15,20 @@ import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.RemainingTimer;
 import com.taskmaster.appui.util.DateTimeUtil;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class QuestViewPreview extends FrameLayout {
+public class QuestBoxPreview extends FrameLayout {
 
     Quest q;
-    QuestView qv;
+    QuestBox qv;
 
     ConstraintLayout previewQuestContainer;
     ImageView previewQuestAvatar;
     TextView previewQuestName, previewQuestDeadline, previewQuestTimeRemaining, previewQuestAdventurer;
 
-    public QuestViewPreview(@NonNull Context context) {
+    public QuestBoxPreview(@NonNull Context context) {
         super(context);
         init();
     }
@@ -47,7 +45,7 @@ public class QuestViewPreview extends FrameLayout {
 
     }
 
-    public void setQuest (Quest q, Boolean isParent) {
+    public void setQuest (Quest q, String state) {
         this.q = q;
 
         this.setOnClickListener(v -> {
@@ -63,16 +61,15 @@ public class QuestViewPreview extends FrameLayout {
             ovParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
             ovParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
             ovParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+            //ov.setFitsSystemWindows(true);
             ov.setLayoutParams(ovParams);
             ov.setClickable(true);
             parent.addView(ov);
 
 
-            qv = new QuestView(getContext(), isParent, ov);
+            qv = new QuestBox(getContext(), state, ov);
             qv.setQuest(q, this);
-            if (q.getStatus().equalsIgnoreCase("ongoing")) {
-                qv.setTimer(DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
-            }
+
 
             ConstraintLayout.LayoutParams qvParams = new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -115,7 +112,7 @@ public class QuestViewPreview extends FrameLayout {
         previewQuestDeadline.setText("Due: " + dueDate);
 
         q.getAssignedReference().get().addOnCompleteListener(task -> {
-            if (!isParent) {
+            if (state.equalsIgnoreCase("child")) {
                 previewQuestAdventurer.setVisibility(GONE);
             } else if (task.isSuccessful() && task.getResult().get("Username") != null) {
                 previewQuestAdventurer.setText("Assigned: " + task.getResult().get("Username").toString());
@@ -124,8 +121,15 @@ public class QuestViewPreview extends FrameLayout {
             }
         });
 
-        if (!q.getStatus().equalsIgnoreCase("failed")) {
-            setTimer(deadline);
+        if (q.getStatus().equalsIgnoreCase("ongoing")) {
+            setTimer(DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
+        } else {
+            Duration d = Duration.between(DateTimeUtil.getDateTimeNow(), DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
+            if (d.isNegative()) {
+                previewQuestTimeRemaining.setText(q.getStatus().toUpperCase());
+            } else {
+                previewQuestTimeRemaining.setText(RemainingTimer.toRemainingDuration(d));
+            }
         }
     }
 

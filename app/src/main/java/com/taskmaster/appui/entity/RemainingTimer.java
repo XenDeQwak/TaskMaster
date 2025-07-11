@@ -54,5 +54,10 @@ public class RemainingTimer {
         });
     }
 
+    public static String toRemainingDuration (Duration d) {
+        long rem = d.toSeconds();
+        return (rem/3600) + ":" + (((rem/60)%60>9)?(rem/60)%60:"0"+(rem/60)%60) + ":" + ((rem % 60>9)?rem % 60:"0"+rem % 60);
+    }
+
 
 }

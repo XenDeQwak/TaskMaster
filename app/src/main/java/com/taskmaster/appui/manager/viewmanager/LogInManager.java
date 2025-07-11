@@ -10,8 +10,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
-import com.taskmaster.appui.view.child.ChildViewQuest;
-import com.taskmaster.appui.view.parent.ParentViewQuest;
+import com.taskmaster.appui.view.child.ChildPageQuestBoard;
+import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
 
 import java.util.Objects;
 
@@ -39,7 +39,7 @@ public class LogInManager {
                     Toast.makeText(origin, "Login successful", Toast.LENGTH_SHORT).show();
                     User newUser = User.getInstance();
                     newUser.setUser(FirebaseAuth.getInstance().getCurrentUser());
-                    Class<?> dest = (Objects.equals(signInRole, "parent"))? ParentViewQuest.class : ChildViewQuest.class;
+                    Class<?> dest = (Objects.equals(signInRole, "parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
 //                    System.out.println(signInRole);
 //                    System.out.println((Objects.equals(signInRole, "parent")));
 //                    System.out.println(dest);

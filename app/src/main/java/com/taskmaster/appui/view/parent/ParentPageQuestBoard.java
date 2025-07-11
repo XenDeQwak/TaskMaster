@@ -17,7 +17,7 @@ import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
 
-public class ParentViewQuest extends ParentView {
+public class ParentPageQuestBoard extends ParentPage {
 
     QuestManager questManager;
     ChildManager childManager;
@@ -37,23 +37,23 @@ public class ParentViewQuest extends ParentView {
             return insets;
         });
 
-        initNavigationMenu(this, ParentViewQuest.class);
+        initNavigationMenu(this, ParentPageQuestBoard.class);
 
         questScrollContent = findViewById(R.id.pvq_scrollContent);
 
         editQuest = findViewById(R.id.pvq_editTab);
 
-        questManager = new QuestManager();
+        //questManager = new QuestManager();
         String[] status = {"Ongoing", "Awaiting Configuration", "Awaiting Verification", "Awaiting Exemption"};
-        questManager.loadCreatedQuestWhereStatus(questScrollContent, editQuest, status);
+        //questManager.loadCreatedQuestWhereStatus(questScrollContent, editQuest, status);
 
         // Initialize createQuestButton
         createQuestButton = topBar.getCreateObjectButton();
         createQuestButton.setOnClickListener(v -> {
             //System.out.println("I AM PRESSED IN PARENTVIEWQUEST");
-            Quest q = QuestManager.createBlankQuest();
-            FirestoreManager.uploadQuest(q);
-            questManager.loadCreatedQuestWhereStatus(questScrollContent, editQuest, status);
+            //Quest q = QuestManager.createBlankQuest();
+            //FirestoreManager.uploadQuest(q);
+            //questManager.loadCreatedQuestWhereStatus(questScrollContent, editQuest, status);
         });
 
 

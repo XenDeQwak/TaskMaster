@@ -15,22 +15,22 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".view.child.ChildViewLeaderboard"
+            android:name=".view.child.ChildPageLeaderboard"
             android:exported="false" />
         <activity
-            android:name=".view.child.ChildViewQuestHistory"
+            android:name=".view.child.ChildPageQuestHistory"
             android:exported="false" />
         <activity
-            android:name=".view.parent.ParentViewQuestHistory"
+            android:name=".view.parent.ParentPageQuestHistory"
             android:exported="false" />
         <activity
-            android:name=".view.child.ChildViewQuest"
+            android:name=".view.child.ChildPageQuestBoard"
             android:exported="false" />
         <activity
-            android:name=".view.parent.ParentViewManageChild"
+            android:name=".view.parent.ParentPageManageChild"
             android:exported="false" />
         <activity
-            android:name=".view.parent.ParentViewQuest"
+            android:name=".view.parent.ParentPageQuestBoard"
             android:exported="false" />
         <activity
             android:name=".view.login.UserLogin"

@@ -18,7 +18,7 @@ import com.taskmaster.appui.view.uimodule.ViewQuestTab;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChildViewQuest extends ChildView {
+public class ChildPageQuestBoard extends ChildPage {
 
     QuestManager questManager;
     LinearLayout questViewChild;
@@ -46,7 +46,7 @@ public class ChildViewQuest extends ChildView {
             return insets;
         });
 
-        initNavigationMenu(this, ChildViewQuest.class);
+        initNavigationMenu(this, ChildPageQuestBoard.class);
 
         setUpAvatar();
         User u = User.getInstance();
@@ -60,9 +60,9 @@ public class ChildViewQuest extends ChildView {
         editQuestTab = findViewById(R.id.pvq_editTab);
 
         questViewChild = findViewById(R.id.questViewChild);
-        questManager = new QuestManager();
-        String[] status = {"Ongoing", "Awaiting Reason", "Awaiting Exemption"};
-        questManager.loadAssignedQuestsWhereStatus(questViewChild, status);
+        //questManager = new QuestManager();
+        String[] status = {"Ongoing", "Awaiting Reason"};
+        //questManager.loadAssignedQuestsWhereStatus(questViewChild, status);
 
 
     }

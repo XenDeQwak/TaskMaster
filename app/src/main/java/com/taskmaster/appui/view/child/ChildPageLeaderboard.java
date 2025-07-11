@@ -25,7 +25,7 @@ import com.taskmaster.appui.view.uimodule.NavigationMenu;
 
 import java.util.ArrayList;
 
-public class ChildViewLeaderboard extends ChildView {
+public class ChildPageLeaderboard extends ChildPage {
 
     ChildManager childManager;
 
@@ -51,7 +51,7 @@ public class ChildViewLeaderboard extends ChildView {
 
         childManager = new ChildManager(this);
 
-        initNavigationMenu(this, ChildViewLeaderboard.class);
+        initNavigationMenu(this, ChildPageLeaderboard.class);
 
         cvlb_scrollView = findViewById(R.id.cvlb_scrollView);
         cvlb_scrollContent = findViewById(R.id.cvlb_scrollContent);

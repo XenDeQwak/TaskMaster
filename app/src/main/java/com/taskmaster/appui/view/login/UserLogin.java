@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.taskmaster.appui.manager.viewmanager.LogInManager;
-import com.taskmaster.appui.view.child.ChildViewQuest;
-import com.taskmaster.appui.view.parent.ParentViewQuest;
+import com.taskmaster.appui.view.child.ChildPageQuestBoard;
+import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
 
@@ -73,7 +73,7 @@ public class UserLogin extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Class<?>[] destinations = {ParentViewQuest.class, ChildViewQuest.class};
+                Class<?>[] destinations = {ParentPageQuestBoard.class, ChildPageQuestBoard.class};
                 LogInManager logInManager = new LogInManager();
                 logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, destinations);
             }

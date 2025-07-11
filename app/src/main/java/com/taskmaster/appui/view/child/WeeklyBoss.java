@@ -18,7 +18,7 @@ import com.taskmaster.appui.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeeklyBoss extends ChildView {
+public class WeeklyBoss extends ChildPage {
     private AppCompatButton fightButton;
     private AppCompatButton statReqStr;
     private AppCompatButton statReqInt;

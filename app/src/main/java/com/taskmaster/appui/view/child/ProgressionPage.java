@@ -1,7 +1,5 @@
 package com.taskmaster.appui.view.child;
 
-import static java.security.AccessController.getContext;
-
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,7 +23,7 @@ import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgressionPage extends ChildView {
+public class ProgressionPage extends ChildPage {
     private AppCompatButton childAvatarName;
     private AppCompatButton childArmorName;
     private ImageView childAvatarImage;

@@ -12,8 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.DateTimeUtil;
-import com.taskmaster.appui.view.child.ChildViewQuest;
-import com.taskmaster.appui.view.parent.ParentViewQuest;
+import com.taskmaster.appui.view.child.ChildPageQuestBoard;
+import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
 import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
@@ -62,7 +62,7 @@ public class Splash extends AppCompatActivity {
                 FirestoreManager.getFirestore().collection("Users").document(user.getUid()).get()
                         .addOnCompleteListener(task -> {
                             String role = (String) task.getResult().get("Role");
-                            Class<?> dest = (Objects.equals(role, "parent"))? ParentViewQuest.class : ChildViewQuest.class;
+                            Class<?> dest = (Objects.equals(role, "parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
 //                            System.out.println(role);
 //                            System.out.println((Objects.equals(role, "parent")));
 //                            System.out.println(dest);
