@@ -15,9 +15,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Child;
-import com.taskmaster.appui.entity.User;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.view.uimodule.ChildViewPreview;
 import com.taskmaster.appui.view.uimodule.LeaderboardSortMenu;
@@ -105,74 +107,74 @@ public class ChildPageLeaderboard extends ChildPage {
 
     @SuppressLint("NewApi")
     public void sortLeaderboardByQuestCompleted () {
-        ArrayList<Child> childrenList = new ArrayList<>();
-        User user = User.getInstance();
-        String id = user.getDocumentSnapshot().get("ParentUID").toString();
-        ChildManager.injectToList(id, childrenList, e -> {
-            displayLeaderboard(
-                    new ArrayList<>(
-                            childrenList
-                                    .stream()
-                                    .sorted((child1, child2) -> child2.getQuestCompleted().intValue() - child1.getQuestCompleted().intValue())
-                                    .toList()
-                    ),
-                    "Quests"
-            );
-        });
+//        ArrayList<Child> childrenList = new ArrayList<>();
+//        CurrentUser currentUser = CurrentUser.getInstance();
+//        String id = currentUser.get().get("ParentUID").toString();
+//        ChildManager.injectToList(id, childrenList, e -> {
+//            displayLeaderboard(
+//                    new ArrayList<>(
+//                            childrenList
+//                                    .stream()
+//                                    .sorted((child1, child2) -> child2.getQuestCompleted().intValue() - child1.getQuestCompleted().intValue())
+//                                    .toList()
+//                    ),
+//                    "Quests"
+//            );
+//        });
     }
 
     @SuppressLint("NewApi")
     public void sortLeaderboardByFloorReached () {
-        ArrayList<Child> childrenList = new ArrayList<>();
-        User user = User.getInstance();
-        String id = user.getDocumentSnapshot().get("ParentUID").toString();
-        ChildManager.injectToList(id, childrenList, e -> {
-            displayLeaderboard(
-                    new ArrayList<>(
-                            childrenList
-                                    .stream()
-                                    .sorted((child1, child2) -> child2.getFloor().intValue() - child1.getFloor().intValue())
-                                    .toList()
-                    ),
-                    "Floor"
-            );
-        });
+//        ArrayList<Child> childrenList = new ArrayList<>();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        String id = currentUser.getDocumentSnapshot().get("ParentUID").toString();
+//        ChildManager.injectToList(id, childrenList, e -> {
+//            displayLeaderboard(
+//                    new ArrayList<>(
+//                            childrenList
+//                                    .stream()
+//                                    .sorted((child1, child2) -> child2.getFloor().intValue() - child1.getFloor().intValue())
+//                                    .toList()
+//                    ),
+//                    "Floor"
+//            );
+//        });
     }
 
     @SuppressLint("NewApi")
     public void sortLeaderboardByHighestStrength () {
-        ArrayList<Child> childrenList = new ArrayList<>();
-        User user = User.getInstance();
-        String id = user.getDocumentSnapshot().get("ParentUID").toString();
-        ChildManager.injectToList(id, childrenList, e -> {
-            displayLeaderboard(
-                    new ArrayList<>(
-                            childrenList
-                                    .stream()
-                                    .sorted((child1, child2) -> child2.getStrength() - child1.getStrength())
-                                    .toList()
-                    ),
-                    "Strength"
-            );
-        });
+//        ArrayList<Child> childrenList = new ArrayList<>();
+//        CurrentUser currentUser = CurrentUser.getInstance();
+//        String id = currentUser.getDocumentSnapshot().get("ParentUID").toString();
+//        ChildManager.injectToList(id, childrenList, e -> {
+//            displayLeaderboard(
+//                    new ArrayList<>(
+//                            childrenList
+//                                    .stream()
+//                                    .sorted((child1, child2) -> child2.getStrength() - child1.getStrength())
+//                                    .toList()
+//                    ),
+//                    "Strength"
+//            );
+//        });
     }
 
     @SuppressLint("NewApi")
     public void sortLeaderboardByHighestIntelligence () {
-        ArrayList<Child> childrenList = new ArrayList<>();
-        User user = User.getInstance();
-        String id = user.getDocumentSnapshot().get("ParentUID").toString();
-        ChildManager.injectToList(id, childrenList, e -> {
-            displayLeaderboard(
-                    new ArrayList<>(
-                            childrenList
-                                    .stream()
-                                    .sorted((child1, child2) -> child2.getIntelligence() - child1.getIntelligence())
-                                    .toList()
-                    ),
-                    "Intelligence"
-            );
-        });
+//        ArrayList<Child> childrenList = new ArrayList<>();
+//        CurrentUser currentUser = CurrentUser.getInstance();
+//        String id = currentUser.getDocumentSnapshot().get("ParentUID").toString();
+//        ChildManager.injectToList(id, childrenList, e -> {
+//            displayLeaderboard(
+//                    new ArrayList<>(
+//                            childrenList
+//                                    .stream()
+//                                    .sorted((child1, child2) -> child2.getIntelligence() - child1.getIntelligence())
+//                                    .toList()
+//                    ),
+//                    "Intelligence"
+//            );
+//        });
     }
 
     public void displayLeaderboard(ArrayList<Child> cl, String s) {

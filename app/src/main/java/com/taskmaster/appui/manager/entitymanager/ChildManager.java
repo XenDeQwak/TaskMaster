@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
@@ -90,8 +91,8 @@ public class ChildManager {
                 "testchild",
                 "test",
                 "child",
-                "user",
-                FirestoreManager.getFirestore().collection("Users").document("user"),
+                "currentUser",
+                FirebaseFirestore.getInstance().document("Users/child"),
                 0,
                 0,
                 0,

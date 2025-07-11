@@ -32,7 +32,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.taskmaster.appui.entity.User;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.util.DropdownUtil;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
@@ -43,7 +43,7 @@ import java.util.Map;
 
 public class QuestManagement extends AppCompatActivity {
 
-    public User user;
+    public CurrentUser currentUser;
     private long lastClickTime = 0;
     private static final long DOUBLE_CLICK_TIME_DELTA = 300;
     private FirebaseAuth auth;
@@ -94,366 +94,366 @@ public class QuestManagement extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.quest_management);
-
-        //database init
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
-
-        // Init user object
-        user = User.getInstance();
-        role = user.getDocumentSnapshot().get("Role").toString();
-
-        NavUtil.hideSystemBars(this);
-
-        // hooks
-        addQuestButton = findViewById(R.id.addQuestButton);
-        gridLayout = findViewById(R.id.gridLayout);
-        rootLayout = findViewById(R.id.cvlb_container);
-        scrollView = findViewById(R.id.scrollView1);
-        DropdownUtil.dropdownSetup(this,rootLayout);
-
-        editQuestTime = findViewById(R.id.editQuestTime);
-        editQuestName = findViewById(R.id.editQuestName);
-        setRewardsButton = findViewById(R.id.setRewardsButton);
-        assignQuestButton = findViewById(R.id.assignQuest);
-        cancelQuestEditButton = findViewById(R.id.editQuestCancel);
-        saveQuestEditButton = findViewById(R.id.editQuestSave);
-        editQuestGroup = findViewById(R.id.editQuestGroup);
-        setDifficultyRating = findViewById(R.id.editQuestDifficulty);
-
-        popupRewardsGroup = findViewById(R.id.popupRewardsGroup);
-        popupRewardsFrameShadow = findViewById(R.id.popupRewardsFrameShadow);
-        popupRewardsFrame = findViewById(R.id.popupRewardsFrame);
-        rewardsDropdownFrame = findViewById(R.id.rewardsDropdownFrame);
-        rewardsStrButton = findViewById(R.id.rewardsStrButton);
-        rewardsIntButton = findViewById(R.id.rewardsIntButton);
-        rewardsCancelButton = findViewById(R.id.rewardsCancelButton);
-        rewardsConfirmButton = findViewById(R.id.rewardsConfirmButton);
-        rewardsInt = findViewById(R.id.rewardsInt);
-        rewardsStr = findViewById(R.id.rewardsStr);
-        rewardsDropdownButton = findViewById(R.id.rewardsDropdownButton);
-
-        viewQuestGroup = findViewById(R.id.viewQuestGroup);
-        viewQuestFrame = findViewById(R.id.viewQuestFrame);
-        viewQuestName = findViewById(R.id.viewQuestName);
-        viewQuestTime = findViewById(R.id.viewQuestTime);
-        viewQuestDesc = findViewById(R.id.viewQuestDesc);
-        viewDifficultyBG = findViewById(R.id.viewDifficultyBG);
-        viewDifficultyRating = findViewById(R.id.viewDifficultyRating);
-        viewRewardsButton = findViewById(R.id.viewRewardsButton);
-        viewRewardsOptionalText = findViewById(R.id.viewRewardsOptionalText);
-
-        editQuestImageIcon = findViewById(R.id.editQuestImageIcon);
-        viewQuestImageIcon = findViewById(R.id.viewQuestImageIcon);
-
-        popupViewRewardsGroup = findViewById(R.id.popupViewRewardsGroup);
-        viewRewardsExitButton = findViewById(R.id.viewRewardsExitButton);
-
-        viewQuestGroupButtonP = findViewById(R.id.viewQuestGroupButtonP);
-
-        cancelQuestViewButtonP = findViewById(R.id.cancelQuestViewButtonP);
-        approveQuestViewButtonP = findViewById(R.id.approveQuestViewButtonP);
-        rejectQuestViewButtonP = findViewById(R.id.rejectQuestViewButtonP);
-
-        childBarName = findViewById(R.id.childBarName);
-        viewQuestGroupButtonC = findViewById(R.id.viewQuestGroupButtonC);
-
-        cancelQuestViewButtonC = findViewById(R.id.cancelQuestViewButtonC);
-        finishQuestViewButtonC = findViewById(R.id.finishQuestViewButtonC);
-
-        popupViewNotif = findViewById(R.id.popupViewNotif);
-        viewNotifTextMsg = findViewById(R.id.viewNotifTextMsg);
-        viewNotifOkayButton = findViewById(R.id.viewNotifOkayButton);
-
-        childBarGroup = findViewById(R.id.childBarGroup);
-        childBarFrame = findViewById(R.id.childBarFrame);
-        childBarName = findViewById(R.id.childBarName);
-        childBarFloorCount = findViewById(R.id.childBarFloorCount);
-        childBarStatsButton = findViewById(R.id.childBarStatsButton);
-        childBarAvatar = findViewById(R.id.childBarAvatar);
-        childBarAvatar = findViewById(R.id.childBarAvatar);
-
-        basePageFrame = findViewById(R.id.basePageFrame);
-        basePageTitle = findViewById(R.id.basePageTitle);
-        textView5 = findViewById(R.id.textView5);
-        imageView19 = findViewById(R.id.imageView19);
-        imageView23 = findViewById(R.id.imageView23);
-
-        popupAssignGroup = findViewById(R.id.popupAssignGroup);
-        assignDropdownFrame = findViewById(R.id.assignDropdownFrame);
-        assignDropdownButton = findViewById(R.id.assignDropdownButton);
-        assignCancelButton = findViewById(R.id.assignCancelButton);
-        assignConfirmButton = findViewById(R.id.assignConfirmButton);
-        assignAdv = findViewById(R.id.assignAdv);
-        popupAssignFrame = findViewById(R.id.popupAssignFrame);
-        assignPrevBtn = findViewById(R.id.assignPrevBtn);
-        assignNextBtn = findViewById(R.id.assignNextBtn);
-        viewRewardsDropdownButton = findViewById(R.id.viewRewardsDropdownButton);
-
-        popupRewardsGroup.setVisibility(View.GONE);
-        editQuestGroup.setVisibility(View.GONE);
-        viewQuestGroup.setVisibility(View.GONE);
-
-        // remove scrollview visibility initially, keep this cause dropdown exit doesn't function as intended
-        scrollView.setVisibility(View.GONE);
-        assignNextBtn.setOnClickListener(e -> {
-            currentIndex++;
-            if (currentIndex >= childIds.size())
-                currentIndex = 0;
-            saveQuestToChild(childIds.get(currentIndex));
-        });
-
-        if("child".equals(role)){
-            childInit();
-        }
-        else if("parent".equals(user.getDocumentSnapshot().get("Role"))){
-            parentInit();
-        }
-        else{
-            System.out.println("error");
-        }
-
-        addQuestButton.setOnClickListener(v -> {
-
-        });
-
-        // cancel quest view child
-        cancelQuestViewButtonC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewQuestGroup.setVisibility(View.GONE);
-                viewQuestGroupButtonC.setVisibility(View.GONE);
-                recreate();
-            }
-        });
-
-        // quest time
-        editQuestTime.setOnClickListener(v -> {
-            defaultHour = 23;
-            defaultMinute = 59;
-
-            TimePickerDialog timePickerDialog = new TimePickerDialog(
-                    context,
-                    (view, hourOfDay, minute1) -> {
-                        int displayHour = Math.min(hourOfDay, 24);
-                        String selectedTime = String.format("%02d:%02d:00", displayHour, minute1);
-                        editQuestTime.setText(selectedTime);
-                        questTimes.put(lastClickedQuestId, selectedTime);
-                    },
-                    defaultHour, // Use the default hour
-                    defaultMinute, // Use the default minute
-                    true
-            );
-            timePickerDialog.show();
-        });
-
-        // set rewards
-        setRewardsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupRewardsGroup.setVisibility(View.VISIBLE);
-                rewardsDropdownFrame.setVisibility(View.GONE);
-                rewardsInt.setVisibility(View.GONE);
-                rewardsStr.setVisibility(View.GONE);
-                rewardsIntButton.setVisibility(View.GONE);
-                rewardsStrButton.setVisibility(View.GONE);
-
-
-            }
-        });
-
-        // assign quest
-        assignDropdownButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
-
-        rewardsDropdownButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rewardsDropdownFrame.getVisibility() == View.VISIBLE) {
-                    rewardsDropdownFrame.setVisibility(View.GONE);
-                    rewardsInt.setVisibility(View.GONE);
-                    rewardsStr.setVisibility(View.GONE);
-                    rewardsIntButton.setVisibility(View.GONE);
-                    rewardsStrButton.setVisibility(View.GONE);
-                    Toast.makeText(QuestManagement.this, "close", Toast.LENGTH_SHORT).show();
-                } else {
-                    rewardsDropdownFrame.setVisibility(View.VISIBLE);
-                    rewardsInt.setVisibility(View.VISIBLE);
-                    rewardsStr.setVisibility(View.VISIBLE);
-                    rewardsIntButton.setVisibility(View.VISIBLE);
-                    rewardsStrButton.setVisibility(View.VISIBLE);
-                    Toast.makeText(QuestManagement.this, "open", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-
-        rewardsIntButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                questRewardStat.put(lastClickedQuestId, "intelligence");
-                Log.d("QuestReward", "Quest " + lastClickedQuestId + ": set to intelligence");
-                rewardsDropdownButton.setText("Intelligence");
-                rewardsDropdownFrame.setVisibility(View.GONE);
-                rewardsInt.setVisibility(View.GONE);
-                rewardsStr.setVisibility(View.GONE);
-                rewardsIntButton.setVisibility(View.GONE);
-                rewardsStrButton.setVisibility(View.GONE);
-
-                updateQuestIcon(lastClickedQuestId);
-//                questImageIcon.setImageResource(R.drawable.icon_int);
-//                editQuestImageIcon.setImageResource(R.drawable.icon_int);
-//                viewQuestImageIcon.setImageResource(R.drawable.icon_int);
-            }
-        });
-
-        rewardsStrButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                questRewardStat.put(lastClickedQuestId, "strength");
-                Log.d("QuestReward", "Quest " + lastClickedQuestId + ": set to strength");
-                rewardsDropdownButton.setText("Strength");
-                rewardsDropdownFrame.setVisibility(View.GONE);
-                rewardsInt.setVisibility(View.GONE);
-                rewardsStr.setVisibility(View.GONE);
-                rewardsIntButton.setVisibility(View.GONE);
-                rewardsStrButton.setVisibility(View.GONE);
-
-                updateQuestIcon(lastClickedQuestId);
-//                questImageIcon.setImageResource(R.drawable.icon_str);
-//                editQuestImageIcon.setImageResource(R.drawable.icon_str);
-//                viewQuestImageIcon.setImageResource(R.drawable.icon_str);
-            }
-        });
-
-        // redundant?
-        rewardsCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rewardsDropdownFrame.setVisibility(View.GONE);
-                rewardsInt.setVisibility(View.GONE);
-                rewardsStr.setVisibility(View.GONE);
-                rewardsIntButton.setVisibility(View.GONE);
-                rewardsStrButton.setVisibility(View.GONE);
-                popupRewardsGroup.setVisibility(View.GONE);
-            }
-        });
-
-        // redundant?
-        rewardsConfirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rewardsDropdownFrame.setVisibility(View.GONE);
-                rewardsInt.setVisibility(View.GONE);
-                rewardsStr.setVisibility(View.GONE);
-                rewardsIntButton.setVisibility(View.GONE);
-                rewardsStrButton.setVisibility(View.GONE);
-                popupRewardsGroup.setVisibility(View.GONE);
-            }
-        });
-
-        setDifficultyRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (fromUser) {
-                    questRef = db.collection("quest").document(username + "Quest" + (lastClickedQuestId));
-                    int intRating = (int) rating; // Cast to int
-                    Toast.makeText(QuestManagement.this, "New rating: " + rating, Toast.LENGTH_SHORT).show();
-                    questRatings.put(lastClickedQuestId, intRating);
-                    viewQuestRatings.put(lastClickedQuestId, intRating);
-                    questRef.update("difficulty", intRating);
-                }
-            }
-        });
-
-        // cancel quest edit
-        cancelQuestEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(QuestManagement.this, "cancel quest edit", Toast.LENGTH_SHORT).show();
-                editQuestGroup.setVisibility(View.GONE);
-            }
-        });
-
-        // create quest edit
-        saveQuestEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Use lastClickedQuestId to update the correct quest
-                questRef = db.collection("quest").document(username + "Quest" + (lastClickedQuestId));
-
-                // Find the quest layout by questId
-                ConstraintLayout questLayout = findQuestLayoutById(lastClickedQuestId); // Use lastClickedQuestId to get the specific quest
-
-                if (questLayout != null) {
-                    // Get the correct TextView from the map
-                    TextView questText = questTextViews.get(lastClickedQuestId); // Get the TextView using the questId
-                    if (questText != null) {
-                        questText.setText(editQuestName.getText().toString());
-                        questRef.update("name", editQuestName.getText().toString());
-                    }
-
-                    // Update the quest description
-                    EditText editQuestDesc = findViewById(R.id.editQuestDesc); // Correct ID
-                    if (editQuestDesc != null) {
-                        questDescriptions.put(lastClickedQuestId, editQuestDesc.getText().toString());
-                        questRef.update("description", editQuestDesc.getText().toString());
-                    }
-
-                    // Update the quest time
-                    if (editQuestTime != null) {
-                        String time = editQuestTime.getText().toString();
-                        questTimes.put(lastClickedQuestId, editQuestTime.getText().toString());
-                        questRef.update("time", time);
-
-                        long hourL = 0, minuteL = 0, secondL = 0;
-                        String[] timeParts = time.split(":");
-
-                        if (timeParts.length == 2) {
-                            String hours = timeParts[0];
-                            String minutes = timeParts[1];
-                            String seconds = "0";
-                            hourL = Long.parseLong(hours);
-                            minuteL = Long.parseLong(minutes);
-                            secondL = Long.parseLong(seconds);
-                        } else if (timeParts.length == 3) {
-                            String hours = timeParts[0];
-                            String minutes = timeParts[1];
-                            String seconds = timeParts[2];
-                            hourL = Long.parseLong(hours);
-                            minuteL = Long.parseLong(minutes);
-                            secondL = Long.parseLong(seconds);
-                        } else {
-                            Log.e("TimeSplit", "Invalid time format: " + time);
-                        }
-                        countDownTimer(hourL, minuteL, secondL, lastClickedQuestId);
-
-                    }
-
-                    // Update questRewardsOptional
-                    EditText editQuestRewardsOptional = findViewById(R.id.rewardsOptionalText);
-                    if (editQuestRewardsOptional != null) {
-                        questRewardOptional.put(lastClickedQuestId, editQuestRewardsOptional.getText().toString());
-                        questRef.update("rewardOptional", editQuestRewardsOptional.getText().toString());
-                    }
-
-                    questRef.update("rewardStat", questRewardStat.get(lastClickedQuestId));
-
-                    // Hide the editor after saving
-                    editQuestGroup.setVisibility(View.GONE);
-                    Toast.makeText(QuestManagement.this, "Quest " + lastClickedQuestId + " updated!", Toast.LENGTH_SHORT).show();
-                    recreate();
-                }
-            }
-        });
+//        EdgeToEdge.enable(this);
+//        setContentView(R.layout.quest_management);
+//
+//        //database init
+//        db = FirebaseFirestore.getInstance();
+//        auth = FirebaseAuth.getInstance();
+//
+//        // Init currentUser object
+//        currentUser = CurrentUser.getInstance();
+//        //role = currentUser.getDocumentSnapshot().get("Role").toString();
+//
+//        NavUtil.hideSystemBars(this);
+//
+//        // hooks
+//        addQuestButton = findViewById(R.id.addQuestButton);
+//        gridLayout = findViewById(R.id.gridLayout);
+//        rootLayout = findViewById(R.id.cvlb_container);
+//        scrollView = findViewById(R.id.scrollView1);
+//        DropdownUtil.dropdownSetup(this,rootLayout);
+//
+//        editQuestTime = findViewById(R.id.editQuestTime);
+//        editQuestName = findViewById(R.id.editQuestName);
+//        setRewardsButton = findViewById(R.id.setRewardsButton);
+//        assignQuestButton = findViewById(R.id.assignQuest);
+//        cancelQuestEditButton = findViewById(R.id.editQuestCancel);
+//        saveQuestEditButton = findViewById(R.id.editQuestSave);
+//        editQuestGroup = findViewById(R.id.editQuestGroup);
+//        setDifficultyRating = findViewById(R.id.editQuestDifficulty);
+//
+//        popupRewardsGroup = findViewById(R.id.popupRewardsGroup);
+//        popupRewardsFrameShadow = findViewById(R.id.popupRewardsFrameShadow);
+//        popupRewardsFrame = findViewById(R.id.popupRewardsFrame);
+//        rewardsDropdownFrame = findViewById(R.id.rewardsDropdownFrame);
+//        rewardsStrButton = findViewById(R.id.rewardsStrButton);
+//        rewardsIntButton = findViewById(R.id.rewardsIntButton);
+//        rewardsCancelButton = findViewById(R.id.rewardsCancelButton);
+//        rewardsConfirmButton = findViewById(R.id.rewardsConfirmButton);
+//        rewardsInt = findViewById(R.id.rewardsInt);
+//        rewardsStr = findViewById(R.id.rewardsStr);
+//        rewardsDropdownButton = findViewById(R.id.rewardsDropdownButton);
+//
+//        viewQuestGroup = findViewById(R.id.viewQuestGroup);
+//        viewQuestFrame = findViewById(R.id.viewQuestFrame);
+//        //viewQuestName = findViewById(R.id.viewQuestName);
+//        viewQuestTime = findViewById(R.id.viewQuestTime);
+//        viewQuestDesc = findViewById(R.id.viewQuestDesc);
+//        viewDifficultyBG = findViewById(R.id.viewDifficultyBG);
+//        viewDifficultyRating = findViewById(R.id.viewDifficultyRating);
+//        viewRewardsButton = findViewById(R.id.viewRewardsButton);
+//        viewRewardsOptionalText = findViewById(R.id.viewRewardsOptionalText);
+//
+//        editQuestImageIcon = findViewById(R.id.editQuestImageIcon);
+//        viewQuestImageIcon = findViewById(R.id.viewQuestImageIcon);
+//
+//        popupViewRewardsGroup = findViewById(R.id.popupViewRewardsGroup);
+//        viewRewardsExitButton = findViewById(R.id.viewRewardsExitButton);
+//
+//        viewQuestGroupButtonP = findViewById(R.id.viewQuestGroupButtonP);
+//
+//        cancelQuestViewButtonP = findViewById(R.id.cancelQuestViewButtonP);
+//        approveQuestViewButtonP = findViewById(R.id.approveQuestViewButtonP);
+//        rejectQuestViewButtonP = findViewById(R.id.rejectQuestViewButtonP);
+//
+//        childBarName = findViewById(R.id.childBarName);
+//        viewQuestGroupButtonC = findViewById(R.id.viewQuestGroupButtonC);
+//
+//        cancelQuestViewButtonC = findViewById(R.id.cancelQuestViewButtonC);
+//        finishQuestViewButtonC = findViewById(R.id.finishQuestViewButtonC);
+//
+//        popupViewNotif = findViewById(R.id.popupViewNotif);
+//        viewNotifTextMsg = findViewById(R.id.viewNotifTextMsg);
+//        viewNotifOkayButton = findViewById(R.id.viewNotifOkayButton);
+//
+//        childBarGroup = findViewById(R.id.childBarGroup);
+//        childBarFrame = findViewById(R.id.childBarFrame);
+//        childBarName = findViewById(R.id.childBarName);
+//        childBarFloorCount = findViewById(R.id.childBarFloorCount);
+//        childBarStatsButton = findViewById(R.id.childBarStatsButton);
+//        childBarAvatar = findViewById(R.id.childBarAvatar);
+//        childBarAvatar = findViewById(R.id.childBarAvatar);
+//
+//        basePageFrame = findViewById(R.id.basePageFrame);
+//        basePageTitle = findViewById(R.id.basePageTitle);
+//        textView5 = findViewById(R.id.textView5);
+//        imageView19 = findViewById(R.id.imageView19);
+//        imageView23 = findViewById(R.id.imageView23);
+//
+//        popupAssignGroup = findViewById(R.id.popupAssignGroup);
+//        assignDropdownFrame = findViewById(R.id.assignDropdownFrame);
+//        assignDropdownButton = findViewById(R.id.assignDropdownButton);
+//        assignCancelButton = findViewById(R.id.assignCancelButton);
+//        assignConfirmButton = findViewById(R.id.assignConfirmButton);
+//        assignAdv = findViewById(R.id.assignAdv);
+//        popupAssignFrame = findViewById(R.id.popupAssignFrame);
+//        assignPrevBtn = findViewById(R.id.assignPrevBtn);
+//        assignNextBtn = findViewById(R.id.assignNextBtn);
+//        viewRewardsDropdownButton = findViewById(R.id.viewRewardsDropdownButton);
+//
+//        popupRewardsGroup.setVisibility(View.GONE);
+//        editQuestGroup.setVisibility(View.GONE);
+//        viewQuestGroup.setVisibility(View.GONE);
+//
+//        // remove scrollview visibility initially, keep this cause dropdown exit doesn't function as intended
+//        scrollView.setVisibility(View.GONE);
+//        assignNextBtn.setOnClickListener(e -> {
+//            currentIndex++;
+//            if (currentIndex >= childIds.size())
+//                currentIndex = 0;
+//            saveQuestToChild(childIds.get(currentIndex));
+//        });
+//
+//        if("child".equals(role)){
+//            childInit();
+//        }
+//        else if("parent".equals(currentUser.getDocumentSnapshot().get("Role"))){
+//            parentInit();
+//        }
+//        else{
+//            System.out.println("error");
+//        }
+//
+//        addQuestButton.setOnClickListener(v -> {
+//
+//        });
+//
+//        // cancel quest view child
+//        cancelQuestViewButtonC.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                viewQuestGroup.setVisibility(View.GONE);
+//                viewQuestGroupButtonC.setVisibility(View.GONE);
+//                recreate();
+//            }
+//        });
+//
+//        // quest time
+//        editQuestTime.setOnClickListener(v -> {
+//            defaultHour = 23;
+//            defaultMinute = 59;
+//
+//            TimePickerDialog timePickerDialog = new TimePickerDialog(
+//                    context,
+//                    (view, hourOfDay, minute1) -> {
+//                        int displayHour = Math.min(hourOfDay, 24);
+//                        String selectedTime = String.format("%02d:%02d:00", displayHour, minute1);
+//                        editQuestTime.setText(selectedTime);
+//                        questTimes.put(lastClickedQuestId, selectedTime);
+//                    },
+//                    defaultHour, // Use the default hour
+//                    defaultMinute, // Use the default minute
+//                    true
+//            );
+//            timePickerDialog.show();
+//        });
+//
+//        // set rewards
+//        setRewardsButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                popupRewardsGroup.setVisibility(View.VISIBLE);
+//                rewardsDropdownFrame.setVisibility(View.GONE);
+//                rewardsInt.setVisibility(View.GONE);
+//                rewardsStr.setVisibility(View.GONE);
+//                rewardsIntButton.setVisibility(View.GONE);
+//                rewardsStrButton.setVisibility(View.GONE);
+//
+//
+//            }
+//        });
+//
+//        // assign quest
+//        assignDropdownButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//
+//
+//
+//        rewardsDropdownButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (rewardsDropdownFrame.getVisibility() == View.VISIBLE) {
+//                    rewardsDropdownFrame.setVisibility(View.GONE);
+//                    rewardsInt.setVisibility(View.GONE);
+//                    rewardsStr.setVisibility(View.GONE);
+//                    rewardsIntButton.setVisibility(View.GONE);
+//                    rewardsStrButton.setVisibility(View.GONE);
+//                    Toast.makeText(QuestManagement.this, "close", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    rewardsDropdownFrame.setVisibility(View.VISIBLE);
+//                    rewardsInt.setVisibility(View.VISIBLE);
+//                    rewardsStr.setVisibility(View.VISIBLE);
+//                    rewardsIntButton.setVisibility(View.VISIBLE);
+//                    rewardsStrButton.setVisibility(View.VISIBLE);
+//                    Toast.makeText(QuestManagement.this, "open", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//
+//
+//        rewardsIntButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                questRewardStat.put(lastClickedQuestId, "intelligence");
+//                Log.d("QuestReward", "Quest " + lastClickedQuestId + ": set to intelligence");
+//                rewardsDropdownButton.setText("Intelligence");
+//                rewardsDropdownFrame.setVisibility(View.GONE);
+//                rewardsInt.setVisibility(View.GONE);
+//                rewardsStr.setVisibility(View.GONE);
+//                rewardsIntButton.setVisibility(View.GONE);
+//                rewardsStrButton.setVisibility(View.GONE);
+//
+//                updateQuestIcon(lastClickedQuestId);
+////                questImageIcon.setImageResource(R.drawable.icon_int);
+////                editQuestImageIcon.setImageResource(R.drawable.icon_int);
+////                viewQuestImageIcon.setImageResource(R.drawable.icon_int);
+//            }
+//        });
+//
+//        rewardsStrButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                questRewardStat.put(lastClickedQuestId, "strength");
+//                Log.d("QuestReward", "Quest " + lastClickedQuestId + ": set to strength");
+//                rewardsDropdownButton.setText("Strength");
+//                rewardsDropdownFrame.setVisibility(View.GONE);
+//                rewardsInt.setVisibility(View.GONE);
+//                rewardsStr.setVisibility(View.GONE);
+//                rewardsIntButton.setVisibility(View.GONE);
+//                rewardsStrButton.setVisibility(View.GONE);
+//
+//                updateQuestIcon(lastClickedQuestId);
+////                questImageIcon.setImageResource(R.drawable.icon_str);
+////                editQuestImageIcon.setImageResource(R.drawable.icon_str);
+////                viewQuestImageIcon.setImageResource(R.drawable.icon_str);
+//            }
+//        });
+//
+//        // redundant?
+//        rewardsCancelButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                rewardsDropdownFrame.setVisibility(View.GONE);
+//                rewardsInt.setVisibility(View.GONE);
+//                rewardsStr.setVisibility(View.GONE);
+//                rewardsIntButton.setVisibility(View.GONE);
+//                rewardsStrButton.setVisibility(View.GONE);
+//                popupRewardsGroup.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        // redundant?
+//        rewardsConfirmButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                rewardsDropdownFrame.setVisibility(View.GONE);
+//                rewardsInt.setVisibility(View.GONE);
+//                rewardsStr.setVisibility(View.GONE);
+//                rewardsIntButton.setVisibility(View.GONE);
+//                rewardsStrButton.setVisibility(View.GONE);
+//                popupRewardsGroup.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        setDifficultyRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//            @Override
+//            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+//                if (fromUser) {
+//                    questRef = db.collection("quest").document(username + "Quest" + (lastClickedQuestId));
+//                    int intRating = (int) rating; // Cast to int
+//                    Toast.makeText(QuestManagement.this, "New rating: " + rating, Toast.LENGTH_SHORT).show();
+//                    questRatings.put(lastClickedQuestId, intRating);
+//                    viewQuestRatings.put(lastClickedQuestId, intRating);
+//                    questRef.update("difficulty", intRating);
+//                }
+//            }
+//        });
+//
+//        // cancel quest edit
+//        cancelQuestEditButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(QuestManagement.this, "cancel quest edit", Toast.LENGTH_SHORT).show();
+//                editQuestGroup.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        // create quest edit
+//        saveQuestEditButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Use lastClickedQuestId to update the correct quest
+//                questRef = db.collection("quest").document(username + "Quest" + (lastClickedQuestId));
+//
+//                // Find the quest layout by questId
+//                ConstraintLayout questLayout = findQuestLayoutById(lastClickedQuestId); // Use lastClickedQuestId to get the specific quest
+//
+//                if (questLayout != null) {
+//                    // Get the correct TextView from the map
+//                    TextView questText = questTextViews.get(lastClickedQuestId); // Get the TextView using the questId
+//                    if (questText != null) {
+//                        questText.setText(editQuestName.getText().toString());
+//                        questRef.update("name", editQuestName.getText().toString());
+//                    }
+//
+//                    // Update the quest description
+//                    EditText editQuestDesc = findViewById(R.id.editQuestDesc); // Correct ID
+//                    if (editQuestDesc != null) {
+//                        questDescriptions.put(lastClickedQuestId, editQuestDesc.getText().toString());
+//                        questRef.update("description", editQuestDesc.getText().toString());
+//                    }
+//
+//                    // Update the quest time
+//                    if (editQuestTime != null) {
+//                        String time = editQuestTime.getText().toString();
+//                        questTimes.put(lastClickedQuestId, editQuestTime.getText().toString());
+//                        questRef.update("time", time);
+//
+//                        long hourL = 0, minuteL = 0, secondL = 0;
+//                        String[] timeParts = time.split(":");
+//
+//                        if (timeParts.length == 2) {
+//                            String hours = timeParts[0];
+//                            String minutes = timeParts[1];
+//                            String seconds = "0";
+//                            hourL = Long.parseLong(hours);
+//                            minuteL = Long.parseLong(minutes);
+//                            secondL = Long.parseLong(seconds);
+//                        } else if (timeParts.length == 3) {
+//                            String hours = timeParts[0];
+//                            String minutes = timeParts[1];
+//                            String seconds = timeParts[2];
+//                            hourL = Long.parseLong(hours);
+//                            minuteL = Long.parseLong(minutes);
+//                            secondL = Long.parseLong(seconds);
+//                        } else {
+//                            Log.e("TimeSplit", "Invalid time format: " + time);
+//                        }
+//                        countDownTimer(hourL, minuteL, secondL, lastClickedQuestId);
+//
+//                    }
+//
+//                    // Update questRewardsOptional
+//                    EditText editQuestRewardsOptional = findViewById(R.id.rewardsOptionalText);
+//                    if (editQuestRewardsOptional != null) {
+//                        questRewardOptional.put(lastClickedQuestId, editQuestRewardsOptional.getText().toString());
+//                        questRef.update("rewardOptional", editQuestRewardsOptional.getText().toString());
+//                    }
+//
+//                    questRef.update("rewardStat", questRewardStat.get(lastClickedQuestId));
+//
+//                    // Hide the editor after saving
+//                    editQuestGroup.setVisibility(View.GONE);
+//                    Toast.makeText(QuestManagement.this, "Quest " + lastClickedQuestId + " updated!", Toast.LENGTH_SHORT).show();
+//                    recreate();
+//                }
+//            }
+//        });
     }
 
     private void countDownTimer(long hourL, long minuteL, long secondL, int questId) {
@@ -799,7 +799,7 @@ public class QuestManagement extends AppCompatActivity {
         basePageFrame.setVisibility(View.VISIBLE);
         basePageTitle.setVisibility(View.VISIBLE);
         imageView23.setVisibility(View.GONE);
-//        String childToParentCode = user.getDocumentSnapshot().getString("parentCode");
+//        String childToParentCode = currentUser.getDocumentSnapshot().getString("parentCode");
 //        childFetchQuest(childToParentCode, userId);
 //        db.collection("Users").whereEqualTo("code",childToParentCode).get();
 
@@ -878,7 +878,7 @@ public class QuestManagement extends AppCompatActivity {
             ImageView editQuestImageIcon = findViewById(R.id.editQuestImageIcon);
             ImageView viewQuestImageIcon = findViewById(R.id.viewQuestImageIcon);
 
-            EditText viewQuestName = findViewById(R.id.viewQuestName);
+            //EditText viewQuestName = findViewById(R.id.viewQuestName);
             EditText viewQuestDesc = findViewById(R.id.viewQuestDesc);
             EditText viewQuestTime = findViewById(R.id.viewQuestTime);
 

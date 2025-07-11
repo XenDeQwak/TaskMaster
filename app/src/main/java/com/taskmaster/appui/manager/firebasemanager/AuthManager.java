@@ -34,7 +34,7 @@ public class AuthManager {
                                 .get()
                                 .addOnCompleteListener(task2 -> {
                                     if (task2.isSuccessful()) {
-                                        Log.d("Debug", "Successful retrieved user role");
+                                        Log.d("Debug", "Successful retrieved currentUser role");
                                         String role = (String) task2.getResult().get("Role");
                                         callback.onCallback(new Object[]{
                                                 task.isSuccessful(),
@@ -58,10 +58,10 @@ public class AuthManager {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d("Debug", "Successful Create Temp User");
+                    Log.d("Debug", "Successful Create Temp CurrentUser");
                     callback.onCallback(task.getResult().getUser());
                 } else {
-                    Log.d("Debug", "Unsuccessful Create Temp User");
+                    Log.d("Debug", "Unsuccessful Create Temp CurrentUser");
                     Log.d("Error", task.getException().toString());
                 }
             }

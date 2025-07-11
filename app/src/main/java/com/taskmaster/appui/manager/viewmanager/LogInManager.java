@@ -7,8 +7,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.taskmaster.appui.data.AuthUserData;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
-import com.taskmaster.appui.entity.User;
+import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.child.ChildPageQuestBoard;
 import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
@@ -37,13 +40,16 @@ public class LogInManager {
 
                 if (signInSuccessful) {
                     Toast.makeText(origin, "Login successful", Toast.LENGTH_SHORT).show();
-                    User newUser = User.getInstance();
-                    newUser.setUser(FirebaseAuth.getInstance().getCurrentUser());
+                    CurrentUser newCurrentUser = CurrentUser.getInstance();
+                    newCurrentUser.setFirebaseUser(FirebaseAuth.getInstance().getCurrentUser());
+                    newCurrentUser.setUserData(new AuthUserData());
                     Class<?> dest = (Objects.equals(signInRole, "parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
-//                    System.out.println(signInRole);
-//                    System.out.println((Objects.equals(signInRole, "parent")));
-//                    System.out.println(dest);
-                    newUser.loadDocumentSnapshot(documentSnapshot -> NavUtil.instantNavigation(origin, dest));
+                    FirestoreManager.getUserInformation(FirebaseAuth.getInstance().getCurrentUser().getUid(), ds -> {
+                        newCurrentUser.getUserData().setUserSnapshot(ds, e -> {
+                            NavUtil.instantNavigation(origin, dest);
+                        });
+
+                    });
                 } else {
                     Toast.makeText(origin, "Login failed", Toast.LENGTH_SHORT).show();
                 }
@@ -57,20 +63,18 @@ public class LogInManager {
 
     public void attemptUserSignUp (View[] signUpInformation, Activity origin) {
 
-        EditText emailbox, usernamebox, passwordbox, firstnamebox, lastnamebox;
+        EditText emailbox, usernamebox, passwordbox, cpasswordbox;
         emailbox = (EditText) signUpInformation[0];
         usernamebox = (EditText) signUpInformation[1];
         passwordbox = (EditText) signUpInformation[2];
-        firstnamebox = (EditText) signUpInformation[3];
-        lastnamebox = (EditText) signUpInformation[4];
+        cpasswordbox = (EditText) signUpInformation[3];
 
         SignUpManager signUpManager = new SignUpManager(
                 origin,
                 emailbox.getText().toString(),
                 usernamebox.getText().toString(),
                 passwordbox.getText().toString(),
-                firstnamebox.getText().toString(),
-                lastnamebox.getText().toString()
+                cpasswordbox.getText().toString()
         );
         signUpManager.start();
 

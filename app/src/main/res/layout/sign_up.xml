@@ -5,68 +5,53 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background1"
     tools:context=".view.login.SignUp">
 
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/background1"
-        app:layout_constraintWidth_percent="1.5"
-        app:layout_constraintHeight_percent="1.5"
-        />
 
     <ImageView
         android:id="@+id/imageView7"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0.5"
+        android:scaleType="fitXY"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rectangle_rounded"
         app:layout_constraintWidth_percent="0.95"
-        app:layout_constraintHeight_percent="0.95"
-        app:layout_constraintDimensionRatio="1:"
-        android:scaleType="fitXY"
-        />
+        app:srcCompat="@drawable/rectangle_rounded" />
 
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:alpha="0.6"
-        app:layout_constraintBottom_toTopOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
         app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:srcCompat="@drawable/rectangle_rounded"
-        app:layout_constraintWidth_percent="0.85"
-        app:layout_constraintHeight_percent="0.35"
-        />
+        app:srcCompat="@drawable/rectangle_rounded" />
 
     <ImageView
         android:id="@+id/imageView10"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:alpha="0.6"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-        app:layout_constraintEnd_toEndOf="@id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@id/imageView7"
-        app:layout_constraintWidth_percent="0.85"
-        app:layout_constraintHeight_percent="0.55"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9"
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <ImageView
@@ -78,107 +63,110 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView14"
         app:layout_constraintStart_toStartOf="@+id/imageView14"
         app:layout_constraintTop_toTopOf="@+id/imageView14"
-        app:srcCompat="@drawable/taskmaster_logo_with_shadow"
-        />
+        app:srcCompat="@drawable/taskmaster_logo_with_shadow" />
 
     <ImageView
         android:id="@+id/imageView14"
-        android:alpha="50"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:alpha="50"
         app:layout_constraintBottom_toBottomOf="@+id/imageView9"
         app:layout_constraintEnd_toEndOf="@+id/imageView9"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintStart_toStartOf="@+id/imageView9"
         app:layout_constraintTop_toTopOf="@+id/imageView9"
-        app:srcCompat="@drawable/taskmaster_logo"
         app:layout_constraintWidth_percent="0.50"
-        app:layout_constraintHeight_percent="0.25"
-        />
+        app:srcCompat="@drawable/taskmaster_logo" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Sign Up"
         android:textAlignment="center"
         android:textColor="#3F3F3F"
-        app:autoSizeMinTextSize="10sp"
         app:autoSizeMaxTextSize="50sp"
+        app:autoSizeMinTextSize="10sp"
         app:autoSizeStepGranularity="1sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
+        app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toTopOf="@+id/imageView10"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintWidth_percent="0.4"
-        app:layout_constraintHeight_percent="0.05"
-        />
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.4" />
 
     <EditText
         android:id="@+id/usernameSignUpBox"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
         android:hint="Username"
         android:inputType="textEmailAddress"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textAlignment="center"
         android:textColor="#3F3F3F"
-        app:autoSizeMinTextSize="10sp"
         app:autoSizeMaxTextSize="50sp"
+        app:autoSizeMinTextSize="10sp"
         app:autoSizeStepGranularity="1sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintWidth_percent="0.6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/emailSignUpBox"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
         android:hint="E-mail"
         android:inputType="textEmailAddress"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textAlignment="center"
         android:textColor="#3F3F3F"
-        app:autoSizeMinTextSize="10sp"
         app:autoSizeMaxTextSize="50sp"
+        app:autoSizeMinTextSize="10sp"
         app:autoSizeStepGranularity="1sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
-        app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/usernameSignUpBox"
-        app:layout_constraintVertical_bias="0.065"
-        app:layout_constraintWidth_percent="0.6" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameSignUpBox" />
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/firstnameSignUpBox"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox"
-        app:layout_constraintWidth_percent="0.6">
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox2">
 
         <FrameLayout
             android:id="@+id/passwordStrengthBarWeakFrame"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <ProgressBar
                 android:id="@+id/passwordStrengthBarWeak"
@@ -193,20 +181,19 @@
                 android:id="@+id/passwordStrengthBarWeakText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/eb_garamond_semibold"
                 android:gravity="center"
                 android:text="Weak"
+                android:textAlignment="center"
                 android:textColor="#3F3F3F"
-                android:textSize="12sp"
-                android:fontFamily="@font/eb_garamond_semibold"
-                android:textAlignment="center" />
+                android:textSize="12sp" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/passwordStrengthBarAverageFrame"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <ProgressBar
                 android:id="@+id/passwordStrengthBarAverage"
@@ -221,20 +208,19 @@
                 android:id="@+id/passwordStrengthBarAverageText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/eb_garamond_semibold"
                 android:gravity="center"
                 android:text="Average"
+                android:textAlignment="center"
                 android:textColor="#3F3F3F"
-                android:textSize="12sp"
-                android:fontFamily="@font/eb_garamond_semibold"
-                android:textAlignment="center" />
+                android:textSize="12sp" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/passwordStrengthBarStrongFrame"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <ProgressBar
                 android:id="@+id/passwordStrengthBarStrong"
@@ -249,12 +235,12 @@
                 android:id="@+id/passwordStrengthBarStrongText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/eb_garamond_semibold"
                 android:gravity="center"
                 android:text="Strong"
+                android:textAlignment="center"
                 android:textColor="#3F3F3F"
-                android:textSize="12sp"
-                android:fontFamily="@font/eb_garamond_semibold"
-                android:textAlignment="center" />
+                android:textSize="12sp" />
         </FrameLayout>
 
 
@@ -264,76 +250,60 @@
     <EditText
         android:id="@+id/passwordSignUpBox"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
         android:hint="Password"
         android:inputType="textPassword"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textAlignment="center"
         android:textColor="#3F3F3F"
-        app:autoSizeMinTextSize="10sp"
         app:autoSizeMaxTextSize="50sp"
+        app:autoSizeMinTextSize="10sp"
         app:autoSizeStepGranularity="1sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/emailSignUpBox"
-        app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintVertical_bias="0.075"
-        app:layout_constraintWidth_percent="0.6" />
+        app:layout_constraintTop_toBottomOf="@+id/emailSignUpBox" />
 
     <EditText
-        android:id="@+id/firstnameSignUpBox"
+        android:id="@+id/passwordSignUpBox2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/textbox_rounded"
         android:ems="10"
         android:fontFamily="@font/eb_garamond_semibold"
-        android:hint="Firstname"
-        android:inputType="textEmailAddress"
+        android:hint="ConfirmPassword"
+        android:inputType="textPassword"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textAlignment="center"
         android:textColor="#3F3F3F"
-        app:autoSizeMinTextSize="10sp"
         app:autoSizeMaxTextSize="50sp"
+        app:autoSizeMinTextSize="10sp"
         app:autoSizeStepGranularity="1sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
-        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintWidth_percent="0.6" />
-
-    <EditText
-        android:id="@+id/lastnameSignUpBox"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/textbox_rounded"
-        android:ems="10"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:hint="Lastname"
-        android:inputType="textEmailAddress"
-        android:textAlignment="center"
-        android:textColor="#3F3F3F"
-        app:autoSizeMinTextSize="10sp"
-        app:autoSizeMaxTextSize="50sp"
-        app:autoSizeStepGranularity="1sp"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
-        app:layout_constraintEnd_toEndOf="@+id/imageView10"
-        app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/firstnameSignUpBox"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintWidth_percent="0.6" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignUpBox" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/confirmButton"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/button_shadowed_states"
         android:fontFamily="@font/eb_garamond_semibold"
         android:stateListAnimator="@null"
@@ -341,40 +311,36 @@
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#3F3F3F"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="10sp"
+        android:textSize="14sp"
         app:autoSizeMaxTextSize="40sp"
+        app:autoSizeMinTextSize="10sp"
         app:autoSizeStepGranularity="1sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
-        app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@id/lastnameSignUpBox"
-        app:layout_constraintVertical_bias="0.3"
-        app:layout_constraintWidth_percent="0.6"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0"
         app:strokeColor="@color/black"
         app:strokeWidth="0.5dp" />
 
     <TextView
         android:id="@+id/loginTextView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
         android:clickable="true"
         android:fontFamily="@font/eb_garamond_semibold"
         android:text="Already have an account? Return to Login!"
         android:textAlignment="center"
         android:textColor="#3F3F3F"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="10sp"
-        app:autoSizeMaxTextSize="50sp"
         app:autoSizeStepGranularity="1sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="@+id/imageView10"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/confirmButton"
-        app:layout_constraintWidth_percent="0.6"
-        app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintVertical_bias="0.1"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/confirmButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

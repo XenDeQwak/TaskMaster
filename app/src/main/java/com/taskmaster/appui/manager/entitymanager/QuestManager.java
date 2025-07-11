@@ -14,6 +14,7 @@ import com.taskmaster.appui.view.uimodule.QuestBoxPreview;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class QuestManager {
 
@@ -31,7 +32,7 @@ public class QuestManager {
     @SuppressLint("NewApi")
     public void refresh () {
         questContent.removeAllViews();
-         ArrayList<QuestBoxPreview> qbpList = (ArrayList<QuestBoxPreview>) questList
+         List<QuestBoxPreview> qbpList = questList
                 .stream()
                 .map(Quest::getQuestBoxPreview)
                 .toList();
@@ -57,10 +58,10 @@ public class QuestManager {
     }
 
     /**
-     * Fetches quests from the Firestore collection based on the given user type and quest statuses.
+     * Fetches quests from the Firestore collection based on the given currentUser type and quest statuses.
      *
-     * @param type   Specifies the user type. If "parent", it queries quests where the current user is the creator;
-     *               otherwise, it queries quests assigned to the current user.
+     * @param type   Specifies the currentUser type. If "parent", it queries quests where the current currentUser is the creator;
+     *               otherwise, it queries quests assigned to the current currentUser.
      * @param status One or more status values (e.g., "ongoing", "completed", "failed") to filter quests by.
      */
     public void fetchQuestsWhereStatus (String type, String... status) {

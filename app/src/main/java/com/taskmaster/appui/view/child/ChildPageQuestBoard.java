@@ -10,9 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
-import com.taskmaster.appui.view.uimodule.ChildStatsTab;
 import com.taskmaster.appui.view.uimodule.ViewQuestTab;
 
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ public class ChildPageQuestBoard extends ChildPage {
         initNavigationMenu(this, ChildPageQuestBoard.class);
 
 //        setUpAvatar();
-//        User u = User.getInstance();
+//        CurrentUser u = CurrentUser.getInstance();
 //        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsName().setText((String)u.getDocumentSnapshot().get("Username"));
 //        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsFloor().setText("Floor: " + u.getDocumentSnapshot().get("Floor").toString());
 //        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsAvatarImage().setImageResource(avatarImages.get(u.getDocumentSnapshot().getDouble("Avatar").intValue()));

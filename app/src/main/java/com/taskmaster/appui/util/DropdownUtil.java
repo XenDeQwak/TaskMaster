@@ -3,15 +3,14 @@ package com.taskmaster.appui.util;
 import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.view.parent.QuestManagement;
 import com.taskmaster.appui.view.login.Splash;
-import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.view.parent.ManageChild;
 import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.R;
@@ -38,15 +37,15 @@ public class DropdownUtil {
 
         dropDownGroup.setVisibility(View.GONE);
 
-        User user = User.getInstance();
+        CurrentUser currentUser = CurrentUser.getInstance();
 
-        if ("parent".equals(user.getDocumentSnapshot().get("Role"))) {
-            NavUtil.setNavigation(activity, navManageAdv, ManageChild.class);
-            navManageAdv.setText("Manage Adventurers");
-        } else {
-            NavUtil.setNavigation(activity, navManageAdv, WeeklyBoss.class);
-            navManageAdv.setText("Weekly Boss");
-        }
+//        if ("parent".equals(currentUser.getDocumentSnapshot().get("Role"))) {
+//            NavUtil.setNavigation(activity, navManageAdv, ManageChild.class);
+//            navManageAdv.setText("Manage Adventurers");
+//        } else {
+//            NavUtil.setNavigation(activity, navManageAdv, WeeklyBoss.class);
+//            navManageAdv.setText("Weekly Boss");
+//        }
 
         //Btn Fx
 //        dropdownNavButton.setOnClickListener(v -> {

@@ -88,8 +88,8 @@ public class EditQuestTab extends FrameLayout {
 //        editQuestRewardPicker.setAdapter(rewardStatAdapter);
 //
 //        childList = new ArrayList<>();
-//        FirebaseUser user = AuthManager.getAuth().getCurrentUser();
-//        ChildManager.injectToList(user.getUid(), childList, e -> {
+//        FirebaseUser currentUser = AuthManager.getAuth().getCurrentUser();
+//        ChildManager.injectToList(currentUser.getUid(), childList, e -> {
 //            ArrayAdapter<String> childAdapter = new ArrayAdapter<>(
 //                    this.getContext(),
 //                    android.R.layout.simple_spinner_item,

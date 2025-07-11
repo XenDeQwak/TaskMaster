@@ -1,6 +1,7 @@
 package com.taskmaster.appui.view.login;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -8,17 +9,22 @@ import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.taskmaster.appui.data.AuthUserData;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.DateTimeUtil;
 import com.taskmaster.appui.view.child.ChildPageQuestBoard;
 import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
-import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
-
-import java.util.Objects;
 
 public class Splash extends AppCompatActivity {
 
@@ -54,25 +60,50 @@ public class Splash extends AppCompatActivity {
         DateTimeUtil.startTimer();
 
         //FirebaseAuth.getInstance().signOut();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!=null){
-            User newUser = User.getInstance();
-            newUser.setUser(user);
-            newUser.loadDocumentSnapshot(documentSnapshot -> {
-                FirestoreManager.getFirestore().collection("Users").document(user.getUid()).get()
-                        .addOnCompleteListener(task -> {
-                            String role = (String) task.getResult().get("Role");
-                            assert role != null;
-                            Class<?> dest = (role.equalsIgnoreCase("parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
-//                            System.out.println(role);
-//                            System.out.println((Objects.equals(role, "parent")));
-//                            System.out.println(dest);
-                            NavUtil.instantNavigation(Splash.this, dest);
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (fUser == null) {
+            goTo(UserLogin.class);
+        } else if (fUser.isAnonymous()) {
+                fUser.delete();
+                goTo(UserLogin.class);
+        } else if (fUser != null) {
+            fUser.reload().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d("Debug", "CurrentUser still exists.");
+                    // CurrentUser still exists
+                    FirebaseUser fnewUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (fnewUser != null) {
+                        // CurrentUser is still signed-in
+                        CurrentUser user = CurrentUser.getInstance();
+                        user.setFirebaseUser(fnewUser);
+                        user.setUserData(new AuthUserData());
+                        FirestoreManager.getUserInformation(fnewUser.getUid(), ds -> {
+                            user.getUserData().setUserSnapshot(ds, e -> {
+                                String role = user.getUserData().getRole();
+                                System.out.println(ds);
+                                System.out.println(role);
+                                if (role.equalsIgnoreCase("parent")) {
+                                    goTo(ParentPageQuestBoard.class);
+                                } else if (role.equalsIgnoreCase("child")) {
+                                    goTo(ChildPageQuestBoard.class);
+                                }
+                            });
                         });
+                    } else {
+                        // CurrentUser is signed-out
+                        Log.d("Debug", "CurrentUser no longer exists.");
+                        FirebaseAuth.getInstance().signOut();
+                        goTo(UserLogin.class);
+                    }
+                } else {
+                    goTo(UserLogin.class); // Safe fallback
+                }
             });
         }
-        else{
-            NavUtil.instantNavigation(Splash.this, UserLogin.class);
-        }
+
+    }
+
+    private void goTo (Class<?> dest) {
+        NavUtil.instantNavigation(Splash.this, dest);
     }
 }

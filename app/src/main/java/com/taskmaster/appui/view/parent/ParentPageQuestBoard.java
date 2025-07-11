@@ -21,8 +21,7 @@ public class ParentPageQuestBoard extends ParentPage {
 
     private LinearLayout questScrollContent;
     private EditQuestTab editQuest;
-
-    private final QuestManager questManager = new QuestManager(questScrollContent);
+    private QuestManager questManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +36,11 @@ public class ParentPageQuestBoard extends ParentPage {
 
         initNavigationMenu(this, ParentPageQuestBoard.class);
 
-
         questScrollContent = findViewById(R.id.pvq_scrollContent);
         editQuest = findViewById(R.id.pvq_editTab);
+
+        questManager = new QuestManager(questScrollContent);
+
 
         String[] status = {"Ongoing", "Awaiting Configuration", "Awaiting Verification", "Awaiting Exemption"};
 

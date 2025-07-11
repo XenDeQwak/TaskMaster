@@ -12,9 +12,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Child;
-import com.taskmaster.appui.entity.User;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
 import com.taskmaster.appui.view.uimodule.ChildCreationTab;
@@ -56,7 +57,7 @@ public class ParentPageManageChild extends ParentPage {
         });
 
         childCreationTabPopUp.getChildCreationConfirmButton().setOnClickListener(v -> {
-            User user = User.getInstance();
+            CurrentUser currentUser = CurrentUser.getInstance();
             childCreationTabPopUp.setVisibility(GONE);
             String username = childCreationTabPopUp.getChildCreationUsername().getText().toString();
             String email = childCreationTabPopUp.getChildCreationEmail().getText().toString();
@@ -64,14 +65,18 @@ public class ParentPageManageChild extends ParentPage {
             String firstname = childCreationTabPopUp.getChildCreationFirstname().getText().toString();
             String lastname = childCreationTabPopUp.getChildCreationLastName().getText().toString();
 
+            CurrentUser parent = CurrentUser.getInstance();
+            String parentID = parent.getFirebaseUser().getUid();
+            DocumentReference parentReference = parent.getUserData().getUserSnapshot().getReference();
+
             Child c = new Child(
                     email,
                     password,
                     username,
                     firstname,
                     lastname,
-                    user.getDocumentSnapshot().getId(),
-                    user.getDocumentSnapshot().getReference(),
+                    parentID,
+                    parentReference,
                     0,
                     0,
                     0,

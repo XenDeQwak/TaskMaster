@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FieldValue;
-import com.taskmaster.appui.entity.User;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticAdapter;
 import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticItem;
@@ -21,7 +21,7 @@ import java.util.List;
 public class CosmeticShop extends ChildPage {
     private View[] confirmationViews;
     private CosmeticItem clicked;
-    private User user;
+    private CurrentUser currentUser;
     private int gold;
     private CosmeticAdapter adapter;
     private List<CosmeticItem> displayItems;
@@ -45,13 +45,13 @@ public class CosmeticShop extends ChildPage {
         RecyclerView recycler = findViewById(R.id.recyclerView);
         confirmationViews = new View[]{confirmationBox, confirmationText, yesBox, yesText, noBox, noText,blurOverlay};
 
-        user = User.getInstance();
-        List<String> OwnedItems =  (List<String>) user.getDocumentSnapshot().get("OwnedItems");
+        //currentUser = CurrentUser.getInstance();
+        //List<String> OwnedItems =  (List<String>) currentUser.getDocumentSnapshot().get("OwnedItems");
 
-        gold = user.getDocumentSnapshot().getDouble("Gold").intValue();
+        //gold = currentUser.getDocumentSnapshot().getDouble("Gold").intValue();
 
         //Filter out items that are already owned
-        displayItems = filterItems(getAllItems(),OwnedItems);
+        //displayItems = filterItems(getAllItems(),OwnedItems);
 
         adapter = new CosmeticAdapter(displayItems, pos -> {
             // handle click
@@ -61,7 +61,7 @@ public class CosmeticShop extends ChildPage {
         recycler.setLayoutManager(new LinearLayoutManager(this));
         recycler.setAdapter(adapter);
         //Popup
-        setUpButtons(yesBox,noBox,yesText,noText);
+        //setUpButtons(yesBox,noBox,yesText,noText);
         topBar.getGoldAmount().setText(gold +" G");
     }
 
@@ -74,31 +74,31 @@ public class CosmeticShop extends ChildPage {
         return items;
     }
 
-    private void setUpButtons(ImageView yesBox, ImageView noBox, TextView yesText, TextView noText){
-        yesBox.setOnClickListener(v -> isConfirm(true));
-        yesText.setOnClickListener(v -> isConfirm(true));
-        noBox.setOnClickListener(v -> isConfirm(false));
-        noText.setOnClickListener(v -> isConfirm(false));
-    }
-    private void isConfirm(boolean confirm) {
-        if (confirm) {
-            if(!hasEnoughGold()) {return;}
-            gold -= clicked.price;
-            user.getDocumentSnapshot().getReference().update("Gold", gold);
-            user.getDocumentSnapshot().getReference().update("OwnedItems", FieldValue.arrayUnion(clicked.getName()))
-                    .addOnSuccessListener(callback->{
-                        user.loadDocumentSnapshot(callback2->{
-                            List<String> OwnedItems =  (List<String>) user.getDocumentSnapshot().get("OwnedItems");
-                            displayItems=filterItems(getAllItems(),OwnedItems);
-                            adapter.updateItems(displayItems);
-                            setVisibility(View.GONE);
-                        });
-                    });
-            topBar.getGoldAmount().setText(gold +" G");
-        } else {
-            setVisibility(View.GONE);
-        }
-    }
+//    private void setUpButtons(ImageView yesBox, ImageView noBox, TextView yesText, TextView noText){
+//        yesBox.setOnClickListener(v -> isConfirm(true));
+//        yesText.setOnClickListener(v -> isConfirm(true));
+//        noBox.setOnClickListener(v -> isConfirm(false));
+//        noText.setOnClickListener(v -> isConfirm(false));
+//    }
+//    private void isConfirm(boolean confirm) {
+//        if (confirm) {
+//            if(!hasEnoughGold()) {return;}
+//            gold -= clicked.price;
+//            currentUser.getDocumentSnapshot().getReference().update("Gold", gold);
+//            currentUser.getDocumentSnapshot().getReference().update("OwnedItems", FieldValue.arrayUnion(clicked.getName()))
+//                    .addOnSuccessListener(callback->{
+//                        currentUser.setUserReference(callback2->{
+//                            List<String> OwnedItems =  (List<String>) currentUser.getDocumentSnapshot().get("OwnedItems");
+//                            displayItems=filterItems(getAllItems(),OwnedItems);
+//                            adapter.updateItems(displayItems);
+//                            setVisibility(View.GONE);
+//                        });
+//                    });
+//            topBar.getGoldAmount().setText(gold +" G");
+//        } else {
+//            setVisibility(View.GONE);
+//        }
+//    }
     private boolean hasEnoughGold(){
         if(gold < clicked.price){
             Toast.makeText(this, "Not enough gold", Toast.LENGTH_SHORT).show();
