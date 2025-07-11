@@ -43,6 +43,6 @@ public class ChildPageQuestHistory extends ChildPage {
         cvqh_scrollContent = findViewById(R.id.cvqh_scrollContent);
         cvqh_childExemptionTab = findViewById(R.id.cvqh_childExemptionTab);
         String[] status = {"Completed", "Failed", "Exempted"};
-        questManager.loadAssignedQuestHistoryWhereStatus(cvqh_scrollContent, cvqh_childExemptionTab, status);
+        //questManager.loadAssignedQuestHistoryWhereStatus(cvqh_scrollContent, cvqh_childExemptionTab, status);
     }
 }

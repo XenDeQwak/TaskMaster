@@ -19,12 +19,10 @@ import com.taskmaster.appui.view.uimodule.EditQuestTab;
 
 public class ParentPageQuestBoard extends ParentPage {
 
-    QuestManager questManager;
-    ChildManager childManager;
-    ImageView createQuestButton;
-    ScrollView questScrollView;
-    LinearLayout questScrollContent;
-    EditQuestTab editQuest;
+    private LinearLayout questScrollContent;
+    private EditQuestTab editQuest;
+
+    private final QuestManager questManager = new QuestManager(questScrollContent);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +37,20 @@ public class ParentPageQuestBoard extends ParentPage {
 
         initNavigationMenu(this, ParentPageQuestBoard.class);
 
-        questScrollContent = findViewById(R.id.pvq_scrollContent);
 
+        questScrollContent = findViewById(R.id.pvq_scrollContent);
         editQuest = findViewById(R.id.pvq_editTab);
 
-        //questManager = new QuestManager();
         String[] status = {"Ongoing", "Awaiting Configuration", "Awaiting Verification", "Awaiting Exemption"};
-        //questManager.loadCreatedQuestWhereStatus(questScrollContent, editQuest, status);
 
         // Initialize createQuestButton
-        createQuestButton = topBar.getCreateObjectButton();
+        ImageView createQuestButton = topBar.getCreateObjectButton();
         createQuestButton.setOnClickListener(v -> {
-            //System.out.println("I AM PRESSED IN PARENTVIEWQUEST");
-            //Quest q = QuestManager.createBlankQuest();
-            //FirestoreManager.uploadQuest(q);
-            //questManager.loadCreatedQuestWhereStatus(questScrollContent, editQuest, status);
+            questManager.create();
         });
 
+        questManager.fetchQuestsWhereStatus("parent", "awaiting verification", "ongoing");
+        questManager.refresh();
 
     }
 }

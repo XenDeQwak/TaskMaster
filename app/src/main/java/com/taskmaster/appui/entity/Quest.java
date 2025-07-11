@@ -13,7 +13,32 @@ public class Quest {
     private QuestBoxPreview questBoxPreview;
 
     public Quest (QuestData questData) {
-        this.questBox = questData;
+        this.questData = questData;
     }
+
+    public QuestData getQuestData() {
+        return questData;
+    }
+
+    public void setQuestData(QuestData questData) {
+        this.questData = questData;
+    }
+
+    public QuestBox getQuestBox() {
+        return questBox;
+    }
+
+    public void setQuestBox(QuestBox questBox) {
+        this.questBox = questBox;
+    }
+
+    public QuestBoxPreview getQuestBoxPreview() {
+        return questBoxPreview;
+    }
+
+    public void setQuestBoxPreview(QuestBoxPreview questBoxPreview) {
+        this.questBoxPreview = questBoxPreview;
+    }
+
 
 }

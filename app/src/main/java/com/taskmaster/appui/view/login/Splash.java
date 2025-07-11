@@ -62,7 +62,8 @@ public class Splash extends AppCompatActivity {
                 FirestoreManager.getFirestore().collection("Users").document(user.getUid()).get()
                         .addOnCompleteListener(task -> {
                             String role = (String) task.getResult().get("Role");
-                            Class<?> dest = (Objects.equals(role, "parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
+                            assert role != null;
+                            Class<?> dest = (role.equalsIgnoreCase("parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
 //                            System.out.println(role);
 //                            System.out.println((Objects.equals(role, "parent")));
 //                            System.out.println(dest);

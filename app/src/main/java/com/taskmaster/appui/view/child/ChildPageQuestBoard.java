@@ -48,21 +48,21 @@ public class ChildPageQuestBoard extends ChildPage {
 
         initNavigationMenu(this, ChildPageQuestBoard.class);
 
-        setUpAvatar();
-        User u = User.getInstance();
-        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsName().setText((String)u.getDocumentSnapshot().get("Username"));
-        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsFloor().setText("Floor: " + u.getDocumentSnapshot().get("Floor").toString());
-        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsAvatarImage().setImageResource(avatarImages.get(u.getDocumentSnapshot().getDouble("Avatar").intValue()));
-
-        ChildStatsTab stats = findViewById(R.id.ChildStatsTab);
-        stats.setProgressionNav(this);
-
-        editQuestTab = findViewById(R.id.pvq_editTab);
-
-        questViewChild = findViewById(R.id.questViewChild);
-        //questManager = new QuestManager();
-        String[] status = {"Ongoing", "Awaiting Reason"};
-        //questManager.loadAssignedQuestsWhereStatus(questViewChild, status);
+//        setUpAvatar();
+//        User u = User.getInstance();
+//        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsName().setText((String)u.getDocumentSnapshot().get("Username"));
+//        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsFloor().setText("Floor: " + u.getDocumentSnapshot().get("Floor").toString());
+//        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsAvatarImage().setImageResource(avatarImages.get(u.getDocumentSnapshot().getDouble("Avatar").intValue()));
+//
+//        ChildStatsTab stats = findViewById(R.id.ChildStatsTab);
+//        stats.setProgressionNav(this);
+//
+//        editQuestTab = findViewById(R.id.pvq_editTab);
+//
+//        questViewChild = findViewById(R.id.questViewChild);
+//        //questManager = new QuestManager();
+//        String[] status = {"Ongoing", "Awaiting Reason"};
+//        //questManager.loadAssignedQuestsWhereStatus(questViewChild, status);
 
 
     }
