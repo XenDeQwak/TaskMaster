@@ -1,5 +1,6 @@
 package com.taskmaster.appui.view.uimodule;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.RemainingTimer;
@@ -22,6 +24,8 @@ import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.DateTimeUtil;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
@@ -79,6 +83,7 @@ public class QuestBox extends FrameLayout {
 //        }
     }
 
+    @SuppressLint("SetTextI18n")
     public void setQuest (Quest q) {
         this.q = q;
 
@@ -87,6 +92,9 @@ public class QuestBox extends FrameLayout {
         viewQuestDescription.setText(q.getQuestData().getDescription());
         viewQuestRewardStat.setText(q.getQuestData().getRewardStat());
         viewQuestRewardExtra.setText(q.getQuestData().getRewardExtra());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mma");
+        viewQuestDeadline.setText("Due: " + DateTimeUtil.getDateTimeFromEpochSecond(q.getQuestData().getEndDate()).format(formatter));
 
         // Set Deadline
         ZonedDateTime deadline = DateTimeUtil.getDateTimeFromEpochSecond(q.getQuestData().getEndDate());
@@ -113,10 +121,10 @@ public class QuestBox extends FrameLayout {
         if (adventurer != null) {
             adventurer.get()
                     .addOnCompleteListener(task -> {
-//                        if (task.isSuccessful()) {
-//                            Child c = ChildManager.parseChildData(task.getResult().getData());
-//                            viewQuestAdventurer.setText("Assigned to: " + c.getChildUsername());
-//                        }
+                        if (task.isSuccessful()) {
+                            Child c = new Child(task.getResult().toObject(ChildData.class));
+                            viewQuestAdventurer.setText("Assigned to: " + c.getChildData().getUsername());
+                        }
                     });
         } else {
             viewQuestAdventurer.setText("Assigned to: None");

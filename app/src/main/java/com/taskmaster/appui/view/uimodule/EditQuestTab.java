@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
@@ -86,7 +87,7 @@ public class EditQuestTab extends FrameLayout {
             ArrayAdapter<String> childAdapter = new ArrayAdapter<>(
                     this.getContext(),
                     android.R.layout.simple_spinner_item,
-                    childList.stream().map(Child::getChildEmail).toList()
+                    childList.stream().map(Child::getChildData).map(ChildData::getEmail).toList()
             );
             childAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             editQuestChildPicker.setAdapter(childAdapter);
@@ -117,7 +118,7 @@ public class EditQuestTab extends FrameLayout {
             Object email = task.getResult().get("Email");
             if (email == null) return;
             editQuestChildPicker.setSelection(
-                    childList.stream().map(Child::getChildEmail).toList().indexOf(email.toString())
+                    childList.stream().map(Child::getChildData).map(ChildData::getEmail).toList().indexOf(email.toString())
             );
         });
 
@@ -162,10 +163,13 @@ public class EditQuestTab extends FrameLayout {
 
         FirestoreManager.getFirestore()
                 .collection("Childs")
-                .whereEqualTo("Email", assigneeEmail)
+                .whereEqualTo("email", assigneeEmail)
                 .limit(1)
                 .get()
                 .addOnCompleteListener(task -> {
+                    if (task.getResult().getDocuments().size() != 1) {
+                        throw new RuntimeException("No such child found");
+                    }
                     DocumentSnapshot c = task.getResult().getDocuments().get(0); //java.lang.NoSuchMethodError No interface method getFirst()Ljava/lang/Object
                     q.getQuestData().setAssignedTo(c.getId());
                     q.getQuestData().setAdventurerReference(c.getReference());

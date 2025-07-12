@@ -14,12 +14,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.firebasemanager.TemporaryConnectionManager;
 import com.taskmaster.appui.view.uimodule.ChildCreationTab;
-import java.util.List;
 
 public class ParentPageManageChild extends ParentPage {
 
@@ -57,36 +57,23 @@ public class ParentPageManageChild extends ParentPage {
         });
 
         childCreationTabPopUp.getChildCreationConfirmButton().setOnClickListener(v -> {
-            CurrentUser currentUser = CurrentUser.getInstance();
             childCreationTabPopUp.setVisibility(GONE);
             String username = childCreationTabPopUp.getChildCreationUsername().getText().toString();
             String email = childCreationTabPopUp.getChildCreationEmail().getText().toString();
             String password = childCreationTabPopUp.getChildCreationPassword().getText().toString();
-            String firstname = childCreationTabPopUp.getChildCreationFirstname().getText().toString();
-            String lastname = childCreationTabPopUp.getChildCreationLastName().getText().toString();
+            //String firstname = childCreationTabPopUp.getChildCreationFirstname().getText().toString();
+            //String lastname = childCreationTabPopUp.getChildCreationLastName().getText().toString();
 
             CurrentUser parent = CurrentUser.getInstance();
             String parentID = parent.getFirebaseUser().getUid();
             DocumentReference parentReference = parent.getUserData().getUserSnapshot().getReference();
 
-            Child c = new Child(
-                    email,
-                    password,
-                    username,
-                    firstname,
-                    lastname,
-                    parentID,
-                    parentReference,
-                    0,
-                    0,
-                    0,
-                    0L,
-                    true,
-                    1,
-                    0,
-                    0,
-                    List.of("Armorless")
-                    );
+            Child c = new Child(ChildData.newEmptyChildData());
+            c.getChildData().setUsername(username);
+            c.getChildData().setEmail(email);
+            c.getChildData().setPassword(password);
+            c.getChildData().setParentUID(parentID);
+            c.getChildData().setParentReference(parentReference);
 
             childManager.addChild(c);
             TemporaryConnectionManager.startTempConnection(this);

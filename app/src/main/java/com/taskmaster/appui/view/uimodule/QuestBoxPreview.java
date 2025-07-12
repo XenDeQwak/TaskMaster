@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.RemainingTimer;
@@ -71,8 +72,8 @@ public class QuestBoxPreview extends FrameLayout {
         if (q.getQuestData().getAdventurerReference() != null) {
             q.getQuestData().getAdventurerReference().get()
                     .addOnCompleteListener(task -> {
-                        Child c = task.getResult().toObject(Child.class);
-                        previewQuestAdventurer.setText("Assigned to: " + c.getChildUsername());
+                        Child c = new Child(task.getResult().toObject(ChildData.class));
+                        previewQuestAdventurer.setText("Assigned to: " + c.getChildData().getUsername());
                     });
         } else {
             previewQuestAdventurer.setText("Assigned to: None");

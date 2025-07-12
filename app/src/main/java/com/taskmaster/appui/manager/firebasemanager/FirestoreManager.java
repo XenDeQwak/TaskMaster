@@ -210,7 +210,7 @@ public class FirestoreManager {
 
 
     public static void fetchAdventurers (String parentUID, GenericCallback<List<DocumentSnapshot>> callback) {
-        firestore.collection("Childs").whereEqualTo("ParentUID", parentUID).get()
+        firestore.collection("Childs").whereEqualTo("parentUID", parentUID).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Debug", "Successfully fetched adventurers");

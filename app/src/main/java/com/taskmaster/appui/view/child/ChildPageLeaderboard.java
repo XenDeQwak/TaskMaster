@@ -15,13 +15,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Child;
-import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
-import com.taskmaster.appui.view.uimodule.ChildViewPreview;
+import com.taskmaster.appui.view.uimodule.ChildBoxPreview;
 import com.taskmaster.appui.view.uimodule.LeaderboardSortMenu;
 import com.taskmaster.appui.view.uimodule.NavigationMenu;
 
@@ -183,22 +180,22 @@ public class ChildPageLeaderboard extends ChildPage {
             Child c = cl.get(i);
             int data = -999;
             switch (s.toLowerCase()) {
-                case "quests": data = c.getQuestCompleted().intValue(); break;
-                case "floor": data = c.getFloor().intValue(); break;
-                case "strength": data = c.getStrength(); break;
-                case "intelligence": data = c.getIntelligence(); break;
+                case "quests": data = c.getChildData().getQuestsCompleted(); break;
+                case "floor": data = c.getChildData().getFloor(); break;
+                case "strength": data = c.getChildData().getStrength(); break;
+                case "intelligence": data = c.getChildData().getIntelligence(); break;
             }
             if (i == 0) {
-                goldUsername.setText(c.getChildUsername());
+                goldUsername.setText(c.getChildData().getUsername());
                 goldAchievement.setText(s + ": " + data);
             } else if (i == 1) {
-                silverUsername.setText(c.getChildUsername());
+                silverUsername.setText(c.getChildData().getUsername());
                 silverAchievement.setText(s + ": " + data);
             } else if (i == 2) {
-                bronzeUsername.setText(c.getChildUsername());
+                bronzeUsername.setText(c.getChildData().getUsername());
                 bronzeAchievement.setText(s + ": " + data);
             } else {
-                ChildViewPreview cb = new ChildViewPreview(this, c);
+                ChildBoxPreview cb = new ChildBoxPreview(this, c);
                 cvlb_scrollContent.addView(cb);
             }
         }

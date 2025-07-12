@@ -17,21 +17,21 @@ import com.taskmaster.appui.entity.Child;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChildViewPreview extends FrameLayout {
+public class ChildBoxPreview extends FrameLayout {
 
     Child c;
 
-    public ChildViewPreview(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ChildBoxPreview(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ChildViewPreview(@NonNull Context context) {
+    public ChildBoxPreview(@NonNull Context context) {
         super(context);
         init();
     }
 
-    public ChildViewPreview(@NonNull Context context, @Nullable Child c) {
+    public ChildBoxPreview(@NonNull Context context, @Nullable Child c) {
         super(context);
         setChild(c);
         init();
@@ -68,15 +68,15 @@ public class ChildViewPreview extends FrameLayout {
         viewChildAvatar = findViewById(R.id.viewChildAvatar);
         childViewCont = findViewById(R.id.viewChildContainer);
 
-        viewChildName.setText(c.getChildUsername());
-        viewChildEmail.setText(c.getChildEmail());
-        vewChildStrength.setText("Strength: " + c.getStrength());
-        vewChildIntelligence.setText("Intelligence: " + c.getIntelligence());
-        viewChildFloor.setText("Floor: " + c.getFloor());
-        viewChildQuestCompleted.setText("Quest Completed: " + c.getQuestCompleted());
+        viewChildName.setText(c.getChildData().getUsername());
+        viewChildEmail.setText(c.getChildData().getEmail());
+        vewChildStrength.setText("Strength: " + c.getChildData().getStrength());
+        vewChildIntelligence.setText("Intelligence: " + c.getChildData().getIntelligence());
+        viewChildFloor.setText("Floor: " + c.getChildData().getFloor());
+        viewChildQuestCompleted.setText("Quest Completed: " + c.getChildData().getQuestsCompleted());
 
         setUpAvatar();
-        viewChildAvatar.setImageResource(avatarImages.get(c.getAvatar()));
+        viewChildAvatar.setImageResource(avatarImages.get(c.getChildData().getAvatar()));
 
         childViewCont.getBackground().setAlpha(160);
 
