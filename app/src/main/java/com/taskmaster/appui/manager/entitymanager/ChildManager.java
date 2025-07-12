@@ -53,11 +53,11 @@ public class ChildManager {
                 ((Number) cd.get("Strength")).intValue(),
                 ((Number) cd.get("Intelligence")).intValue(),
                 ((Number) cd.get("Avatar")).intValue(),
-                (Number) cd.get("BossTimer"),
+                (Long) cd.get("BossTimer"),
                 (Boolean) cd.get("BossAlive"),
-                (Number) cd.get("Floor"),
-                (Number) cd.get("Gold"),
-                (Number) cd.get("QuestCompleted"),
+                (Integer) cd.get("Floor"),
+                (Integer) cd.get("Gold"),
+                (Integer) cd.get("QuestCompleted"),
                 (List<String>) cd.get("OwnedItems")
         );
     }

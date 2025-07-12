@@ -1,8 +1,13 @@
 package com.taskmaster.appui.manager.entitymanager;
 
+import static android.view.View.GONE;
+
 import android.annotation.SuppressLint;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -10,6 +15,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.taskmaster.appui.data.QuestData;
 import com.taskmaster.appui.entity.Quest;
+import com.taskmaster.appui.view.uimodule.QuestBox;
 import com.taskmaster.appui.view.uimodule.QuestBoxPreview;
 
 import java.util.ArrayList;
@@ -19,10 +25,11 @@ import java.util.List;
 public class QuestManager {
 
     private final CollectionReference Quests = FirebaseFirestore.getInstance().collection("Quests");
+    private final CollectionReference Parents = FirebaseFirestore.getInstance().collection("Users");
 
 
-    private LinearLayout questContent;
-    private ArrayList<Quest> questList;
+    private final LinearLayout questContent;
+    private final ArrayList<Quest> questList;
 
     public QuestManager (LinearLayout questContent) {
         this.questContent = questContent;
@@ -32,17 +39,33 @@ public class QuestManager {
     @SuppressLint("NewApi")
     public void refresh () {
         questContent.removeAllViews();
-         List<QuestBoxPreview> qbpList = questList
-                .stream()
+        questList.forEach(Quest::updateQuestBox);
+        questList.stream()
                 .map(Quest::getQuestBoxPreview)
-                .toList();
-        for (QuestBoxPreview qbp : qbpList) {
-            questContent.addView(qbp);
-        }
+                .forEach(questContent::addView);
+        questList.stream()
+                .map(Quest::getQuestBox)
+                .forEach(qb -> {
+                    ViewGroup parent = (ViewGroup) questContent.getParent().getParent();
+                    parent.removeView(qb);
+                    ConstraintLayout.LayoutParams qvParams = new ConstraintLayout.LayoutParams(
+                            ConstraintLayout.LayoutParams.MATCH_PARENT,
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    qvParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+                    qvParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+                    qvParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+                    qvParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+                    qvParams.setMargins(16,16,16,16);
+                    qb.setLayoutParams(qvParams);
+                    qb.setClickable(true);
+                    qb.setVisibility(GONE);
+                    parent.addView(qb);
+                });
     }
 
     public void create () {
-        Quest q = new Quest(QuestData.newBlankQuestData());
+        Quest q = new Quest(QuestData.newBlankQuestData(), questContent.getContext(), this);
         Quests.add(q.getQuestData()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.d("Debug", "Created Blank Quest");
@@ -50,7 +73,10 @@ public class QuestManager {
                 q.getQuestData().setQuestReference(dr);
                 q.getQuestData().setId(dr.getId());
                 q.getQuestData().setCreatedBy(FirebaseAuth.getInstance().getUid());
+                q.getQuestData().setCreatorReference(Parents.document(FirebaseAuth.getInstance().getUid()));
                 q.getQuestData().uploadData();
+                questList.add(q);
+                refresh();
             } else {
                 task.getException().printStackTrace();
             }
@@ -66,18 +92,24 @@ public class QuestManager {
      */
     public void fetchQuestsWhereStatus (String type, String... status) {
         String field = type.equalsIgnoreCase("parent") ? "createdBy" : "assignedTo";
-        Quests.whereEqualTo(field, FirebaseAuth.getInstance().getUid())
+        Quests
+                .whereEqualTo(field, FirebaseAuth.getInstance().getUid())
                 .whereIn("status", Arrays.asList(status))
                 .get()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) task.getException().printStackTrace();
                     else {
+                        //System.out.println(task.getResult().getDocuments());;
                         task.getResult().getDocuments()
                                 .stream()
                                 .forEach(ds -> {
-                                    Quest q = new Quest(ds.toObject(QuestData.class));
+                                    //System.out.println("Name: " + ds.get("name"));
+                                    Quest q = new Quest(ds.toObject(QuestData.class), questContent.getContext(), this);
                                     questList.add(q);
                                 });
+                        //System.out.println(field + ": " + FirebaseAuth.getInstance().getUid());
+                        //System.out.println(questList);
+                        refresh();
                     }
                 });
     }

@@ -48,10 +48,10 @@ public class ParentPageQuestBoard extends ParentPage {
         ImageView createQuestButton = topBar.getCreateObjectButton();
         createQuestButton.setOnClickListener(v -> {
             questManager.create();
+            questManager.refresh();
         });
 
-        questManager.fetchQuestsWhereStatus("parent", "awaiting verification", "ongoing");
-        questManager.refresh();
+        questManager.fetchQuestsWhereStatus("parent", "Awaiting Configuration", "Awaiting verification", "Ongoing");
 
     }
 }

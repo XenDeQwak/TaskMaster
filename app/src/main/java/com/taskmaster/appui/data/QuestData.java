@@ -1,7 +1,6 @@
 package com.taskmaster.appui.data;
 
 import com.google.firebase.firestore.DocumentReference;
-import com.taskmaster.appui.entity.Quest;
 
 import java.util.Objects;
 
@@ -65,9 +64,10 @@ public class QuestData {
     private String rewardStat, rewardExtra;
     private String createdBy, assignedTo;
     private DocumentReference questReference, creatorReference, adventurerReference;
-    private Number difficulty;
+    private Integer difficulty;
 
-    public QuestData(String id, String name, String description, String status, String failureReason, long startDate, long endDate, long completedDate, String rewardStat, String rewardExtra, String createdBy, String assignedTo, DocumentReference questReference, DocumentReference creatorReference, DocumentReference adventurerReference, Number difficulty) {
+    public QuestData() {}
+    public QuestData(String id, String name, String description, String status, String failureReason, long startDate, long endDate, long completedDate, String rewardStat, String rewardExtra, String createdBy, String assignedTo, DocumentReference questReference, DocumentReference creatorReference, DocumentReference adventurerReference, Integer difficulty) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -210,11 +210,11 @@ public class QuestData {
         this.adventurerReference = adventurerReference;
     }
 
-    public Number getDifficulty() {
+    public Integer getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Number difficulty) {
+    public void setDifficulty(Integer difficulty) {
         this.difficulty = difficulty;
     }
 }

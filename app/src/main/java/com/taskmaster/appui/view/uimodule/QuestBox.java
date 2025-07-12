@@ -12,10 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.RemainingTimer;
+import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.DateTimeUtil;
@@ -26,22 +29,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class QuestBox extends FrameLayout {
+
     Quest q;
-    QuestBoxPreview qvp;
     String state;
-    Overlay ov;
-
-    public QuestBox(@NonNull Context context, String state, Overlay ov) {
-        super(context);
-        this.state = state;
-        this.ov = ov;
-        init();
-    }
-
     ConstraintLayout viewQuestContainer;
-
     ImageView viewQuestAvatar;
-
     TextView viewQuestName,
             viewQuestDifficulty,
             viewQuestAdventurer,
@@ -52,8 +44,12 @@ public class QuestBox extends FrameLayout {
             viewQuestTimeRemaining,
             viewQuestStatus,
             viewQuestReason;
-
     Button viewQuestButtonA, viewQuestButtonB, viewQuestButtonC, viewQuestButtonD;
+
+    public QuestBox(@NonNull Context context) {
+        super(context);
+        init();
+    }
 
     private void init () {
         LayoutInflater.from(getContext()).inflate(R.layout.module_quest_view, this);
@@ -78,271 +74,91 @@ public class QuestBox extends FrameLayout {
         viewQuestButtonC = findViewById(R.id.viewQuestButtonC);
         viewQuestButtonD = findViewById(R.id.viewQuestButtonD);
 
-//        viewQuestButtonC.setOnClickListener(v -> {
-//            close();
-//        });
-//
-//        viewQuestButtonD.setOnClickListener(v -> {
-//            close();
-//            ViewGroup parent2 = (ViewGroup) qvp.getParent();
-//            parent2.removeView(qvp);
-//            if (q.getStatus().equalsIgnoreCase("awaiting configuration")) {
-//                FirestoreManager.getFirestore().document("Quests/"+q.getQuestID()).delete();
-//            } else {
-//                q.setStatus("Deleted");
-//                FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
-//                        .set(QuestManager.packQuestData(q));
-//            }
-//
-//        });
-
 //        if (state.equalsIgnoreCase("child")) {
 //            viewQuestButtonD.setVisibility(GONE);
 //        }
-//    }
+    }
 
-//    public void setQuest (Quest q, QuestBoxPreview qvp) {
-//        this.q = q;
-//        this.qvp = qvp;
-//
-//        q.getAssignedReference().get().addOnCompleteListener(task -> {
-//            if (task.isSuccessful() && task.getResult().get("Username") != null) {
-//                viewQuestAdventurer.setText("Assigned: " + task.getResult().get("Username").toString());
-//            } else {
-//                viewQuestAdventurer.setText("Assigned: None");
-//            }
-//        });
-//
-//        Number endDate = q.getEndDate();
-//        ZonedDateTime deadline = DateTimeUtil.getDateTimeFromEpochSecond(endDate.longValue());
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mma");
-//        String dueDate = deadline.format(formatter);
-//
-//        Number diff = q.getDifficulty();
-//
-//        viewQuestName.setText(q.getName());
-//        viewQuestDifficulty.setText("Difficulty: " + "★".repeat(diff.intValue()));
-//        viewQuestAdventurer.setText("Assigned: .....");
-//        viewQuestDescription.setText("Description:\n"+q.getDescription());
-//        viewQuestRewardStat.setText("Reward: " + q.getRewardStat());
-//        viewQuestRewardExtra.setText("More Rewards:\n" + q.getRewardExtra());
-//        viewQuestDeadline.setText("Due: " + dueDate);
-//        viewQuestTimeRemaining.setText("00:00:00");
-//        viewQuestStatus.setText("Status: " + q.getStatus());
-//
-//        String rewardStat = q.getRewardStat();
-//        if (rewardStat.equalsIgnoreCase("strength")) {
-//            viewQuestAvatar.setImageResource(R.drawable.icon_str);
-//            if (q.getStatus().equalsIgnoreCase("awaiting verification")) {
-//                viewQuestAvatar.setImageResource(R.drawable.icon_str_pending);
-//            }
-//        } else if (rewardStat.equalsIgnoreCase("intelligence")) {
-//            viewQuestAvatar.setImageResource(R.drawable.icon_int);
-//            if (q.getStatus().equalsIgnoreCase("awaiting verification")) {
-//                viewQuestAvatar.setImageResource(R.drawable.icon_int_pending);
-//            }
-//        } else {
-//            viewQuestAvatar.setImageResource(R.drawable.coin_sprite);
-//        }
-//
-//        if (q.getStatus().equalsIgnoreCase("ongoing")) {
-//            setTimer(DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
-//        } else {
-//            Duration d = Duration.between(DateTimeUtil.getDateTimeNow(), DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
-//            if (d.isNegative()) {
-//                viewQuestTimeRemaining.setText(q.getStatus().toUpperCase());
-//                QuestManager.fail(q);
-//            } else {
-//                viewQuestTimeRemaining.setText(RemainingTimer.toRemainingDuration(d));
-//            }
-//        }
-//
-//        String status = q.getStatus().toLowerCase();
-//        switch (status) {
-//
-//            case "awaiting configuration" : {
-//                viewQuestButtonA.setVisibility(GONE);
-//                viewQuestButtonB.setOnClickListener(v -> {
-//                    // Create Temporary EditQuestTab
-//                    EditQuestTab eqt = new EditQuestTab(getContext());
-//                    eqt.setQuest(q);
-//                    // Set LayoutParams
-//                    ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
-//                            ConstraintLayout.LayoutParams.MATCH_PARENT,
-//                            ConstraintLayout.LayoutParams.WRAP_CONTENT
-//                    );
-//                    params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-//                    params.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
-//                    params.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
-//                    params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-//                    params.setMargins(32,16,32,16);
-//                    eqt.setLayoutParams(params);
-//                    // Show
-//                    ViewGroup parent = (ViewGroup) this.getParent();
-//                    parent.addView(eqt);
-//                    close();
-//                });
-//                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) viewQuestButtonC.getLayoutParams();
-//                params.topToBottom = viewQuestButtonB.getId();
-//                viewQuestButtonC.setLayoutParams(params);
-//                break;
-//            }
-//
-//            case "ongoing": {
-//                if (state.equalsIgnoreCase("parent")) {
-//                    viewQuestButtonA.setVisibility(GONE);
-//                    viewQuestButtonB.setVisibility(GONE);
-//                } else {
-//                    viewQuestButtonA.setText("Submit for Verification");
-//                    viewQuestButtonA.setOnClickListener(v -> {
-//                        q.setStatus("Awaiting Verification");
-//                        q.setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
-//                        FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
-//                                .set(QuestManager.packQuestData(q));
-//                        close();
-//                    });
-//                    viewQuestButtonB.setVisibility(GONE);
-//                }
-//                break;
-//            }
-//
-//            case "awaiting verification": {
-//                if (state.equalsIgnoreCase("parent")) {
-//                    viewQuestButtonA.setText("Verify");
-//                    viewQuestButtonA.setOnClickListener(v -> {
-//                        q.setStatus("Completed");
-//                        q.setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
-//                        FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
-//                                .set(QuestManager.packQuestData(q));
-//                        // Grant rewards
-//                        DocumentReference child = q.getAssignedReference();
-//                        child.update(((q.getStatus().equalsIgnoreCase("strength"))?"Strength":"Intelligence"), FieldValue.increment(1));
-//                        child.update("Gold", q.getDifficulty().intValue());
-//                        child.update("QuestCompleted", FieldValue.increment(1));
-//                        // Store a reference for all completed quests
-//                        HashMap<String, Object> map = new HashMap<>();
-//                        map.put("QuestReference", FirestoreManager.getFirestore().document("Quests/"+q.getQuestID()));
-//                        q.getAssignedReference().collection("CompletedQuests").document(q.getQuestID()).set(map);
-//                        close();
-//                    });
-//                    viewQuestButtonB.setText("Reject");
-//                    viewQuestButtonB.setOnClickListener(v -> {
-//                        q.setStatus("Ongoing");
-//                        FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
-//                                .set(QuestManager.packQuestData(q));
-//                        close();
-//                    });
-//                } else {
-//                    viewQuestButtonA.setText("Awaiting Verification");
-//                    viewQuestButtonB.setVisibility(GONE);
-//                }
-//                break;
-//            }
-//
-//            case "awaiting reason": {
-//                // Only shown in ChildPageQuestBoard
-//                viewQuestButtonA.setText("Submit Reason");
-//                viewQuestButtonA.setOnClickListener(v -> {
-//                    ChildExemptionTab cet = new ChildExemptionTab(getContext());
-//                    // Set LayoutParams
-//                    ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
-//                            ConstraintLayout.LayoutParams.MATCH_PARENT,
-//                            ConstraintLayout.LayoutParams.WRAP_CONTENT
-//                    );
-//                    params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-//                    params.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
-//                    params.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
-//                    params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-//                    params.setMargins(32,16,32,16);
-//                    cet.setLayoutParams(params);
-//                    // Show
-//                    ViewGroup parent = (ViewGroup) this.getParent();
-//                    parent.addView(cet);
-//                    cet.setQuest(q);
-//                    //close();
-//                });
-//                viewQuestButtonB.setVisibility(GONE);
-//                break;
-//            }
-//
-//            case "awaiting exemption": {
-//                if (state.equalsIgnoreCase("parent")) {
-//                    viewQuestAdventurer.setVisibility(GONE);
-//                    viewQuestDifficulty.setVisibility(GONE);
-//                    viewQuestDescription.setVisibility(GONE);
-//                    viewQuestRewardStat.setVisibility(GONE);
-//                    viewQuestRewardExtra.setVisibility(GONE);
-//                    viewQuestReason.setVisibility(VISIBLE);
-//                    viewQuestReason.setText("Reason For Failure:\n" + q.getReason());
-//                    viewQuestButtonA.setText("Accept");
-//                    viewQuestButtonA.setOnClickListener(v -> {
-//                        q.setStatus("Exempted");
-//                        q.setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
-//                        FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
-//                                .set(QuestManager.packQuestData(q));
-//                        close();
-//                    });
-//                    viewQuestButtonB.setText("Reject");
-//                    viewQuestButtonB.setOnClickListener(v -> {
-//                        q.setStatus("Failed");
-//                        q.setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
-//                        FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
-//                                .set(QuestManager.packQuestData(q));
-//                        close();
-//                    });
-//                    ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) viewQuestButtonD.getLayoutParams();
-//                    params.topToTop = ConstraintLayout.LayoutParams.UNSET; // Optional: clear previous constraint
-//                    params.topToBottom = viewQuestButtonA.getId();          // Constrain top of D to bottom of A
-//                    viewQuestButtonD.setLayoutParams(params);
-//                } else {
-//                    viewQuestButtonA.setText("Awaiting Exemption Response");
-//                    viewQuestButtonB.setVisibility(GONE);
-//                }
-//                break;
-//            }
-//
-//            case "completed": {
-//                viewQuestButtonA.setVisibility(GONE);
-//                viewQuestButtonB.setVisibility(GONE);
-//                viewQuestButtonD.setVisibility(GONE);
-//                break;
-//            }
-//
-//            case "failed": {
-//                viewQuestButtonA.setVisibility(GONE);
-//                viewQuestButtonB.setVisibility(GONE);
-//                viewQuestButtonD.setVisibility(GONE);
-//                break;
-//            }
-//
-//            case "exempted": {
-//                viewQuestButtonA.setVisibility(GONE);
-//                viewQuestButtonB.setVisibility(GONE);
-//                viewQuestButtonD.setVisibility(GONE);
-//                break;
-//            }
-//
-//            case "deleted": {
-//                viewQuestButtonA.setVisibility(GONE);
-//                viewQuestButtonB.setVisibility(GONE);
-//                viewQuestButtonD.setVisibility(GONE);
-//                break;
-//            }
-//
-//        }
-//
-//    }
+    public void setQuest (Quest q) {
+        this.q = q;
 
-//    public void setTimer (ZonedDateTime deadline) {
-//        RemainingTimer rTimer = new RemainingTimer(viewQuestTimeRemaining, deadline, q, this);
-//        DateTimeUtil.addTimer(rTimer);
-//    }
-//
-//    private void close () {
-//        ViewGroup parent = (ViewGroup) this.getParent();
-//        parent.removeView(this);
-//        parent.removeView(ov);
-//    }
+        viewQuestName.setText(q.getQuestData().getName());
+        viewQuestDifficulty.setText("★".repeat(q.getQuestData().getDifficulty()));
+        viewQuestDescription.setText(q.getQuestData().getDescription());
+        viewQuestRewardStat.setText(q.getQuestData().getRewardStat());
+        viewQuestRewardExtra.setText(q.getQuestData().getRewardExtra());
 
+        // Set Deadline
+        ZonedDateTime deadline = DateTimeUtil.getDateTimeFromEpochSecond(q.getQuestData().getEndDate());
+        String status = q.getQuestData().getStatus();
+        if (status.equalsIgnoreCase("ongoing")) {
+            RemainingTimer rTimer = new RemainingTimer(viewQuestTimeRemaining, deadline, q, this);
+            DateTimeUtil.addTimer(rTimer);
+        } else {
+            viewQuestTimeRemaining.setText(status.toUpperCase());
+        }
+
+        // Set Icon
+        Boolean rewardStat = q.getQuestData().getRewardStat().equalsIgnoreCase("strength");
+        Boolean questStatus = q.getQuestData().getStatus().equalsIgnoreCase("awaiting verification");
+        int icon = rewardStat?
+                questStatus? R.drawable.icon_str_pending : R.drawable.icon_str  :
+                questStatus? R.drawable.icon_int_pending : R.drawable.icon_int
+                ;
+        viewQuestAvatar.setImageResource(icon);
+
+        // Set Assigned To
+        DocumentReference adventurer = q.getQuestData().getAdventurerReference();
+        System.out.println("Adventurer: " + adventurer);
+        if (adventurer != null) {
+            adventurer.get()
+                    .addOnCompleteListener(task -> {
+//                        if (task.isSuccessful()) {
+//                            Child c = ChildManager.parseChildData(task.getResult().getData());
+//                            viewQuestAdventurer.setText("Assigned to: " + c.getChildUsername());
+//                        }
+                    });
+        } else {
+            viewQuestAdventurer.setText("Assigned to: None");
+        }
+
+        // Setup buttons
+        switch (status.toLowerCase()) {
+
+            case "awaiting configuration": {
+                viewQuestButtonA.setVisibility(GONE);
+                viewQuestButtonB.setOnClickListener(v -> {
+                    // Create Temporary EditQuestTab
+                    EditQuestTab eqt = new EditQuestTab(getContext());
+                    eqt.setQuest(q);
+                    // Set LayoutParams
+                    ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                            ConstraintLayout.LayoutParams.MATCH_PARENT,
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.setMargins(32,16,32,16);
+                    eqt.setLayoutParams(params);
+                    // Show
+                    ViewGroup parent = (ViewGroup) this.getParent();
+                    parent.addView(eqt);
+                    this.setVisibility(GONE);
+                });
+                break;
+            }
+
+        }
+
+    }
+
+    public Button getViewQuestButtonC() {
+        return viewQuestButtonC;
+    }
+
+    public Button getViewQuestButtonD() {
+        return viewQuestButtonD;
     }
 }

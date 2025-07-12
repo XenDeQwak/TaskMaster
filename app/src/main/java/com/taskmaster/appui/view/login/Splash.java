@@ -80,8 +80,8 @@ public class Splash extends AppCompatActivity {
                         FirestoreManager.getUserInformation(fnewUser.getUid(), ds -> {
                             user.getUserData().setUserSnapshot(ds, e -> {
                                 String role = user.getUserData().getRole();
-                                System.out.println(ds);
-                                System.out.println(role);
+                                //System.out.println(ds);
+                                //System.out.println(role);
                                 if (role.equalsIgnoreCase("parent")) {
                                     goTo(ParentPageQuestBoard.class);
                                 } else if (role.equalsIgnoreCase("child")) {
