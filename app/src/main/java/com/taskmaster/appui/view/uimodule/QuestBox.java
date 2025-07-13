@@ -229,6 +229,7 @@ public class QuestBox extends FrameLayout {
             }
 
             case "awaiting reason for failure": {
+                viewQuestButtonA.setText("Submit Reason For Failure");
                 viewQuestButtonA.setOnClickListener(v -> {
                     // Create Temporary ChildExemptionTab
                     ChildExemptionTab cet = new ChildExemptionTab(getContext());

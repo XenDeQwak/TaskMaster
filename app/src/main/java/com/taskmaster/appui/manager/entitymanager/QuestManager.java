@@ -1,6 +1,7 @@
 package com.taskmaster.appui.manager.entitymanager;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -49,7 +50,6 @@ public class QuestManager {
     @SuppressLint("NewApi")
     public void refresh () {
         questContent.removeAllViews();
-        questList.forEach(Quest::updateQuestBox);
         questList.stream()
                 .map(Quest::getQuestBoxPreview)
                 .forEach(questContent::addView);
@@ -108,6 +108,10 @@ public class QuestManager {
      * @param status One or more status values (e.g., "ongoing", "completed", "failed") to filter quests by.
      */
     public void fetchQuestsWhereStatus (String type, String... status) {
+        questList.forEach(quest -> {
+            quest.getQuestBox().setVisibility(GONE);
+            quest.updateQuestBox();
+        });
         String field = type.equalsIgnoreCase("parent") ? "createdBy" : "assignedTo";
         Quests
                 .whereEqualTo(field, FirebaseAuth.getInstance().getUid())

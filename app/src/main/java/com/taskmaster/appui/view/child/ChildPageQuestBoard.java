@@ -68,7 +68,7 @@ public class ChildPageQuestBoard extends ChildPage {
         questViewChild = findViewById(R.id.questViewChild);
         questManager = new QuestManager(questViewChild);
 
-        String[] status = {"Ongoing", "Awaiting Reason"};
+        String[] status = {"Ongoing", "Awaiting Reason For Failure"};
         questManager.fetchQuestsWhereStatus("child", status);
 
         CurrentUser currentUser = CurrentUser.getInstance();
