@@ -56,8 +56,6 @@ public class QuestBoxPreview extends FrameLayout {
 
         String status = q.getQuestData().getStatus();
         if (status.equalsIgnoreCase("ongoing")) {
-            RemainingTimer rTimer = new RemainingTimer(previewQuestTimeRemaining, deadline, "dd:hh:mm:ss");
-            DateTimeUtil.addTimer(rTimer);
             previewQuestTimeRemaining.setTextColor(Color.BLACK);
         } else {
             previewQuestTimeRemaining.setText(status.toUpperCase());
@@ -94,5 +92,7 @@ public class QuestBoxPreview extends FrameLayout {
 
     }
 
-
+    public TextView getPreviewQuestTimeRemaining() {
+        return previewQuestTimeRemaining;
+    }
 }

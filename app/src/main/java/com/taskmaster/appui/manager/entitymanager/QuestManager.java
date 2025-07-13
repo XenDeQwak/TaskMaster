@@ -12,22 +12,32 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.data.QuestData;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.view.uimodule.QuestBox;
 import com.taskmaster.appui.view.uimodule.QuestBoxPreview;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuestManager {
 
-    private final CollectionReference Quests = FirebaseFirestore.getInstance().collection("Quests");
-    private final CollectionReference Parents = FirebaseFirestore.getInstance().collection("Users");
-
-
+    private final DocumentReference Parent =
+            (CurrentUser.getInstance().getUserData().getRole().equalsIgnoreCase("parent"))
+                    ?
+                    FirebaseFirestore.getInstance().document("Users/"+FirebaseAuth.getInstance().getUid())
+                    :
+                    CurrentUser.getInstance().getUserData().getUserSnapshot().toObject(ChildData.class).getParentReference()
+            ;
+    private final CollectionReference Quests = Parent.collection("Quests");
     private final LinearLayout questContent;
     private final ArrayList<Quest> questList;
 
@@ -73,14 +83,21 @@ public class QuestManager {
                 q.getQuestData().setQuestReference(dr);
                 q.getQuestData().setId(dr.getId());
                 q.getQuestData().setCreatedBy(FirebaseAuth.getInstance().getUid());
-                q.getQuestData().setCreatorReference(Parents.document(FirebaseAuth.getInstance().getUid()));
+                q.getQuestData().setCreatorReference(Parent);
                 q.getQuestData().uploadData();
                 questList.add(q);
-                refresh();
             } else {
                 task.getException().printStackTrace();
             }
         });
+    }
+
+    public void remove (Quest q) {
+        if (questList.contains(q)) {
+            questList.remove(q);
+        } else {
+            //throw new IllegalArgumentException("Quest is not part of QuestList");
+        }
     }
 
     /**
@@ -99,6 +116,7 @@ public class QuestManager {
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) task.getException().printStackTrace();
                     else {
+                        questList.clear();
                         //System.out.println(task.getResult().getDocuments());;
                         task.getResult().getDocuments()
                                 .stream()

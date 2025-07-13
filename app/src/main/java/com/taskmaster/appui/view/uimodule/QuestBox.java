@@ -105,8 +105,6 @@ public class QuestBox extends FrameLayout {
         ZonedDateTime deadline = DateTimeUtil.getDateTimeFromEpochSecond(q.getQuestData().getEndDate());
         String status = q.getQuestData().getStatus();
         if (status.equalsIgnoreCase("ongoing")) {
-            RemainingTimer rTimer = new RemainingTimer(viewQuestTimeRemaining, deadline, "dd:hh:mm:ss");
-            DateTimeUtil.addTimer(rTimer);
             viewQuestTimeRemaining.setTextColor(Color.BLACK);
         } else {
             viewQuestTimeRemaining.setText(status.toUpperCase());
@@ -302,6 +300,10 @@ public class QuestBox extends FrameLayout {
                 .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());;
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public TextView getViewQuestTimeRemaining() {
+        return viewQuestTimeRemaining;
     }
 
     public Button getViewQuestButtonC() {

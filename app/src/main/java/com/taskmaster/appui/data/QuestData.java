@@ -2,6 +2,8 @@ package com.taskmaster.appui.data;
 
 import com.google.firebase.firestore.DocumentReference;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class QuestData {

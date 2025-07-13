@@ -2,6 +2,7 @@ package com.taskmaster.appui.view.child;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -9,10 +10,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
+import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
-import com.taskmaster.appui.view.uimodule.ViewQuestTab;
+import com.taskmaster.appui.view.uimodule.ChildStatsTab;
 
+import org.checkerframework.checker.units.qual.C;
+
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +29,7 @@ public class ChildPageQuestBoard extends ChildPage {
 
     QuestManager questManager;
     LinearLayout questViewChild;
-    ViewQuestTab editQuestTab;
+    ChildStatsTab childStatsTab;
 
     List<Integer> avatarImages = new ArrayList<>();
 
@@ -46,22 +55,31 @@ public class ChildPageQuestBoard extends ChildPage {
 
         initNavigationMenu(this, ChildPageQuestBoard.class);
 
-//        setUpAvatar();
-//        CurrentUser u = CurrentUser.getInstance();
-//        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsName().setText((String)u.getDocumentSnapshot().get("Username"));
-//        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsFloor().setText("Floor: " + u.getDocumentSnapshot().get("Floor").toString());
-//        ((ChildStatsTab)findViewById(R.id.ChildStatsTab)).getChildStatsAvatarImage().setImageResource(avatarImages.get(u.getDocumentSnapshot().getDouble("Avatar").intValue()));
-//
-//        ChildStatsTab stats = findViewById(R.id.ChildStatsTab);
-//        stats.setProgressionNav(this);
-//
-//        editQuestTab = findViewById(R.id.pvq_editTab);
-//
-//        questViewChild = findViewById(R.id.questViewChild);
-//        //questManager = new QuestManager();
-//        String[] status = {"Ongoing", "Awaiting Reason"};
-//        //questManager.loadAssignedQuestsWhereStatus(questViewChild, status);
+        setUpAvatar();
+        CurrentUser user = CurrentUser.getInstance();
+        int avatarIndex = user.getUserData().getUserSnapshot().get("avatar", Integer.class);
 
+        childStatsTab = findViewById(R.id.ChildStatsTab);
+        childStatsTab.getChildStatsName().setText(user.getUserData().getUsername());
+        childStatsTab.getChildStatsFloor().setText("Floor: " + user.getUserData().getUserSnapshot().get("floor"));
+        childStatsTab.getChildStatsAvatarImage().setImageResource(avatarImages.get(avatarIndex));
+        childStatsTab.setProgressionNav(this);
+
+        questViewChild = findViewById(R.id.questViewChild);
+        questManager = new QuestManager(questViewChild);
+
+        String[] status = {"Ongoing", "Awaiting Reason"};
+        questManager.fetchQuestsWhereStatus("child", status);
+
+        CurrentUser currentUser = CurrentUser.getInstance();
+        currentUser.getUserData().getUserSnapshot().getReference().get()
+                .addOnCompleteListener(ds -> {
+                    Child c = new Child(ds.getResult().toObject(ChildData.class));
+                    c.getChildData().getParentReference().collection("Quests")
+                            .addSnapshotListener((qs, e) -> {
+                                questManager.fetchQuestsWhereStatus("child", status);
+                            });
+                });
 
     }
 }

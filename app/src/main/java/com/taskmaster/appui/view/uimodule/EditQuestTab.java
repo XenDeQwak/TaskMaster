@@ -93,6 +93,8 @@ public class EditQuestTab extends FrameLayout {
             editQuestChildPicker.setAdapter(childAdapter);
         });
 
+        editQuestDifficulty.setRating(1);
+
         editQuestSave.setOnClickListener(v -> {
             saveQuest();
         });
@@ -129,15 +131,19 @@ public class EditQuestTab extends FrameLayout {
 
         if (
                 editQuestName.getText().toString().equals("")
-                || editQuestHour.getText().toString().equals("")
-                || editQuestMinute.getText().toString().equals("")
-                || editQuestSecond.getText().toString().equals("")
-                || editQuestDescription.getText().toString().equals("")
+                || (editQuestHour.getText().toString().equals("") && editQuestMinute.getText().toString().equals("") && editQuestSecond.getText().toString().equals(""))
                 || editQuestDifficulty.getRating() < 1
+                || editQuestChildPicker.getSelectedItem() == null
         ) {
             Toast.makeText(getContext(), "Please fill up all fields!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (editQuestHour.getText().toString().isEmpty()) editQuestHour.setText("0");
+        if (editQuestMinute.getText().toString().isEmpty()) editQuestMinute.setText("0");
+        if (editQuestSecond.getText().toString().isEmpty()) editQuestSecond.setText("0");
+        if (editQuestDescription.getText().toString().isEmpty()) editQuestDescription.setText("No Description");
+        if (editQuestRewardExtra.getText().toString().isEmpty()) editQuestRewardExtra.setText("No Extra Rewards");
 
         String name = editQuestName.getText().toString();
         int hour = Integer.parseInt(editQuestHour.getText().toString());
@@ -177,7 +183,6 @@ public class EditQuestTab extends FrameLayout {
 
                     ViewGroup parent = (ViewGroup) this.getParent();
                     parent.removeView(this);
-                    q.getQuestManager().refresh();
                 });
     }
 

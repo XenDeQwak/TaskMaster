@@ -5,9 +5,9 @@ import static android.view.View.VISIBLE;
 
 import android.content.Context;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.data.QuestData;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
+import com.taskmaster.appui.util.DateTimeUtil;
 import com.taskmaster.appui.view.uimodule.QuestBox;
 import com.taskmaster.appui.view.uimodule.QuestBoxPreview;
 
@@ -18,6 +18,7 @@ public class Quest {
     private QuestData questData;
     private QuestBox questBox;
     private QuestBoxPreview questBoxPreview;
+    private RemainingTimer remainingTimer;
 
     public Quest (QuestData questData, Context context, QuestManager questManager) {
         this.questManager = questManager;
@@ -50,6 +51,11 @@ public class Quest {
         this.questBoxPreview = new QuestBoxPreview(context);
         this.questBoxPreview.setQuest(this);
         this.questBoxPreview.setOnClickListener(v -> this.questBox.setVisibility(VISIBLE));
+
+        if (getQuestData().getStatus().equalsIgnoreCase("ongoing")) {
+            remainingTimer = new RemainingTimer(this, DateTimeUtil.getDateTimeFromEpochSecond(getQuestData().getEndDate()), "dd:hh:mm:ss");
+            DateTimeUtil.addTimer(remainingTimer);
+        }
     }
 
     public void updateQuestBox () {

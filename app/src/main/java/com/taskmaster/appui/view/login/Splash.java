@@ -64,39 +64,36 @@ public class Splash extends AppCompatActivity {
         if (fUser == null) {
             goTo(UserLogin.class);
         } else if (fUser.isAnonymous()) {
-                fUser.delete();
-                goTo(UserLogin.class);
+            fUser.delete();
+            goTo(UserLogin.class);
         } else if (fUser != null) {
-            fUser.reload().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Log.d("Debug", "CurrentUser still exists.");
-                    // CurrentUser still exists
-                    FirebaseUser fnewUser = FirebaseAuth.getInstance().getCurrentUser();
-                    if (fnewUser != null) {
-                        // CurrentUser is still signed-in
-                        CurrentUser user = CurrentUser.getInstance();
-                        user.setFirebaseUser(fnewUser);
-                        user.setUserData(new AuthUserData());
-                        FirestoreManager.getUserInformation(fnewUser.getUid(), ds -> {
-                            user.getUserData().setUserSnapshot(ds, e -> {
+            FirestoreManager.getUserInformation(fUser.getUid(), ds -> {
+                if (!ds.exists()) {
+                    Log.d("Debug", "Your document doesn't exist anymore");
+                    fUser.delete();
+                    goTo(UserLogin.class);
+                } else {
+                    fUser.reload().addOnCompleteListener(e -> {
+                        FirebaseUser fUser2 = FirebaseAuth.getInstance().getCurrentUser();
+                        if (fUser2 == null) {
+                            Log.d("Debug", "Your auth account does not exist anymore");
+                            ds.getReference().delete();
+                            goTo(UserLogin.class);
+                        } else {
+                            // You still exist, congrats.
+                            CurrentUser user = CurrentUser.getInstance();
+                            user.setFirebaseUser(fUser2);
+                            user.setUserData(new AuthUserData());
+                            user.getUserData().setUserSnapshot(ds, v -> {
                                 String role = user.getUserData().getRole();
-                                //System.out.println(ds);
-                                //System.out.println(role);
                                 if (role.equalsIgnoreCase("parent")) {
                                     goTo(ParentPageQuestBoard.class);
                                 } else if (role.equalsIgnoreCase("child")) {
                                     goTo(ChildPageQuestBoard.class);
                                 }
                             });
-                        });
-                    } else {
-                        // CurrentUser is signed-out
-                        Log.d("Debug", "CurrentUser no longer exists.");
-                        FirebaseAuth.getInstance().signOut();
-                        goTo(UserLogin.class);
-                    }
-                } else {
-                    goTo(UserLogin.class); // Safe fallback
+                        }
+                    });
                 }
             });
         }

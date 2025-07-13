@@ -11,6 +11,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
+import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
@@ -43,11 +46,15 @@ public class ParentPageQuestBoard extends ParentPage {
         ImageView createQuestButton = topBar.getCreateObjectButton();
         createQuestButton.setOnClickListener(v -> {
             questManager.create();
-            questManager.refresh();
         });
 
         String[] status = {"Ongoing", "Awaiting Configuration", "Awaiting Verification", "Awaiting Exemption"};
         questManager.fetchQuestsWhereStatus("parent", status);
 
+        CurrentUser currentUser = CurrentUser.getInstance();
+        currentUser.getUserData().getUserSnapshot().getReference().collection("Quests")
+                .addSnapshotListener((qs, e) -> {
+                    questManager.fetchQuestsWhereStatus("parent", status);
+                });
     }
 }
