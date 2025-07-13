@@ -11,6 +11,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
+import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.view.uimodule.ChildExemptionTab;
 
@@ -39,7 +42,17 @@ public class ChildPageQuestHistory extends ChildPage {
         cvqh_scrollContent = findViewById(R.id.cvqh_scrollContent);
         questManager = new QuestManager(cvqh_scrollContent);
 
-        //String[] status = {"Completed", "Failed", "Exempted"};
-        //questManager.fetchQuestsWhereStatus("parent", status);
+        String[] status = {"Completed", "Failed", "Exempted"};
+        questManager.fetchQuestsWhereStatus("child", status);
+
+        CurrentUser currentUser = CurrentUser.getInstance();
+        currentUser.getUserData().getUserSnapshot().getReference().get()
+                .addOnCompleteListener(ds -> {
+                    Child c = new Child(ds.getResult().toObject(ChildData.class));
+                    c.getChildData().getParentReference().collection("Quests")
+                            .addSnapshotListener((qs, e) -> {
+                                questManager.fetchQuestsWhereStatus("child", status);
+                            });
+                });
     }
 }

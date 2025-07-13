@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.taskmaster.appui.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CosmeticAdapter extends RecyclerView.Adapter<CosmeticAdapter.ViewHolder> {
@@ -23,7 +24,7 @@ public class CosmeticAdapter extends RecyclerView.Adapter<CosmeticAdapter.ViewHo
     }
 
     public CosmeticAdapter(List<CosmeticItem> items, OnItemClickListener listener) {
-        this.items = items;
+        this.items = new ArrayList<>(items);
         this.listener = listener;
     }
 

@@ -1,6 +1,7 @@
 package com.taskmaster.appui.data;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.taskmaster.appui.util.GenericCallback;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,11 +47,13 @@ public class ChildData {
             if (!task.isSuccessful()) task.getException().printStackTrace();
         });
     }
-    public void updateData () {
+    public void updateData (GenericCallback<ChildData> callback) {
         childReference.get().addOnCompleteListener(task -> {
-            updateObject(Objects.requireNonNull(task.getResult().toObject(ChildData.class)));
-        }).addOnCompleteListener(task -> {
             if (!task.isSuccessful()) task.getException().printStackTrace();
+            else {
+                updateObject(Objects.requireNonNull(task.getResult().toObject(ChildData.class)));
+                callback.onCallback(this);
+            }
         });
     }
 
