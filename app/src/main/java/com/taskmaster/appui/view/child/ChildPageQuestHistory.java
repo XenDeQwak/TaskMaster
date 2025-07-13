@@ -17,7 +17,6 @@ import com.taskmaster.appui.view.uimodule.ChildExemptionTab;
 public class ChildPageQuestHistory extends ChildPage {
 
     QuestManager questManager;
-    ScrollView cvqh_scrollView;
     LinearLayout cvqh_scrollContent;
     ChildExemptionTab cvqh_childExemptionTab;
 
@@ -33,16 +32,14 @@ public class ChildPageQuestHistory extends ChildPage {
             return insets;
         });
 
-        //questManager = new QuestManager();
+
 
         initNavigationMenu(this, ChildPageQuestHistory.class);
 
-        cvqh_scrollView = findViewById(R.id.cvqh_scrollView);
-        //cvqh_scrollView.getBackground().setAlpha(150);
-
         cvqh_scrollContent = findViewById(R.id.cvqh_scrollContent);
-        cvqh_childExemptionTab = findViewById(R.id.cvqh_childExemptionTab);
-        String[] status = {"Completed", "Failed", "Exempted"};
-        //questManager.loadAssignedQuestHistoryWhereStatus(cvqh_scrollContent, cvqh_childExemptionTab, status);
+        questManager = new QuestManager(cvqh_scrollContent);
+
+        //String[] status = {"Completed", "Failed", "Exempted"};
+        //questManager.fetchQuestsWhereStatus("parent", status);
     }
 }

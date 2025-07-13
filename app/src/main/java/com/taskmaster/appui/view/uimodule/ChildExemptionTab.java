@@ -48,29 +48,17 @@ public class ChildExemptionTab extends FrameLayout {
         this.q = q;
 
         excuseTabCancel.setOnClickListener(v -> {
-            ((Activity)getContext()).runOnUiThread(() -> {
-                ViewGroup parent = (ViewGroup) this.getParent();
-                parent.removeView(this);
-            });
+            ViewGroup parent = (ViewGroup) this.getParent();
+            parent.removeView(this);
         });
 
         excuseTabSubmit.setOnClickListener(v -> {
-            //q.setStatus("Awaiting Exemption");
-            //q.setReason(excuseTabDescription.getText().toString());
-//            FirestoreManager.getFirestore().document("Quests/"+q.getQuestID())
-//                    .set(QuestManager.packQuestData(q))
-//                    .addOnCompleteListener(task -> {
-//                        if (task.isSuccessful()) {
-//                            Log.d("Debug", "Successfully submitted exemption reason");
-//                        } else {
-//                            Log.d("Debug", "Failed to submit exemption reason");
-//                        }
-//                    });
+            q.getQuestData().setStatus("Awaiting Exemption");
+            q.getQuestData().setFailureReason(excuseTabDescription.getText().toString());
+            q.getQuestData().uploadData();
 
-            ((Activity)getContext()).runOnUiThread(() -> {
-                ViewGroup parent = (ViewGroup) this.getParent();
-                parent.removeView(this);
-            });
+            ViewGroup parent = (ViewGroup) this.getParent();
+            parent.removeView(this);
         });
     }
 }

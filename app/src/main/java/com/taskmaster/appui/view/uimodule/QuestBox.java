@@ -1,7 +1,11 @@
 package com.taskmaster.appui.view.uimodule;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,12 +22,14 @@ import com.google.firebase.firestore.FieldValue;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.RemainingTimer;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.DateTimeUtil;
+import com.taskmaster.appui.util.GenericCallback;
 
 import org.checkerframework.checker.units.qual.C;
 
@@ -35,7 +41,6 @@ import java.util.HashMap;
 public class QuestBox extends FrameLayout {
 
     Quest q;
-    String state;
     ConstraintLayout viewQuestContainer;
     ImageView viewQuestAvatar;
     TextView viewQuestName,
@@ -78,9 +83,9 @@ public class QuestBox extends FrameLayout {
         viewQuestButtonC = findViewById(R.id.viewQuestButtonC);
         viewQuestButtonD = findViewById(R.id.viewQuestButtonD);
 
-//        if (state.equalsIgnoreCase("child")) {
-//            viewQuestButtonD.setVisibility(GONE);
-//        }
+        viewQuestButtonD.setVisibility(
+                CurrentUser.getInstance().getUserData().getRole().equalsIgnoreCase("child") ? GONE : VISIBLE
+        );
     }
 
     @SuppressLint("SetTextI18n")
@@ -100,10 +105,22 @@ public class QuestBox extends FrameLayout {
         ZonedDateTime deadline = DateTimeUtil.getDateTimeFromEpochSecond(q.getQuestData().getEndDate());
         String status = q.getQuestData().getStatus();
         if (status.equalsIgnoreCase("ongoing")) {
-            RemainingTimer rTimer = new RemainingTimer(viewQuestTimeRemaining, deadline, q, this);
+            RemainingTimer rTimer = new RemainingTimer(viewQuestTimeRemaining, deadline, "dd:hh:mm:ss");
             DateTimeUtil.addTimer(rTimer);
+            viewQuestTimeRemaining.setTextColor(Color.BLACK);
         } else {
             viewQuestTimeRemaining.setText(status.toUpperCase());
+            switch (status.toLowerCase()) {
+                case "completed": {viewQuestTimeRemaining.setTextColor(Color.GREEN);break;}
+                case "deleted":
+                case "failed": {viewQuestTimeRemaining.setTextColor(Color.RED);break;}
+                case "exempted": {viewQuestTimeRemaining.setTextColor(Color.DKGRAY);break;}
+                case "awaiting configuration":
+                case "awaiting verification":
+                case "awaiting reason for failure":
+                case "awaiting exemption": {viewQuestTimeRemaining.setTextColor(Color.rgb(185, 101, 0));break;}
+                default: {viewQuestTimeRemaining.setTextColor(Color.BLACK);break;}
+            }
         }
 
         // Set Icon
@@ -115,22 +132,29 @@ public class QuestBox extends FrameLayout {
                 ;
         viewQuestAvatar.setImageResource(icon);
 
-        // Set Assigned To
+        // Set adventurer
         DocumentReference adventurer = q.getQuestData().getAdventurerReference();
-        System.out.println("Adventurer: " + adventurer);
         if (adventurer != null) {
             adventurer.get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Child c = new Child(task.getResult().toObject(ChildData.class));
                             viewQuestAdventurer.setText("Assigned to: " + c.getChildData().getUsername());
+                            setButtons(status, CurrentUser.getInstance().getUserData().getRole());
+                        } else {
+                            task.getException().printStackTrace();
                         }
                     });
         } else {
+            setButtons("awaiting configuration", CurrentUser.getInstance().getUserData().getRole());
             viewQuestAdventurer.setText("Assigned to: None");
         }
 
+    }
+
+    private void setButtons (String status, String role) {
         // Setup buttons
+        System.out.println(status);
         switch (status.toLowerCase()) {
 
             case "awaiting configuration": {
@@ -154,12 +178,130 @@ public class QuestBox extends FrameLayout {
                     ViewGroup parent = (ViewGroup) this.getParent();
                     parent.addView(eqt);
                     this.setVisibility(GONE);
+                    System.out.println("HELLO WORLD");
                 });
                 break;
             }
 
-        }
+            case "ongoing": {
+                if (role.equalsIgnoreCase("parent")) {
+                    viewQuestButtonA.setVisibility(GONE);
+                    viewQuestButtonB.setVisibility(GONE);
+                } else {
+                    viewQuestButtonA.setOnClickListener(v -> newDialog(
+                            "Submit Quest?",
+                            "Are you sure you want to submit this quest for verification of completion?",
+                            (dialog) -> {
+                                q.getQuestData().setStatus("Awaiting Verification");
+                                q.getQuestData().setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
+                                q.getQuestData().uploadData();
+                                dialog.dismiss();
+                            }
+                    ));
+                    viewQuestButtonB.setVisibility(GONE);
+                }
+                break;
+            }
 
+            case "awaiting verification": {
+                if (role.equalsIgnoreCase("parent")) {
+                    viewQuestButtonA.setText("Accept");
+                    viewQuestButtonA.setOnClickListener(v -> newDialog(
+                            "Accept Verification?",
+                            "Are you sure you want to verify the completion of this quest?",
+                            (dialog) -> {
+                                q.getQuestData().setStatus("Completed");
+                                q.getQuestData().uploadData();
+                                dialog.dismiss();
+                            }
+                    ));
+                    viewQuestButtonB.setText("Reject");
+                    viewQuestButtonB.setOnClickListener(v -> newDialog(
+                            "Reject Verification?",
+                            "Are you sure you want to reject the completion of this quest?",
+                            (dialog) -> {
+                                q.getQuestData().setStatus("Ongoing");
+                                q.getQuestData().setCompletedDate(0);
+                                q.getQuestData().uploadData();
+                                dialog.dismiss();
+                            }
+                    ));
+                }
+                break;
+            }
+
+            case "awaiting reason for failure": {
+                viewQuestButtonA.setOnClickListener(v -> {
+                    // Create Temporary ChildExemptionTab
+                    ChildExemptionTab cet = new ChildExemptionTab(getContext());
+                    cet.setQuest(q);
+                    // Set LayoutParams
+                    ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                            ConstraintLayout.LayoutParams.MATCH_PARENT,
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+                    params.setMargins(32,16,32,16);
+                    cet.setLayoutParams(params);
+                    // Show
+                    ViewGroup parent = (ViewGroup) this.getParent();
+                    parent.addView(cet);
+                    this.setVisibility(GONE);
+                });
+                viewQuestButtonB.setVisibility(GONE);
+                break;
+            }
+
+            case "awaiting exemption": {
+                viewQuestButtonA.setText("Accept");
+                viewQuestButtonA.setOnClickListener(v -> newDialog(
+                        "Accept Reason for Failure?",
+                        "Are you sure you want to exempt the failure of this quest?",
+                        (dialog) -> {
+                            q.getQuestData().setStatus("Exempted");
+                            q.getQuestData().uploadData();
+                            dialog.dismiss();
+                        }
+                ));
+                viewQuestButtonB.setText("Reject");
+                viewQuestButtonB.setOnClickListener(v -> newDialog(
+                        "Reject Reason for Failure?",
+                        "Are you sure you want fail this quest?",
+                        (dialog) -> {
+                            q.getQuestData().setStatus("Failed");
+                            q.getQuestData().setCompletedDate(0);
+                            q.getQuestData().uploadData();
+                            dialog.dismiss();
+                        }
+                ));
+                break;
+            }
+
+            case "completed":
+            case "failed":
+            case "exempted":
+            case "deleted": {
+                viewQuestButtonA.setVisibility(GONE);
+                viewQuestButtonB.setVisibility(GONE);
+                viewQuestButtonD.setVisibility(GONE);
+                break;
+            }
+
+
+        }
+    }
+
+    private void newDialog (String title, String msg, GenericCallback<DialogInterface> callback) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton("Confirm", ((dialog, which) -> callback.onCallback(dialog)))
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());;
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public Button getViewQuestButtonC() {

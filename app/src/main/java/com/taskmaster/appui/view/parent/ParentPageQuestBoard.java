@@ -37,12 +37,7 @@ public class ParentPageQuestBoard extends ParentPage {
         initNavigationMenu(this, ParentPageQuestBoard.class);
 
         questScrollContent = findViewById(R.id.pvq_scrollContent);
-        editQuest = findViewById(R.id.pvq_editTab);
-
         questManager = new QuestManager(questScrollContent);
-
-
-        String[] status = {"Ongoing", "Awaiting Configuration", "Awaiting Verification", "Awaiting Exemption"};
 
         // Initialize createQuestButton
         ImageView createQuestButton = topBar.getCreateObjectButton();
@@ -51,7 +46,8 @@ public class ParentPageQuestBoard extends ParentPage {
             questManager.refresh();
         });
 
-        questManager.fetchQuestsWhereStatus("parent", "Awaiting Configuration", "Awaiting verification", "Ongoing");
+        String[] status = {"Ongoing", "Awaiting Configuration", "Awaiting Verification", "Awaiting Exemption"};
+        questManager.fetchQuestsWhereStatus("parent", status);
 
     }
 }

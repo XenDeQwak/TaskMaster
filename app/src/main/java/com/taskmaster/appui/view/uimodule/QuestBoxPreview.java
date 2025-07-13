@@ -2,6 +2,7 @@ package com.taskmaster.appui.view.uimodule;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -55,10 +56,22 @@ public class QuestBoxPreview extends FrameLayout {
 
         String status = q.getQuestData().getStatus();
         if (status.equalsIgnoreCase("ongoing")) {
-            RemainingTimer rTimer = new RemainingTimer(previewQuestTimeRemaining, deadline, q, this);
+            RemainingTimer rTimer = new RemainingTimer(previewQuestTimeRemaining, deadline, "dd:hh:mm:ss");
             DateTimeUtil.addTimer(rTimer);
+            previewQuestTimeRemaining.setTextColor(Color.BLACK);
         } else {
             previewQuestTimeRemaining.setText(status.toUpperCase());
+            switch (status.toLowerCase()) {
+                case "completed": previewQuestTimeRemaining.setTextColor(Color.GREEN);break;
+                case "deleted":
+                case "failed": previewQuestTimeRemaining.setTextColor(Color.RED);break;
+                case "exempted": previewQuestTimeRemaining.setTextColor(Color.DKGRAY);break;
+                case "awaiting configuration":
+                case "awaiting verification":
+                case "awaiting reason for failure":
+                case "awaiting exemption": previewQuestTimeRemaining.setTextColor(Color.rgb(185, 101, 0));break;
+                default: previewQuestTimeRemaining.setTextColor(Color.BLACK);break;
+            }
         }
 
         Boolean rewardStat = q.getQuestData().getRewardStat().equalsIgnoreCase("strength");

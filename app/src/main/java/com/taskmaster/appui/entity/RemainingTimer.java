@@ -15,36 +15,41 @@ import java.time.ZonedDateTime;
 
 public class RemainingTimer {
 
-    View container;
-    Quest q;
-    long hour, minute, second;
+    long day, hour, minute, second;
     TextView timeTextView;
     ZonedDateTime due;
+    String format;
 
     Boolean pastDue = false;
 
-    public RemainingTimer(TextView timeTextView, ZonedDateTime due, Quest q, View container) {
+    public RemainingTimer(TextView timeTextView, ZonedDateTime due, String format) {
         this.timeTextView = timeTextView;
         this.due = due;
-        this.q = q;
-        this.container = container;
+        this.format = format;
     }
 
     public String getRemainingTime () {
         ZonedDateTime now = DateTimeUtil.getDateTimeNow();
         Duration remaining = Duration.between(now, due);
-        long rem = remaining.toSeconds();
 
-        if (rem < 0) {
-            rem = 0;
+        if (remaining.isNegative() || remaining.isZero()) {
             pastDue = true;
         }
 
-        this.second = rem % 60;
-        this.minute = (rem/60)%60;
-        this.hour = rem/3600;
+        this.second = remaining.toSeconds() % 60;
+        this.minute = remaining.toMinutes() % 60;
+        this.hour = remaining.toHours() % 60;
+        this.day = remaining.toDays();
 
-        return hour + ":" + ((minute>9)?minute:"0"+minute) + ":" + ((second>9)?second:"0"+second);
+        return format
+                .replace("ss",second>9?""+second:"0"+second)
+                .replace("mm",minute>9?""+minute:"0"+minute)
+                .replace("hh",hour>9?""+hour:"0"+hour)
+                .replace("dd",day>9?""+day:"0"+day)
+                .replace("s",""+second)
+                .replace("m",""+minute)
+                .replace("h",""+hour)
+                .replace("d",""+day);
     }
 
     public void setText (String s) {

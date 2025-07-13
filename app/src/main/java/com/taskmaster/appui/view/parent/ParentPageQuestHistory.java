@@ -15,7 +15,6 @@ import com.taskmaster.appui.manager.entitymanager.QuestManager;
 public class ParentPageQuestHistory extends ParentPage {
 
     QuestManager questManager;
-    ScrollView pvqh_scrollView;
     LinearLayout pvqh_scrollContent;
 
     @Override
@@ -29,16 +28,13 @@ public class ParentPageQuestHistory extends ParentPage {
             return insets;
         });
 
-        //questManager = new QuestManager();
-
         initNavigationMenu(this, ParentPageQuestHistory.class);
 
-        pvqh_scrollView = findViewById(R.id.pvqh_scrollView);
-        //pvqh_scrollView.getBackground().setAlpha(150);
+        pvqh_scrollContent = findViewById(R.id.pvqh_scrollContent);
+        questManager = new QuestManager(pvqh_scrollContent);
 
         String[] status = {"Completed", "Failed", "Deleted", "Exempted"};
-        pvqh_scrollContent = findViewById(R.id.pvqh_scrollContent);
-       // questManager.loadCreatedQuestHistoryWhereStatus(pvqh_scrollContent, status);
+        questManager.fetchQuestsWhereStatus("parent", status);
 
     }
 }
