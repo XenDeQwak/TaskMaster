@@ -48,8 +48,10 @@ public class DateTimeUtil {
                 String remTime = rt.getRemainingTime();
                 if (rt.isPastDue()) {
                     Quest q = rt.getQuest();
-                    q.getQuestData().setStatus("Awaiting Reason For Failure");
-                    q.getQuestData().uploadData();
+                    if (q != null) {
+                        q.getQuestData().setStatus("Awaiting Reason For Failure");
+                        q.getQuestData().uploadData();
+                    }
                     it.remove();
                 } else {
                     rt.setText(remTime);

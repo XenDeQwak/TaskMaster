@@ -10,15 +10,25 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.Group;
 import com.google.firebase.firestore.FieldValue;
+import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.entity.Boss;
 import com.taskmaster.appui.entity.CurrentUser;
+import com.taskmaster.appui.entity.RemainingTimer;
 import com.taskmaster.appui.util.*;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.taskmaster.appui.R;
+
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WeeklyBoss extends ChildPage {
+
+    ChildData childData;
+    RemainingTimer remainingTimer, remainingTimerDays;
+
+    // Below arent mine -gab
+
     private AppCompatButton fightButton;
     private AppCompatButton statReqStr;
     private AppCompatButton statReqInt;
@@ -30,10 +40,10 @@ public class WeeklyBoss extends ChildPage {
     private ProgressBar monsterHealthBar;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private TextView childBarName,timerTxt,timerTxtDays,popupMonsterMessageText, monsterHealthBarText;
-    private DocumentSnapshot childDocument;
     private CurrentUser currentUser;
     private Boss currBoss;
     private int penalty;
+    private List<Integer> avatarImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,90 +71,42 @@ public class WeeklyBoss extends ChildPage {
         statReqInt = findViewById(R.id.statReqInt);
         monsterImage = findViewById(R.id.monsterImage);
 
-//        NavUtil.setNavigation(this, childBarStatsButton, ProgressionPage.class);
-//        currentUser = CurrentUser.getInstance();
-//        childDocument = currentUser.getDocumentSnapshot();
-//        TimeUtil timeUtil = TimeUtil.getInstance();
-//        if(childDocument.getDouble("BossTimer") == 0){
-//            timeUtil.setupTimer(callback -> startTimer());
-//        }else{
-//            startTimer();
-//        }
-//        setUpBoss();
-//        setUpAvatar();
-//        popupMonsterButton.setOnClickListener(v -> popupMonsterMessage.setVisibility(View.GONE));
-    }
+        NavUtil.setNavigation(this, childBarStatsButton, ProgressionPage.class);
 
-    public void setTime(long ms) {
+        currentUser = CurrentUser.getInstance();
+        childData = currentUser.getUserData().getUserSnapshot().toObject(ChildData.class);
+        childData.updateData(cd -> {
+            remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(cd.getWeeklyBossRespawnDate()), "dd:hh:mm:ss");
+            remainingTimer.setTextView(timerTxt);
+            remainingTimerDays = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(cd.getWeeklyBossRespawnDate()), "dd Days");
+            remainingTimerDays.setTextView(timerTxtDays);
+            DateTimeUtil.addTimer(remainingTimer);
+            DateTimeUtil.addTimer(remainingTimerDays);
 
-        Long days = ms / 86400000;
-        Long hours = (ms % 86400000) / 3600000;
-        Long minutes = (ms % 3600000) / 60000;
-        Long seconds = (ms % 60000) / 1000;
-        String timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-        runOnUiThread(() -> {
-            timerTxtDays.setText(days + " Days");
-            timerTxt.setText(timeFormatted);
+            setUpBoss(cd);
+            setUpAvatar(cd);
         });
+
+        popupMonsterButton.setOnClickListener(v -> popupMonsterMessage.setVisibility(View.GONE));
     }
 
-//    private void startTimer() {
-//        TimeUtil timeUtil = TimeUtil.getInstance();
-//        timeUtil.startTimer(new TimeUtil.TimerListener() {
-//            @Override
-//            public void onTick(long timeRemaining) {
-//                setTime(timeRemaining);
-//            }
-//            @Override
-//            public void onFinish() {
-//                currentUser.setUserReference(callback->{
-//                    childDocument= currentUser.getDocumentSnapshot();
-//                    timeUtil.setupTimer(callback1 -> {
-//                        if(childDocument.getBoolean("BossAlive")){ //Fail
-//                            childDocument.getReference().update(
-//                                "Strength", FieldValue.increment(-penalty),
-//                                "Intelligence", FieldValue.increment(-penalty)
-//                            ).addOnCompleteListener( e-> {
-//                                    attachRestartHandler();
-//                                    showPopup("Time's up! You lose!","Aww");
-//                            });
-//                        }else{
-//                            childDocument.getReference().update(
-//                                "BossAlive", true,
-//                                "Floor", FieldValue.increment(+1)
-//                            ).addOnCompleteListener(e->{
-//                                    attachRestartHandler();
-//                                    showPopup("Congratulations, You Move Up a Floor", "Next Floor");
-//                            });
-//                        }
-//                    });
-//                });
-//            }
-//        });
-//    }
-//    private void attachRestartHandler() {
-//        popupMonsterButton.setOnClickListener(v -> {
-//            currentUser.setUserReference(callback ->{
-//                childDocument = currentUser.getDocumentSnapshot();
-//                NavUtil.instantNavigation(this,this.getClass());
-//                overridePendingTransition(0,0);
-//            });
-//        });
-//    }
-    private void setUpAvatar(){
-        List<Integer> avatarImages = new ArrayList<>();
+
+    private void setUpAvatar(ChildData cd){
+        avatarImages = new ArrayList<>();
         avatarImages.add(R.drawable.placeholderavatar5_framed_round);
         avatarImages.add(R.drawable.placeholderavatar1_framed_round);
         avatarImages.add(R.drawable.placeholderavatar2_framed_round);
         avatarImages.add(R.drawable.placeholderavatar3_framed_round);
         avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-        childBarName.setText(childDocument.getString("Username"));
-        childBarAvatar.setImageResource(avatarImages.get(childDocument.getDouble("Avatar").intValue()));
+
+        childBarName.setText(cd.getUsername());
+        childBarAvatar.setImageResource(avatarImages.get(cd.getAvatar()));
     }
 
-    private void setUpBoss(){
-        int floor = childDocument.getDouble("Floor").intValue();
+    private void setUpBoss(ChildData cd){
+        int floor = cd.getFloor();
         childBarFloorCount.setText("Floor: " + floor);
+
         Boss[] bosses = new Boss[]{
                 new Boss("Buckler", R.drawable.bucklerbossundamaged_sprite, R.drawable.bucklerbossdamaged_sprite),
                 new Boss("Book", R.drawable.bookbossundamaged_sprite, R.drawable.bookbossdamaged_sprite),
@@ -152,20 +114,22 @@ public class WeeklyBoss extends ChildPage {
                 new Boss("Spirit Animal", R.drawable.spiritanimalboss, R.drawable.spiritanimalbossdamaged),
                 new Boss("Witch Hat", R.drawable.witchhatboss_sprite, R.drawable.witchhatbossdamaged_sprite)
         };
+
         int index = (floor % bosses.length);
         currBoss = bosses[index];
         statReqStr.setText("STR: " + floor);
         statReqInt.setText("INT: " + floor);
-        double Strength = childDocument.getDouble("Strength");
-        double Intelligence = childDocument.getDouble("Intelligence");
+
+        int Strength = cd.getStrength();
+        int Intelligence = cd.getIntelligence();
         double childStats = (Strength+Intelligence)/2;
         penalty = (int) Math.max((childStats*0.1),1); //10% of stats
 
-        if(childDocument.getBoolean("BossAlive")){
+        if(!remainingTimer.isPastDue()){
             updateProgressBar(0);
             monsterImage.setImageResource(currBoss.getUndamagedImageResId());
-            int childStr = childDocument.getDouble("Strength").intValue();
-            int childInt = childDocument.getDouble("Intelligence").intValue();
+            int childStr = cd.getStrength();
+            int childInt = cd.getIntelligence();
             fightButton.setOnClickListener(e -> bossFight(childStr, childInt, floor));
         }else{
             updateProgressBar(100);
@@ -184,7 +148,7 @@ public class WeeklyBoss extends ChildPage {
     }
 
     private void showPopup(String message, String buttonText){
-        if(childDocument.getBoolean("BossAlive")){
+        if(remainingTimer.isPastDue()){
             popupMonsterImage.setImageResource(currBoss.getUndamagedImageResId());
         }else{
             popupMonsterImage.setImageResource(currBoss.getDamagedImageResId());
@@ -207,7 +171,10 @@ public class WeeklyBoss extends ChildPage {
                         updateProgressBar(damage[0]);
                         handler.postDelayed(this, 500);
                     } else {
-                        childDocument.getReference().update("BossAlive", false);
+                        ZonedDateTime zdt = DateTimeUtil.getDateTimeFromEpochSecond(childData.getWeeklyBossRespawnDate());
+                        zdt.plusWeeks(1);
+                        childData.setWeeklyBossRespawnDate(zdt.toEpochSecond());
+                        childData.uploadData();
                         monsterImage.setImageResource(currBoss.getDamagedImageResId());
                         showPopup("You have defeated me!","Great!");
                         //attachRestartHandler();

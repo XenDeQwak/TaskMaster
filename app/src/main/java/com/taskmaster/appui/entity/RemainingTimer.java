@@ -17,13 +17,13 @@ public class RemainingTimer {
 
     long day, hour, minute, second;
     Quest quest;
+    TextView textView;
     ZonedDateTime due;
     String format;
 
     Boolean pastDue = false;
 
-    public RemainingTimer(Quest quest, ZonedDateTime due, String format) {
-        this.quest = quest;
+    public RemainingTimer(ZonedDateTime due, String format) {
         this.due = due;
         this.format = format;
     }
@@ -39,26 +39,31 @@ public class RemainingTimer {
 
         this.second = remaining.toSeconds() % 60;
         this.minute = remaining.toMinutes() % 60;
-        this.hour = remaining.toHours() % 60;
+        this.hour = remaining.toHours() % 24;
         this.day = remaining.toDays();
 
         return format
                 .replace("ss",second>9?""+second:"0"+second)
                 .replace("mm",minute>9?""+minute:"0"+minute)
                 .replace("hh",hour>9?""+hour:"0"+hour)
-                .replace("dd",day>9?""+day:"0"+day)
-                .replace("s",""+second)
-                .replace("m",""+minute)
-                .replace("h",""+hour)
-                .replace("d",""+day);
+                .replace("dd",day>9?""+day:"0"+day);
+                //.replace("s",""+second)
+                //.replace("m",""+minute)
+                //.replace("h",""+hour)
+                //.replace("d",""+day);
     }
 
     public void setText (String s) {
-        Activity act = (Activity) quest.getContext();
-        act.runOnUiThread(() -> {
-            quest.getQuestBox().getViewQuestTimeRemaining().setText(s);
-            quest.getQuestBoxPreview().getPreviewQuestTimeRemaining().setText(s);
-        });
+        if (quest != null) {
+            Activity act = (Activity) quest.getContext();
+            act.runOnUiThread(() -> {
+                quest.getQuestBox().getViewQuestTimeRemaining().setText(s);
+                quest.getQuestBoxPreview().getPreviewQuestTimeRemaining().setText(s);
+            });
+        } else {
+            Activity act = (Activity) textView.getContext();
+            act.runOnUiThread(() -> textView.setText(s));
+        }
     }
 
     public static String toRemainingDuration (Duration remaining, String format) {
@@ -85,5 +90,19 @@ public class RemainingTimer {
 
     public Quest getQuest() {
         return quest;
+    }
+
+    public void setQuest(Quest quest) {
+        this.quest = quest;
+        this.textView = null;
+    }
+
+    public TextView getTextView() {
+        return textView;
+    }
+
+    public void setTextView(TextView textView) {
+        this.quest = null;
+        this.textView = textView;
     }
 }
