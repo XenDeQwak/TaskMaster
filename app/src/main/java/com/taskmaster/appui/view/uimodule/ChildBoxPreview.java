@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,16 +42,7 @@ public class ChildBoxPreview extends FrameLayout {
         this.c = c;
     }
 
-    List<Integer> avatarImages = new ArrayList<>();
-    private void setUpAvatar() {
-        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar1_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar2_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar3_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-//        childBarName.setText(childDocument.getString("Username"));
-//        childBarAvatar.setImageResource(avatarImages.get(childDocument.getDouble("Avatar").intValue()));
-    }
+    List<CosmeticItem> avatars;
 
     TextView viewChildName, viewChildEmail, vewChildStrength, vewChildIntelligence, viewChildFloor, viewChildQuestCompleted;
     ImageView viewChildAvatar;
@@ -74,9 +66,7 @@ public class ChildBoxPreview extends FrameLayout {
         vewChildIntelligence.setText("Intelligence: " + c.getChildData().getIntelligence());
         viewChildFloor.setText("Floor: " + c.getChildData().getFloor());
         viewChildQuestCompleted.setText("Quest Completed: " + c.getChildData().getQuestsCompleted());
-
-        setUpAvatar();
-        viewChildAvatar.setImageResource(avatarImages.get(c.getChildData().getAvatar()));
+        viewChildAvatar.setImageResource(c.getChildData().getOwnedItems().get(c.getChildData().getAvatar()).getImageResId());
 
         childViewCont.getBackground().setAlpha(160);
 

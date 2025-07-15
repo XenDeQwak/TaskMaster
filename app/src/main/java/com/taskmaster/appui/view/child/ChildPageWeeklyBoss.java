@@ -22,9 +22,12 @@ import com.taskmaster.appui.entity.WeeklyBoss;
 import com.taskmaster.appui.util.*;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.view.uimodule.ChildStatsTab;
+import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticItem;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -41,6 +44,14 @@ public class ChildPageWeeklyBoss extends ChildPage {
             R.drawable.placeholderavatar3_framed_round,
             R.drawable.placeholderavatar4_framed_round
     };
+
+    private final List<CosmeticItem> allItems = Arrays.asList(
+            new CosmeticItem(0, "Armorless", "High-level protection", 5, R.drawable.placeholderavatar5_framed_round),
+            new CosmeticItem(1, "Silver Armor", "High-level protection", 2, R.drawable.placeholderavatar1_framed_round),
+            new CosmeticItem(2, "Red Armor", "High-level protection", 3, R.drawable.placeholderavatar2_framed_round),
+            new CosmeticItem(3, "Crusader Armor", "High-level protection", 4, R.drawable.placeholderavatar3_framed_round),
+            new CosmeticItem(4, "Copper Crusader Armor", "High-level protection", 5, R.drawable.placeholderavatar4_framed_round)
+    );
 
     private ChildData childData;
     private RemainingTimer remainingTimer;
@@ -95,7 +106,7 @@ public class ChildPageWeeklyBoss extends ChildPage {
             childStatsTab = findViewById(R.id.ChildStatsTab);
             childStatsTab.getChildStatsName().setText(cd.getUsername());
             childStatsTab.getChildStatsFloor().setText("Floor: " + cd.getFloor());
-            childStatsTab.getChildStatsAvatarImage().setImageResource(avatarImages[cd.getAvatar()]);
+            childStatsTab.getChildStatsAvatarImage().setImageResource(cd.getOwnedItems().get(cd.getAvatar()).getImageResId());
             childStatsTab.setProgressionNav(this);
 
             // Boss Setup

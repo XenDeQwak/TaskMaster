@@ -70,10 +70,9 @@ public class Splash extends AppCompatActivity {
             goTo(UserLogin.class);
         } else if (fUser != null) {
             FirestoreManager.getUserInformation(fUser.getUid(), ds -> {
-                System.out.println(ds.getData() );
-                if (!ds.exists()) {
+                if (ds == null || !ds.exists()) {
                     Log.d("Debug", "Your document doesn't exist anymore");
-                    fUser.delete();
+                    FirebaseAuth.getInstance().getCurrentUser().delete();
                     goTo(UserLogin.class);
                 } else {
                     fUser.reload().addOnCompleteListener(e -> {

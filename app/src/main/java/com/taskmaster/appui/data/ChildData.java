@@ -1,7 +1,9 @@
 package com.taskmaster.appui.data;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.taskmaster.appui.R;
 import com.taskmaster.appui.util.GenericCallback;
+import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticItem;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +27,7 @@ public class ChildData {
             1,
             0,
             0,
-            Arrays.asList("Armorless")
+            Arrays.asList(new CosmeticItem(0, "Armorless", "High-level protection", 5, R.drawable.placeholderavatar5_framed_round))
     );
 
     public static ChildData newEmptyChildData() {
@@ -37,7 +39,7 @@ public class ChildData {
     String parentUID;
     DocumentReference childReference, parentReference, weeklyBossReference;
     int avatar, strength, intelligence, floor, gold, questsCompleted;
-    List<String> ownedItems;
+    List<CosmeticItem> ownedItems;
 
     public ChildData () {}
 
@@ -79,7 +81,7 @@ public class ChildData {
         updateObject(childData);
     }
 
-    public ChildData(String uid, String email, String password, String username, String role, String parentUID, DocumentReference childReference, DocumentReference parentReference, DocumentReference weeklyBossReference, int avatar, int strength, int intelligence, int floor, int gold, int questsCompleted, List<String> ownedItems) {
+    public ChildData(String uid, String email, String password, String username, String role, String parentUID, DocumentReference childReference, DocumentReference parentReference, DocumentReference weeklyBossReference, int avatar, int strength, int intelligence, int floor, int gold, int questsCompleted, List<CosmeticItem> ownedItems) {
         this.uid = uid;
         this.email = email;
         this.password = password;
@@ -226,11 +228,11 @@ public class ChildData {
         this.questsCompleted = questsCompleted;
     }
 
-    public List<String> getOwnedItems() {
+    public List<CosmeticItem> getOwnedItems() {
         return ownedItems;
     }
 
-    public void setOwnedItems(List<String> ownedItems) {
+    public void setOwnedItems(List<CosmeticItem> ownedItems) {
         this.ownedItems = ownedItems;
     }
 }

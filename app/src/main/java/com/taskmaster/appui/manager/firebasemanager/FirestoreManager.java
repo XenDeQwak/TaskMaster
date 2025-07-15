@@ -68,8 +68,13 @@ public class FirestoreManager {
         firestore.collection("UserReferences").document(UID).get()
                 .addOnCompleteListener(task -> {
                     DocumentSnapshot ds = task.getResult();
-                    ds.get("userReference", DocumentReference.class).get()
-                            .addOnCompleteListener(task1 -> callback.onCallback(task1.getResult()));
+                    if (ds.exists()) {
+                        ds.get("userReference", DocumentReference.class)
+                                .get()
+                                .addOnCompleteListener(task1 -> callback.onCallback(task1.getResult()));
+                    } else {
+                        callback.onCallback(null);
+                    }
                 });
     }
 

@@ -31,15 +31,6 @@ public class ChildPageQuestBoard extends ChildPage {
     LinearLayout questViewChild;
     ChildStatsTab childStatsTab;
 
-    List<Integer> avatarImages = new ArrayList<>();
-
-    private void setUpAvatar(){
-        avatarImages.add(R.drawable.placeholderavatar5_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar1_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar2_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar3_framed_round);
-        avatarImages.add(R.drawable.placeholderavatar4_framed_round);
-    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -54,17 +45,6 @@ public class ChildPageQuestBoard extends ChildPage {
         });
 
         initNavigationMenu(this, ChildPageQuestBoard.class);
-
-        setUpAvatar();
-        CurrentUser user = CurrentUser.getInstance();
-        DocumentSnapshot documentSnapshot = user.getUserData().getUserSnapshot();
-        int avatarIndex = documentSnapshot.exists()? documentSnapshot.get("avatar", Integer.class) : 0;
-
-        childStatsTab = findViewById(R.id.ChildStatsTab);
-        childStatsTab.getChildStatsName().setText(user.getUserData().getUsername());
-        childStatsTab.getChildStatsFloor().setText("Floor: " + user.getUserData().getUserSnapshot().get("floor"));
-        childStatsTab.getChildStatsAvatarImage().setImageResource(avatarImages.get(avatarIndex));
-        childStatsTab.setProgressionNav(this);
 
         questViewChild = findViewById(R.id.questViewChild);
         questManager = new QuestManager(questViewChild);
@@ -81,6 +61,15 @@ public class ChildPageQuestBoard extends ChildPage {
                                 questManager.fetchQuestsWhereStatus("child", status);
                             });
                 });
+
+        ChildData childData = currentUser.getUserData().getUserSnapshot().toObject(ChildData.class);
+        childData.updateData(cd -> {
+            childStatsTab = findViewById(R.id.ChildStatsTab);
+            childStatsTab.getChildStatsName().setText(cd.getUsername());
+            childStatsTab.getChildStatsFloor().setText("Floor: " + cd.getFloor());
+            childStatsTab.getChildStatsAvatarImage().setImageResource(cd.getOwnedItems().get(cd.getAvatar()).getImageResId());
+            childStatsTab.setProgressionNav(this);
+        });
 
     }
 }

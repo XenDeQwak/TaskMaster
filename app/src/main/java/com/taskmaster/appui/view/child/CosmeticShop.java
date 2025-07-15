@@ -10,9 +10,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.FieldValue;
 import com.taskmaster.appui.data.ChildData;
-import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticAdapter;
@@ -101,7 +99,7 @@ public class CosmeticShop extends ChildPage {
             if(!hasEnoughGold()) {return;}
             gold -= clicked.price;
             childData.setGold(gold);
-            childData.getOwnedItems().add(clicked.getName());
+            childData.getOwnedItems().add(clicked);
             childData.uploadData();
             childData.updateData(cd -> {
                 displayItems = filterItems(getAllItems(),cd.getOwnedItems());
@@ -126,8 +124,8 @@ public class CosmeticShop extends ChildPage {
 
 
     @SuppressLint("NewApi")
-    private List<CosmeticItem> filterItems(List<CosmeticItem> allItems, List<String> OwnedItems){
-        Set<String> ownedSet = new HashSet<>(OwnedItems);
+    private List<CosmeticItem> filterItems(List<CosmeticItem> allItems, List<CosmeticItem> OwnedItems){
+        Set<String> ownedSet = new HashSet<>(OwnedItems.stream().map(CosmeticItem::getName).toList());
         return allItems.stream().filter(item -> !ownedSet.contains(item.getName())).toList();
     }
 
