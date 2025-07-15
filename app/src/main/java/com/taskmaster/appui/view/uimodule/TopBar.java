@@ -15,7 +15,7 @@ import com.taskmaster.appui.view.child.ChildPageQuestBoard;
 import com.taskmaster.appui.view.child.ChildPageQuestHistory;
 import com.taskmaster.appui.view.child.CosmeticShop;
 import com.taskmaster.appui.view.child.ProgressionPage;
-import com.taskmaster.appui.view.child.WeeklyBoss;
+import com.taskmaster.appui.view.child.ChildPageWeeklyBoss;
 import com.taskmaster.appui.view.parent.ParentPageManageChild;
 import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
 import com.taskmaster.appui.view.parent.ParentPageQuestHistory;
@@ -73,8 +73,8 @@ public class TopBar extends FrameLayout {
             setTitle("Quest Board");
         } else if (view == CosmeticShop.class) {
             setTitle("Cosmetic Shop");
-        } else if (view == WeeklyBoss.class) {
-            setTitle("Weekly Boss");
+        } else if (view == ChildPageWeeklyBoss.class) {
+            setTitle("Weekly BossAvatar");
         } else if (view == ProgressionPage.class) {
             setTitle("Progression");
         }  else if (view == ChildPageLeaderboard.class) {

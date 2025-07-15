@@ -106,7 +106,7 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
-            Toast.makeText(this, "Creating accounts...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Creating account...", Toast.LENGTH_LONG).show();
             LogInManager logInManager = new LogInManager();
             logInManager.attemptUserSignUp(signUpInformation, SignUp.this);
 

@@ -15,8 +15,8 @@ import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.child.ChildPageQuestBoard;
 import com.taskmaster.appui.view.child.ChildPageQuestHistory;
 import com.taskmaster.appui.view.child.ChildPageLeaderboard;
+import com.taskmaster.appui.view.child.ChildPageWeeklyBoss;
 import com.taskmaster.appui.view.child.CosmeticShop;
-import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.view.login.Splash;
 import com.taskmaster.appui.view.parent.ParentPageManageChild;
 import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
@@ -63,7 +63,7 @@ public class NavigationMenu extends FrameLayout {
     public void initNavButtonsChild (Activity activity) {
         NavUtil.setNavigation(activity, navMenuQuestButton, ChildPageQuestBoard.class);
         NavUtil.setNavigation(activity, navMenuShopButton, CosmeticShop.class);
-        NavUtil.setNavigation(activity, navMenuBossButton, WeeklyBoss.class);
+        NavUtil.setNavigation(activity, navMenuBossButton, ChildPageWeeklyBoss.class);
         NavUtil.setNavigation(activity, navMenuLeaderboardButton, ChildPageLeaderboard.class);
         NavUtil.setNavigation(activity, navMenuQuestHistoryButton, ChildPageQuestHistory.class);
 

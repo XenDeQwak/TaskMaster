@@ -68,6 +68,7 @@ public class Splash extends AppCompatActivity {
             goTo(UserLogin.class);
         } else if (fUser != null) {
             FirestoreManager.getUserInformation(fUser.getUid(), ds -> {
+                System.out.println(ds);
                 if (!ds.exists()) {
                     Log.d("Debug", "Your document doesn't exist anymore");
                     fUser.delete();
@@ -78,8 +79,10 @@ public class Splash extends AppCompatActivity {
                         if (fUser2 == null) {
                             Log.d("Debug", "Your auth account does not exist anymore");
                             ds.getReference().delete();
+                            FirebaseFirestore.getInstance().collection("UserReferences").document(fUser2.getUid()).delete();
                             goTo(UserLogin.class);
                         } else {
+                            Log.d("Debug", "You still exist");
                             // You still exist, congrats.
                             CurrentUser user = CurrentUser.getInstance();
                             user.setFirebaseUser(fUser2);

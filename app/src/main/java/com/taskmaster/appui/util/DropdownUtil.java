@@ -11,8 +11,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.view.parent.QuestManagement;
 import com.taskmaster.appui.view.login.Splash;
-import com.taskmaster.appui.view.parent.ManageChild;
-import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.R;
 
 public class DropdownUtil {
@@ -43,8 +41,8 @@ public class DropdownUtil {
 //            NavUtil.setNavigation(activity, navManageAdv, ManageChild.class);
 //            navManageAdv.setText("Manage Adventurers");
 //        } else {
-//            NavUtil.setNavigation(activity, navManageAdv, WeeklyBoss.class);
-//            navManageAdv.setText("Weekly Boss");
+//            NavUtil.setNavigation(activity, navManageAdv, ChildPageWeeklyBoss.class);
+//            navManageAdv.setText("Weekly BossAvatar");
 //        }
 
         //Btn Fx

@@ -2,7 +2,6 @@ package com.taskmaster.appui.manager.viewmanager;
 
 import android.app.Activity;
 import android.util.Log;
-import android.widget.Space;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;
@@ -12,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.taskmaster.appui.data.AuthUserData;
 import com.taskmaster.appui.entity.CurrentUser;
@@ -20,6 +18,9 @@ import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.login.Splash;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpManager {
 
@@ -80,6 +81,7 @@ public class SignUpManager {
     private void createAccount(FirebaseUser tempUser) {
 
         CollectionReference Users = FirebaseFirestore.getInstance().collection("Users");
+        CollectionReference UsersReferences = FirebaseFirestore.getInstance().collection("UserReferences");
 
         CurrentUser user = CurrentUser.getInstance();
         user.setFirebaseUser(FirebaseAuth.getInstance().getCurrentUser());
@@ -94,13 +96,28 @@ public class SignUpManager {
             if (task.isSuccessful()) {
                 DocumentReference dr = Users.document(user.getFirebaseUser().getUid());
                 dr.update("id", dr.getId());
-                user.getUserData().setId(dr.getId());
+                user.getUserData().setUid(dr.getId());
                 Log.d("Debug", "Created User Document");
             } else {
                 tempUser.delete();
                 task.getException().printStackTrace();
             }
         });
+
+        // Create User Reference
+        Map<String, Object> m = new HashMap<>();
+        m.put("role", "parent");
+        m.put("uid", user.getFirebaseUser().getUid());
+        m.put("userReference", Users.document(user.getFirebaseUser().getUid()));
+        Task createUserReference = UsersReferences.document(user.getFirebaseUser().getUid()).set(m)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Debug", "Created User Reference");
+                    } else {
+                        tempUser.delete();
+                        task.getException().printStackTrace();
+                    }
+                });
 
         // Create User Auth
         AuthCredential credential = AuthManager.provideCredential(email, password);
@@ -113,8 +130,8 @@ public class SignUpManager {
             }
         });
 
-        Tasks.whenAllComplete(createUserData, createUserAuth).addOnSuccessListener(task -> {
-            Users.document(user.getUserData().getId()).get().addOnSuccessListener(ds -> {
+        Tasks.whenAllComplete(createUserData, createUserReference, createUserAuth).addOnSuccessListener(task -> {
+            Users.document(user.getUserData().getUid()).get().addOnSuccessListener(ds -> {
                 user.getUserData().setUserSnapshot(ds, e -> {
                     Log.d("Debug", "Successfully Created User");
                     Toast.makeText(origin, "Successfully created account!", Toast.LENGTH_SHORT).show();

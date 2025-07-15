@@ -53,7 +53,7 @@ public class Quest {
         this.questBoxPreview.setOnClickListener(v -> this.questBox.setVisibility(VISIBLE));
 
         if (getQuestData().getStatus().equalsIgnoreCase("ongoing")) {
-            remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(getQuestData().getEndDate()), "dd:hh:mm:ss");
+            remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(getQuestData().getEndDate()), "DD:HH:MM:SS");
             remainingTimer.setQuest(this);
             DateTimeUtil.addTimer(remainingTimer);
         }

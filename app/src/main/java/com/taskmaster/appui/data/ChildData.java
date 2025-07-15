@@ -10,11 +10,13 @@ import java.util.Objects;
 public class ChildData {
 
     private static ChildData EmptyChildData = new ChildData(
-            "child",
+            "uid",
             "email",
             "password",
             "username",
+            "child",
             "parentUID",
+            null,
             null,
             null,
             0,
@@ -23,24 +25,21 @@ public class ChildData {
             1,
             0,
             0,
-            Arrays.asList("Armorless"),
-            0
+            Arrays.asList("Armorless")
     );
 
     public static ChildData newEmptyChildData() {
         return EmptyChildData;
     }
 
-    String role;
-    String email, password, username;
+    String uid;
+    String email, password, username, role;
     String parentUID;
-    DocumentReference childReference, parentReference;
+    DocumentReference childReference, parentReference, weeklyBossReference;
     int avatar, strength, intelligence, floor, gold, questsCompleted;
     List<String> ownedItems;
-    long weeklyBossRespawnDate;
 
     public ChildData () {}
-
 
     public void uploadData () {
         childReference.set(this).addOnCompleteListener(task -> {
@@ -58,13 +57,15 @@ public class ChildData {
     }
 
     private void updateObject (ChildData childData) {
-        this.role = childData.getRole();
+        this.uid = childData.getUid();
         this.email = childData.getEmail();
         this.password = childData.getPassword();
         this.username = childData.getUsername();
+        this.role = childData.getRole();
         this.parentUID = childData.getParentUID();
         this.childReference = childData.getChildReference();
         this.parentReference = childData.getParentReference();
+        this.weeklyBossReference = childData.getWeeklyBossReference();
         this.avatar = childData.getAvatar();
         this.strength = childData.getStrength();
         this.intelligence = childData.getIntelligence();
@@ -72,21 +73,22 @@ public class ChildData {
         this.gold = childData.getGold();
         this.questsCompleted = childData.getQuestsCompleted();
         this.ownedItems = childData.getOwnedItems();
-        this.weeklyBossRespawnDate = childData.getWeeklyBossRespawnDate();
     }
 
     public ChildData (ChildData childData) {
         updateObject(childData);
     }
 
-    public ChildData(String role, String email, String password, String username, String parentUID, DocumentReference childReference, DocumentReference parentReference, int avatar, int strength, int intelligence, int floor, int gold, int questsCompleted, List<String> ownedItems, long weeklyBossRespawnDate) {
-        this.role = role;
+    public ChildData(String uid, String email, String password, String username, String role, String parentUID, DocumentReference childReference, DocumentReference parentReference, DocumentReference weeklyBossReference, int avatar, int strength, int intelligence, int floor, int gold, int questsCompleted, List<String> ownedItems) {
+        this.uid = uid;
         this.email = email;
         this.password = password;
         this.username = username;
+        this.role = role;
         this.parentUID = parentUID;
         this.childReference = childReference;
         this.parentReference = parentReference;
+        this.weeklyBossReference = weeklyBossReference;
         this.avatar = avatar;
         this.strength = strength;
         this.intelligence = intelligence;
@@ -94,15 +96,22 @@ public class ChildData {
         this.gold = gold;
         this.questsCompleted = questsCompleted;
         this.ownedItems = ownedItems;
-        this.weeklyBossRespawnDate = weeklyBossRespawnDate;
     }
 
-    public String getRole() {
-        return role;
+    public static ChildData getEmptyChildData() {
+        return EmptyChildData;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public static void setEmptyChildData(ChildData emptyChildData) {
+        EmptyChildData = emptyChildData;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getEmail() {
@@ -129,6 +138,14 @@ public class ChildData {
         this.username = username;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public String getParentUID() {
         return parentUID;
     }
@@ -151,6 +168,14 @@ public class ChildData {
 
     public void setParentReference(DocumentReference parentReference) {
         this.parentReference = parentReference;
+    }
+
+    public DocumentReference getWeeklyBossReference() {
+        return weeklyBossReference;
+    }
+
+    public void setWeeklyBossReference(DocumentReference weeklyBossReference) {
+        this.weeklyBossReference = weeklyBossReference;
     }
 
     public int getAvatar() {
@@ -207,13 +232,5 @@ public class ChildData {
 
     public void setOwnedItems(List<String> ownedItems) {
         this.ownedItems = ownedItems;
-    }
-
-    public long getWeeklyBossRespawnDate() {
-        return weeklyBossRespawnDate;
-    }
-
-    public void setWeeklyBossRespawnDate(long weeklyBossRespawnDate) {
-        this.weeklyBossRespawnDate = weeklyBossRespawnDate;
     }
 }

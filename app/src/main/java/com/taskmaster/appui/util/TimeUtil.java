@@ -69,7 +69,7 @@ public class TimeUtil {
         });
     }
 
-    public void startTimer(TimerListener tickListener) { //Called whenever WeeklyBoss is opened
+    public void startTimer(TimerListener tickListener) { //Called whenever ChildPageWeeklyBoss is opened
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }

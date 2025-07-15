@@ -43,10 +43,10 @@ public class RemainingTimer {
         this.day = remaining.toDays();
 
         return format
-                .replace("ss",second>9?""+second:"0"+second)
-                .replace("mm",minute>9?""+minute:"0"+minute)
-                .replace("hh",hour>9?""+hour:"0"+hour)
-                .replace("dd",day>9?""+day:"0"+day);
+                .replace("SS",second>9?""+second:"0"+second)
+                .replace("MM",minute>9?""+minute:"0"+minute)
+                .replace("HH",hour>9?""+hour:"0"+hour)
+                .replace("DD",day>9?""+day:"0"+day);
                 //.replace("s",""+second)
                 //.replace("m",""+minute)
                 //.replace("h",""+hour)

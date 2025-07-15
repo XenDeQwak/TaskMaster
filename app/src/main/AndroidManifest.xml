@@ -79,7 +79,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.child.WeeklyBoss"
+            android:name=".view.child.ChildPageWeeklyBoss"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />

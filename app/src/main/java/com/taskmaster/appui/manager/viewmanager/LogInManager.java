@@ -32,29 +32,19 @@ public class LogInManager {
         credential = AuthManager.provideCredential(email, password);
 
         try {
-
-            AuthManager.signInUser(credential, signInResult -> {
-
-                Boolean signInSuccessful = (Boolean)signInResult[0];
-                String signInRole = (String)signInResult[1];
-
-                if (signInSuccessful) {
-                    Toast.makeText(origin, "Login successful", Toast.LENGTH_SHORT).show();
-                    CurrentUser newCurrentUser = CurrentUser.getInstance();
-                    newCurrentUser.setFirebaseUser(FirebaseAuth.getInstance().getCurrentUser());
-                    newCurrentUser.setUserData(new AuthUserData());
-                    Class<?> dest = (Objects.equals(signInRole, "parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
-                    FirestoreManager.getUserInformation(FirebaseAuth.getInstance().getCurrentUser().getUid(), ds -> {
-                        newCurrentUser.getUserData().setUserSnapshot(ds, e -> {
-                            NavUtil.instantNavigation(origin, dest);
-                        });
-
+            AuthManager.signInUser(credential, role -> {
+                Toast.makeText(origin, "Login successful", Toast.LENGTH_SHORT).show();
+                CurrentUser newCurrentUser = CurrentUser.getInstance();
+                newCurrentUser.setFirebaseUser(FirebaseAuth.getInstance().getCurrentUser());
+                newCurrentUser.setUserData(new AuthUserData());
+                Class<?> dest = (Objects.equals(role, "parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
+                FirestoreManager.getUserInformation(FirebaseAuth.getInstance().getCurrentUser().getUid(), ds -> {
+                    newCurrentUser.getUserData().setUserSnapshot(ds, e -> {
+                        NavUtil.instantNavigation(origin, dest);
                     });
-                } else {
-                    Toast.makeText(origin, "Login failed", Toast.LENGTH_SHORT).show();
-                }
-            });
 
+                });
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

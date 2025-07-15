@@ -1,30 +1,29 @@
 package com.taskmaster.appui.data;
 
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.taskmaster.appui.util.GenericCallback;
 
 public class AuthUserData {
 
-    String id, email, username, role;
+    String uid, email, username, role;
     DocumentSnapshot userSnapshot;
 
     public AuthUserData (){}
 
-    public AuthUserData(String id, String email, String username, String role, DocumentSnapshot userSnapshot) {
-        this.id = id;
+    public AuthUserData(String uid, String email, String username, String role, DocumentSnapshot userSnapshot) {
+        this.uid = uid;
         this.email = email;
         this.username = username;
         this.role = role;
         this.userSnapshot = userSnapshot;
     }
 
-    public String getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getEmail() {
@@ -60,7 +59,7 @@ public class AuthUserData {
         if (userSnapshot == null) return;
         userSnapshot.getReference().get().addOnCompleteListener(task -> {
             DocumentSnapshot ds = task.getResult();
-            this.id = ds.getString("id");
+            this.uid = ds.getString("id");
             this.email = ds.getString("email");
             this.username = ds.getString("username");
             this.role = ds.getString("role");

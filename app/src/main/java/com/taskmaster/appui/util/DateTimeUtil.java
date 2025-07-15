@@ -31,8 +31,10 @@ public class DateTimeUtil {
         return ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), ZoneId.systemDefault());
     }
 
-    public static void addTimer (RemainingTimer timer) {
-        if (!timerList.contains(timer)) timerList.add(timer);
+    public static void addTimer (RemainingTimer... timer) {
+        for (RemainingTimer remainingTimer : timer) {
+            if (!timerList.contains(remainingTimer)) timerList.add(remainingTimer);
+        }
     }
 
     public static void clearTimerList () {
