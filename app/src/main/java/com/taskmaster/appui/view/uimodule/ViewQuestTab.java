@@ -31,16 +31,16 @@ public class ViewQuestTab extends FrameLayout {
         });
     }
 
-    public void setQuest (Quest q) {
-        this.q = q;
-        int img = (q.getRewardStat().equalsIgnoreCase("strength"))? R.drawable.icon_str : R.drawable.icon_int;
-        ((ImageView)findViewById(R.id.editQuestImage)).setImageResource(img);
-        ((EditText)findViewById(R.id.editQuestName)).setText(q.getName());
-        String msg =
-                q.getDescription()
-                + "\n Rewards: " + q.getRewardStat()
-                + "\n" + q.getRewardExtra();
-        ((EditText)findViewById(R.id.editQuestDescription)).setText(msg);
-    }
+//    public void setQuest (Quest q) {
+//        this.q = q;
+//        int img = (q.getRewardStat().equalsIgnoreCase("strength"))? R.drawable.icon_str : R.drawable.icon_int;
+//        ((ImageView)findViewById(R.id.editQuestImage)).setImageResource(img);
+//        ((EditText)findViewById(R.id.editQuestName)).setText(q.getName());
+//        String msg =
+//                q.getDescription()
+//                + "\n Rewards: " + q.getRewardStat()
+//                + "\n" + q.getRewardExtra();
+//        ((EditText)findViewById(R.id.editQuestDescription)).setText(msg);
+//    }
 
 }

@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.taskmaster.appui.entity.User;
+import com.taskmaster.appui.entity.CurrentUser;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class TimeUtil {
     private CountDownTimer countDownTimer;
     private static TimeUtil instance;
-    private final User user = User.getInstance();
+    private final CurrentUser currentUser = CurrentUser.getInstance();
     private long baseElapsed,msTimeSnapshot,duration,timeSnapshot,bossTimer;
 
     public interface TimerCaller {
@@ -64,12 +64,12 @@ public class TimeUtil {
         long weekMs = TimeUnit.DAYS.toMillis(7);
         fetchTime(receivedDate -> {
             bossTimer = receivedDate + weekMs;
-            user.getDocumentSnapshot().getReference().update("BossTimer", bossTimer);
-            user.loadDocumentSnapshot(callback1-> callback.onCallback(null));
+            currentUser.getUserData().getUserSnapshot().getReference().update("BossTimer", bossTimer);
+            //currentUser.setUserReference(callback1 -> callback.onCallback(null));
         });
     }
 
-    public void startTimer(TimerListener tickListener) { //Called whenever WeeklyBoss is opened
+    public void startTimer(TimerListener tickListener) { //Called whenever ChildPageWeeklyBoss is opened
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
@@ -77,7 +77,7 @@ public class TimeUtil {
             timeSnapshot = receivedDate;
 
             //just so getTime isn't called perTick
-            bossTimer = user.getDocumentSnapshot().getLong("BossTimer");
+            bossTimer = currentUser.getUserData().getUserSnapshot().getLong("BossTimer");
             msTimeSnapshot = timeSnapshot;
             duration = bossTimer - msTimeSnapshot;
 

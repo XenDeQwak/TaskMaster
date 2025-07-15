@@ -1,19 +1,21 @@
 package com.taskmaster.appui.view.parent;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.manager.entitymanager.QuestManager;
 
-public class ParentViewQuestHistory extends ParentView {
+public class ParentPageQuestHistory extends ParentPage {
 
-    ScrollView pvqh_scrollView;
+    QuestManager questManager;
+    LinearLayout pvqh_scrollContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +28,13 @@ public class ParentViewQuestHistory extends ParentView {
             return insets;
         });
 
-        initNavigationMenu(this, ParentViewQuestHistory.class);
+        initNavigationMenu(this, ParentPageQuestHistory.class);
 
-        pvqh_scrollView = findViewById(R.id.pvqh_scrollView);
+        pvqh_scrollContent = findViewById(R.id.pvqh_scrollContent);
+        questManager = new QuestManager(pvqh_scrollContent);
+
+        String[] status = {"Completed", "Failed", "Deleted", "Exempted"};
+        questManager.fetchQuestsWhereStatus("parent", status);
 
     }
 }

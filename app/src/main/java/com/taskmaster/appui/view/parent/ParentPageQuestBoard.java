@@ -11,20 +11,20 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
+import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.view.uimodule.EditQuestTab;
 
-public class ParentViewQuest extends ParentView {
+public class ParentPageQuestBoard extends ParentPage {
 
-    QuestManager questManager;
-    ChildManager childManager;
-    ImageView createQuestButton;
-    ScrollView questScrollView;
-    LinearLayout questScrollContent;
-    EditQuestTab editQuest;
+    private LinearLayout questScrollContent;
+    private EditQuestTab editQuest;
+    private QuestManager questManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +37,24 @@ public class ParentViewQuest extends ParentView {
             return insets;
         });
 
-        initNavigationMenu(this, ParentViewQuest.class);
+        initNavigationMenu(this, ParentPageQuestBoard.class);
 
         questScrollContent = findViewById(R.id.pvq_scrollContent);
-
-        editQuest = findViewById(R.id.pvq_editTab);
-
-        questManager = new QuestManager();
-        String[] status = {"Ongoing", "Awaiting Configuration", "Awaiting Verification", "Awaiting Exemption"};
-        questManager.loadCreatedQuestWhereStatus(questScrollContent, editQuest, status);
+        questManager = new QuestManager(questScrollContent);
 
         // Initialize createQuestButton
-        createQuestButton = topBar.getCreateObjectButton();
+        ImageView createQuestButton = topBar.getCreateObjectButton();
         createQuestButton.setOnClickListener(v -> {
-            //System.out.println("I AM PRESSED IN PARENTVIEWQUEST");
-            Quest q = QuestManager.createBlankQuest();
-            FirestoreManager.uploadQuest(q);
-            questManager.loadCreatedQuestWhereStatus(questScrollContent, editQuest, status);
+            questManager.create();
         });
 
+        String[] status = {"Ongoing", "Awaiting Configuration", "Awaiting Verification", "Awaiting Exemption"};
+        questManager.fetchQuestsWhereStatus("parent", status);
 
+        CurrentUser currentUser = CurrentUser.getInstance();
+        currentUser.getUserData().getUserSnapshot().getReference().collection("Quests")
+                .addSnapshotListener((qs, e) -> {
+                    questManager.fetchQuestsWhereStatus("parent", status);
+                });
     }
 }

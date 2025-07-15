@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
-    tools:context=".view.parent.ParentViewQuestHistory">
+    tools:context=".view.parent.ParentPageQuestHistory">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/pvqh_container"

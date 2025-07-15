@@ -1,167 +1,108 @@
 package com.taskmaster.appui.entity;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.taskmaster.appui.view.uimodule.QuestView;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.content.Context;
+
+import com.taskmaster.appui.data.QuestData;
+import com.taskmaster.appui.manager.entitymanager.QuestManager;
+import com.taskmaster.appui.util.DateTimeUtil;
+import com.taskmaster.appui.view.uimodule.QuestBox;
+import com.taskmaster.appui.view.uimodule.QuestBoxPreview;
 
 public class Quest {
 
-    private String questID;
-    private String name, description, creatorUID, assignedUID;
-    private long startDate, endDate, completedDate;
-    private String rewardStat;
-    private String rewardExtra;
-    private DocumentReference creatorReference;
-    private DocumentReference assignedReference;
-    private Number difficulty;
-    private String status;
+    private QuestManager questManager;
+    private Context context;
+    private QuestData questData;
+    private QuestBox questBox;
+    private QuestBoxPreview questBoxPreview;
+    private RemainingTimer remainingTimer;
 
-    private String reason;
-    private QuestView qb;
+    public Quest (QuestData questData, Context context, QuestManager questManager) {
+        this.questManager = questManager;
+        this.questData = questData;
+        this.context = context;
+
+        // Create QuestBox
+        this.questBox = new QuestBox(context);
+        this.questBox.setQuest(this);
+        this.questBox.getViewQuestButtonC().setOnClickListener(v -> {
+            this.questBox.setVisibility(GONE);
+        });
+        this.questBox.getViewQuestButtonD().setOnClickListener(v -> {
+            this.questBox.setVisibility(GONE);
+            this.questBoxPreview.setVisibility(GONE);
+            if (getQuestData().getStatus().equalsIgnoreCase("awaiting configuration")) {
+                getQuestData().getQuestReference().delete();
+            } else {
+                getQuestData().setStatus("Deleted");
+                getQuestData().uploadData();
+            }
+        });
+        String role = CurrentUser.getInstance().getUserData().getUserSnapshot().getString("role");
+        if (role.equalsIgnoreCase("child")) {
+            this.questBox.getViewQuestButtonD().setVisibility(GONE);
+        }
 
 
-    public Quest(String questID, String name, String description, String creatorUID, String assignedUID, long startDate, long endDate, long completedDate, String rewardStat, String rewardExtra, DocumentReference creatorReference, DocumentReference assignedReference, Number difficulty, String status, String reason) {
-        this.questID = questID;
-        this.name = name;
-        this.description = description;
-        this.creatorUID = creatorUID;
-        this.assignedUID = assignedUID;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.completedDate = completedDate;
-        this.rewardStat = rewardStat;
-        this.rewardExtra = rewardExtra;
-        this.creatorReference = creatorReference;
-        this.assignedReference = assignedReference;
-        this.difficulty = difficulty;
-        this.status = status;
-        this.reason = reason;
+        // Create QuestBoxPreview
+        this.questBoxPreview = new QuestBoxPreview(context);
+        this.questBoxPreview.setQuest(this);
+        this.questBoxPreview.setOnClickListener(v -> this.questBox.setVisibility(VISIBLE));
+
+        if (getQuestData().getStatus().equalsIgnoreCase("ongoing")) {
+            remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(getQuestData().getEndDate()), "DD:HH:MM:SS");
+            remainingTimer.setQuest(this);
+            DateTimeUtil.addTimer(remainingTimer);
+        }
     }
 
-    public String getQuestID() {
-        return questID;
+    public void updateQuestBox () {
+        this.questBox.setQuest(this);
+        this.questBoxPreview.setQuest(this);
     }
 
-    public void setQuestID(String questID) {
-        this.questID = questID;
+    public QuestManager getQuestManager() {
+        return questManager;
     }
 
-    public String getName() {
-        return name;
+    public void setQuestManager(QuestManager questManager) {
+        this.questManager = questManager;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Context getContext() {
+        return context;
     }
 
-    public String getDescription() {
-        return description;
+    public void setContext(Context context) {
+        this.context = context;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public QuestData getQuestData() {
+        return questData;
     }
 
-    public String getCreatorUID() {
-        return creatorUID;
+    public void setQuestData(QuestData questData) {
+        this.questData = questData;
     }
 
-    public void setCreatorUID(String creatorUID) {
-        this.creatorUID = creatorUID;
+    public QuestBox getQuestBox() {
+        return questBox;
     }
 
-    public String getAssignedUID() {
-        return assignedUID;
+    public void setQuestBox(QuestBox questBox) {
+        this.questBox = questBox;
     }
 
-    public void setAssignedUID(String assignedUID) {
-        this.assignedUID = assignedUID;
+    public QuestBoxPreview getQuestBoxPreview() {
+        return questBoxPreview;
     }
 
-    public long getStartDate() {
-        return startDate;
+    public void setQuestBoxPreview(QuestBoxPreview questBoxPreview) {
+        this.questBoxPreview = questBoxPreview;
     }
 
-    public void setStartDate(long startDate) {
-        this.startDate = startDate;
-    }
 
-    public long getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(long endDate) {
-        this.endDate = endDate;
-    }
-
-    public long getCompletedDate() {
-        return completedDate;
-    }
-
-    public void setCompletedDate(long completedDate) {
-        this.completedDate = completedDate;
-    }
-
-    public String getRewardStat() {
-        return rewardStat;
-    }
-
-    public void setRewardStat(String rewardStat) {
-        this.rewardStat = rewardStat;
-    }
-
-    public String getRewardExtra() {
-        return rewardExtra;
-    }
-
-    public void setRewardExtra(String rewardExtra) {
-        this.rewardExtra = rewardExtra;
-    }
-
-    public DocumentReference getCreatorReference() {
-        return creatorReference;
-    }
-
-    public void setCreatorReference(DocumentReference creatorReference) {
-        this.creatorReference = creatorReference;
-    }
-
-    public DocumentReference getAssignedReference() {
-        return assignedReference;
-    }
-
-    public void setAssignedReference(DocumentReference assignedReference) {
-        this.assignedReference = assignedReference;
-    }
-
-    public Number getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(Number difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public QuestView getQb() {
-        return qb;
-    }
-
-    public void setQb(QuestView qb) {
-        this.qb = qb;
-    }
 }

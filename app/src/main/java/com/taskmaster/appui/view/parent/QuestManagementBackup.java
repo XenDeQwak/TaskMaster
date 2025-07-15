@@ -49,7 +49,7 @@
 //
 //public class QuestManagementBackup extends AppCompatActivity {
 //
-//    public User user;
+//    public CurrentUser currentUser;
 //    private long lastClickTime = 0;
 //    private static final long DOUBLE_CLICK_TIME_DELTA = 300;
 //    private FirebaseAuth auth;
@@ -105,9 +105,9 @@
 //        db = FirebaseFirestore.getInstance();
 //        auth = FirebaseAuth.getInstance();
 //
-//        // Init user object
-//        user = User.getInstance();
-//        role = user.getDocumentSnapshot().get("Role").toString();
+//        // Init currentUser object
+//        currentUser = CurrentUser.getInstance();
+//        role = currentUser.getDocumentSnapshot().get("Role").toString();
 //
 //        NavUtil.hideSystemBars(this);
 //
@@ -212,7 +212,7 @@
 //        if("child".equals(role)){
 //            childInit();
 //        }
-//        else if("parent".equals(user.getDocumentSnapshot().get("Role"))){
+//        else if("parent".equals(currentUser.getDocumentSnapshot().get("Role"))){
 //            parentInit();
 //        }
 //        else{
@@ -997,7 +997,7 @@
 //        basePageFrame.setVisibility(View.VISIBLE);
 //        basePageTitle.setVisibility(View.VISIBLE);
 //        imageView23.setVisibility(View.GONE);
-////        String childToParentCode = user.getDocumentSnapshot().getString("parentCode");
+////        String childToParentCode = currentUser.getDocumentSnapshot().getString("parentCode");
 ////        childFetchQuest(childToParentCode, userId);
 ////        db.collection("Users").whereEqualTo("code",childToParentCode).get();
 //

@@ -10,7 +10,9 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.util.GenericCallback;
@@ -25,45 +27,50 @@ import java.util.Map;
 public class FirestoreManager {
 
     private static FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private static FirebaseAuth auth = FirebaseAuth.getInstance();
 
     public static void checkIfEmailIsTaken (String email, GenericCallback<Boolean> callback) {
         firestore.collection("Users")
-                .whereEqualTo("Role", email)
+                .whereEqualTo("email", email)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        callback.onCallback(task.isSuccessful() && task.getResult().isEmpty());
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<DocumentSnapshot> dsl = task.getResult().getDocuments();
+                        if (dsl.isEmpty()) {
+                            callback.onCallback(true);
+                        } else {
+                            callback.onCallback(false);
+                        }
+                    } else {
+                        task.getException().printStackTrace();
                     }
                 });
     }
 
     public static void checkIfUsernameIsTaken (String username, GenericCallback<Boolean> callback) {
         firestore.collection("Users")
-                .whereEqualTo("Username", username)
+                .whereEqualTo("username", username)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        callback.onCallback(task.isSuccessful() && task.getResult().isEmpty());
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<DocumentSnapshot> dsl = task.getResult().getDocuments();
+                        if (dsl.isEmpty()) {
+                            callback.onCallback(true);
+                        } else {
+                            callback.onCallback(false);
+                        }
+                    } else {
+                        task.getException().printStackTrace();
                     }
                 });
     }
 
     public static void getUserInformation (String UID, GenericCallback<DocumentSnapshot> callback) {
-        firestore.collection("Users").document(UID).get().addOnSuccessListener(command -> {
-            if (command.exists()) {
-                Log.d("Debug", "Successfully loaded user document");
-                callback.onCallback(command);
-            } else {
-                firestore.collection("Childs").document(UID).get().addOnCompleteListener(task -> {
-                    callback.onCallback(task.getResult());
+        firestore.collection("UserReferences").document(UID).get()
+                .addOnCompleteListener(task -> {
+                    DocumentSnapshot ds = task.getResult();
+                    ds.get("userReference", DocumentReference.class).get()
+                            .addOnCompleteListener(task1 -> callback.onCallback(task1.getResult()));
                 });
-            }
-        }).addOnFailureListener(command -> {
-            Log.d("Debug", "Failed to load user document");
-        });
     }
 
 
@@ -72,9 +79,9 @@ public class FirestoreManager {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d("Debug", "Successfully linked anon user to credential account");
+                    Log.d("Debug", "Successfully linked anon currentUser to credential account");
                 } else {
-                    Log.d("Debug", "Failed to link anon user to credential account");
+                    Log.d("Debug", "Failed to link anon currentUser to credential account");
                 }
             }
         });
@@ -82,10 +89,10 @@ public class FirestoreManager {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.d("Debug", "Successfully created user document");
+                    Log.d("Debug", "Successfully created currentUser document");
                     callback.onCallback(task);
                 } else {
-                    Log.d("Debug", "Failed to create user document");
+                    Log.d("Debug", "Failed to create currentUser document");
                 }
             }
         });
@@ -96,42 +103,42 @@ public class FirestoreManager {
         //System.out.println(q.getCreatorReference());
         //System.out.println(q.getCreatorReference().getPath());
         String questID = Integer.toString(q.hashCode());
-        q.setQuestID(questID);
-        System.out.println(QuestManager.packQuestData(q));
-        firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d("Debug", "Successfully created quest document");
-                    } else {
-                        Log.d("Debug", "Failed to create quest document");
-                    }
-                });
+        //q.setQuestID(questID);
+        //System.out.println(QuestManager.packQuestData(q));
+//        firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        Log.d("Debug", "Successfully created quest document");
+//                    } else {
+//                        Log.d("Debug", "Failed to create quest document");
+//                    }
+//                });
 
         HashMap<String, Object> ref = new HashMap<>();
         ref.put("QuestRef", firestore.collection("Quests").document(questID));
-        firestore.collection("Users").document(q.getCreatorUID()).collection("quests").document(questID).set(ref)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d("Debug", "Successfully created quest reference");
-                    } else {
-                        task.getException().printStackTrace();
-                        Log.d("Debug", "Failed to create quest reference");
-                    }
-                });
+//        firestore.collection("Users").document(q.getCreatorUID()).collection("quests").document(questID).set(ref)
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        Log.d("Debug", "Successfully created quest reference");
+//                    } else {
+//                        task.getException().printStackTrace();
+//                        Log.d("Debug", "Failed to create quest reference");
+//                    }
+//                });
     }
 
     public static void updateQuest (Quest q) {
 
-        String questID = q.getQuestID();
+        //String questID = q.getQuestID();
         //System.out.println(questID);
-        firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d("Debug", "Successfully updated quest document");
-                    } else {
-                        Log.d("Debug", "Failed to update quest document");
-                    }
-                });
+//        firestore.collection("Quests").document(questID).set(QuestManager.packQuestData(q))
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        Log.d("Debug", "Successfully updated quest document");
+//                    } else {
+//                        Log.d("Debug", "Failed to update quest document");
+//                    }
+//                });
 
     }
 
@@ -209,7 +216,7 @@ public class FirestoreManager {
 
 
     public static void fetchAdventurers (String parentUID, GenericCallback<List<DocumentSnapshot>> callback) {
-        firestore.collection("Childs").whereEqualTo("ParentUID", parentUID).get()
+        firestore.collection("Users/"+parentUID+"/Adventurers").whereEqualTo("parentUID", parentUID).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Debug", "Successfully fetched adventurers");

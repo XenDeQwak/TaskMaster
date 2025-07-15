@@ -1,5 +1,6 @@
 package com.taskmaster.appui.view.child;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,21 +10,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FieldValue;
-import com.taskmaster.appui.entity.User;
+import com.taskmaster.appui.data.ChildData;
+import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticAdapter;
 import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticItem;
 import com.taskmaster.appui.util.NavUtil;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class CosmeticShop extends ChildView {
+public class CosmeticShop extends ChildPage {
+
+    ChildData childData;
     private View[] confirmationViews;
     private CosmeticItem clicked;
-    private User user;
     private int gold;
     private CosmeticAdapter adapter;
+    List<String> OwnedItems;
     private List<CosmeticItem> displayItems;
 
     @Override
@@ -45,25 +52,27 @@ public class CosmeticShop extends ChildView {
         RecyclerView recycler = findViewById(R.id.recyclerView);
         confirmationViews = new View[]{confirmationBox, confirmationText, yesBox, yesText, noBox, noText,blurOverlay};
 
-        user = User.getInstance();
-        List<String> OwnedItems =  (List<String>) user.getDocumentSnapshot().get("OwnedItems");
+        CurrentUser currentUser = CurrentUser.getInstance();
+        childData = currentUser.getUserData().getUserSnapshot().toObject(ChildData.class);
+        childData.updateData(cd->{
 
-        gold = user.getDocumentSnapshot().getDouble("Gold").intValue();
+            gold = cd.getGold();
+            topBar.getGoldAmount().setText(gold + " G");
 
-        //Filter out items that are already owned
-        displayItems = filterItems(getAllItems(),OwnedItems);
+            displayItems = filterItems(getAllItems(),cd.getOwnedItems());
+            adapter = new CosmeticAdapter(displayItems, pos -> {
+                // handle click
+                clicked = displayItems.get(pos);
+                setVisibility(View.VISIBLE);
+            });
 
-        adapter = new CosmeticAdapter(displayItems, pos -> {
-            // handle click
-            clicked = displayItems.get(pos);
-            setVisibility(View.VISIBLE);
+            recycler.setLayoutManager(new LinearLayoutManager(this));
+            recycler.setAdapter(adapter);
+
+            setUpButtons(yesBox,noBox,yesText,noText);
         });
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-        recycler.setAdapter(adapter);
-        //Popup
-        setUpButtons(yesBox,noBox,yesText,noText);
-        topBar.getGoldAmount().setText(gold +" G");
     }
+
 
     private List<CosmeticItem> getAllItems() { //Our log of all available items
         List<CosmeticItem> items = new ArrayList<>();
@@ -74,31 +83,34 @@ public class CosmeticShop extends ChildView {
         return items;
     }
 
+
     private void setUpButtons(ImageView yesBox, ImageView noBox, TextView yesText, TextView noText){
         yesBox.setOnClickListener(v -> isConfirm(true));
         yesText.setOnClickListener(v -> isConfirm(true));
         noBox.setOnClickListener(v -> isConfirm(false));
         noText.setOnClickListener(v -> isConfirm(false));
     }
+
+
     private void isConfirm(boolean confirm) {
         if (confirm) {
             if(!hasEnoughGold()) {return;}
             gold -= clicked.price;
-            user.getDocumentSnapshot().getReference().update("Gold", gold);
-            user.getDocumentSnapshot().getReference().update("OwnedItems", FieldValue.arrayUnion(clicked.getName()))
-                    .addOnSuccessListener(callback->{
-                        user.loadDocumentSnapshot(callback2->{
-                            List<String> OwnedItems =  (List<String>) user.getDocumentSnapshot().get("OwnedItems");
-                            displayItems=filterItems(getAllItems(),OwnedItems);
-                            adapter.updateItems(displayItems);
-                            setVisibility(View.GONE);
-                        });
-                    });
-            topBar.getGoldAmount().setText(gold +" G");
+            childData.setGold(gold);
+            childData.getOwnedItems().add(clicked.getName());
+            childData.uploadData();
+            childData.updateData(cd -> {
+                displayItems = filterItems(getAllItems(),cd.getOwnedItems());
+                adapter.updateItems(displayItems);
+                setVisibility(View.GONE);
+            });
+            topBar.getGoldAmount().setText(gold + " G");
         } else {
             setVisibility(View.GONE);
         }
     }
+
+
     private boolean hasEnoughGold(){
         if(gold < clicked.price){
             Toast.makeText(this, "Not enough gold", Toast.LENGTH_SHORT).show();
@@ -107,15 +119,15 @@ public class CosmeticShop extends ChildView {
         }
         return true;
     }
+
+
+    @SuppressLint("NewApi")
     private List<CosmeticItem> filterItems(List<CosmeticItem> allItems, List<String> OwnedItems){
-        List<CosmeticItem> unOwnedItems = new ArrayList<>();
-        for (CosmeticItem item : allItems) {
-            if (!OwnedItems.contains(item.getName())) {
-                unOwnedItems.add(item);
-            }
-        }
-        return unOwnedItems;
+        Set<String> ownedSet = new HashSet<>(OwnedItems);
+        return allItems.stream().filter(item -> !ownedSet.contains(item.getName())).toList();
     }
+
+
     private void setVisibility(int visibility) {
         for (View v : confirmationViews) {
             v.setVisibility(visibility);

@@ -1,5 +1,9 @@
 package com.taskmaster.appui.view.login;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,8 +28,11 @@ public class SignUp extends AppCompatActivity {
     Animation pop_out_Anim, fade_in_Anim;
     boolean hasSpecial,hasUppercase,hasNumber;
     AppCompatButton confirmButton;
-    EditText emailbox, passwordbox, usernamebox, firstnamebox, lastnamebox;
-    FrameLayout[] passwordStrength = new FrameLayout[3];
+    EditText emailbox, passwordbox, usernamebox, cpasswordbox;
+    View[] passwordStrength;
+    Boolean isPasswordSecure = false;
+
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,19 +46,19 @@ public class SignUp extends AppCompatActivity {
         emailbox = findViewById(R.id.emailSignUpBox);
         usernamebox = findViewById(R.id.usernameSignUpBox);
         passwordbox = findViewById(R.id.passwordSignUpBox);
-        firstnamebox = findViewById(R.id.firstnameSignUpBox);
-        lastnamebox = findViewById(R.id.lastnameSignUpBox);
+        cpasswordbox = findViewById(R.id.passwordSignUpBox2);
         confirmButton = findViewById(R.id.confirmButton);
         TextView returnText = findViewById(R.id.loginTextView);
         NavUtil.setNavigation(this, returnText, UserLogin.class);
 
-        passwordStrength = new FrameLayout[] {
+        passwordStrength = new View[] {
                 findViewById(R.id.passwordStrengthBarWeakFrame),
                 findViewById(R.id.passwordStrengthBarAverageFrame),
                 findViewById(R.id.passwordStrengthBarStrongFrame)
         };
 
-        View[] signUpInformation = {emailbox, usernamebox, passwordbox, firstnamebox, lastnamebox};
+        View[] signUpInformation = {emailbox, usernamebox, passwordbox, cpasswordbox};
+
 
         passwordbox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -64,27 +72,44 @@ public class SignUp extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                int checkBoxes=0;
+                int checkBoxes = 0;
                 if(hasUppercase){checkBoxes++;}
                 if(hasNumber){checkBoxes++;}
                 if(hasSpecial){checkBoxes++;}
-                confirmButton.setEnabled(checkBoxes != 0);
 
-                if(s.length()<8) {
-                    passwordStrength[0].setVisibility(View.VISIBLE);
-                }else {
-                    for (FrameLayout f : passwordStrength) f.setVisibility(View.GONE);
-                    if(checkBoxes==0) {passwordStrength[checkBoxes].setVisibility(View.VISIBLE);
-                    }else{passwordStrength[checkBoxes-1].setVisibility(View.VISIBLE);}
+                for (int i = 0; i < passwordStrength.length; i++) {
+                    if (checkBoxes-1 == i || (0 == i && 0 == checkBoxes && !passwordbox.getText().toString().isEmpty()))
+                        passwordStrength[i].setVisibility(VISIBLE);
+                    else
+                        passwordStrength[i].setVisibility(GONE);
+                }
+
+                if (checkBoxes < 3) {
+                    isPasswordSecure = true;
                 }
             }
         });
 
         confirmButton.setOnClickListener(v -> {
-            // Sign-up logic
-            // Yes Im also using LogInManager for SignUp because why not
+
+            if (emailbox.getText().toString().isEmpty()
+                    || usernamebox.getText().toString().isEmpty()
+                    || passwordbox.getText().toString().isEmpty()
+                    || cpasswordbox.getText().toString().isEmpty()
+            ) {
+                Toast.makeText(this, "Please fill up all fields", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (!isPasswordSecure) {
+                Toast.makeText(this, "Password is not strong enough", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            Toast.makeText(this, "Creating account...", Toast.LENGTH_LONG).show();
             LogInManager logInManager = new LogInManager();
             logInManager.attemptUserSignUp(signUpInformation, SignUp.this);
+
         });
     }
 }

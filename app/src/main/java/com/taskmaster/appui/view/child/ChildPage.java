@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.view.uimodule.TopBar;
 
-public class ChildView extends AppCompatActivity {
+public class ChildPage extends AppCompatActivity {
 
     TopBar topBar;
     TextView goldAmount;
@@ -30,7 +30,7 @@ public class ChildView extends AppCompatActivity {
         if (c == CosmeticShop.class) {
             goldAmount.setVisibility(VISIBLE);
             topBar.getCreateObjectButton().setVisibility(VISIBLE);
-        } else if (c == ChildViewLeaderboard.class) {
+        } else if (c == ChildPageLeaderboard.class) {
             topBar.getCreateObjectButton().setVisibility(VISIBLE);
             topBar.getCreateObjectButton().setImageResource(R.drawable.sortby_leaderboard);
         }

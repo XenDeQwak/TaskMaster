@@ -1,7 +1,5 @@
 package com.taskmaster.appui.view.child;
 
-import static java.security.AccessController.getContext;
-
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -18,19 +16,19 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.taskmaster.appui.entity.User;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.uimodule.CosmeticItemTemplate.CosmeticItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgressionPage extends ChildView {
+public class ProgressionPage extends ChildPage {
     private AppCompatButton childAvatarName;
     private AppCompatButton childArmorName;
     private ImageView childAvatarImage;
     private int[] currIndex = new int[1];
-    private User user;
+    private CurrentUser currentUser;
     private DocumentSnapshot childDocument;
     private List<CosmeticItem> ownedItems,items;
 
@@ -52,8 +50,8 @@ public class ProgressionPage extends ChildView {
         Button nextButton = findViewById(R.id.nextButton);
         Button prevButton = findViewById(R.id.prevButton);
 
-        user = User.getInstance();
-        childDocument = user.getDocumentSnapshot();
+        currentUser = CurrentUser.getInstance();
+        //childDocument = currentUser.getDocumentSnapshot();
         statFloorNum.setText(Integer.toString(childDocument.getDouble("Floor").intValue()));
 //        statQuestDoneNum.setText(Integer.toString(childDocument.getDouble("QuestCount").intValue()));
         int childInt = childDocument.getDouble("Intelligence").intValue();
@@ -83,7 +81,7 @@ public class ProgressionPage extends ChildView {
         childAvatarImage.setImageResource(currentArmor.getImageResId());
         childArmorName.setText(currentArmor.getName());
         childDocument.getReference().update("Avatar", currentArmor.getId());
-        user.loadDocumentSnapshot(ee-> childDocument = user.getDocumentSnapshot());
+        //currentUser.setUserReference(ee-> childDocument = currentUser.getDocumentSnapshot());
     }
     private List<CosmeticItem> filterItems(List<CosmeticItem> allItems, List<String> OwnedItems){
         List<CosmeticItem> ownedItems = new ArrayList<>();

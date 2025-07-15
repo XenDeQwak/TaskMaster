@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.taskmaster.appui.manager.viewmanager.LogInManager;
-import com.taskmaster.appui.view.child.ChildViewQuest;
-import com.taskmaster.appui.view.parent.ParentViewQuest;
+import com.taskmaster.appui.view.child.ChildPageQuestBoard;
+import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
 
@@ -44,36 +44,10 @@ public class UserLogin extends AppCompatActivity {
         confirmButton = findViewById(R.id.confirmButton);
         signUpTextView = findViewById(R.id.signupTextView);
 
-        // Lets be real now we dont need this
-        /*
-        container1 = findViewById(R.id.imageView7);
-        container2 = findViewById(R.id.imageView9);
-        container3 = findViewById(R.id.imageView10);
-        logo = findViewById(R.id.imageView13);
-        logo_shadow = findViewById(R.id.imageView14);
-        bg = findViewById(R.id.imageView6);
-        line = findViewById(R.id.imageView15);
-        logInTextView = findViewById(R.id.textView);
-
-        bg.setAnimation(fade_in_Anim);
-        logo.setAnimation(pop_out_Anim);
-        logo_shadow.setAnimation(pop_out_Anim);
-        emailbox.setAnimation(pop_out_Anim);
-        passwordbox.setAnimation(pop_out_Anim);
-        forgotPasswordTextView.setAnimation(pop_out_Anim);
-        confirmButton.setAnimation(pop_out_Anim);
-        signUpTextView.setAnimation(pop_out_Anim);
-        container1.setAnimation(pop_out_Anim);
-        container2.setAnimation(pop_out_Anim);
-        container3.setAnimation(pop_out_Anim);
-        line.setAnimation(pop_out_Anim);
-        logInTextView.setAnimation(pop_out_Anim);
-        */
-
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Class<?>[] destinations = {ParentViewQuest.class, ChildViewQuest.class};
+                Class<?>[] destinations = {ParentPageQuestBoard.class, ChildPageQuestBoard.class};
                 LogInManager logInManager = new LogInManager();
                 logInManager.attemptUserLogin(emailbox.getText().toString(), passwordbox.getText().toString(), UserLogin.this, destinations);
             }

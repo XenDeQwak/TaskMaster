@@ -15,44 +15,94 @@ import java.time.ZonedDateTime;
 
 public class RemainingTimer {
 
-    View container;
-    Quest q;
-    long hour, minute, second;
-    TextView timeTextView;
+    long day, hour, minute, second;
+    Quest quest;
+    TextView textView;
     ZonedDateTime due;
+    String format;
 
     Boolean pastDue = false;
 
-    public RemainingTimer(TextView timeTextView, ZonedDateTime due, Quest q, View container) {
-        this.timeTextView = timeTextView;
+    public RemainingTimer(ZonedDateTime due, String format) {
         this.due = due;
-        this.q = q;
-        this.container = container;
+        this.format = format;
     }
 
     public String getRemainingTime () {
         ZonedDateTime now = DateTimeUtil.getDateTimeNow();
         Duration remaining = Duration.between(now, due);
-        long rem = remaining.toSeconds();
 
-        if (rem < 0) {
-            rem = 0;
+        if (remaining.isNegative() || remaining.isZero()) {
             pastDue = true;
+            return "00:00:00:00";
         }
 
-        this.second = rem % 60;
-        this.minute = (rem/60)%60;
-        this.hour = rem/3600;
+        this.second = remaining.toSeconds() % 60;
+        this.minute = remaining.toMinutes() % 60;
+        this.hour = remaining.toHours() % 24;
+        this.day = remaining.toDays();
 
-        return hour + ":" + ((minute>9)?minute:"0"+minute) + ":" + ((second>9)?second:"0"+second);
+        return format
+                .replace("SS",second>9?""+second:"0"+second)
+                .replace("MM",minute>9?""+minute:"0"+minute)
+                .replace("HH",hour>9?""+hour:"0"+hour)
+                .replace("DD",day>9?""+day:"0"+day);
+                //.replace("s",""+second)
+                //.replace("m",""+minute)
+                //.replace("h",""+hour)
+                //.replace("d",""+day);
     }
 
     public void setText (String s) {
-        Activity act = (Activity) timeTextView.getContext();
-        act.runOnUiThread(() -> {
-            timeTextView.setText(s);
-        });
+        if (quest != null) {
+            Activity act = (Activity) quest.getContext();
+            act.runOnUiThread(() -> {
+                quest.getQuestBox().getViewQuestTimeRemaining().setText(s);
+                quest.getQuestBoxPreview().getPreviewQuestTimeRemaining().setText(s);
+            });
+        } else {
+            Activity act = (Activity) textView.getContext();
+            act.runOnUiThread(() -> textView.setText(s));
+        }
     }
 
+    public static String toRemainingDuration (Duration remaining, String format) {
 
+        long second = remaining.toSeconds() % 60;
+        long minute = remaining.toMinutes() % 60;
+        long hour = remaining.toHours() % 60;
+        long day = remaining.toDays();
+
+        return format
+                .replace("ss",second>9?""+second:"0"+second)
+                .replace("mm",minute>9?""+minute:"0"+minute)
+                .replace("hh",hour>9?""+hour:"0"+hour)
+                .replace("dd",day>9?""+day:"0"+day)
+                .replace("s",""+second)
+                .replace("m",""+minute)
+                .replace("h",""+hour)
+                .replace("d",""+day);
+    }
+
+    public Boolean isPastDue() {
+        return pastDue;
+    }
+
+    public Quest getQuest() {
+        return quest;
+    }
+
+    public void setQuest(Quest quest) {
+        this.quest = quest;
+        this.textView = null;
+    }
+
+    public TextView getTextView() {
+        return textView;
+    }
+
+    public void setTextView(TextView textView) {
+        this.quest = null;
+        this.textView = textView;
+    }
 }

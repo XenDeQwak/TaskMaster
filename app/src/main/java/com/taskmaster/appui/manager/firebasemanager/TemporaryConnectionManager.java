@@ -1,7 +1,5 @@
 package com.taskmaster.appui.manager.firebasemanager;
 
-import static com.taskmaster.appui.manager.entitymanager.ChildManager.packChildData;
-
 import android.content.Context;
 import android.util.Log;
 
@@ -55,7 +53,7 @@ public class TemporaryConnectionManager {
             tempFB.delete();
         });
 
-        tempAuth.createUserWithEmailAndPassword(c.getChildEmail(), c.getChildPassword()).addOnCompleteListener(task -> {
+        tempAuth.createUserWithEmailAndPassword(c.getChildData().getEmail(), c.getChildData().getPassword()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.d("Debug", "Successfully created child account");
             } else {
@@ -68,14 +66,18 @@ public class TemporaryConnectionManager {
 
     private static void createChildData (Child c, FirebaseUser u) {
 
-        //System.out.println(c.getParentRef());
-        //System.out.println(c.getParentRef().getPath());
-        c.setChildPassword("");
-        HashMap<String, Object> cd = (HashMap<String, Object>) ChildManager.packChildData(c);
-        cd.put("Role", "child");
+        DocumentReference childRef = FirebaseFirestore.getInstance().document("Users/"+FirebaseAuth.getInstance().getUid()+"/Adventurers/"+tempAuth.getUid());
+
+        c.getChildData().setUid(tempAuth.getUid());
+        c.getChildData().setPassword("");
+        c.getChildData().setChildReference(childRef);
+
         Task<Void> createChildAuth = FirestoreManager.getFirestore()
-                .collection("Childs")
-                .document(u.getUid()).set(cd)
+                .collection("Users")
+                .document(c.getChildData().getParentUID())
+                .collection("Adventurers")
+                .document(u.getUid())
+                .set(c.getChildData())
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Debug", "Successfully created child document");
@@ -85,25 +87,25 @@ public class TemporaryConnectionManager {
                     }
                 });
 
-        HashMap<String, DocumentReference> ref = new HashMap<>();
-        ref.put("ChildRef", FirestoreManager.getFirestore().collection("Childs").document(u.getUid()));
-        Task<Void> createChildData = FirestoreManager.getFirestore()
-                .collection("Users")
-                .document(c.getParentUID())
-                .collection("adventurers")
-                .document(u.getUid())
-                .set(ref)
+        Map<String, Object> m = new HashMap<>();
+        m.put("role", "child");
+        m.put("uid", c.getChildData().getUid());
+        m.put("userReference", childRef);
+        Task<Void> createChildReference = FirestoreManager.getFirestore()
+                .collection("UserReferences")
+                .document(c.getChildData().getUid())
+                .set(m)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Log.d("Debug", "Successfully created child reference");
+                        Log.d("Debug", "Successfully created child document");
                     } else {
                         task.getException().printStackTrace();
-                        Log.d("Debug", "Failed to create child reference");
+                        Log.d("Debug", "Failed to create child document");
                     }
                 });
 
-        // Wait for both to complete
-        Tasks.whenAllComplete(createChildAuth, createChildData)
+        // Wait for them to complete
+        Tasks.whenAllComplete(createChildAuth)
                 .addOnCompleteListener(task -> {
                     Log.d("Debug", "Successfully completed child creation process");
                     tempFB.delete();

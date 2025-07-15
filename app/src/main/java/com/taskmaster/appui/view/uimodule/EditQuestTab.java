@@ -19,11 +19,14 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
@@ -36,22 +39,16 @@ import java.util.List;
 
 public class EditQuestTab extends FrameLayout {
 
+    Quest q;
+
     EditText editQuestName, editQuestHour, editQuestMinute, editQuestSecond, editQuestDescription, editQuestRewardExtra;
     Button editQuestSave, editQuestCancel;
     Spinner editQuestRewardPicker, editQuestChildPicker;
-    ImageView editQuestChildAvatar;
     ConstraintLayout editQuestContainer;
     RatingBar editQuestDifficulty;
 
-    Quest q;
-
     List<String> rewardStatList;
     List<Child> childList;
-
-    public EditQuestTab(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
 
     public EditQuestTab(@NonNull Context context) {
         super(context);
@@ -72,7 +69,6 @@ public class EditQuestTab extends FrameLayout {
         editQuestCancel = findViewById(R.id.editQuestCancel);
         editQuestRewardExtra = findViewById(R.id.editQuestRewardExtra);
         editQuestChildPicker = findViewById(R.id.editQuestChildPicker);
-        editQuestChildAvatar = findViewById(R.id.editQuestChildAvatar);
         editQuestContainer = findViewById(R.id.editQuestContainer);
         editQuestDifficulty = findViewById(R.id.editQuestDifficulty);
 
@@ -88,16 +84,18 @@ public class EditQuestTab extends FrameLayout {
         editQuestRewardPicker.setAdapter(rewardStatAdapter);
 
         childList = new ArrayList<>();
-        FirebaseUser user = AuthManager.getAuth().getCurrentUser();
-        ChildManager.injectToList(user.getUid(), childList, e -> {
+        FirebaseUser currentUser = AuthManager.getAuth().getCurrentUser();
+        ChildManager.injectToList(currentUser.getUid(), childList, e -> {
             ArrayAdapter<String> childAdapter = new ArrayAdapter<>(
                     this.getContext(),
                     android.R.layout.simple_spinner_item,
-                    childList.stream().map(Child::getChildEmail).toList()
+                    childList.stream().map(Child::getChildData).map(ChildData::getEmail).toList()
             );
             childAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             editQuestChildPicker.setAdapter(childAdapter);
         });
+
+        editQuestDifficulty.setRating(1);
 
         editQuestSave.setOnClickListener(v -> {
             saveQuest();
@@ -112,19 +110,19 @@ public class EditQuestTab extends FrameLayout {
     @SuppressWarnings("newApi")
     public void setQuest (Quest q) {
         this.q = q;
-        if (q.getStatus().equalsIgnoreCase("Awaiting Configuration")) return;
+        if (q.getQuestData().getStatus().equalsIgnoreCase("Awaiting Configuration")) return;
 
-        editQuestName.setText(q.getName());
-        editQuestDescription.setText(q.getDescription());
-        editQuestRewardPicker.setSelection(rewardStatList.indexOf(q.getRewardStat().toUpperCase()));
-        editQuestRewardExtra.setText(q.getRewardExtra());
-        editQuestDifficulty.setRating(q.getDifficulty().intValue());
+        editQuestName.setText(q.getQuestData().getName());
+        editQuestDescription.setText(q.getQuestData().getDescription());
+        editQuestRewardPicker.setSelection(rewardStatList.indexOf(q.getQuestData().getRewardStat().toUpperCase()));
+        editQuestRewardExtra.setText(q.getQuestData().getRewardExtra());
+        editQuestDifficulty.setRating(q.getQuestData().getDifficulty().intValue());
 
-        q.getAssignedReference().get().addOnCompleteListener(task -> {
+        q.getQuestData().getAdventurerReference().get().addOnCompleteListener(task -> {
             Object email = task.getResult().get("Email");
             if (email == null) return;
             editQuestChildPicker.setSelection(
-                    childList.stream().map(Child::getChildEmail).toList().indexOf(email.toString())
+                    childList.stream().map(Child::getChildData).map(ChildData::getEmail).toList().indexOf(email.toString())
             );
         });
 
@@ -135,15 +133,19 @@ public class EditQuestTab extends FrameLayout {
 
         if (
                 editQuestName.getText().toString().equals("")
-                || editQuestHour.getText().toString().equals("")
-                || editQuestMinute.getText().toString().equals("")
-                || editQuestSecond.getText().toString().equals("")
-                || editQuestDescription.getText().toString().equals("")
+                || (editQuestHour.getText().toString().equals("") && editQuestMinute.getText().toString().equals("") && editQuestSecond.getText().toString().equals(""))
                 || editQuestDifficulty.getRating() < 1
+                || editQuestChildPicker.getSelectedItem() == null
         ) {
             Toast.makeText(getContext(), "Please fill up all fields!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (editQuestHour.getText().toString().isEmpty()) editQuestHour.setText("0");
+        if (editQuestMinute.getText().toString().isEmpty()) editQuestMinute.setText("0");
+        if (editQuestSecond.getText().toString().isEmpty()) editQuestSecond.setText("0");
+        if (editQuestDescription.getText().toString().isEmpty()) editQuestDescription.setText("No Description");
+        if (editQuestRewardExtra.getText().toString().isEmpty()) editQuestRewardExtra.setText("No Extra Rewards");
 
         String name = editQuestName.getText().toString();
         int hour = Integer.parseInt(editQuestHour.getText().toString());
@@ -153,36 +155,38 @@ public class EditQuestTab extends FrameLayout {
         String rewardStat = editQuestRewardPicker.getSelectedItem().toString();
         String rewardExtra = editQuestRewardExtra.getText().toString();
         String assigneeEmail = editQuestChildPicker.getSelectedItem().toString();
-        Long difficulty = (long) editQuestDifficulty.getRating();
-
+        Integer difficulty = (int) editQuestDifficulty.getRating();
 
         long startDate = DateTimeUtil.getDateTimeNow().toEpochSecond();
         long endDate = DateTimeUtil.getDateTimeFromNow(hour, minute, second).toEpochSecond();
 
-        q.setName(name);
-        q.setDescription(description);
-        q.setStartDate(startDate);
-        q.setEndDate(endDate);
-        q.setRewardStat(rewardStat);
-        q.setRewardExtra(rewardExtra);
-        q.setDifficulty(difficulty);
+        q.getQuestData().setName(name);
+        q.getQuestData().setDescription(description);
+        q.getQuestData().setStartDate(startDate);
+        q.getQuestData().setEndDate(endDate);
+        q.getQuestData().setRewardStat(rewardStat);
+        q.getQuestData().setRewardExtra(rewardExtra);
+        q.getQuestData().setDifficulty(difficulty);
+        q.getQuestData().setStatus("Ongoing");
 
         FirestoreManager.getFirestore()
-                .collection("Childs")
-                .whereEqualTo("Email", assigneeEmail)
+                .collection("Users/" + FirebaseAuth.getInstance().getUid() + "/Adventurers")
+                .whereEqualTo("email", assigneeEmail)
                 .limit(1)
                 .get()
                 .addOnCompleteListener(task -> {
-                    DocumentSnapshot c = task.getResult().getDocuments().get(0);
-                    q.setAssignedUID(c.getId());
-                    q.setAssignedReference(c.getReference());
-                    q.setStatus("Ongoing");
+                    if (task.getResult().getDocuments().size() != 1) {
+                        System.out.println("Users/" + FirebaseAuth.getInstance().getUid() + "/Adventurers");
+                        throw new RuntimeException("No such child found");
+                    }
+                    DocumentSnapshot c = task.getResult().getDocuments().get(0); //java.lang.NoSuchMethodError No interface method getFirst()Ljava/lang/Object
+                    q.getQuestData().setAssignedTo(c.getId());
+                    q.getQuestData().setAdventurerReference(c.getReference());
+                    q.getQuestData().uploadData();
 
-                    FirestoreManager.updateQuest(q);
+                    ViewGroup parent = (ViewGroup) this.getParent();
+                    parent.removeView(this);
                 });
-
-        ViewGroup parent = (ViewGroup) this.getParent();
-        parent.removeView(this);
     }
 
     private void clearFields () {

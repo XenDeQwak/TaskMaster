@@ -11,13 +11,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.data.ChildData;
+import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.view.uimodule.ChildExemptionTab;
 
-public class ChildViewQuestHistory extends ChildView {
+public class ChildPageQuestHistory extends ChildPage {
 
     QuestManager questManager;
-    ScrollView cvqh_scrollView;
     LinearLayout cvqh_scrollContent;
     ChildExemptionTab cvqh_childExemptionTab;
 
@@ -33,16 +35,24 @@ public class ChildViewQuestHistory extends ChildView {
             return insets;
         });
 
-        questManager = new QuestManager();
 
-        initNavigationMenu(this, ChildViewQuestHistory.class);
 
-        cvqh_scrollView = findViewById(R.id.cvqh_scrollView);
-        cvqh_scrollView.getBackground().setAlpha(150);
+        initNavigationMenu(this, ChildPageQuestHistory.class);
 
         cvqh_scrollContent = findViewById(R.id.cvqh_scrollContent);
-        cvqh_childExemptionTab = findViewById(R.id.cvqh_childExemptionTab);
-        String[] status = {"Completed", "Failed", "Awaiting Exemption"};
-        questManager.loadAssignedQuestHistoryWhereStatus(cvqh_scrollContent, cvqh_childExemptionTab, status);
+        questManager = new QuestManager(cvqh_scrollContent);
+
+        String[] status = {"Completed", "Failed", "Exempted"};
+        questManager.fetchQuestsWhereStatus("child", status);
+
+        CurrentUser currentUser = CurrentUser.getInstance();
+        currentUser.getUserData().getUserSnapshot().getReference().get()
+                .addOnCompleteListener(ds -> {
+                    Child c = new Child(ds.getResult().toObject(ChildData.class));
+                    c.getChildData().getParentReference().collection("Quests")
+                            .addSnapshotListener((qs, e) -> {
+                                questManager.fetchQuestsWhereStatus("child", status);
+                            });
+                });
     }
 }

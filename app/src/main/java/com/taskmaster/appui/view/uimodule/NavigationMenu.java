@@ -12,15 +12,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.util.NavUtil;
-import com.taskmaster.appui.view.child.ChildViewLeaderboard;
-import com.taskmaster.appui.view.child.ChildViewQuest;
-import com.taskmaster.appui.view.child.ChildViewQuestHistory;
+import com.taskmaster.appui.view.child.ChildPageQuestBoard;
+import com.taskmaster.appui.view.child.ChildPageQuestHistory;
+import com.taskmaster.appui.view.child.ChildPageLeaderboard;
+import com.taskmaster.appui.view.child.ChildPageWeeklyBoss;
 import com.taskmaster.appui.view.child.CosmeticShop;
-import com.taskmaster.appui.view.child.WeeklyBoss;
 import com.taskmaster.appui.view.login.Splash;
-import com.taskmaster.appui.view.parent.ParentViewManageChild;
-import com.taskmaster.appui.view.parent.ParentViewQuest;
-import com.taskmaster.appui.view.parent.ParentViewQuestHistory;
+import com.taskmaster.appui.view.parent.ParentPageManageChild;
+import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
+import com.taskmaster.appui.view.parent.ParentPageQuestHistory;
 
 public class NavigationMenu extends FrameLayout {
 
@@ -51,9 +51,9 @@ public class NavigationMenu extends FrameLayout {
     }
 
     public void initNavButtonsParent (Activity activity) {
-        NavUtil.setNavigation(activity, navMenuQuestButton, ParentViewQuest.class);
-        NavUtil.setNavigation(activity, navMenuAdventurerButton, ParentViewManageChild.class);
-        NavUtil.setNavigation(activity, navMenuQuestHistoryButton, ParentViewQuestHistory.class);
+        NavUtil.setNavigation(activity, navMenuQuestButton, ParentPageQuestBoard.class);
+        NavUtil.setNavigation(activity, navMenuAdventurerButton, ParentPageManageChild.class);
+        NavUtil.setNavigation(activity, navMenuQuestHistoryButton, ParentPageQuestHistory.class);
 
         navMenuShopButton.setVisibility(GONE);
         navMenuBossButton.setVisibility(GONE);
@@ -61,11 +61,11 @@ public class NavigationMenu extends FrameLayout {
     }
 
     public void initNavButtonsChild (Activity activity) {
-        NavUtil.setNavigation(activity, navMenuQuestButton, ChildViewQuest.class);
+        NavUtil.setNavigation(activity, navMenuQuestButton, ChildPageQuestBoard.class);
         NavUtil.setNavigation(activity, navMenuShopButton, CosmeticShop.class);
-        NavUtil.setNavigation(activity, navMenuBossButton, WeeklyBoss.class);
-        NavUtil.setNavigation(activity, navMenuLeaderboardButton, ChildViewLeaderboard.class);
-        NavUtil.setNavigation(activity, navMenuQuestHistoryButton, ChildViewQuestHistory.class);
+        NavUtil.setNavigation(activity, navMenuBossButton, ChildPageWeeklyBoss.class);
+        NavUtil.setNavigation(activity, navMenuLeaderboardButton, ChildPageLeaderboard.class);
+        NavUtil.setNavigation(activity, navMenuQuestHistoryButton, ChildPageQuestHistory.class);
 
         navMenuAdventurerButton.setVisibility(GONE);
     }

@@ -1,11 +1,15 @@
 package com.taskmaster.appui.util;
 
+import android.app.Activity;
+
+import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.RemainingTimer;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -27,8 +31,10 @@ public class DateTimeUtil {
         return ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), ZoneId.systemDefault());
     }
 
-    public static void addTimer (RemainingTimer timer) {
-        if (!timerList.contains(timer)) timerList.add(timer);
+    public static void addTimer (RemainingTimer... timer) {
+        for (RemainingTimer remainingTimer : timer) {
+            if (!timerList.contains(remainingTimer)) timerList.add(remainingTimer);
+        }
     }
 
     public static void clearTimerList () {
@@ -38,9 +44,20 @@ public class DateTimeUtil {
     public static void startTimer() {
         timerExecutorService = Executors.newSingleThreadScheduledExecutor();
         Runnable timerTick = () -> {
-            for (RemainingTimer rt : timerList) {
+            Iterator<RemainingTimer> it = timerList.iterator();
+            while (it.hasNext()) {
+                RemainingTimer rt = it.next();
                 String remTime = rt.getRemainingTime();
-                rt.setText(remTime);
+                if (rt.isPastDue()) {
+                    Quest q = rt.getQuest();
+                    if (q != null) {
+                        q.getQuestData().setStatus("Awaiting Reason For Failure");
+                        q.getQuestData().uploadData();
+                    }
+                    it.remove();
+                } else {
+                    rt.setText(remTime);
+                }
             }
         };
 

@@ -1,193 +1,144 @@
 package com.taskmaster.appui.manager.entitymanager;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.google.firebase.auth.FirebaseUser;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.taskmaster.appui.data.ChildData;
+import com.taskmaster.appui.data.QuestData;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.entity.Quest;
-import com.taskmaster.appui.entity.User;
-import com.taskmaster.appui.manager.firebasemanager.AuthManager;
-import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
-import com.taskmaster.appui.util.DateTimeUtil;
-import com.taskmaster.appui.view.uimodule.ChildExemptionTab;
-import com.taskmaster.appui.view.uimodule.EditQuestTab;
-import com.taskmaster.appui.view.uimodule.QuestView;
-import com.taskmaster.appui.view.uimodule.QuestViewPreview;
+import com.taskmaster.appui.view.uimodule.QuestBox;
+import com.taskmaster.appui.view.uimodule.QuestBoxPreview;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuestManager {
 
-    ArrayList<Quest> questList;
+    private final DocumentReference Parent =
+            (CurrentUser.getInstance().getUserData().getRole().equalsIgnoreCase("parent"))
+                    ?
+                    FirebaseFirestore.getInstance().document("Users/"+FirebaseAuth.getInstance().getUid())
+                    :
+                    CurrentUser.getInstance().getUserData().getUserSnapshot().toObject(ChildData.class).getParentReference()
+            ;
+    private final CollectionReference Quests = Parent.collection("Quests");
+    private final LinearLayout questContent;
+    private final ArrayList<Quest> questList;
 
-    public QuestManager () {
-        this(new ArrayList<>());
+    public QuestManager (LinearLayout questContent) {
+        this.questContent = questContent;
+        this.questList = new ArrayList<>();
     }
 
-    public QuestManager (ArrayList<Quest> QuestList) {
-        this.questList = QuestList;
+    @SuppressLint("NewApi")
+    public void refresh () {
+        questContent.removeAllViews();
+        questList.stream()
+                .map(Quest::getQuestBoxPreview)
+                .forEach(questContent::addView);
+        questList.stream()
+                .map(Quest::getQuestBox)
+                .forEach(qb -> {
+                    ViewGroup parent = (ViewGroup) questContent.getParent().getParent();
+                    parent.removeView(qb);
+                    ConstraintLayout.LayoutParams qvParams = new ConstraintLayout.LayoutParams(
+                            ConstraintLayout.LayoutParams.MATCH_PARENT,
+                            ConstraintLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    qvParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+                    qvParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+                    qvParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+                    qvParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+                    qvParams.setMargins(16,16,16,16);
+                    qb.setLayoutParams(qvParams);
+                    qb.setClickable(true);
+                    qb.setVisibility(GONE);
+                    parent.addView(qb);
+                });
     }
 
-    public List<Quest> getQuestList() {
-        return questList;
-    }
-
-    public void addQuest (Quest quest) {
-        questList.add(quest);
-    }
-
-    public void removeQuest (Quest quest) {
-        questList.remove(quest);
-    }
-
-    public static Quest parseQuestData (HashMap<String, Object> qd) {
-        return new Quest(
-                (String) qd.get("QuestID"),
-                (String) qd.get("Name"),
-                (String) qd.get("Description"),
-                (String) qd.get("CreatorUID"),
-                (String) qd.get("AssignedUID"),
-                (Long) qd.get("StartDate"),
-                (Long) qd.get("EndDate"),
-                (Long) qd.get("CompletedDate"),
-                (String) qd.get("RewardStat"),
-                (String) qd.get("RewardExtra"),
-                (DocumentReference) qd.get("CreatorRef"),
-                (DocumentReference) qd.get("AssignedRef"),
-                (Number) qd.get("Difficulty"),
-                (String) qd.get("Status"),
-                (String) qd.get("Reason")
-                );
-    }
-
-    public static HashMap<String, Object> packQuestData (Quest q) {
-        HashMap<String, Object> qd = new HashMap<>();
-        qd.put("QuestID", q.getQuestID());
-        qd.put("Name", q.getName());
-        qd.put("Description", q.getDescription());
-        qd.put("CreatorUID", q.getCreatorUID());
-        qd.put("AssignedUID", q.getAssignedUID());
-        qd.put("StartDate", q.getStartDate());
-        qd.put("EndDate", q.getEndDate());
-        qd.put("CompletedDate", q.getCompletedDate());
-        qd.put("RewardStat", q.getRewardStat());
-        qd.put("RewardExtra", q.getRewardExtra());
-        qd.put("CreatorRef", q.getCreatorReference());
-        qd.put("AssignedRef", q.getAssignedReference());
-        qd.put("Difficulty", q.getDifficulty());
-        qd.put("Status", q.getStatus());
-        qd.put("Reason", q.getReason());
-
-        return qd;
-    }
-
-    public static Quest createTestQuest () {
-        HashMap<String, Object> qd = new HashMap<>();
-        qd.put("Name", "testquest");
-        qd.put("Description", "I am a test quest.");
-        qd.put("CreatorUID", FirestoreManager.getFirestore().collection("Users").document("user").getId());
-        qd.put("CreatorRef", FirestoreManager.getFirestore().collection("Users").document("user"));
-        qd.put("StartDate", 1735689601L);
-        qd.put("EndDate", 1767225599L);
-        qd.put("CompletedDate", 1735689601L);
-        qd.put("RewardStat", "DEFAULT");
-        qd.put("RewardExtra", "test");
-        qd.put("AssignedUID", "child");
-        qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
-        qd.put("Difficulty", 0);
-        qd.put("Status", "Ongoing");
-        qd.put("Reason", "This is a reason.");
-
-        return QuestManager.parseQuestData(qd);
-    }
-
-    public static Quest createBlankQuest () {
-        User user = User.getInstance();
-        HashMap<String, Object> qd = new HashMap<>();
-        qd.put("Name", "Blank Quest");
-        qd.put("Description", "No Description");
-        qd.put("CreatorUID", user.getDocumentSnapshot().getId());
-        qd.put("CreatorRef", user.getDocumentSnapshot().getReference());
-        qd.put("StartDate", 1735689601L);
-        qd.put("EndDate", 1767225599L);
-        qd.put("CompletedDate", 1735689601L);
-        qd.put("RewardStat", "None");
-        qd.put("RewardExtra", "None");
-        qd.put("AssignedUID", "child");
-        qd.put("AssignedRef", FirestoreManager.getFirestore().collection("Childs").document("child"));
-        qd.put("Difficulty", 0L);
-        qd.put("Status", "Awaiting Configuration");
-        qd.put("Reason", "None");
-
-        return QuestManager.parseQuestData(qd);
-    }
-
-
-    public void loadCreatedQuestWhereStatus(LinearLayout scrollContent, EditQuestTab editQuest, String... status) {
-        questList.clear();
-        scrollContent.removeAllViews();
-        FirebaseUser parent = AuthManager.getAuth().getCurrentUser();
-        FirestoreManager.fetchCreatedQuestsWhereStatus(parent.getUid(), Arrays.asList(status), dsl -> {
-            for (DocumentSnapshot ds : dsl) {
-                Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
+    public void create () {
+        Quest q = new Quest(QuestData.newBlankQuestData(), questContent.getContext(), this);
+        Quests.add(q.getQuestData()).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d("Debug", "Created Blank Quest");
+                DocumentReference dr = task.getResult();
+                q.getQuestData().setQuestReference(dr);
+                q.getQuestData().setId(dr.getId());
+                q.getQuestData().setCreatedBy(FirebaseAuth.getInstance().getUid());
+                q.getQuestData().setCreatorReference(Parent);
+                q.getQuestData().uploadData();
                 questList.add(q);
-
-                QuestViewPreview qvp = new QuestViewPreview(scrollContent.getContext());
-                scrollContent.addView(qvp);
-                qvp.setQuest(q, true);
-                if (q.getStatus().equalsIgnoreCase("ongoing")) {
-                    qvp.setTimer(DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
-                }
-
+            } else {
+                task.getException().printStackTrace();
             }
         });
     }
 
+    public void remove (Quest q) {
+        if (questList.contains(q)) {
+            questList.remove(q);
+        } else {
+            //throw new IllegalArgumentException("Quest is not part of QuestList");
+        }
+    }
 
-    @SuppressLint({"SetTextI18n", "UseCompatLoadingForColorStateLists"})
-    public void loadAssignedQuestsWhereStatus(LinearLayout scrollContent, String... status) {
-        questList.clear();
-        scrollContent.removeAllViews();
-        FirebaseUser child = AuthManager.getAuth().getCurrentUser();
-        FirestoreManager.fetchAssignedQuestsWhereStatus(child.getUid(), Arrays.asList(status), dsl -> {
-            for (DocumentSnapshot ds : dsl) {
-                Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
-                questList.add(q);
-
-                QuestViewPreview qvp = new QuestViewPreview(scrollContent.getContext());
-                scrollContent.addView(qvp);
-                qvp.setQuest(q, false);
-                if (q.getStatus().equalsIgnoreCase("ongoing")) {
-                    qvp.setTimer(DateTimeUtil.getDateTimeFromEpochSecond(q.getEndDate()));
-                }
-
-            }
+    /**
+     * Fetches quests from the Firestore collection based on the given currentUser type and quest statuses.
+     *
+     * @param type   Specifies the currentUser type. If "parent", it queries quests where the current currentUser is the creator;
+     *               otherwise, it queries quests assigned to the current currentUser.
+     * @param status One or more status values (e.g., "ongoing", "completed", "failed") to filter quests by.
+     */
+    public void fetchQuestsWhereStatus (String type, String... status) {
+        questList.forEach(quest -> {
+            quest.getQuestBox().setVisibility(GONE);
+            quest.updateQuestBox();
         });
+        String field = type.equalsIgnoreCase("parent") ? "createdBy" : "assignedTo";
+        Quests
+                .whereEqualTo(field, FirebaseAuth.getInstance().getUid())
+                .whereIn("status", Arrays.asList(status))
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) task.getException().printStackTrace();
+                    else {
+                        questList.clear();
+                        //System.out.println(task.getResult().getDocuments());;
+                        task.getResult().getDocuments()
+                                .stream()
+                                .forEach(ds -> {
+                                    //System.out.println("Name: " + ds.get("name"));
+                                    Quest q = new Quest(ds.toObject(QuestData.class), questContent.getContext(), this);
+                                    questList.add(q);
+                                });
+                        //System.out.println(field + ": " + FirebaseAuth.getInstance().getUid());
+                        //System.out.println(questList);
+                        refresh();
+                    }
+                });
     }
 
 
-    public void loadAssignedQuestHistoryWhereStatus(LinearLayout scrollContent, ChildExemptionTab childExemption, String... status) {
-//        questList.clear();
-//        scrollContent.removeAllViews();
-//        FirebaseUser child = AuthManager.getAuth().getCurrentUser();
-//        FirestoreManager.fetchAssignedQuestsWhereStatus(child.getUid(), Arrays.asList(status),dsl -> {
-//            for (DocumentSnapshot ds : dsl) {
-//                Quest q = QuestManager.parseQuestData((HashMap<String, Object>) ds.getData());
-//                questList.add(q);
-//
-//                QuestView qb = new QuestView(scrollContent.getContext(), false, null);
-//                scrollContent.addView(qb);
-//
-//            }
-//        });
-    }
+
+
+
 
 }

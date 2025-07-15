@@ -17,15 +17,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.entity.Child;
-import com.taskmaster.appui.entity.User;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
-import com.taskmaster.appui.view.uimodule.ChildViewPreview;
+import com.taskmaster.appui.view.uimodule.ChildBoxPreview;
 import com.taskmaster.appui.view.uimodule.LeaderboardSortMenu;
 import com.taskmaster.appui.view.uimodule.NavigationMenu;
 
 import java.util.ArrayList;
 
-public class ChildViewLeaderboard extends ChildView {
+public class ChildPageLeaderboard extends ChildPage {
 
     ChildManager childManager;
 
@@ -51,7 +50,7 @@ public class ChildViewLeaderboard extends ChildView {
 
         childManager = new ChildManager(this);
 
-        initNavigationMenu(this, ChildViewLeaderboard.class);
+        initNavigationMenu(this, ChildPageLeaderboard.class);
 
         cvlb_scrollView = findViewById(R.id.cvlb_scrollView);
         cvlb_scrollContent = findViewById(R.id.cvlb_scrollContent);
@@ -105,74 +104,74 @@ public class ChildViewLeaderboard extends ChildView {
 
     @SuppressLint("NewApi")
     public void sortLeaderboardByQuestCompleted () {
-        ArrayList<Child> childrenList = new ArrayList<>();
-        User user = User.getInstance();
-        String id = user.getDocumentSnapshot().get("ParentUID").toString();
-        ChildManager.injectToList(id, childrenList, e -> {
-            displayLeaderboard(
-                    new ArrayList<>(
-                            childrenList
-                                    .stream()
-                                    .sorted((child1, child2) -> child2.getQuestCompleted().intValue() - child1.getQuestCompleted().intValue())
-                                    .toList()
-                    ),
-                    "Quests"
-            );
-        });
+//        ArrayList<Child> childrenList = new ArrayList<>();
+//        CurrentUser currentUser = CurrentUser.getInstance();
+//        String id = currentUser.get().get("ParentUID").toString();
+//        ChildManager.injectToList(id, childrenList, e -> {
+//            displayLeaderboard(
+//                    new ArrayList<>(
+//                            childrenList
+//                                    .stream()
+//                                    .sorted((child1, child2) -> child2.getQuestCompleted().intValue() - child1.getQuestCompleted().intValue())
+//                                    .toList()
+//                    ),
+//                    "Quests"
+//            );
+//        });
     }
 
     @SuppressLint("NewApi")
     public void sortLeaderboardByFloorReached () {
-        ArrayList<Child> childrenList = new ArrayList<>();
-        User user = User.getInstance();
-        String id = user.getDocumentSnapshot().get("ParentUID").toString();
-        ChildManager.injectToList(id, childrenList, e -> {
-            displayLeaderboard(
-                    new ArrayList<>(
-                            childrenList
-                                    .stream()
-                                    .sorted((child1, child2) -> child2.getFloor().intValue() - child1.getFloor().intValue())
-                                    .toList()
-                    ),
-                    "Floor"
-            );
-        });
+//        ArrayList<Child> childrenList = new ArrayList<>();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        String id = currentUser.getDocumentSnapshot().get("ParentUID").toString();
+//        ChildManager.injectToList(id, childrenList, e -> {
+//            displayLeaderboard(
+//                    new ArrayList<>(
+//                            childrenList
+//                                    .stream()
+//                                    .sorted((child1, child2) -> child2.getFloor().intValue() - child1.getFloor().intValue())
+//                                    .toList()
+//                    ),
+//                    "Floor"
+//            );
+//        });
     }
 
     @SuppressLint("NewApi")
     public void sortLeaderboardByHighestStrength () {
-        ArrayList<Child> childrenList = new ArrayList<>();
-        User user = User.getInstance();
-        String id = user.getDocumentSnapshot().get("ParentUID").toString();
-        ChildManager.injectToList(id, childrenList, e -> {
-            displayLeaderboard(
-                    new ArrayList<>(
-                            childrenList
-                                    .stream()
-                                    .sorted((child1, child2) -> child2.getStrength() - child1.getStrength())
-                                    .toList()
-                    ),
-                    "Strength"
-            );
-        });
+//        ArrayList<Child> childrenList = new ArrayList<>();
+//        CurrentUser currentUser = CurrentUser.getInstance();
+//        String id = currentUser.getDocumentSnapshot().get("ParentUID").toString();
+//        ChildManager.injectToList(id, childrenList, e -> {
+//            displayLeaderboard(
+//                    new ArrayList<>(
+//                            childrenList
+//                                    .stream()
+//                                    .sorted((child1, child2) -> child2.getStrength() - child1.getStrength())
+//                                    .toList()
+//                    ),
+//                    "Strength"
+//            );
+//        });
     }
 
     @SuppressLint("NewApi")
     public void sortLeaderboardByHighestIntelligence () {
-        ArrayList<Child> childrenList = new ArrayList<>();
-        User user = User.getInstance();
-        String id = user.getDocumentSnapshot().get("ParentUID").toString();
-        ChildManager.injectToList(id, childrenList, e -> {
-            displayLeaderboard(
-                    new ArrayList<>(
-                            childrenList
-                                    .stream()
-                                    .sorted((child1, child2) -> child2.getIntelligence() - child1.getIntelligence())
-                                    .toList()
-                    ),
-                    "Intelligence"
-            );
-        });
+//        ArrayList<Child> childrenList = new ArrayList<>();
+//        CurrentUser currentUser = CurrentUser.getInstance();
+//        String id = currentUser.getDocumentSnapshot().get("ParentUID").toString();
+//        ChildManager.injectToList(id, childrenList, e -> {
+//            displayLeaderboard(
+//                    new ArrayList<>(
+//                            childrenList
+//                                    .stream()
+//                                    .sorted((child1, child2) -> child2.getIntelligence() - child1.getIntelligence())
+//                                    .toList()
+//                    ),
+//                    "Intelligence"
+//            );
+//        });
     }
 
     public void displayLeaderboard(ArrayList<Child> cl, String s) {
@@ -181,22 +180,22 @@ public class ChildViewLeaderboard extends ChildView {
             Child c = cl.get(i);
             int data = -999;
             switch (s.toLowerCase()) {
-                case "quests": data = c.getQuestCompleted().intValue(); break;
-                case "floor": data = c.getFloor().intValue(); break;
-                case "strength": data = c.getStrength(); break;
-                case "intelligence": data = c.getIntelligence(); break;
+                case "quests": data = c.getChildData().getQuestsCompleted(); break;
+                case "floor": data = c.getChildData().getFloor(); break;
+                case "strength": data = c.getChildData().getStrength(); break;
+                case "intelligence": data = c.getChildData().getIntelligence(); break;
             }
             if (i == 0) {
-                goldUsername.setText(c.getChildUsername());
+                goldUsername.setText(c.getChildData().getUsername());
                 goldAchievement.setText(s + ": " + data);
             } else if (i == 1) {
-                silverUsername.setText(c.getChildUsername());
+                silverUsername.setText(c.getChildData().getUsername());
                 silverAchievement.setText(s + ": " + data);
             } else if (i == 2) {
-                bronzeUsername.setText(c.getChildUsername());
+                bronzeUsername.setText(c.getChildData().getUsername());
                 bronzeAchievement.setText(s + ": " + data);
             } else {
-                ChildViewPreview cb = new ChildViewPreview(this, c);
+                ChildBoxPreview cb = new ChildBoxPreview(this, c);
                 cvlb_scrollContent.addView(cb);
             }
         }

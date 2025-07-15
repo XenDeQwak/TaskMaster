@@ -8,10 +8,9 @@ import android.app.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.taskmaster.appui.R;
-import com.taskmaster.appui.view.child.CosmeticShop;
 import com.taskmaster.appui.view.uimodule.TopBar;
 
-public class ParentView extends AppCompatActivity {
+public class ParentPage extends AppCompatActivity {
 
     TopBar topBar;
 
@@ -24,11 +23,11 @@ public class ParentView extends AppCompatActivity {
         topBar.getDropdownNavMenu().initLogoutButton(activity);
 
         topBar.getCreateObjectButton().setVisibility(VISIBLE);
-        if (c == ParentViewQuest.class) {
+        if (c == ParentPageQuestBoard.class) {
             topBar.getCreateObjectButton().setImageResource(R.drawable.add_quest);
-        } else if (c == ParentViewManageChild.class) {
+        } else if (c == ParentPageManageChild.class) {
             topBar.getCreateObjectButton().setImageResource(R.drawable.add_adventurer);
-        } else if (c == ParentViewQuestHistory.class) {
+        } else if (c == ParentPageQuestHistory.class) {
             topBar.getCreateObjectButton().setVisibility(GONE);
         }
 
