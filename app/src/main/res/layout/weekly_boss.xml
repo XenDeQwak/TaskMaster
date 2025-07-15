@@ -38,14 +38,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="@+id/baseFrame"
+        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
         app:layout_constraintHeight_percent="0.6"
-        app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintVertical_bias="0.25"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/baseFrame"
-        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
         app:layout_constraintTop_toTopOf="@+id/baseFrame"
-        app:layout_constraintBottom_toBottomOf="@+id/baseFrame"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintWidth_percent="0.8"
         app:srcCompat="@drawable/rectangle_rounded" />
 
     <ImageView
@@ -216,97 +216,7 @@
         android:id="@+id/childBarGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="childBarFrame, childBarAvatar, childBarName, childBarFloorCount, childBarStatsButton" />
-
-    <ImageView
-        android:id="@+id/childBarFrame"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.24"
-        app:layout_constraintWidth_percent="0.8"
-        android:alpha="0.5"
-        app:layout_constraintVertical_bias="0.98"
-        app:layout_constraintBottom_toBottomOf="@+id/baseFrame"
-        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
-        app:layout_constraintStart_toStartOf="@+id/baseFrame"
-        app:layout_constraintTop_toTopOf="@+id/baseFrame"
-        app:srcCompat="@drawable/rectangle_rounded" />
-
-    <ImageView
-        android:id="@+id/childBarAvatar"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.35"
-        app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintBottom_toBottomOf="@+id/childBarFrame"
-        app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
-        app:layout_constraintStart_toStartOf="@+id/childBarFrame"
-        app:layout_constraintTop_toTopOf="@+id/childBarFrame"
-        app:srcCompat="@drawable/placeholderavatar5_framed_round" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/childBarName"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.35"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintVertical_bias="0.20"
-        app:layout_constraintHorizontal_bias="0.92"
-        android:background="@drawable/button_shadowed"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Name"
-        android:textAlignment="center"
-        android:textColor="#3F3F3F"
-        android:textSize="20sp"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="@+id/childBarFrame"
-        app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
-        app:layout_constraintStart_toStartOf="@+id/childBarFrame"
-        app:layout_constraintTop_toTopOf="@+id/childBarFrame"
-        android:stateListAnimator="@null" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/childBarFloorCount"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.35"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintVertical_bias="0.50"
-        app:layout_constraintHorizontal_bias="0.92"
-        android:background="@drawable/button_shadowed"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="Floor: X"
-        android:textAlignment="center"
-        android:textColor="#3F3F3F"
-        android:textSize="20sp"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="@+id/childBarFrame"
-        app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
-        app:layout_constraintStart_toStartOf="@+id/childBarFrame"
-        app:layout_constraintTop_toTopOf="@+id/childBarFrame"
-        android:stateListAnimator="@null" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/childBarStatsButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.35"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintVertical_bias="0.80"
-        app:layout_constraintHorizontal_bias="0.92"
-        android:background="@drawable/button_shadowed"
-        android:fontFamily="@font/eb_garamond_semibold"
-        android:text="More Stats"
-        android:textAlignment="center"
-        android:textColor="#3F3F3F"
-        android:textSize="20sp"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="@+id/childBarFrame"
-        app:layout_constraintEnd_toEndOf="@+id/childBarFrame"
-        app:layout_constraintStart_toStartOf="@+id/childBarFrame"
-        app:layout_constraintTop_toTopOf="@+id/childBarFrame"
-        android:stateListAnimator="@null" />
+        app:constraint_referenced_ids=" childBarAvatar, childBarName, childBarFloorCount, childBarStatsButton" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/popupMonsterMessage"
@@ -404,5 +314,17 @@
         app:layout_constraintEnd_toEndOf="@+id/baseFrame"
         app:layout_constraintStart_toStartOf="@+id/baseFrame"
         app:layout_constraintTop_toTopOf="@+id/baseFrame" />
+
+    <com.taskmaster.appui.view.uimodule.ChildStatsTab
+        android:id="@+id/ChildStatsTab"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/baseFrame"
+        app:layout_constraintEnd_toEndOf="@+id/baseFrame"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="@+id/baseFrame" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

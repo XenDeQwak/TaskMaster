@@ -21,6 +21,7 @@ import com.taskmaster.appui.entity.RemainingTimer;
 import com.taskmaster.appui.entity.WeeklyBoss;
 import com.taskmaster.appui.util.*;
 import com.taskmaster.appui.R;
+import com.taskmaster.appui.view.uimodule.ChildStatsTab;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
@@ -44,6 +45,8 @@ public class ChildPageWeeklyBoss extends ChildPage {
     private ChildData childData;
     private RemainingTimer remainingTimer;
     private WeeklyBoss weeklyBoss;
+    ChildStatsTab childStatsTab;
+
 
     // Below arent mine -gab
 
@@ -52,12 +55,11 @@ public class ChildPageWeeklyBoss extends ChildPage {
     private AppCompatButton statReqInt;
     private AppCompatButton monsterName;
     private AppCompatButton popupMonsterButton;
-    private AppCompatButton childBarFloorCount;
-    private ImageView popupMonsterImage,childBarAvatar,monsterImage;
+    private ImageView popupMonsterImage,monsterImage;
     private Group popupMonsterMessage;
     private ProgressBar monsterHealthBar;
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private TextView childBarName,timerTxt,timerTxtDays,popupMonsterMessageText, monsterHealthBarText;
+    private TextView timerTxt,timerTxtDays,popupMonsterMessageText, monsterHealthBarText;
     private CurrentUser currentUser;
     private BossAvatar currBossAvatar;
     private int penalty;
@@ -68,13 +70,11 @@ public class ChildPageWeeklyBoss extends ChildPage {
         setContentView(R.layout.weekly_boss);
         // hide status bar and nav bar
         NavUtil.hideSystemBars(this);
+
         initNavigationMenu(this, ChildPageWeeklyBoss.class);
 
         timerTxtDays = findViewById(R.id.TimerTxtDays);
         timerTxt = findViewById(R.id.TimerTxt);
-        AppCompatButton childBarStatsButton = findViewById(R.id.childBarStatsButton);
-        childBarName = findViewById(R.id.childBarName);
-        childBarAvatar = findViewById(R.id.childBarAvatar);
         fightButton = findViewById(R.id.fightButton);
         popupMonsterButton = findViewById(R.id.popupMonsterButton);
         popupMonsterMessage = findViewById(R.id.popupMonsterMessage);
@@ -82,18 +82,22 @@ public class ChildPageWeeklyBoss extends ChildPage {
         popupMonsterImage = findViewById(R.id.popupMonsterImage);
         monsterHealthBar = findViewById(R.id.monsterHealthBar);
         monsterHealthBarText = findViewById(R.id.monsterHealthBarText);
-        childBarFloorCount = findViewById(R.id.childBarFloorCount);
         monsterName = findViewById(R.id.monsterName);
         statReqStr = findViewById(R.id.statReqStr);
         statReqInt = findViewById(R.id.statReqInt);
         monsterImage = findViewById(R.id.monsterImage);
 
-        NavUtil.setNavigation(this, childBarStatsButton, ProgressionPage.class);
-
         // Set up
         currentUser = CurrentUser.getInstance();
         childData = currentUser.getUserData().getUserSnapshot().toObject(ChildData.class);
         childData.updateData(cd -> {
+
+            childStatsTab = findViewById(R.id.ChildStatsTab);
+            childStatsTab.getChildStatsName().setText(cd.getUsername());
+            childStatsTab.getChildStatsFloor().setText("Floor: " + cd.getFloor());
+            childStatsTab.getChildStatsAvatarImage().setImageResource(avatarImages[cd.getAvatar()]);
+            childStatsTab.setProgressionNav(this);
+
             // Boss Setup
             weeklyBoss = new WeeklyBoss();
             weeklyBoss.setUpWeeklyBoss(cd, weeklyBossData -> {
@@ -145,9 +149,6 @@ public class ChildPageWeeklyBoss extends ChildPage {
                 updateBossHealthBar(weeklyBossData.getHealth());
                 weeklyBossData.uploadData();
             });
-
-            childBarName.setText(cd.getUsername());
-            childBarAvatar.setImageResource(avatarImages[cd.getAvatar()]);
         });
 
         popupMonsterButton.setOnClickListener(v -> popupMonsterMessage.setVisibility(GONE));
