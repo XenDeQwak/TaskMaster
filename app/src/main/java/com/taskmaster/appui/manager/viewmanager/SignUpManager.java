@@ -86,6 +86,7 @@ public class SignUpManager {
         CurrentUser user = CurrentUser.getInstance();
         user.setFirebaseUser(FirebaseAuth.getInstance().getCurrentUser());
         user.setUserData(new AuthUserData());
+        user.getUserData().setUid(user.getFirebaseUser().getUid());
         user.getUserData().setEmail(email);
         user.getUserData().setUsername(username);
         user.getUserData().setRole("parent");
@@ -95,8 +96,6 @@ public class SignUpManager {
         Task createUserData = Users.document(user.getFirebaseUser().getUid()).set(user.getUserData()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentReference dr = Users.document(user.getFirebaseUser().getUid());
-                dr.update("id", dr.getId());
-                user.getUserData().setUid(dr.getId());
                 Log.d("Debug", "Created User Document");
             } else {
                 tempUser.delete();

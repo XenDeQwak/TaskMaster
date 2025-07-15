@@ -1,5 +1,8 @@
 package com.taskmaster.appui.view.child;
 
+import static android.view.View.GONE;
+
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +22,10 @@ import com.taskmaster.appui.entity.WeeklyBoss;
 import com.taskmaster.appui.util.*;
 import com.taskmaster.appui.R;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -89,33 +96,39 @@ public class ChildPageWeeklyBoss extends ChildPage {
         childData.updateData(cd -> {
             // Boss Setup
             weeklyBoss = new WeeklyBoss();
-            weeklyBoss.setUpWeeklyBoss(cd, wbd -> {
-                wbd.updateData(weeklyBossData -> {
-                    currBossAvatar = new BossAvatar("Buckler", R.drawable.bucklerbossundamaged_sprite, R.drawable.bucklerbossdamaged_sprite);
-                    monsterName.setText(currBossAvatar.getName());
-                    updateBossHealthBar(weeklyBossData.getHealth());
+            weeklyBoss.setUpWeeklyBoss(cd, wbd -> wbd.updateData(weeklyBossData -> {
+                currBossAvatar = weeklyBoss.getWeeklyBossData().getBossAvatar();
+                monsterName.setText(currBossAvatar.getName());
+                Duration d = Duration.between(DateTimeUtil.getDateTimeNow(), DateTimeUtil.getDateTimeFromEpochSecond(weeklyBossData.getRespawnDate()));
+                weeklyBossData.setAlive(d.isZero() || d.isNegative());
+                if (weeklyBossData.isAlive()) {
+                    weeklyBossData.setHealth(100);
+                    monsterImage.setImageResource(currBossAvatar.getUndamagedImageResId());
+                    fightButton.setOnClickListener(e -> bossFight(cd, weeklyBossData));
+                    timerTxtDays.setVisibility(GONE);
+                    timerTxt.setVisibility(GONE);
+                } else {
+                    weeklyBossData.setHealth(0);
+                    monsterImage.setImageResource(currBossAvatar.getDamagedImageResId());
+                    fightButton.setAlpha(0.70f);
+                    fightButton.setText("Defeated");
+                    fightButton.setOnClickListener(e-> showPopup("Fight the Next BossAvatar\nNext Week","Okay"));
+                }
+                updateBossHealthBar(weeklyBossData.getHealth());
+                weeklyBossData.uploadData();
 
-                    if (weeklyBossData.isAlive()) {
-                        monsterImage.setImageResource(currBossAvatar.getUndamagedImageResId());
-                        fightButton.setOnClickListener(e -> bossFight(cd, weeklyBossData));
-                    } else {
-                        monsterImage.setImageResource(currBossAvatar.getDamagedImageResId());
-                        fightButton.setAlpha(0.70f);
-                        fightButton.setText("Defeated");
-                        fightButton.setOnClickListener(e-> showPopup("Fight the Next BossAvatar\nNext Week","Okay"));
-                    }
-
-                    remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(wbd.getRespawnDate()), "HHh MMm SSs");
-                    remainingTimerDays = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(wbd.getRespawnDate()), "DD Days");
-                    DateTimeUtil.addTimer(remainingTimer, remainingTimerDays);
-                });
-            });
+                remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(wbd.getRespawnDate()), "HHh MMm SSs");
+                remainingTimerDays = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(wbd.getRespawnDate()), "DD Days");
+                remainingTimer.setTextView(timerTxt);
+                remainingTimerDays.setTextView(timerTxtDays);
+                DateTimeUtil.addTimer(remainingTimer, remainingTimerDays);
+            }));
 
             childBarName.setText(cd.getUsername());
             childBarAvatar.setImageResource(avatarImages[cd.getAvatar()]);
         });
 
-        popupMonsterButton.setOnClickListener(v -> popupMonsterMessage.setVisibility(View.GONE));
+        popupMonsterButton.setOnClickListener(v -> popupMonsterMessage.setVisibility(GONE));
     }
 
     private void updateBossHealthBar(int progress) {
@@ -138,22 +151,14 @@ public class ChildPageWeeklyBoss extends ChildPage {
         ScheduledExecutorService bossFightExecutorService = Executors.newSingleThreadScheduledExecutor();
         Runnable bossFightTask;
         AtomicReference<Boolean> bossDefeated = new AtomicReference<>();
-        if (
-                childData.getStrength() >= weeklyBossData.getStrengthRequired()
-                && childData.getIntelligence() >= weeklyBossData.getIntelligenceRequired()
-        ) {
-            // Win
-            bossFightTask = () -> {
-                // insert animation here
-                bossDefeated.set(true);
-            };
-        } else {
-            // Lose
-            bossFightTask = () -> {
-                // insert animation here
-                bossDefeated.set(false);
-            };
-        }
+        int cStr = childData.getStrength(), cInt = childData.getIntelligence();
+        int rStr = weeklyBossData.getStrengthRequired(), rInt = weeklyBossData.getIntelligenceRequired();
+
+        bossFightTask = () -> {
+            Boolean defeated = (cStr >= rStr && cInt >= rInt);
+            bossDefeated.set(defeated);
+            // Insert Animation Below
+        };
 
         // Await the Boss Fight to complete
         bossFightExecutorService.execute(bossFightTask);
@@ -162,7 +167,11 @@ public class ChildPageWeeklyBoss extends ChildPage {
             Boolean bossFightTaskIsSuccessful = bossFightExecutorService.awaitTermination(10, TimeUnit.SECONDS);
             if (bossFightTaskIsSuccessful) {
                 if (bossDefeated.get()) {
+                    weeklyBossData.setRespawnDate(DateTimeUtil.getDateTimeNow().plusWeeks(1).toEpochSecond());
+                    System.out.println(weeklyBossData);
+                    weeklyBossData.uploadData();
                     showPopup("You have defeated me!","Great!");
+                    NavUtil.instantNavigation(this, this.getClass());
                 } else {
                     showPopup("Come Back When You Are Stronger","Okay");
                 }

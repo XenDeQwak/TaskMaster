@@ -57,7 +57,8 @@ public class ChildPageQuestBoard extends ChildPage {
 
         setUpAvatar();
         CurrentUser user = CurrentUser.getInstance();
-        int avatarIndex = user.getUserData().getUserSnapshot().get("avatar", Integer.class);
+        DocumentSnapshot documentSnapshot = user.getUserData().getUserSnapshot();
+        int avatarIndex = documentSnapshot.exists()? documentSnapshot.get("avatar", Integer.class) : 0;
 
         childStatsTab = findViewById(R.id.ChildStatsTab);
         childStatsTab.getChildStatsName().setText(user.getUserData().getUsername());

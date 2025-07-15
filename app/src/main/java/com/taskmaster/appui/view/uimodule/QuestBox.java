@@ -97,6 +97,9 @@ public class QuestBox extends FrameLayout {
         viewQuestDescription.setText(q.getQuestData().getDescription());
         viewQuestRewardStat.setText(q.getQuestData().getRewardStat());
         viewQuestRewardExtra.setText(q.getQuestData().getRewardExtra());
+        viewQuestReason.setText("Reason for Failure:\n"+q.getQuestData().getFailureReason());
+
+        viewQuestReason.setVisibility(GONE);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mma");
         viewQuestDeadline.setText("Due: " + DateTimeUtil.getDateTimeFromEpochSecond(q.getQuestData().getEndDate()).format(formatter));
@@ -152,7 +155,7 @@ public class QuestBox extends FrameLayout {
 
     private void setButtons (String status, String role) {
         // Setup buttons
-        System.out.println(status);
+        //System.out.println(status);
         switch (status.toLowerCase()) {
 
             case "awaiting configuration": {
@@ -176,7 +179,7 @@ public class QuestBox extends FrameLayout {
                     ViewGroup parent = (ViewGroup) this.getParent();
                     parent.addView(eqt);
                     this.setVisibility(GONE);
-                    System.out.println("HELLO WORLD");
+                    //System.out.println("HELLO WORLD");
                 });
                 break;
             }
@@ -255,6 +258,11 @@ public class QuestBox extends FrameLayout {
             }
 
             case "awaiting exemption": {
+                viewQuestDifficulty.setVisibility(GONE);
+                viewQuestRewardStat.setVisibility(GONE);
+                viewQuestRewardExtra.setVisibility(GONE);
+                viewQuestReason.setVisibility(VISIBLE);
+
                 viewQuestButtonA.setText("Accept");
                 viewQuestButtonA.setOnClickListener(v -> newDialog(
                         "Accept Reason for Failure?",

@@ -19,12 +19,14 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.entity.Child;
+import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.manager.entitymanager.ChildManager;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
@@ -168,12 +170,13 @@ public class EditQuestTab extends FrameLayout {
         q.getQuestData().setStatus("Ongoing");
 
         FirestoreManager.getFirestore()
-                .collection("Childs")
+                .collection("Users/" + FirebaseAuth.getInstance().getUid() + "/Adventurers")
                 .whereEqualTo("email", assigneeEmail)
                 .limit(1)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.getResult().getDocuments().size() != 1) {
+                        System.out.println("Users/" + FirebaseAuth.getInstance().getUid() + "/Adventurers");
                         throw new RuntimeException("No such child found");
                     }
                     DocumentSnapshot c = task.getResult().getDocuments().get(0); //java.lang.NoSuchMethodError No interface method getFirst()Ljava/lang/Object

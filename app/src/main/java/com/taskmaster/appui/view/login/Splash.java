@@ -26,6 +26,8 @@ import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.R;
 
+import java.util.Map;
+
 public class Splash extends AppCompatActivity {
 
     // var
@@ -68,7 +70,7 @@ public class Splash extends AppCompatActivity {
             goTo(UserLogin.class);
         } else if (fUser != null) {
             FirestoreManager.getUserInformation(fUser.getUid(), ds -> {
-                System.out.println(ds);
+                System.out.println(ds.getData() );
                 if (!ds.exists()) {
                     Log.d("Debug", "Your document doesn't exist anymore");
                     fUser.delete();
@@ -83,7 +85,6 @@ public class Splash extends AppCompatActivity {
                             goTo(UserLogin.class);
                         } else {
                             Log.d("Debug", "You still exist");
-                            // You still exist, congrats.
                             CurrentUser user = CurrentUser.getInstance();
                             user.setFirebaseUser(fUser2);
                             user.setUserData(new AuthUserData());

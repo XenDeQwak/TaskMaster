@@ -20,12 +20,13 @@ public class WeeklyBoss {
     }
 
     public void setUpWeeklyBoss (ChildData childData, GenericCallback<WeeklyBossData> callback) {
+        System.out.println();
         if (childData.getWeeklyBossReference() == null) {
-            //BossAvatar newBossAvatar = bossAvatars[childData.getFloor() % bossAvatars.length];
+            BossAvatar newBossAvatar = WeeklyBossData.bossAvatars[childData.getFloor() % WeeklyBossData.bossAvatars.length];
             weeklyBossData = WeeklyBossData.newEmptyWeeklyBoss();
             weeklyBossData.setAlive(true);
             weeklyBossData.setHealth(100);
-            weeklyBossData.setBossAvatar(new BossAvatar("Buckler", R.drawable.bucklerbossundamaged_sprite, R.drawable.bucklerbossdamaged_sprite));
+            weeklyBossData.setBossAvatar(newBossAvatar);
             weeklyBossData.setStrengthRequired(childData.getFloor());
             weeklyBossData.setIntelligenceRequired(childData.getFloor());
             weeklyBossData.setPenalty(Math.max(1, childData.getQuestsCompleted()/10));
@@ -34,8 +35,15 @@ public class WeeklyBoss {
             childData.getParentReference().collection("Bosses").add(weeklyBossData)
                     .addOnCompleteListener(dr -> {
                         childData.setWeeklyBossReference(dr.getResult());
+                        childData.uploadData();
                         weeklyBossData.setWeeklyBossReference(dr.getResult());
                         weeklyBossData.uploadData();
+                        callback.onCallback(weeklyBossData);
+                    });
+        } else {
+            childData.getWeeklyBossReference().get()
+                    .addOnCompleteListener(task -> {
+                        weeklyBossData = new WeeklyBossData(task.getResult().toObject(WeeklyBossData.class));
                         callback.onCallback(weeklyBossData);
                     });
         }
@@ -47,5 +55,13 @@ public class WeeklyBoss {
 
     public void setWeeklyBossData(WeeklyBossData weeklyBossData) {
         this.weeklyBossData = weeklyBossData;
+    }
+
+    public RemainingTimer getRemainingTimer() {
+        return remainingTimer;
+    }
+
+    public void setRemainingTimer(RemainingTimer remainingTimer) {
+        this.remainingTimer = remainingTimer;
     }
 }

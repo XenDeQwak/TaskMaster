@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class WeeklyBossData {
 
-    private final BossAvatar[] bossAvatars = new BossAvatar[]{
+    public static final BossAvatar[] bossAvatars = new BossAvatar[]{
             new BossAvatar("Buckler", R.drawable.bucklerbossundamaged_sprite, R.drawable.bucklerbossdamaged_sprite),
             new BossAvatar("Book", R.drawable.bookbossundamaged_sprite, R.drawable.bookbossdamaged_sprite),
             new BossAvatar("Glove", R.drawable.gloveboss_sprite, R.drawable.glovebossdamaged_sprite),
@@ -26,7 +26,8 @@ public class WeeklyBossData {
             false,
             0L,
             null,
-            null
+            null,
+            new BossAvatar("default", 0, 0)
     );
     public static WeeklyBossData newEmptyWeeklyBoss () {
         return EmptyWeeklyBoss;
@@ -64,14 +65,14 @@ public class WeeklyBossData {
         this.respawnDate = weeklyBossData.getRespawnDate();
         this.weeklyBossReference = weeklyBossData.getWeeklyBossReference();
         this.adventurerReference = weeklyBossData.getAdventurerReference();
-        this.bossAvatar = bossAvatar;
+        this.bossAvatar = weeklyBossData.getBossAvatar();
     }
 
     public WeeklyBossData (WeeklyBossData weeklyBossData) {
         updateObject(weeklyBossData);
     }
 
-    public WeeklyBossData(int health, int strengthRequired, int intelligenceRequired, int penalty, int bossAvatarIndex, boolean isAlive, long respawnDate, DocumentReference weeklyBossReference, DocumentReference adventurerReference) {
+    public WeeklyBossData(int health, int strengthRequired, int intelligenceRequired, int penalty, int bossAvatarIndex, boolean isAlive, long respawnDate, DocumentReference weeklyBossReference, DocumentReference adventurerReference, BossAvatar bossAvatar) {
         this.health = health;
         this.strengthRequired = strengthRequired;
         this.intelligenceRequired = intelligenceRequired;
