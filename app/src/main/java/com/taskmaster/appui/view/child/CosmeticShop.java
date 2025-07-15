@@ -1,6 +1,7 @@
 package com.taskmaster.appui.view.child;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -58,6 +59,9 @@ public class CosmeticShop extends ChildPage {
 
             gold = cd.getGold();
             topBar.getGoldAmount().setText(gold + " G");
+            if (gold < 0) {
+                topBar.getGoldAmount().setTextColor(Color.RED);
+            }
 
             displayItems = filterItems(getAllItems(),cd.getOwnedItems());
             adapter = new CosmeticAdapter(displayItems, pos -> {

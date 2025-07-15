@@ -3,6 +3,7 @@ package com.taskmaster.appui.entity;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.taskmaster.appui.data.QuestData;
@@ -10,6 +11,8 @@ import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.util.DateTimeUtil;
 import com.taskmaster.appui.view.uimodule.QuestBox;
 import com.taskmaster.appui.view.uimodule.QuestBoxPreview;
+
+import java.time.Duration;
 
 public class Quest {
 
@@ -54,7 +57,23 @@ public class Quest {
 
         if (getQuestData().getStatus().equalsIgnoreCase("ongoing")) {
             remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(getQuestData().getEndDate()), "DD:HH:MM:SS");
-            remainingTimer.setQuest(this);
+            remainingTimer.setOnTick(timer -> {
+                Duration d = Duration.between(DateTimeUtil.getDateTimeNow(), DateTimeUtil.getDateTimeFromEpochSecond(questData.getEndDate()));
+                Activity activity = (Activity) getContext();
+                activity.runOnUiThread(() -> {
+                    questBox.getViewQuestTimeRemaining().setText(DateTimeUtil.formatDuration(d, "DD:HHH:MMM:SSS"));
+                    questBoxPreview.getPreviewQuestTimeRemaining().setText(DateTimeUtil.formatDuration(d, "DD:HHH:MMM:SSS"));
+                    if (d.isNegative() || d.isZero()) {
+                        timer.setPastDue(true);
+                        questBox.getViewQuestTimeRemaining().setText("00:00:00:00");
+                        questBoxPreview.getPreviewQuestTimeRemaining().setText("00:00:00:00");
+                    }
+                });
+            });
+            remainingTimer.setOnFinish(timer -> {
+                questData.setStatus("Awaiting Reason For Failure");
+                questData.uploadData();
+            });
             DateTimeUtil.addTimer(remainingTimer);
         }
     }

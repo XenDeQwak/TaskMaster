@@ -12,97 +12,54 @@ import com.taskmaster.appui.util.DateTimeUtil;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
 public class RemainingTimer {
 
     long day, hour, minute, second;
-    Quest quest;
-    TextView textView;
     ZonedDateTime due;
     String format;
-
     Boolean pastDue = false;
+
+    private Consumer<RemainingTimer> onTick;
+    private Consumer<RemainingTimer>  onFinish;
 
     public RemainingTimer(ZonedDateTime due, String format) {
         this.due = due;
         this.format = format;
     }
 
-    public String getRemainingTime () {
-        ZonedDateTime now = DateTimeUtil.getDateTimeNow();
-        Duration remaining = Duration.between(now, due);
-
-        if (remaining.isNegative() || remaining.isZero()) {
-            pastDue = true;
-            return "00:00:00:00";
-        }
-
-        this.second = remaining.toSeconds() % 60;
-        this.minute = remaining.toMinutes() % 60;
-        this.hour = remaining.toHours() % 24;
-        this.day = remaining.toDays();
-
-        return format
-                .replace("SS",second>9?""+second:"0"+second)
-                .replace("MM",minute>9?""+minute:"0"+minute)
-                .replace("HH",hour>9?""+hour:"0"+hour)
-                .replace("DD",day>9?""+day:"0"+day);
-                //.replace("s",""+second)
-                //.replace("m",""+minute)
-                //.replace("h",""+hour)
-                //.replace("d",""+day);
-    }
-
-    public void setText (String s) {
-        if (quest != null) {
-            Activity act = (Activity) quest.getContext();
-            act.runOnUiThread(() -> {
-                quest.getQuestBox().getViewQuestTimeRemaining().setText(s);
-                quest.getQuestBoxPreview().getPreviewQuestTimeRemaining().setText(s);
-            });
-        } else {
-            Activity act = (Activity) textView.getContext();
-            act.runOnUiThread(() -> textView.setText(s));
-        }
-    }
-
-    public static String toRemainingDuration (Duration remaining, String format) {
-
-        long second = remaining.toSeconds() % 60;
-        long minute = remaining.toMinutes() % 60;
-        long hour = remaining.toHours() % 60;
-        long day = remaining.toDays();
-
-        return format
-                .replace("ss",second>9?""+second:"0"+second)
-                .replace("mm",minute>9?""+minute:"0"+minute)
-                .replace("hh",hour>9?""+hour:"0"+hour)
-                .replace("dd",day>9?""+day:"0"+day)
-                .replace("s",""+second)
-                .replace("m",""+minute)
-                .replace("h",""+hour)
-                .replace("d",""+day);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RemainingTimer)) return false;
+        RemainingTimer that = (RemainingTimer) o;
+        return Objects.equals(due, that.due);
     }
 
     public Boolean isPastDue() {
         return pastDue;
     }
 
-    public Quest getQuest() {
-        return quest;
+    public void setPastDue(Boolean pastDue) {
+        this.pastDue = pastDue;
     }
 
-    public void setQuest(Quest quest) {
-        this.quest = quest;
-        this.textView = null;
+    public void setOnTick (Consumer<RemainingTimer> onTick) {
+        this.onTick = onTick;
     }
 
-    public TextView getTextView() {
-        return textView;
+    public void setOnFinish (Consumer<RemainingTimer> onFinish) {
+        this.onFinish = onFinish;
     }
 
-    public void setTextView(TextView textView) {
-        this.quest = null;
-        this.textView = textView;
+    public void onTick () {
+        if (onTick != null) onTick.accept(this);
+    }
+
+    public void onFinish() {
+        if (onFinish != null) onFinish.accept(this);
     }
 }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.taskmaster.appui.entity.Quest;
 import com.taskmaster.appui.entity.RemainingTimer;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -33,7 +34,12 @@ public class DateTimeUtil {
 
     public static void addTimer (RemainingTimer... timer) {
         for (RemainingTimer remainingTimer : timer) {
-            if (!timerList.contains(remainingTimer)) timerList.add(remainingTimer);
+            if (!timerList.contains(remainingTimer)) {
+                timerList.add(remainingTimer);
+            } else {
+                timerList.remove(remainingTimer);
+                timerList.add(remainingTimer);
+            }
         }
     }
 
@@ -44,24 +50,29 @@ public class DateTimeUtil {
     public static void startTimer() {
         timerExecutorService = Executors.newSingleThreadScheduledExecutor();
         Runnable timerTick = () -> {
+            System.out.println(timerList);
             Iterator<RemainingTimer> it = timerList.iterator();
             while (it.hasNext()) {
                 RemainingTimer rt = it.next();
-                String remTime = rt.getRemainingTime();
+                rt.onTick();
                 if (rt.isPastDue()) {
-                    Quest q = rt.getQuest();
-                    if (q != null) {
-                        q.getQuestData().setStatus("Awaiting Reason For Failure");
-                        q.getQuestData().uploadData();
-                    }
+                    rt.onFinish();
                     it.remove();
-                } else {
-                    rt.setText(remTime);
                 }
             }
         };
-
         timerExecutorService.scheduleWithFixedDelay(timerTick, 0, 1, TimeUnit.SECONDS);
+    }
+
+    public static String formatDuration (Duration d, String format) {
+        return format
+                .replace("DD", Long.toString(d.toDays()))
+                .replace("HHH",(d.toHours()>9?"":"0")+d.toHours() % 60)
+                .replace("MMM", (d.toMinutes()>9?"":"0")+d.toMinutes() % 60)
+                .replace("SSS", (d.toSeconds()>9?"":"0")+d.toSeconds() % 60)
+                .replace("HH",Long.toString(d.toHours()%60))
+                .replace("MM", Long.toString(d.toMinutes()%60))
+                .replace("SS", Long.toString(d.toSeconds()%60));
     }
 
 }

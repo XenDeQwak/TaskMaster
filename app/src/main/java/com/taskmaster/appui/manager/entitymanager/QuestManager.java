@@ -72,6 +72,7 @@ public class QuestManager {
                     qb.setVisibility(GONE);
                     parent.addView(qb);
                 });
+        System.out.println("Refreshed");
     }
 
     public void create () {

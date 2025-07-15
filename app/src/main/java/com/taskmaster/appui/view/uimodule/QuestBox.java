@@ -213,6 +213,18 @@ public class QuestBox extends FrameLayout {
                             (dialog) -> {
                                 q.getQuestData().setStatus("Completed");
                                 q.getQuestData().uploadData();
+                                q.getQuestData().getAdventurerReference().get()
+                                        .addOnCompleteListener(ds -> {
+                                            ChildData childData = new ChildData(ds.getResult().toObject(ChildData.class));
+                                            childData.setQuestsCompleted(childData.getQuestsCompleted()+1);
+                                            childData.setGold(childData.getGold()+q.getQuestData().getDifficulty());
+                                            if (q.getQuestData().getRewardStat().equalsIgnoreCase("strength")) {
+                                                childData.setStrength(childData.getStrength()+1);
+                                            } else if (q.getQuestData().getRewardStat().equalsIgnoreCase("intelligence")) {
+                                                childData.setIntelligence(childData.getIntelligence()+1);
+                                            }
+                                            childData.uploadData();
+                                        });
                                 dialog.dismiss();
                             }
                     ));
@@ -281,6 +293,14 @@ public class QuestBox extends FrameLayout {
                             q.getQuestData().setStatus("Failed");
                             q.getQuestData().setCompletedDate(0);
                             q.getQuestData().uploadData();
+                            q.getQuestData().getAdventurerReference().get()
+                                    .addOnCompleteListener(ds -> {
+                                        ChildData childData = new ChildData(ds.getResult().toObject(ChildData.class));
+                                        int newGold = childData.getGold()-q.getQuestData().getDifficulty()*2;
+                                        System.out.println(newGold );
+                                        childData.setGold(newGold);
+                                        childData.uploadData();
+                                    });
                             dialog.dismiss();
                         }
                 ));
