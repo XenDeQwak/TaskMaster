@@ -50,7 +50,7 @@ public class DateTimeUtil {
     public static void startTimer() {
         timerExecutorService = Executors.newSingleThreadScheduledExecutor();
         Runnable timerTick = () -> {
-            System.out.println(timerList);
+            //System.out.println(timerList);
             Iterator<RemainingTimer> it = timerList.iterator();
             while (it.hasNext()) {
                 RemainingTimer rt = it.next();
@@ -67,9 +67,9 @@ public class DateTimeUtil {
     public static String formatDuration (Duration d, String format) {
         return format
                 .replace("DD", Long.toString(d.toDays()))
-                .replace("HHH",(d.toHours()>9?"":"0")+d.toHours() % 60)
-                .replace("MMM", (d.toMinutes()>9?"":"0")+d.toMinutes() % 60)
-                .replace("SSS", (d.toSeconds()>9?"":"0")+d.toSeconds() % 60)
+                .replace("HHH",(d.toHours()%24>9?"":"0")+(d.toHours() % 24))
+                .replace("MMM", (d.toMinutes()%60>9?"":"0")+(d.toMinutes() % 60))
+                .replace("SSS", (d.toSeconds()%60>9?"":"0")+(d.toSeconds() % 60))
                 .replace("HH",Long.toString(d.toHours()%60))
                 .replace("MM", Long.toString(d.toMinutes()%60))
                 .replace("SS", Long.toString(d.toSeconds()%60));

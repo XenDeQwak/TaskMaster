@@ -70,7 +70,7 @@ public class ChildPageWeeklyBoss extends ChildPage {
     private Group popupMonsterMessage;
     private ProgressBar monsterHealthBar;
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private TextView timerTxt,timerTxtDays,popupMonsterMessageText, monsterHealthBarText;
+    private TextView timerTxt, timerTxtDays, popupMonsterMessageText, monsterHealthBarText;
     private CurrentUser currentUser;
     private BossAvatar currBossAvatar;
     private int penalty;
@@ -116,6 +116,9 @@ public class ChildPageWeeklyBoss extends ChildPage {
                 currBossAvatar = weeklyBoss.getWeeklyBossData().getBossAvatar();
                 monsterName.setText(currBossAvatar.getName());
 
+                statReqStr.setText("STR: " + weeklyBossData.getStrengthRequired());
+                statReqInt.setText("INT: " + weeklyBossData.getIntelligenceRequired()   );
+
                 Duration duration = Duration.between(DateTimeUtil.getDateTimeNow(), DateTimeUtil.getDateTimeFromEpochSecond(weeklyBossData.getRespawnDate()));
                 weeklyBossData.setAlive(duration.isZero() || duration.isNegative());
                 if (weeklyBossData.isAlive()) {
@@ -129,7 +132,7 @@ public class ChildPageWeeklyBoss extends ChildPage {
                     fightButton.setText("Defeated");
                     fightButton.setOnClickListener(e-> showPopup("Fight the Next BossAvatar\nNext Week","Okay"));
                     // Timer Setup
-                    System.out.println("BOSS IS DEAD");
+                    //System.out.println("BOSS IS DEAD");
                     remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(weeklyBossData.getRespawnDate()), "HHh MMm SSs");
                     remainingTimer.setOnTick(timer -> {
                         Duration d = Duration.between(DateTimeUtil.getDateTimeNow(), DateTimeUtil.getDateTimeFromEpochSecond(weeklyBossData.getRespawnDate()));

@@ -1,5 +1,6 @@
 package com.taskmaster.appui.view.child;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
@@ -32,6 +33,7 @@ public class ProgressionPage extends ChildPage {
     private List<CosmeticItem> ownedItems;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +57,8 @@ public class ProgressionPage extends ChildPage {
                 .get()
                 .addOnCompleteListener(ds -> {
                     childData = new ChildData(ds.getResult().toObject(ChildData.class));
-                    statFloorNum.setText("Floor: " + childData.getFloor());
-                    statQuestDoneNum.setText("Quests Completed: " + childData.getQuestsCompleted());
+                    statFloorNum.setText(Integer.toString(childData.getFloor()));
+                    statQuestDoneNum.setText(Integer.toString(childData.getQuestsCompleted()));
                     avatarIndex = childData.getAvatar();
                     setUpAvatar(childData);
                     pieGraph(childData.getIntelligence(), childData.getStrength());
@@ -129,7 +131,6 @@ public class ProgressionPage extends ChildPage {
         // Create PieData
         PieData data = new PieData(dataSet);
         data.setValueTextSize(20f);
-        //data.setValueTypeface(font);
 
         data.setValueTextColor(Color.BLACK);
         data.setValueFormatter(new ValueFormatter() {
