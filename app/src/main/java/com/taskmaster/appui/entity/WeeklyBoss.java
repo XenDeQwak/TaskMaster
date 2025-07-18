@@ -20,15 +20,15 @@ public class WeeklyBoss {
     }
 
     public void setUpWeeklyBoss (ChildData childData, GenericCallback<WeeklyBossData> callback) {
-        System.out.println();
         if (childData.getWeeklyBossReference() == null) {
             BossAvatar newBossAvatar = WeeklyBossData.bossAvatars[childData.getFloor() % WeeklyBossData.bossAvatars.length];
             weeklyBossData = WeeklyBossData.newEmptyWeeklyBoss();
             weeklyBossData.setAlive(true);
+            weeklyBossData.setHasScaled(false);
             weeklyBossData.setHealth(100);
             weeklyBossData.setBossAvatar(newBossAvatar);
-            weeklyBossData.setStrengthRequired(childData.getFloor());
-            weeklyBossData.setIntelligenceRequired(childData.getFloor());
+            weeklyBossData.setStrengthRequired(childData.getStrength());
+            weeklyBossData.setIntelligenceRequired(childData.getIntelligence());
             weeklyBossData.setPenalty(Math.max(1, childData.getQuestsCompleted()/10));
             weeklyBossData.setRespawnDate(0);
             weeklyBossData.setAdventurerReference(childData.getChildReference());

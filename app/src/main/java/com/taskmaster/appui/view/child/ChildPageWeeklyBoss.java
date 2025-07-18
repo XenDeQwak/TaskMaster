@@ -123,14 +123,20 @@ public class ChildPageWeeklyBoss extends ChildPage {
                 weeklyBossData.setAlive(duration.isZero() || duration.isNegative());
                 if (weeklyBossData.isAlive()) {
                     weeklyBossData.setHealth(100);
+                    if (!weeklyBossData.isHasScaled()) {
+                        weeklyBossData.setStrengthRequired((int) Math.round(weeklyBossData.getStrengthRequired() + Math.pow(5, 1.3) + Math.log10(weeklyBossData.getStrengthRequired() + 1) * 2));
+                        weeklyBossData.setIntelligenceRequired((int) Math.round(weeklyBossData.getIntelligenceRequired() + Math.pow(5, 1.3) + Math.log10(weeklyBossData.getIntelligenceRequired() + 1) * 2));
+                        weeklyBossData.setHasScaled(true);
+                    }
                     monsterImage.setImageResource(currBossAvatar.getUndamagedImageResId());
                     fightButton.setOnClickListener(e -> bossFight(cd, weeklyBossData));
                 } else {
+                    weeklyBossData.setHasScaled(false);
                     weeklyBossData.setHealth(0);
                     monsterImage.setImageResource(currBossAvatar.getDamagedImageResId());
                     fightButton.setAlpha(0.70f);
                     fightButton.setText("Defeated");
-                    fightButton.setOnClickListener(e-> showPopup("Fight the Next BossAvatar\nNext Week","Okay"));
+                    fightButton.setOnClickListener(e-> showPopup("Fight the Upcoming Boss \n Next Week","Okay"));
                     // Timer Setup
                     //System.out.println("BOSS IS DEAD");
                     remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(weeklyBossData.getRespawnDate()), "HHh MMm SSs");

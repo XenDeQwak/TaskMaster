@@ -23,6 +23,7 @@ public class WeeklyBossData {
             0,
             0,
             0,
+            true,
             false,
             0L,
             null,
@@ -34,7 +35,7 @@ public class WeeklyBossData {
     }
 
     int health, strengthRequired, intelligenceRequired, penalty;
-    boolean isAlive;
+    boolean isAlive, hasScaled;
     long respawnDate;
     DocumentReference weeklyBossReference, adventurerReference;
     BossAvatar bossAvatar;
@@ -62,6 +63,7 @@ public class WeeklyBossData {
         this.intelligenceRequired = weeklyBossData.getIntelligenceRequired();
         this.penalty = weeklyBossData.getPenalty();
         this.isAlive = weeklyBossData.isAlive();
+        this.hasScaled = weeklyBossData.isHasScaled();
         this.respawnDate = weeklyBossData.getRespawnDate();
         this.weeklyBossReference = weeklyBossData.getWeeklyBossReference();
         this.adventurerReference = weeklyBossData.getAdventurerReference();
@@ -72,12 +74,13 @@ public class WeeklyBossData {
         updateObject(weeklyBossData);
     }
 
-    public WeeklyBossData(int health, int strengthRequired, int intelligenceRequired, int penalty, int bossAvatarIndex, boolean isAlive, long respawnDate, DocumentReference weeklyBossReference, DocumentReference adventurerReference, BossAvatar bossAvatar) {
+    public WeeklyBossData(int health, int strengthRequired, int intelligenceRequired, int penalty, int bossAvatarIndex, boolean isAlive, boolean hasScaled, long respawnDate, DocumentReference weeklyBossReference, DocumentReference adventurerReference, BossAvatar bossAvatar) {
         this.health = health;
         this.strengthRequired = strengthRequired;
         this.intelligenceRequired = intelligenceRequired;
         this.penalty = penalty;
         this.isAlive = isAlive;
+        this.hasScaled = hasScaled;
         this.respawnDate = respawnDate;
         this.weeklyBossReference = weeklyBossReference;
         this.adventurerReference = adventurerReference;
@@ -102,6 +105,14 @@ public class WeeklyBossData {
 
     public int getIntelligenceRequired() {
         return intelligenceRequired;
+    }
+
+    public boolean isHasScaled() {
+        return hasScaled;
+    }
+
+    public void setHasScaled(boolean hasScaled) {
+        this.hasScaled = hasScaled;
     }
 
     public void setIntelligenceRequired(int intelligenceRequired) {
