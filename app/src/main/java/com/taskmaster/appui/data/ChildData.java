@@ -1,5 +1,7 @@
 package com.taskmaster.appui.data;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.util.GenericCallback;
