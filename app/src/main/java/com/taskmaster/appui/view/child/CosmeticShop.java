@@ -32,6 +32,7 @@ public class CosmeticShop extends ChildPage {
     List<String> OwnedItems;
     private List<CosmeticItem> displayItems;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) { //For frontend, search for getAllItems method, there you will find where the items are stored
         //Setup
@@ -47,6 +48,7 @@ public class CosmeticShop extends ChildPage {
         TextView yesText = findViewById(R.id.confirmationYesText);
         ImageView noBox = findViewById(R.id.confirmationNoContainer);
         TextView noText = findViewById(R.id.confirmationNoText);
+        TextView noAvailableItems = findViewById(R.id.noAvailableItems);
         View blurOverlay = findViewById(R.id.blurOverlay);
         RecyclerView recycler = findViewById(R.id.recyclerView);
         confirmationViews = new View[]{confirmationBox, confirmationText, yesBox, yesText, noBox, noText,blurOverlay};
@@ -72,6 +74,11 @@ public class CosmeticShop extends ChildPage {
             recycler.setAdapter(adapter);
 
             setUpButtons(yesBox,noBox,yesText,noText);
+
+            if (displayItems.isEmpty()) {
+                noAvailableItems.setVisibility(View.VISIBLE);
+                noAvailableItems.setText("No Available Items. Come back later!");
+            }
         });
     }
 
