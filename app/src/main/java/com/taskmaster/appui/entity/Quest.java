@@ -31,23 +31,23 @@ public class Quest {
     private QuestBoxPreview questBoxPreview;
     private RemainingTimer remainingTimer;
 
+
     public Quest (QuestData questData, Context context, QuestManager questManager) {
         this.questManager = questManager;
         this.questData = questData;
         this.context = context;
 
-        View blurOverlay = new View(context);
-        blurOverlay.setBackgroundColor(Color.parseColor("#CC000000"));
-        ConstraintLayout.LayoutParams ovParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-        );
-        ovParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-        ovParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
-        ovParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
-        ovParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-        blurOverlay.setLayoutParams(ovParams);
-        blurOverlay.setClickable(true);
+//        blurOverlay.setBackgroundColor(Color.parseColor("#CC000000"));
+//        ConstraintLayout.LayoutParams ovParams = new ConstraintLayout.LayoutParams(
+//                ConstraintLayout.LayoutParams.MATCH_PARENT,
+//                ConstraintLayout.LayoutParams.MATCH_PARENT
+//        );
+//        ovParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+//        ovParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+//        ovParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+//        ovParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+//        blurOverlay.setLayoutParams(ovParams);
+//        blurOverlay.setClickable(true);
 
         // Create QuestBox
         this.questBox = new QuestBox(context);
@@ -55,7 +55,7 @@ public class Quest {
         this.questBox.getViewQuestButtonC().setOnClickListener(v -> {
             this.questBox.setVisibility(GONE);
             ViewGroup parent = (ViewGroup) questBox.getParent();
-            parent.removeView(blurOverlay);
+//            parent.removeView(blurOverlay);
         });
         this.questBox.getViewQuestButtonD().setOnClickListener(v -> {
             this.questBox.setVisibility(GONE);
@@ -79,8 +79,8 @@ public class Quest {
         this.questBoxPreview.setOnClickListener(v -> {
             this.questBox.setVisibility(VISIBLE);
             ViewGroup parent = (ViewGroup) questBox.getParent();
-            parent.addView(blurOverlay);
-            blurOverlay.setZ(0);
+//            parent.addView(blurOverlay);
+//            blurOverlay.setZ(0);
             questBox.setZ(1);
             //System.out.println("I've been clicked");
         });
@@ -109,7 +109,7 @@ public class Quest {
     }
 
     public void updateQuestBox () {
-        this.questBox.setQuest(this);
+//        this.questBox.setQuest(this, blurOverlay);
         this.questBoxPreview.setQuest(this);
     }
 

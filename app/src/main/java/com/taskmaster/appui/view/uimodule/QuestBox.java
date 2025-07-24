@@ -1,7 +1,6 @@
 package com.taskmaster.appui.view.uimodule;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,26 +16,16 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.data.ChildData;
 import com.taskmaster.appui.entity.Child;
 import com.taskmaster.appui.entity.CurrentUser;
 import com.taskmaster.appui.entity.Quest;
-import com.taskmaster.appui.entity.RemainingTimer;
-import com.taskmaster.appui.manager.entitymanager.ChildManager;
-import com.taskmaster.appui.manager.entitymanager.QuestManager;
-import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.DateTimeUtil;
 import com.taskmaster.appui.util.GenericCallback;
 
-import org.checkerframework.checker.units.qual.C;
-
-import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 
 public class QuestBox extends FrameLayout {
 
@@ -59,6 +48,8 @@ public class QuestBox extends FrameLayout {
         super(context);
         init();
     }
+
+    ViewGroup parent;
 
     private void init () {
         LayoutInflater.from(getContext()).inflate(R.layout.module_quest_view, this);
@@ -314,6 +305,7 @@ public class QuestBox extends FrameLayout {
                 viewQuestButtonA.setVisibility(GONE);
                 viewQuestButtonB.setVisibility(GONE);
                 viewQuestButtonD.setVisibility(GONE);
+//                parent.removeView(blurOverlay);
                 break;
             }
 
