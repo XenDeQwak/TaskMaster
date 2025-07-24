@@ -83,6 +83,8 @@ public class ParentPageManageChild extends ParentPage {
             childManager.addChild(c);
             TemporaryConnectionManager.startTempConnection(this);
             TemporaryConnectionManager.uploadChild(c)   ;
+
+            blurOverlay.setVisibility(GONE);
         });
 
         childCreationTabPopUp.getChildCreationExitButton().setOnClickListener(v -> {

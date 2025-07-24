@@ -41,6 +41,7 @@ public class LogInManager {
                 Class<?> dest = (Objects.equals(role, "parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
                 FirestoreManager.getUserInformation(FirebaseAuth.getInstance().getCurrentUser().getUid(), ds -> {
                     newCurrentUser.getUserData().setUserSnapshot(ds, e -> {
+                        //NavUtil.instantNavigation(origin, dest);
                         NavUtil.instantNavigation(origin, Splash.class);
                     });
 
