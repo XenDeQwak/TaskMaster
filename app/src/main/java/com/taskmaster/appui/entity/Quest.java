@@ -5,8 +5,13 @@ import static android.view.View.VISIBLE;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.taskmaster.appui.R;
 import com.taskmaster.appui.data.QuestData;
@@ -31,11 +36,26 @@ public class Quest {
         this.questData = questData;
         this.context = context;
 
+        View blurOverlay = new View(context);
+        blurOverlay.setBackgroundColor(Color.parseColor("#CC000000"));
+        ConstraintLayout.LayoutParams ovParams = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ovParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        ovParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+        ovParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+        ovParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        blurOverlay.setLayoutParams(ovParams);
+        blurOverlay.setClickable(true);
+
         // Create QuestBox
         this.questBox = new QuestBox(context);
         this.questBox.setQuest(this);
         this.questBox.getViewQuestButtonC().setOnClickListener(v -> {
             this.questBox.setVisibility(GONE);
+            ViewGroup parent = (ViewGroup) questBox.getParent();
+            parent.removeView(blurOverlay);
         });
         this.questBox.getViewQuestButtonD().setOnClickListener(v -> {
             this.questBox.setVisibility(GONE);
@@ -58,7 +78,11 @@ public class Quest {
         this.questBoxPreview.setQuest(this);
         this.questBoxPreview.setOnClickListener(v -> {
             this.questBox.setVisibility(VISIBLE);
-            System.out.println("I've been clicked");
+            ViewGroup parent = (ViewGroup) questBox.getParent();
+            parent.addView(blurOverlay);
+            blurOverlay.setZ(0);
+            questBox.setZ(1);
+            //System.out.println("I've been clicked");
         });
 
         if (getQuestData().getStatus().equalsIgnoreCase("ongoing")) {
