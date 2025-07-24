@@ -60,11 +60,22 @@
             android:orientation="vertical" />
     </ScrollView>
 
+    <View
+        android:id="@+id/blurOverlayManageChild"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#CC000000"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.taskmaster.appui.view.uimodule.ChildCreationTab
         android:id="@+id/childCreationPopUp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="-16dp"
+        android:layout_marginBottom="70dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +84,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1"
-        app:layout_constraintWidth="1" />
+        app:layout_constraintWidth="1"
+        tools:visibility="visible" />
 
     <com.taskmaster.appui.view.uimodule.TopBar
         android:id="@+id/glb_topbar"

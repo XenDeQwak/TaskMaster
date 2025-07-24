@@ -6,6 +6,7 @@ import static android.view.View.VISIBLE;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -27,6 +28,7 @@ public class ParentPageManageChild extends ParentPage {
     ImageView createChildButton;
     ChildCreationTab childCreationTabPopUp;
     LinearLayout childCont;
+    View blurOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class ParentPageManageChild extends ParentPage {
         initNavigationMenu(this, ParentPageManageChild.class);
 
         childCreationTabPopUp = findViewById(R.id.childCreationPopUp);
+        blurOverlay = findViewById(R.id.blurOverlayManageChild);
 
         childManager = new ChildManager(getApplicationContext());
 
@@ -49,6 +52,8 @@ public class ParentPageManageChild extends ParentPage {
         createChildButton = topBar.getCreateObjectButton();
         createChildButton.setOnClickListener(v -> {
             if (childCreationTabPopUp.getVisibility() == GONE) {
+                blurOverlay.setVisibility(View.VISIBLE);
+                blurOverlay.bringToFront();
                 childCreationTabPopUp.bringToFront();
                 childCreationTabPopUp.setVisibility(VISIBLE);
             } else {
@@ -82,6 +87,7 @@ public class ParentPageManageChild extends ParentPage {
 
         childCreationTabPopUp.getChildCreationExitButton().setOnClickListener(v -> {
             childCreationTabPopUp.setVisibility(GONE);
+            blurOverlay.setVisibility(View.GONE);
         });
 
         childCont = findViewById(R.id.childCont);

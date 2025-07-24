@@ -6,6 +6,9 @@ import static android.view.View.VISIBLE;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.taskmaster.appui.R;
 import com.taskmaster.appui.data.QuestData;
 import com.taskmaster.appui.manager.entitymanager.QuestManager;
 import com.taskmaster.appui.util.DateTimeUtil;
@@ -53,7 +56,10 @@ public class Quest {
         // Create QuestBoxPreview
         this.questBoxPreview = new QuestBoxPreview(context);
         this.questBoxPreview.setQuest(this);
-        this.questBoxPreview.setOnClickListener(v -> this.questBox.setVisibility(VISIBLE));
+        this.questBoxPreview.setOnClickListener(v -> {
+            this.questBox.setVisibility(VISIBLE);
+            System.out.println("I've been clicked");
+        });
 
         if (getQuestData().getStatus().equalsIgnoreCase("ongoing")) {
             remainingTimer = new RemainingTimer(DateTimeUtil.getDateTimeFromEpochSecond(getQuestData().getEndDate()), "DD:HH:MM:SS");
