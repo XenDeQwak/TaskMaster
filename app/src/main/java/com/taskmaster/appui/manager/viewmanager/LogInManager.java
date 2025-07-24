@@ -14,6 +14,7 @@ import com.taskmaster.appui.manager.firebasemanager.AuthManager;
 import com.taskmaster.appui.manager.firebasemanager.FirestoreManager;
 import com.taskmaster.appui.util.NavUtil;
 import com.taskmaster.appui.view.child.ChildPageQuestBoard;
+import com.taskmaster.appui.view.login.Splash;
 import com.taskmaster.appui.view.parent.ParentPageQuestBoard;
 
 import java.util.Objects;
@@ -40,7 +41,7 @@ public class LogInManager {
                 Class<?> dest = (Objects.equals(role, "parent"))? ParentPageQuestBoard.class : ChildPageQuestBoard.class;
                 FirestoreManager.getUserInformation(FirebaseAuth.getInstance().getCurrentUser().getUid(), ds -> {
                     newCurrentUser.getUserData().setUserSnapshot(ds, e -> {
-                        NavUtil.instantNavigation(origin, dest);
+                        NavUtil.instantNavigation(origin, Splash.class);
                     });
 
                 });

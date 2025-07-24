@@ -51,13 +51,17 @@ public class ChildData {
         });
     }
     public void updateData (GenericCallback<ChildData> callback) {
-        childReference.get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) task.getException().printStackTrace();
-            else {
-                updateObject(Objects.requireNonNull(task.getResult().toObject(ChildData.class)));
-                callback.onCallback(this);
-            }
-        });
+        try {
+            childReference.get().addOnCompleteListener(task -> {
+                if (!task.isSuccessful()) task.getException().printStackTrace();
+                else {
+                    updateObject(Objects.requireNonNull(task.getResult().toObject(ChildData.class)));
+                    callback.onCallback(this);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateObject (ChildData childData) {
