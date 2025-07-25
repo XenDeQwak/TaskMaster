@@ -37,29 +37,19 @@ public class Quest {
         this.questData = questData;
         this.context = context;
 
-//        blurOverlay.setBackgroundColor(Color.parseColor("#CC000000"));
-//        ConstraintLayout.LayoutParams ovParams = new ConstraintLayout.LayoutParams(
-//                ConstraintLayout.LayoutParams.MATCH_PARENT,
-//                ConstraintLayout.LayoutParams.MATCH_PARENT
-//        );
-//        ovParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-//        ovParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
-//        ovParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
-//        ovParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-//        blurOverlay.setLayoutParams(ovParams);
-//        blurOverlay.setClickable(true);
-
         // Create QuestBox
         this.questBox = new QuestBox(context);
         this.questBox.setQuest(this);
         this.questBox.getViewQuestButtonC().setOnClickListener(v -> {
             this.questBox.setVisibility(GONE);
             ViewGroup parent = (ViewGroup) questBox.getParent();
-//            parent.removeView(blurOverlay);
+            parent.removeView(questBox.getBlurOverlay());
         });
         this.questBox.getViewQuestButtonD().setOnClickListener(v -> {
             this.questBox.setVisibility(GONE);
             this.questBoxPreview.setVisibility(GONE);
+            ViewGroup parent = (ViewGroup) questBox.getParent();
+            parent.removeView(questBox.getBlurOverlay());
             if (getQuestData().getStatus().equalsIgnoreCase("awaiting configuration")) {
                 getQuestData().getQuestReference().delete();
             } else {
@@ -79,10 +69,8 @@ public class Quest {
         this.questBoxPreview.setOnClickListener(v -> {
             this.questBox.setVisibility(VISIBLE);
             ViewGroup parent = (ViewGroup) questBox.getParent();
-//            parent.addView(blurOverlay);
-//            blurOverlay.setZ(0);
+            parent.addView(questBox.getBlurOverlay());
             questBox.setZ(1);
-            //System.out.println("I've been clicked");
         });
 
         if (getQuestData().getStatus().equalsIgnoreCase("ongoing")) {
@@ -109,7 +97,6 @@ public class Quest {
     }
 
     public void updateQuestBox () {
-//        this.questBox.setQuest(this, blurOverlay);
         this.questBoxPreview.setQuest(this);
     }
 

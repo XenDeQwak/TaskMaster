@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -29,7 +30,7 @@ import java.time.format.DateTimeFormatter;
 
 public class QuestBox extends FrameLayout {
 
-    Quest q;
+    Quest quest;
     ConstraintLayout viewQuestContainer;
     ImageView viewQuestAvatar;
     TextView viewQuestName,
@@ -42,17 +43,36 @@ public class QuestBox extends FrameLayout {
             viewQuestTimeRemaining,
             viewQuestStatus,
             viewQuestReason;
-    Button viewQuestButtonA, viewQuestButtonB, viewQuestButtonC, viewQuestButtonD;
+    Button
+            viewQuestButtonA,
+            viewQuestButtonB,
+            viewQuestButtonC,
+            viewQuestButtonD;
+
+    View blurOverlay;
+    ViewGroup parent;
 
     public QuestBox(@NonNull Context context) {
         super(context);
         init();
     }
 
-    ViewGroup parent;
-
     private void init () {
         LayoutInflater.from(getContext()).inflate(R.layout.module_quest_view, this);
+        parent = (ViewGroup) this.getParent();
+
+        blurOverlay = new View(getContext());
+        blurOverlay.setBackgroundColor(Color.parseColor("#CC000000"));
+        ConstraintLayout.LayoutParams ovParams = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ovParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        ovParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+        ovParams.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+        ovParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        blurOverlay.setLayoutParams(ovParams);
+        blurOverlay.setClickable(true);
 
         viewQuestContainer = findViewById(R.id.viewQuestContainer);
 
@@ -81,7 +101,7 @@ public class QuestBox extends FrameLayout {
 
     @SuppressLint("SetTextI18n")
     public void setQuest (Quest q) {
-        this.q = q;
+        this.quest = q;
 
         viewQuestName.setText(q.getQuestData().getName());
         viewQuestDifficulty.setText("★".repeat(q.getQuestData().getDifficulty()));
@@ -154,7 +174,7 @@ public class QuestBox extends FrameLayout {
                 viewQuestButtonB.setOnClickListener(v -> {
                     // Create Temporary EditQuestTab
                     EditQuestTab eqt = new EditQuestTab(getContext());
-                    eqt.setQuest(q);
+                    eqt.setQuest(quest);
                     // Set LayoutParams
                     ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                             ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -169,8 +189,11 @@ public class QuestBox extends FrameLayout {
                     // Show
                     ViewGroup parent = (ViewGroup) this.getParent();
                     parent.addView(eqt);
+                    parent.removeView(blurOverlay);
                     this.setVisibility(GONE);
                     //System.out.println("HELLO WORLD");
+                    //ViewGroup parent = (ViewGroup) quest.getQuestBoxPreview().getParent();
+
                 });
                 break;
             }
@@ -184,9 +207,9 @@ public class QuestBox extends FrameLayout {
                             "Submit Quest?",
                             "Are you sure you want to submit this quest for verification of completion?",
                             (dialog) -> {
-                                q.getQuestData().setStatus("Awaiting Verification");
-                                q.getQuestData().setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
-                                q.getQuestData().uploadData();
+                                quest.getQuestData().setStatus("Awaiting Verification");
+                                quest.getQuestData().setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
+                                quest.getQuestData().uploadData();
                                 dialog.dismiss();
                             }
                     ));
@@ -202,21 +225,23 @@ public class QuestBox extends FrameLayout {
                             "Accept Verification?",
                             "Are you sure you want to verify the completion of this quest?",
                             (dialog) -> {
-                                q.getQuestData().setStatus("Completed");
-                                q.getQuestData().uploadData();
-                                q.getQuestData().getAdventurerReference().get()
+                                quest.getQuestData().setStatus("Completed");
+                                quest.getQuestData().uploadData();
+                                quest.getQuestData().getAdventurerReference().get()
                                         .addOnCompleteListener(ds -> {
                                             ChildData childData = new ChildData(ds.getResult().toObject(ChildData.class));
                                             childData.setQuestsCompleted(childData.getQuestsCompleted()+1);
-                                            childData.setGold(childData.getGold()+q.getQuestData().getDifficulty());
-                                            if (q.getQuestData().getRewardStat().equalsIgnoreCase("strength")) {
+                                            childData.setGold(childData.getGold()+ quest.getQuestData().getDifficulty());
+                                            if (quest.getQuestData().getRewardStat().equalsIgnoreCase("strength")) {
                                                 childData.setStrength(childData.getStrength()+1);
-                                            } else if (q.getQuestData().getRewardStat().equalsIgnoreCase("intelligence")) {
+                                            } else if (quest.getQuestData().getRewardStat().equalsIgnoreCase("intelligence")) {
                                                 childData.setIntelligence(childData.getIntelligence()+1);
                                             }
                                             childData.uploadData();
                                         });
                                 dialog.dismiss();
+                                ViewGroup parent = (ViewGroup) this.getParent();
+                                parent.removeView(blurOverlay);
                             }
                     ));
                     viewQuestButtonB.setText("Reject");
@@ -224,9 +249,11 @@ public class QuestBox extends FrameLayout {
                             "Reject Verification?",
                             "Are you sure you want to reject the completion of this quest?",
                             (dialog) -> {
-                                q.getQuestData().setStatus("Ongoing");
-                                q.getQuestData().setCompletedDate(0);
-                                q.getQuestData().uploadData();
+                                quest.getQuestData().setStatus("Ongoing");
+                                quest.getQuestData().setCompletedDate(0);
+                                quest.getQuestData().uploadData();
+                                ViewGroup parent = (ViewGroup) this.getParent();
+                                parent.removeView(blurOverlay);
                                 dialog.dismiss();
                             }
                     ));
@@ -239,7 +266,7 @@ public class QuestBox extends FrameLayout {
                 viewQuestButtonA.setOnClickListener(v -> {
                     // Create Temporary ChildExemptionTab
                     ChildExemptionTab cet = new ChildExemptionTab(getContext());
-                    cet.setQuest(q);
+                    cet.setQuest(quest);
                     // Set LayoutParams
                     ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                             ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -255,6 +282,7 @@ public class QuestBox extends FrameLayout {
                     ViewGroup parent = (ViewGroup) this.getParent();
                     parent.addView(cet);
                     this.setVisibility(GONE);
+                    parent.removeView(blurOverlay);
                 });
                 viewQuestButtonB.setVisibility(GONE);
                 break;
@@ -271,8 +299,8 @@ public class QuestBox extends FrameLayout {
                         "Accept Reason for Failure?",
                         "Are you sure you want to exempt the failure of this quest?",
                         (dialog) -> {
-                            q.getQuestData().setStatus("Exempted");
-                            q.getQuestData().uploadData();
+                            quest.getQuestData().setStatus("Exempted");
+                            quest.getQuestData().uploadData();
                             dialog.dismiss();
                         }
                 ));
@@ -281,17 +309,19 @@ public class QuestBox extends FrameLayout {
                         "Reject Reason for Failure?",
                         "Are you sure you want fail this quest?",
                         (dialog) -> {
-                            q.getQuestData().setStatus("Failed");
-                            q.getQuestData().setCompletedDate(0);
-                            q.getQuestData().uploadData();
-                            q.getQuestData().getAdventurerReference().get()
+                            quest.getQuestData().setStatus("Failed");
+                            quest.getQuestData().setCompletedDate(0);
+                            quest.getQuestData().uploadData();
+                            quest.getQuestData().getAdventurerReference().get()
                                     .addOnCompleteListener(ds -> {
                                         ChildData childData = new ChildData(ds.getResult().toObject(ChildData.class));
-                                        int newGold = childData.getGold()-q.getQuestData().getDifficulty()*2;
+                                        int newGold = childData.getGold()- quest.getQuestData().getDifficulty()*2;
                                         System.out.println(newGold );
                                         childData.setGold(newGold);
                                         childData.uploadData();
                                     });
+                            ViewGroup parent = (ViewGroup) this.getParent();
+                            parent.removeView(blurOverlay);
                             dialog.dismiss();
                         }
                 ));
@@ -305,7 +335,6 @@ public class QuestBox extends FrameLayout {
                 viewQuestButtonA.setVisibility(GONE);
                 viewQuestButtonB.setVisibility(GONE);
                 viewQuestButtonD.setVisibility(GONE);
-//                parent.removeView(blurOverlay);
                 break;
             }
 
@@ -333,5 +362,9 @@ public class QuestBox extends FrameLayout {
 
     public Button getViewQuestButtonD() {
         return viewQuestButtonD;
+    }
+
+    public View getBlurOverlay() {
+        return blurOverlay;
     }
 }

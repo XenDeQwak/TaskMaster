@@ -70,7 +70,7 @@ public class DateTimeUtil {
                 .replace("HHH",(d.toHours()%24>9?"":"0")+(d.toHours() % 24))
                 .replace("MMM", (d.toMinutes()%60>9?"":"0")+(d.toMinutes() % 60))
                 .replace("SSS", (d.toSeconds()%60>9?"":"0")+(d.toSeconds() % 60))
-                .replace("HH",Long.toString(d.toHours()%1000))
+                .replace("HH",Long.toString(d.toHours()%24))
                 .replace("MM", Long.toString(d.toMinutes()%60))
                 .replace("SS", Long.toString(d.toSeconds()%60));
     }
