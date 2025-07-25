@@ -191,8 +191,6 @@ public class QuestBox extends FrameLayout {
                     parent.addView(eqt);
                     parent.removeView(blurOverlay);
                     this.setVisibility(GONE);
-                    //System.out.println("HELLO WORLD");
-                    //ViewGroup parent = (ViewGroup) quest.getQuestBoxPreview().getParent();
 
                 });
                 break;
@@ -203,16 +201,20 @@ public class QuestBox extends FrameLayout {
                     viewQuestButtonA.setVisibility(GONE);
                     viewQuestButtonB.setVisibility(GONE);
                 } else {
-                    viewQuestButtonA.setOnClickListener(v -> newDialog(
-                            "Submit Quest?",
-                            "Are you sure you want to submit this quest for verification of completion?",
-                            (dialog) -> {
-                                quest.getQuestData().setStatus("Awaiting Verification");
-                                quest.getQuestData().setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
-                                quest.getQuestData().uploadData();
-                                dialog.dismiss();
-                            }
-                    ));
+                    viewQuestButtonA.setOnClickListener(v -> {
+                        newDialog(
+                                "Submit Quest?",
+                                "Are you sure you want to submit this quest for verification of completion?",
+                                (dialog) -> {
+                                    quest.getQuestData().setStatus("Awaiting Verification");
+                                    quest.getQuestData().setCompletedDate(DateTimeUtil.getDateTimeNow().toEpochSecond());
+                                    quest.getQuestData().uploadData();
+                                    dialog.dismiss();
+                                }
+                        );
+                        ViewGroup parent = (ViewGroup) this.getParent();
+                        parent.removeView(blurOverlay);
+                    });
                     viewQuestButtonB.setVisibility(GONE);
                 }
                 break;
@@ -221,42 +223,46 @@ public class QuestBox extends FrameLayout {
             case "awaiting verification": {
                 if (role.equalsIgnoreCase("parent")) {
                     viewQuestButtonA.setText("Accept");
-                    viewQuestButtonA.setOnClickListener(v -> newDialog(
-                            "Accept Verification?",
-                            "Are you sure you want to verify the completion of this quest?",
-                            (dialog) -> {
-                                quest.getQuestData().setStatus("Completed");
-                                quest.getQuestData().uploadData();
-                                quest.getQuestData().getAdventurerReference().get()
-                                        .addOnCompleteListener(ds -> {
-                                            ChildData childData = new ChildData(ds.getResult().toObject(ChildData.class));
-                                            childData.setQuestsCompleted(childData.getQuestsCompleted()+1);
-                                            childData.setGold(childData.getGold()+ quest.getQuestData().getDifficulty());
-                                            if (quest.getQuestData().getRewardStat().equalsIgnoreCase("strength")) {
-                                                childData.setStrength(childData.getStrength()+1);
-                                            } else if (quest.getQuestData().getRewardStat().equalsIgnoreCase("intelligence")) {
-                                                childData.setIntelligence(childData.getIntelligence()+1);
-                                            }
-                                            childData.uploadData();
-                                        });
-                                dialog.dismiss();
-                                ViewGroup parent = (ViewGroup) this.getParent();
-                                parent.removeView(blurOverlay);
-                            }
-                    ));
+                    viewQuestButtonA.setOnClickListener(v -> {
+                        newDialog(
+                                "Accept Verification?",
+                                "Are you sure you want to verify the completion of this quest?",
+                                (dialog) -> {
+                                    quest.getQuestData().setStatus("Completed");
+                                    quest.getQuestData().uploadData();
+                                    quest.getQuestData().getAdventurerReference().get()
+                                            .addOnCompleteListener(ds -> {
+                                                ChildData childData = new ChildData(ds.getResult().toObject(ChildData.class));
+                                                childData.setQuestsCompleted(childData.getQuestsCompleted() + 1);
+                                                childData.setGold(childData.getGold() + quest.getQuestData().getDifficulty());
+                                                if (quest.getQuestData().getRewardStat().equalsIgnoreCase("strength")) {
+                                                    childData.setStrength(childData.getStrength() + 1);
+                                                } else if (quest.getQuestData().getRewardStat().equalsIgnoreCase("intelligence")) {
+                                                    childData.setIntelligence(childData.getIntelligence() + 1);
+                                                }
+                                                childData.uploadData();
+                                            });
+                                    dialog.dismiss();
+                                }
+                        );
+                        ViewGroup parent = (ViewGroup) this.getParent();
+                        parent.removeView(blurOverlay);
+                    });
                     viewQuestButtonB.setText("Reject");
-                    viewQuestButtonB.setOnClickListener(v -> newDialog(
-                            "Reject Verification?",
-                            "Are you sure you want to reject the completion of this quest?",
-                            (dialog) -> {
-                                quest.getQuestData().setStatus("Ongoing");
-                                quest.getQuestData().setCompletedDate(0);
-                                quest.getQuestData().uploadData();
-                                ViewGroup parent = (ViewGroup) this.getParent();
-                                parent.removeView(blurOverlay);
-                                dialog.dismiss();
-                            }
-                    ));
+                    viewQuestButtonB.setOnClickListener(v -> {
+                        newDialog(
+                                "Reject Verification?",
+                                "Are you sure you want to reject the completion of this quest?",
+                                (dialog) -> {
+                                    quest.getQuestData().setStatus("Ongoing");
+                                    quest.getQuestData().setCompletedDate(0);
+                                    quest.getQuestData().uploadData();
+                                    dialog.dismiss();
+                                }
+                        );
+                        ViewGroup parent = (ViewGroup) this.getParent();
+                        parent.removeView(blurOverlay);
+                    });
                 }
                 break;
             }
@@ -281,8 +287,8 @@ public class QuestBox extends FrameLayout {
                     // Show
                     ViewGroup parent = (ViewGroup) this.getParent();
                     parent.addView(cet);
-                    this.setVisibility(GONE);
                     parent.removeView(blurOverlay);
+                    this.setVisibility(GONE);
                 });
                 viewQuestButtonB.setVisibility(GONE);
                 break;
@@ -295,36 +301,42 @@ public class QuestBox extends FrameLayout {
                 viewQuestReason.setVisibility(VISIBLE);
 
                 viewQuestButtonA.setText("Accept");
-                viewQuestButtonA.setOnClickListener(v -> newDialog(
-                        "Accept Reason for Failure?",
-                        "Are you sure you want to exempt the failure of this quest?",
-                        (dialog) -> {
-                            quest.getQuestData().setStatus("Exempted");
-                            quest.getQuestData().uploadData();
-                            dialog.dismiss();
-                        }
-                ));
+                viewQuestButtonA.setOnClickListener(v -> {
+                    newDialog(
+                            "Accept Reason for Failure?",
+                            "Are you sure you want to exempt the failure of this quest?",
+                            (dialog) -> {
+                                quest.getQuestData().setStatus("Exempted");
+                                quest.getQuestData().uploadData();
+                                dialog.dismiss();
+                            }
+                    );
+                    ViewGroup parent = (ViewGroup) this.getParent();
+                    parent.removeView(blurOverlay);
+                });
                 viewQuestButtonB.setText("Reject");
-                viewQuestButtonB.setOnClickListener(v -> newDialog(
-                        "Reject Reason for Failure?",
-                        "Are you sure you want fail this quest?",
-                        (dialog) -> {
-                            quest.getQuestData().setStatus("Failed");
-                            quest.getQuestData().setCompletedDate(0);
-                            quest.getQuestData().uploadData();
-                            quest.getQuestData().getAdventurerReference().get()
-                                    .addOnCompleteListener(ds -> {
-                                        ChildData childData = new ChildData(ds.getResult().toObject(ChildData.class));
-                                        int newGold = childData.getGold()- quest.getQuestData().getDifficulty()*2;
-                                        System.out.println(newGold );
-                                        childData.setGold(newGold);
-                                        childData.uploadData();
-                                    });
-                            ViewGroup parent = (ViewGroup) this.getParent();
-                            parent.removeView(blurOverlay);
-                            dialog.dismiss();
-                        }
-                ));
+                viewQuestButtonB.setOnClickListener(v -> {
+                    newDialog(
+                            "Reject Reason for Failure?",
+                            "Are you sure you want fail this quest?",
+                            (dialog) -> {
+                                quest.getQuestData().setStatus("Failed");
+                                quest.getQuestData().setCompletedDate(0);
+                                quest.getQuestData().uploadData();
+                                quest.getQuestData().getAdventurerReference().get()
+                                        .addOnCompleteListener(ds -> {
+                                            ChildData childData = new ChildData(ds.getResult().toObject(ChildData.class));
+                                            int newGold = childData.getGold()- quest.getQuestData().getDifficulty()*2;
+                                            System.out.println(newGold );
+                                            childData.setGold(newGold);
+                                            childData.uploadData();
+                                        });
+                                dialog.dismiss();
+                            }
+                    );
+                    ViewGroup parent = (ViewGroup) this.getParent();
+                    parent.removeView(blurOverlay);
+                });
                 break;
             }
 
